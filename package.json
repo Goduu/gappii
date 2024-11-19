@@ -1,0 +1,44 @@
+{
+  "name": "health-note",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.11.9",
+    "@apollo/server": "^4.11.2",
+    "@as-integrations/next": "^3.2.0",
+    "@neo4j/graphql": "^6.0.0",
+    "@neo4j/graphql-ogm": "^5.9.1",
+    "@radix-ui/react-accordion": "^1.2.1",
+    "@radix-ui/react-checkbox": "^1.1.2",
+    "@radix-ui/react-menubar": "^1.1.2",
+    "@radix-ui/react-navigation-menu": "^1.2.1",
+    "@radix-ui/react-slot": "^1.1.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "graphql": "^16.9.0",
+    "lucide-react": "^0.454.0",
+    "neo4j-driver": "^5.26.0",
+    "next": "15.0.2",
+    "openai": "^4.71.1",
+    "react": "19.0.0-rc-02c0e824-20241028",
+    "react-dom": "19.0.0-rc-02c0e824-20241028",
+    "tailwind-merge": "^2.5.4",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "15.0.2",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
+}

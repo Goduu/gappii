@@ -8,7 +8,7 @@ type PatientMedicationProps = {
 }
 
 export const PatientMedication: FC<PatientMedicationProps> = ({ medicationsConnection }) => {
-    console.log(medicationsConnection.edges)
+
     return (
         <div className="mt-6">
             <h3 className="text-xl font-medium flex items-center gap-2"><Tablets /> Medications</h3>

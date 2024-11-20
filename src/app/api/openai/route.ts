@@ -5,8 +5,8 @@ import OpenAI from "openai";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const text = body.text
-  console.log('request', body);
+  const topic = body.topic
+  const subtopic = body.subtopic
 
   const token = process.env["GITHUB_TOKEN"];
   const endpoint = "https://models.inference.ai.azure.com";
@@ -25,14 +25,16 @@ export async function POST(request: NextRequest) {
       },
       {
         role: "user",
-        content: text,
+        content: `Topic: ${topic} and Subtopic: ${subtopic}`,
       },
     ],
   });
-  console.log('xongas',completion.choices[0].message.content)
   const aiResponse = completion.choices[0].message.content
-  return new Response(aiResponse);
-  return new Response(test);
+  if (aiResponse) {
+    return new Response(aiResponse);
+  } else {
+    return new Response('Error')
+  }
 }
 
 const test = `

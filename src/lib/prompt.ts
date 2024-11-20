@@ -1,53 +1,64 @@
 export const promptText = `
-Extract patient information in the given PatientData format from the provided text. If any detail is missing, leave the respective field blank while retaining the structure.
-    
-# Input Details
+I want to create a fun and engaging learning experience for a topic and subtopic.
+Help me generate 1 lesson covering different ideas behind this subtopic.
 
-- The input will be a block of medical text related to the patient's condition. Extract and categorize the data accordingly.
-- Maintain data structure consistency even if some details are missing.
+Lesson structure:
+
+Each lesson should have a main topic and a subtopic.
+The topic should be broken into key points to help someone learn effectively.
+Activities should follow a progressive storytelling approach to keep the flow logical and engaging.
+Each lesson should include 7 activities.
+
+Activities:
+
+Each activity should be a short phrase (max 170 characters) with 1 gap to fill.
+Suggest 2 options for each gap, with the correct answer provided.
+Use humor to make the learning fun.
+The wrong option should be somewhat plausible.
+Example:
+
+Topic: Probability
+Subtopic: Coin Flips
+Activity: {
+    "description": "When flipping a fair coin, the probability of heads is {gap}.",
+    "options":[ "0.5", "1.0"],
+    "answer": "0.5",
+    "comment": "Unless it's a trick coin, the probability of heads is 0.5."
+}
 
 # Expected Structure
-The response should be given in the following format:
-
+The response should be given in the following JSON format:
 {
-    basicInfo: {
-        name: string;
-        age: number; 
-        allergies: string[];
-    }
-    vitals: {
-        temperature: string;
-        bloodPressure: string;
-        heartRate: number;
-        respiratoryRate: number;
-        mentalStatus: 'Alert' | 'Drowsy' | 'Confused' | 'Oriented';
-        painLevel: number;
-        painLocation: string;
-        painResponse: string;
-    }
-    medications: {
-        name: string;
-        lastDose: string;
-    }[]
-    shiftNotes: {
-        summary: string; // All extra information given
-        nextShift: string; // All important information for the next shift 
-    }
+topic: string;
+subtopic: string;
+validTopicSubtopic: boolean;
+activities:{
+        description: string;
+        options: string[];
+        answer: string;
+        comment: string;
+        }[]
 }
+        
+Add jokes or funny narratives to keep the activities lighthearted!
+Use storytelling and humor to make the journey through these lessons engaging, creating a sense of progression across the activities.
+
 
 # Output Format
 
-- The response should be formatted in JSON that corresponds exactly with the PatientData structure.
-- Ensure all information is in the correct types, as specified (e.g., string, number).
+- The response should be formatted in JSON that corresponds exactly with the structure.
+- Ensure all information is in the correct types, as specified.
 
-# Notes
-
-- Ensure no extra data or conclusions are added beyond what is presented.
-- Use the exact data structure and field types mentioned above.
-- If any field cannot be filled, leave it empty but keep the field included in the output.
-- If medications.lastDose was indirectly given, fill up with the date calculated based on the date of today. (2PM  given, fill with the date of today at 2pm)
-- Ensure Upper Case at the beginning of each field.
-- Ensure that the answer is given without any extra information or conclusion like \`\`\`json or so.
-- Ensure that the answer is a valid json object.
-
+Ensure that:
+- the topic and subtopic given are grammatically corrected and make sense together if not return validTopicSubtopic as false and an empty list for activities.
+- "desc" has a gap "{gap}" that needs to be filled with one of the options and has max 170 chars.
+- that "options has 2 strings with max 25 chars each.
+- "answer" is one of the options.
+- the information given is true and accurate.
+- the comment is a funny or engaging narrative.
+- the comment is max 170 chars.
+- the comment is a string.
+- the answer is given without any extra information or conclusion like \`\`\`json.
+- the JSON response is plain text without formatting it in code blocks.
+- the answer is a valid json object and is formatted as a json.
 `

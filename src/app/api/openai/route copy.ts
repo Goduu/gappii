@@ -6,7 +6,6 @@ import OpenAI from "openai";
 export async function POST(request: NextRequest) {
   const body = await request.json();
   const text = body.text
-  console.log('request', body);
 
   const openai = new OpenAI(
     { apiKey: process.env.OPENAI_API_KEY }
@@ -26,7 +25,6 @@ export async function POST(request: NextRequest) {
   });
 
   return new Response(completion.choices[0].message.content);
-  return new Response(test);
 }
 
 const test = `

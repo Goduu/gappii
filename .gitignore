@@ -1,3 +1,5 @@
 /node_modules
 .evn.local
 /src/ogm-resolver
+.next
+.env*

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ActivityCard } from "../card/activity-card";
 import { Activity } from "@/ogm-resolver/ogm-types";
 import { Progress } from "../ui/progress";
+import { redirect } from "next/navigation";
 
 type ActivityProgressManagerProps = {
     topic: string,
@@ -20,7 +21,11 @@ export const ActivityProgressManager: React.FC<ActivityProgressManagerProps> = (
 
     const handleNext = () => {
         setCompletedActivities([...completedActivities, currentActivityIndex]);
-        currentActivityIndex < activities.length && setCurrentActivityIndex(currentActivityIndex + 1);
+        if(currentActivityIndex + 1 < activities.length){
+            setCurrentActivityIndex(currentActivityIndex + 1);
+        } else {
+            redirect(`/cards`)
+        }
         setProgress((currentActivityIndex + 1)*100 / activities.length);
     }
 

@@ -2,7 +2,7 @@
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client"
 import { FC } from "react"
 
-const client = new ApolloClient({
+export const client = new ApolloClient({
   uri: "/api/graphql",
   cache: new InMemoryCache(),
 })
@@ -10,3 +10,4 @@ const client = new ApolloClient({
 export const ApolloWrapper: FC<React.PropsWithChildren> = ({ children }) => {
   return <ApolloProvider client={client}>{children}</ApolloProvider>
 }
+

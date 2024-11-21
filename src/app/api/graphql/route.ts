@@ -12,7 +12,10 @@ const driver = neo4j.driver("bolt://localhost:7687", neo4j.auth.basic("neo4j", "
 
 // Use Neo4jGraphQL to generate schema and resolvers
 const neo4jGraphQL = new Neo4jGraphQL({ typeDefs: typeDefs, driver })
+
 const schema = await neo4jGraphQL.getSchema()
+
+// await neo4jGraphQL.assertIndexesAndConstraints();
 // Create ApolloServer instance with the generated schema
 const server = new ApolloServer({
   schema,

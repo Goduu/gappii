@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client"
 
 export const GET_TOPIC_AND_SUBTOPICS = gql`
-  query GetTopicTitles {
+  query GetTopicsAndSubtopics {
   topics {
     id
     title
@@ -12,6 +12,16 @@ export const GET_TOPIC_AND_SUBTOPICS = gql`
   }
 }
 `
+
+export const GET_TOPIC_TITLES = gql`
+  query GetTopicsTitle {
+  topics {
+    id
+    title
+  }
+}
+`
+
 export const GET_TOPICS = gql`
   query GetTopics {
   topics {
@@ -24,6 +34,7 @@ export const GET_TOPICS = gql`
   }
 }
 `
+
 export const GET_TOPICS_ACTIVITIES = gql`
   query GetTopicActivities($topicId: ID!, $subtopicId: ID!) {
     topics(
@@ -66,6 +77,40 @@ export const CREATE_TOPIC = gql`
                 comment
             }
         }
+    }
+  }
+}
+`
+
+export const UPDATE_TOPIC = gql`
+  mutation UpdateTopic(
+    $where: TopicWhere!, 
+    $update: TopicUpdateInput!, 
+) {
+  updateTopics(
+    where: $where, 
+    update: $update, 
+  ) {
+    topics {
+      id
+    }
+  }
+}
+`
+
+export const INTROSPECT = gql`
+  query IntrospectMutation {
+  __type(name: "Mutation") {
+    name
+    fields {
+      name
+      args {
+        name
+        type {
+          name
+          kind
+        }
+      }
     }
   }
 }

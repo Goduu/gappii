@@ -11,3 +11,13 @@ export const GET_ACTIVITIES = gql`
     }
   }
 `
+
+export const CREATE_ACTIVITIES = gql`
+  mutation CreateActivities($input: [ActivityCreateInput!]!) {
+  createActivities(input: $input) {
+    activities {
+        id
+    }
+  }
+}
+`

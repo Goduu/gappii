@@ -1,0 +1,39 @@
+{
+  "name": "",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "license": "AGPL-version-3.0",
+  "private": false,
+  "engines": {
+    "node": ">= 14.0.0",
+    "npm": ">= 6.0.0"
+  },
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "bugs": "",
+  "keywords": [],
+  "author": {
+    "name": "",
+    "email": "",
+    "url": ""
+  },
+  "contributors": [],
+  "scripts": {
+    "dev": "node index.js",
+    "test": "",
+    "generate": "GENERATE='true' ts-node ./index.ts"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.11.2",
+    "@neo4j/graphql-ogm": "^5.9.1",
+    "bcrypt": "^5.1.1",
+    "graphql": "^16.9.0",
+    "jsonwebtoken": "^9.0.2",
+    "neo4j-driver": "^5.26.0"
+  }
+}

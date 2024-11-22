@@ -23,6 +23,6 @@ export const LessonPage: FC<LessonPageProps> = ({ topicId, subtopicId }) => {
     if (!topic || !subtopic || !activities) return <div>Not found</div>
 
     return (
-        <ActivityProgressManager topic={topic.title} subtopic={subtopic.title} activities={activities} onProgressUpdate={() => {}}/>
+        <ActivityProgressManager topic={topic.title} subtopic={subtopic.title} activities={activities} />
     )
 }

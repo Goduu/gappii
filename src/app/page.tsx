@@ -1,7 +1,4 @@
-import { ActivityCard } from "@/components/card/activity-card";
 import { LearnInput } from "@/components/learn-input/learn-input";
-import { Input } from "@/components/ui/input";
-import { Progress } from "@/components/ui/progress";
 
 export default function Home() {
   return (

@@ -1,5 +1,5 @@
 "use client"
-import React, { ChangeEvent, useState, useTransition } from 'react'
+import React, { useState } from 'react'
 import { Button } from '../ui/button'
 import { Badge } from '../ui/badge'
 import { LoaderCircle, X } from 'lucide-react'
@@ -8,21 +8,16 @@ import { useCreateActivities } from '@/lib/gqls/useCreateActivities'
 import { AutoComplete, Option } from '../ui/autocomplete'
 import { CREATE_TOPIC, GET_TOPIC_TITLES, INTROSPECT } from '@/lib/gqls/topicGQLs'
 import { useMutation, useQuery } from '@apollo/client'
+import { useTransitionContext } from '../loading-store'
 
 export const LearnInput = () => {
-    const [value, setValue] = useState<string>("")
     const [topic, setTopic] = useState<Option | null>(null)
     const [subTopic, setSubTopic] = useState<Option | null>(null)
     const createActivities = useCreateActivities()
-    const [isPending, startTransition] = useTransition()
     const { loading, data, error } = useQuery<{ topics: Array<{ id: string, title: string }> }>(GET_TOPIC_TITLES)
-    const { data: intro } = useQuery(INTROSPECT)
-    console.log("intro", intro)
     const [createTopic] = useMutation(CREATE_TOPIC)
+    const { startTransition, isPending } = useTransitionContext()
 
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setValue(event.target.value)
-    }
 
     const handleCreateNewTopic = (topic: string) => {
         createTopic({
@@ -34,6 +29,7 @@ export const LearnInput = () => {
             refetchQueries: [{ query: GET_TOPIC_TITLES }]
         })
     }
+
     const handleSelectTopic = (option: Option) => {
         if (topic) {
             setSubTopic(option)
@@ -43,10 +39,13 @@ export const LearnInput = () => {
     }
 
     const handleClick = async () => {
-        const apiData = topic && subTopic && await transformInputIntoData(topic.label, subTopic.label)
-        if (apiData) {
-            startTransition(() => createActivities(apiData, topic.value, subTopic.value))
+        startTransition(async () => {
+            const apiData = topic && subTopic && await transformInputIntoData(topic.label, subTopic.label)
+            if (apiData) {
+                createActivities(apiData, topic.value, subTopic.value)
+            }
         }
+        )
 
     }
 
@@ -91,7 +90,6 @@ export const LearnInput = () => {
                 </div>
             </div>
             <div className='flex gap-2'>
-                {value}
                 <AutoComplete
                     emptyMessage='Empty'
                     options={(data?.topics || []).map<Option>(t => ({ label: t.title, value: t.id }))}
@@ -99,13 +97,11 @@ export const LearnInput = () => {
                     disabled={topic && subTopic ? true : false}
                     onAddOption={handleCreateNewTopic}
                     onValueChange={handleSelectTopic} />
-                {/* <Input value={value} onChange={handleChange} placeholder="What do you want to learn?" /> */}
                 <Button onClick={handleClick} disabled={isPending}>{
                     topic && subTopic ? "Let's Learn!" :
                         topic ? "Add Subtopic" :
                             "Add Topic"
                 }</Button>
-                {isPending && <LoaderCircle className='animation-spin' />}
             </div>
         </div>
     )

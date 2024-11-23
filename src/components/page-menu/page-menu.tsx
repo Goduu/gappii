@@ -21,15 +21,15 @@ export const PageMenu = () => {
 
 const menuItems: { title: string; href: string; description: string }[] = [
   {
-    title: "Input",
-    href: "/text-input",
+    title: "Learn",
+    href: "/",
     description:
-      "Page for inputting new patient data",
+      "Learn something new",
   },
   {
-    title: "Patient Data",
-    href: "/patient-data",
+    title: "Cards",
+    href: "/cards",
     description:
-      "Patient data is a collection of information about a patient.",
+      "My cards is a collection of cards that you have created.",
   },
 ]

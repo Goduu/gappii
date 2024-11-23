@@ -6,7 +6,6 @@ const { OGM, generate } = pkg
 import neo4j from "neo4j-driver"
 import { typeDefs } from "./schema.js"
 
-// const driver = neo4j.driver("neo4j://localhost:7687", neo4j.auth.basic("neo4j", "gapiineo4j123@!top"))
 const driver = neo4j.driver("neo4j://localhost:7687", neo4j.auth.basic("neo4j", "TxkDIMw0VulE7O"))
 
 export const ogm = new OGM({ typeDefs, driver })

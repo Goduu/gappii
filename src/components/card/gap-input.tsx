@@ -18,7 +18,7 @@ export const GapInput: React.FC<GapInputProps> = ({ text, value, options }) => {
                 const optionsLength = options.map(option => option.length)
                 const charCount = Math.max(optionsLength[0], optionsLength[1]);
                 const prefillValue = value?.substring(valueIndex, valueIndex + charCount) || "";
-                const width = charCount * 0.5 + "em";
+                const width = charCount * 0.6 + "em";
                 // Increment valueIndex if value is provided
                 if (value) valueIndex += charCount;
 

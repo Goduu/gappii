@@ -1,47 +1,24 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { CreateActivitiesMutationResponse, MutationCreateActivitiesArgs, MutationCreateUsersArgs, MutationUpdateTopicsArgs, MutationUpdateUsersArgs, Topic, TopicModel } from "@/ogm-resolver/ogm-types";
-import { UPDATE_TOPIC } from "./topicGQLs";
+import { CreateActivitiesMutationResponse, MutationCreateActivitiesArgs, MutationCreateLessonsArgs, MutationCreateUsersArgs, MutationUpdateTopicsArgs, MutationUpdateUsersArgs, Topic, TopicModel } from "@/ogm-resolver/ogm-types";
 import { ApiActivityResponse } from "../validateApiReturnObject";
 import { redirect } from "next/navigation";
 import { CHECK_USER, CREATE_USER, UPDATE_USER } from "./userGQLs";
 import { User } from "@clerk/nextjs/server";
 import { useUser } from "@clerk/nextjs";
 import { CREATE_ACTIVITIES } from "./activityGQLs";
+import { CREATE_LESSONS } from "./lessonGQLs";
 
 export const useCreateActivities = () => {
     const clerkUserData = useUser()
     const { loading, error, data: userData } = useQuery<{ users: Array<User> }>(CHECK_USER, {
         variables: { where: { clerkId: clerkUserData.user?.id } }
     })
-    const [updateTopicMutation] = useMutation(UPDATE_TOPIC)
     const [createUserMutation] = useMutation(CREATE_USER)
+    const [createLessonMutation] = useMutation(CREATE_LESSONS)
     const [updateUserMutation] = useMutation(UPDATE_USER)
     const [createActivitiesMutation] = useMutation<{ createActivities: CreateActivitiesMutationResponse }>(CREATE_ACTIVITIES)
 
     const createActivitiesAndTopics = async (data: ApiActivityResponse, topicId: string, subtopicId: string) => {
-
-        const topicData = await updateTopicMutation({
-            variables: {
-                where: {
-                    id: topicId
-                },
-                update: {
-                    hasSubtopics: [{
-                        connect: [{
-                            where: {
-                                node: {
-                                    id: subtopicId
-                                }
-                            }
-                        }
-                        ]
-                    }]
-                }
-            } satisfies MutationUpdateTopicsArgs
-        }
-        )
-        console.log('"updateTopicMutation ok')
-
         const activitiesData = await createActivitiesMutation({
             variables: {
                 input: data.activities.map(activity => ({
@@ -52,29 +29,42 @@ export const useCreateActivities = () => {
                 }))
             } satisfies MutationCreateActivitiesArgs
         })
-        console.log('"createActivitiesMutation ok')
 
-        if (activitiesData.data) {
-            const subtopicData = await updateTopicMutation({
-                variables: {
-                    where: {
-                        id: subtopicId
-                    },
-                    update: {
-                        hasActivities: [{
-                            connect: activitiesData.data.createActivities.activities.map(activity => ({
-                                where: {
-                                    node: {
-                                        id: activity.id
-                                    }
+        const lessonData = await createLessonMutation({
+            variables: {
+                input: [{
+                    title: `${data.topic} / ${data.subtopic}`,
+                    hasTopic: {
+                        connect: {
+                            where: {
+                                node: {
+                                    id: topicId
                                 }
-                            }))
-                        }]
+                            }
+                        }
+                    },
+                    hasSubtopic: {
+                        connect: {
+                            where: {
+                                node: {
+                                    id: subtopicId
+                                }
+                            }
+                        }
+                    },
+                    hasActivities: {
+                        connect: activitiesData.data?.createActivities.activities.map(activity => ({
+                            where: {
+                                node: {
+                                    id: activity.id
+                                }
+                            }
+                        }))
                     }
-                } satisfies MutationUpdateTopicsArgs
-            })
-            console.log('"updateTopicMutation ok')
-        }
+                }]
+            } satisfies MutationCreateLessonsArgs
+        })
+
 
 
         if (clerkUserData.user) {
@@ -86,12 +76,12 @@ export const useCreateActivities = () => {
                             {
                                 clerkId: clerkUserData.user.id,
                                 email: clerkUserData.user.emailAddresses[0].emailAddress,
-                                hasTopics: {
+                                hasLessons: {
                                     connect: [
                                         {
                                             where: {
                                                 node: {
-                                                    title: data.topic
+                                                    id: lessonData.data?.createLessons.lessons[0].id
                                                 }
                                             }
                                         }
@@ -109,12 +99,12 @@ export const useCreateActivities = () => {
                     variables: {
                         where: { clerkId: clerkUserData.user.id },
                         update: {
-                            hasTopics: [{
+                            hasLessons: [{
                                 connect: [
                                     {
                                         where: {
                                             node: {
-                                                title: data.topic
+                                                id: lessonData.data?.createLessons.lessons[0].id
                                             }
                                         }
                                     }
@@ -127,7 +117,7 @@ export const useCreateActivities = () => {
         }
 
 
-        // redirect(`/lesson/${topicId}/${subtopicId}`)
+        redirect(`/lesson/${lessonData.data.createLessons.lessons[0].id}`)
 
     }
 

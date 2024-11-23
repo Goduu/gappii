@@ -19,15 +19,56 @@ export const CREATE_USER = gql`
 }
 `
 
-export const UPDATE_USER = gql`
-  mutation UpdateUser($where: UserWhere!, $update: UserUpdateInput!) {
-    updateUsers(
-      where: $where,
-      update: $update
-    ) {
-      users {
+export const GET_USER_LESSONS = gql`
+  query GetUserLessons($where: UserWhere!) {
+    users(where: $where) {
+      id
+      hasLessons{
+        id
+        title
+        hasTopic {
+            id
+            title
+        }
+        hasSubtopic {
+            id
+            title
+        }
+      }
+      reactedToLessonsConnection {
+        edges{
+            node{
+                id
+            }
+            properties{
+                type
+            }
+      }
+      }
+    }
+  }
+`
+
+export const GET_USER_REPORTED_ACTIVITIES = gql`
+  query GetUserLessons($where: UserWhere!) {
+    users(where: $where) {
+      id
+      reportedActivities {
         id
       }
     }
   }
+`
+
+export const UPDATE_USER = gql`
+    mutation UpdateUser($where: UserWhere!, $update: UserUpdateInput!) {
+        updateUsers(
+        where: $where,
+        update: $update
+        ) {
+        users {
+            id
+        }
+        }
+    }
 `

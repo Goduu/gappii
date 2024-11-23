@@ -8,18 +8,18 @@ import {
 } from "@/components/ui/card";
 import { GapInput } from './gap-input';
 import { useToast } from '@/hooks/use-toast';
-import { VotingIcons, VotingIconsProps } from './voting-icons';
 import { Activity } from '@/ogm-resolver/ogm-types';
+import { ActivityReactions } from './activity-reactions';
 
 type ActivityCardProps = {
     topic: string;
     subtopic: string;
     activity: Activity
-    voting?: VotingIconsProps
+    reported: boolean
     onNext?: () => void
 }
 
-export const ActivityCard: FC<ActivityCardProps> = ({ topic, subtopic, activity, voting, onNext }) => {
+export const ActivityCard: FC<ActivityCardProps> = ({ topic, subtopic, activity, reported, onNext }) => {
     const [selectedOption, setSelectedOption] = useState<string>('')
     const [activityDone, setActivityDone] = useState<boolean>(false)
 
@@ -51,14 +51,15 @@ export const ActivityCard: FC<ActivityCardProps> = ({ topic, subtopic, activity,
     }
 
     return (
-        <Card className="w-96">
+        <Card className="w-96 relative">
             <CardHeader>
-                <CardTitle className="flex justify-between items-center">
-                    {topic} / {subtopic}
-                    <VotingIcons {...voting} />
+                <div className='absolute right-1 top-1'>
+                    {activity.id && <ActivityReactions activityId={activity.id} reported={reported} />}
+                </div>
+                <CardTitle className="flex justify-end items-baseline">
+                    <GapInput text={activity.description} value={selectedOption} options={activity.options} />
                 </CardTitle>
                 <CardDescription>
-                    <GapInput text={activity.description} value={selectedOption} options={activity.options} />
                 </CardDescription>
             </CardHeader>
             <CardFooter className="flex justify-center gap-4">

@@ -1,28 +1,46 @@
 "use client"
-import { GET_TOPICS_ACTIVITIES } from '@/lib/gqls/topicGQLs'
-import { Topic } from '@/ogm-resolver/ogm-types'
+import { Lesson, QueryLessonsArgs, QueryUsersArgs, User } from '@/ogm-resolver/ogm-types'
 import { useQuery } from '@apollo/client'
 import React, { FC } from 'react'
-import { ActivityProgressManager } from './activity-progress-manager'
+import { LessonProgressManager } from './lesson-progress-manager'
+import { GET_LESSON_ACTIVITIES } from '@/lib/gqls/lessonGQLs'
+import { GET_USER_REPORTED_ACTIVITIES } from '@/lib/gqls/userGQLs'
+import { useUser } from '@clerk/nextjs'
+import { useTransitionContext } from '../loading-store'
+import { Skeleton } from '../ui/skeleton'
 
 type LessonPageProps = {
-    topicId: string,
-    subtopicId: string
+    lessonId: string,
 }
 
-export const LessonPage: FC<LessonPageProps> = ({ topicId, subtopicId }) => {
-    const { loading, error, data } = useQuery<{ topics: Topic[] }>(GET_TOPICS_ACTIVITIES, {
+export const LessonPage: FC<LessonPageProps> = ({ lessonId }) => {
+    const userData = useUser()
+    const { data } = useQuery<{ lessons: Lesson[] }>(GET_LESSON_ACTIVITIES, {
         variables: {
-            topicId, subtopicId
-        }
+            where: {
+                id: lessonId
+            }
+        } satisfies QueryLessonsArgs,
+        skip: !lessonId
     })
-    const topic = data?.topics[0]
-    const subtopic = topic?.hasSubtopics[0]
-    const activities = subtopic?.hasActivities
+    const { data: userReportedActivities } = useQuery<{ users: User[] }>(GET_USER_REPORTED_ACTIVITIES, {
+        variables: {
+            where: {
+                clerkId: userData.user?.id
+            }
+        } satisfies QueryUsersArgs,
+        skip: !userData.user?.id
+    })
 
-    if (!topic || !subtopic || !activities) return <div>Not found</div>
+    const lesson = data?.lessons[0]
+    const topic = lesson?.hasTopic
+    const subtopic = lesson?.hasSubtopic
+    const activities = lesson?.hasActivities
+    const reportedActivityIds = userReportedActivities?.users[0].reportedActivities
+
+    if (!topic || !subtopic || !activities) return <Skeleton className='w-96 h-48' />
 
     return (
-        <ActivityProgressManager topic={topic.title} subtopic={subtopic.title} activities={activities} />
+        <LessonProgressManager topic={topic.title} subtopic={subtopic.title} activities={activities} reportedActivityIds={reportedActivityIds} />
     )
 }

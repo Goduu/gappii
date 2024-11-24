@@ -13,6 +13,8 @@ type Lesson @node {
     @relationship(type: "HAS_SUBTOPIC", direction: OUT)
   hasActivities: [Activity!]!
     @relationship(type: "HAS_ACTIVITY", direction: OUT)
+  wasReacted: [User!]!
+    @relationship(type: "REACTED", properties: "Reacted", direction: IN)
 }
 
 type Activity @node {

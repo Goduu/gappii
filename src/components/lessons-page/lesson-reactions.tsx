@@ -3,11 +3,12 @@ import { Crown, ThumbsDown, ThumbsUp } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import React, { FC } from 'react'
 import { useMutation } from "@apollo/client";
-import { GET_USER_LESSONS, UPDATE_USER } from "@/lib/gqls/userGQLs";
+import { UPDATE_USER } from "@/lib/gqls/userGQLs";
 import { useUser } from "@clerk/nextjs";
 import { MutationUpdateUsersArgs } from "@/ogm-resolver/ogm-types";
+import { GET_LESSON_FILTERED } from "@/lib/gqls/lessonGQLs";
 
-export type LessonReaction = "LIKED" | "DISLIKED" | "CROWNED" | undefined
+export type LessonReaction = "LIKED" | "DISLIKED" | "CROWNED" | undefined | null
 
 export type LessonReactionsProps = {
     lessonId: string
@@ -15,7 +16,7 @@ export type LessonReactionsProps = {
 }
 
 export const LessonReactions: FC<LessonReactionsProps> = ({ lessonId, reaction }) => {
-    const [updateUserLikesMutation] = useMutation(UPDATE_USER, { refetchQueries: [GET_USER_LESSONS] })
+    const [updateUserLikesMutation] = useMutation(UPDATE_USER, { refetchQueries: [GET_LESSON_FILTERED] })
     const userData = useUser()
 
     const handleReact = (type: NonNullable<LessonReaction>) => {
@@ -26,18 +27,27 @@ export const LessonReactions: FC<LessonReactionsProps> = ({ lessonId, reaction }
                 },
                 update: {
                     reactedToLessons: [
-                        {
-                            connect: [{
+                        reaction === type ? {
+                            disconnect: [{
                                 where: {
                                     node: {
                                         id: lessonId
                                     }
                                 },
-                                edge: {
-                                    type: type
-                                }
                             }]
-                        }
+                        } :
+                            {
+                                connect: [{
+                                    where: {
+                                        node: {
+                                            id: lessonId
+                                        }
+                                    },
+                                    edge: {
+                                        type: type
+                                    }
+                                }]
+                            }
                     ]
                 }
             } satisfies MutationUpdateUsersArgs

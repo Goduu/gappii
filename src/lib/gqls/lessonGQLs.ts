@@ -33,3 +33,32 @@ export const GET_LESSON_ACTIVITIES = gql`
     }
   }
 `
+
+
+export const GET_LESSON_FILTERED = gql`
+  query GetLessonActivities($where: LessonWhere!) {
+    lessons(where: $where) {
+      id
+      hasTopic {
+        id
+        title
+      }
+      hasSubtopic {
+        id
+        title
+      }
+      wasReactedConnection {
+        edges {
+            node {
+                id
+                clerkId
+            }
+            properties{
+                type
+            }
+        }
+      }
+    }
+  }
+`
+

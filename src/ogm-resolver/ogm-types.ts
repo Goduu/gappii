@@ -293,6 +293,9 @@ export type Lesson = {
   hasActivitiesAggregate?: Maybe<LessonActivityHasActivitiesAggregationSelection>;
   hasActivities: Array<Activity>;
   hasActivitiesConnection: LessonHasActivitiesConnection;
+  wasReactedAggregate?: Maybe<LessonUserWasReactedAggregationSelection>;
+  wasReacted: Array<User>;
+  wasReactedConnection: LessonWasReactedConnection;
 };
 
 export type LessonHasTopicAggregateArgs = {
@@ -350,6 +353,25 @@ export type LessonHasActivitiesConnectionArgs = {
   after?: InputMaybe<Scalars["String"]["input"]>;
   directed?: InputMaybe<Scalars["Boolean"]["input"]>;
   sort?: InputMaybe<Array<LessonHasActivitiesConnectionSort>>;
+};
+
+export type LessonWasReactedAggregateArgs = {
+  where?: InputMaybe<UserWhere>;
+  directed?: InputMaybe<Scalars["Boolean"]["input"]>;
+};
+
+export type LessonWasReactedArgs = {
+  where?: InputMaybe<UserWhere>;
+  options?: InputMaybe<UserOptions>;
+  directed?: InputMaybe<Scalars["Boolean"]["input"]>;
+};
+
+export type LessonWasReactedConnectionArgs = {
+  where?: InputMaybe<LessonWasReactedConnectionWhere>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  directed?: InputMaybe<Scalars["Boolean"]["input"]>;
+  sort?: InputMaybe<Array<LessonWasReactedConnectionSort>>;
 };
 
 export type LessonActivityHasActivitiesAggregationSelection = {
@@ -449,6 +471,39 @@ export type LessonTopicHasTopicNodeAggregateSelection = {
   title: StringAggregateSelection;
 };
 
+export type LessonUserWasReactedAggregationSelection = {
+  __typename?: "LessonUserWasReactedAggregationSelection";
+  count: Scalars["Int"]["output"];
+  node?: Maybe<LessonUserWasReactedNodeAggregateSelection>;
+  edge?: Maybe<LessonUserWasReactedEdgeAggregateSelection>;
+};
+
+export type LessonUserWasReactedEdgeAggregateSelection = {
+  __typename?: "LessonUserWasReactedEdgeAggregateSelection";
+  type: StringAggregateSelection;
+};
+
+export type LessonUserWasReactedNodeAggregateSelection = {
+  __typename?: "LessonUserWasReactedNodeAggregateSelection";
+  id: IdAggregateSelection;
+  clerkId: StringAggregateSelection;
+  email: StringAggregateSelection;
+};
+
+export type LessonWasReactedConnection = {
+  __typename?: "LessonWasReactedConnection";
+  edges: Array<LessonWasReactedRelationship>;
+  totalCount: Scalars["Int"]["output"];
+  pageInfo: PageInfo;
+};
+
+export type LessonWasReactedRelationship = {
+  __typename?: "LessonWasReactedRelationship";
+  cursor: Scalars["String"]["output"];
+  node: User;
+  properties: Reacted;
+};
+
 /** Pagination information (Relay) */
 export type PageInfo = {
   __typename?: "PageInfo";
@@ -460,6 +515,7 @@ export type PageInfo = {
 
 /**
  * The edge properties for the following fields:
+ * * Lesson.wasReacted
  * * User.reactedToLessons
  */
 export type Reacted = {
@@ -823,11 +879,13 @@ export type LessonConnectInput = {
   hasTopic?: InputMaybe<LessonHasTopicConnectFieldInput>;
   hasSubtopic?: InputMaybe<LessonHasSubtopicConnectFieldInput>;
   hasActivities?: InputMaybe<Array<LessonHasActivitiesConnectFieldInput>>;
+  wasReacted?: InputMaybe<Array<LessonWasReactedConnectFieldInput>>;
 };
 
 export type LessonConnectOrCreateInput = {
   hasTopic?: InputMaybe<LessonHasTopicConnectOrCreateFieldInput>;
   hasSubtopic?: InputMaybe<LessonHasSubtopicConnectOrCreateFieldInput>;
+  wasReacted?: InputMaybe<Array<LessonWasReactedConnectOrCreateFieldInput>>;
 };
 
 export type LessonConnectOrCreateWhere = {
@@ -843,18 +901,21 @@ export type LessonCreateInput = {
   hasTopic?: InputMaybe<LessonHasTopicFieldInput>;
   hasSubtopic?: InputMaybe<LessonHasSubtopicFieldInput>;
   hasActivities?: InputMaybe<LessonHasActivitiesFieldInput>;
+  wasReacted?: InputMaybe<LessonWasReactedFieldInput>;
 };
 
 export type LessonDeleteInput = {
   hasTopic?: InputMaybe<LessonHasTopicDeleteFieldInput>;
   hasSubtopic?: InputMaybe<LessonHasSubtopicDeleteFieldInput>;
   hasActivities?: InputMaybe<Array<LessonHasActivitiesDeleteFieldInput>>;
+  wasReacted?: InputMaybe<Array<LessonWasReactedDeleteFieldInput>>;
 };
 
 export type LessonDisconnectInput = {
   hasTopic?: InputMaybe<LessonHasTopicDisconnectFieldInput>;
   hasSubtopic?: InputMaybe<LessonHasSubtopicDisconnectFieldInput>;
   hasActivities?: InputMaybe<Array<LessonHasActivitiesDisconnectFieldInput>>;
+  wasReacted?: InputMaybe<Array<LessonWasReactedDisconnectFieldInput>>;
 };
 
 export type LessonHasActivitiesAggregateInput = {
@@ -1376,6 +1437,7 @@ export type LessonRelationInput = {
   hasTopic?: InputMaybe<LessonHasTopicCreateFieldInput>;
   hasSubtopic?: InputMaybe<LessonHasSubtopicCreateFieldInput>;
   hasActivities?: InputMaybe<Array<LessonHasActivitiesCreateFieldInput>>;
+  wasReacted?: InputMaybe<Array<LessonWasReactedCreateFieldInput>>;
 };
 
 /** Fields to sort Lessons by. The order in which sorts are applied is not guaranteed when specifying many fields in one LessonSort object. */
@@ -1394,6 +1456,213 @@ export type LessonUpdateInput = {
   hasTopic?: InputMaybe<LessonHasTopicUpdateFieldInput>;
   hasSubtopic?: InputMaybe<LessonHasSubtopicUpdateFieldInput>;
   hasActivities?: InputMaybe<Array<LessonHasActivitiesUpdateFieldInput>>;
+  wasReacted?: InputMaybe<Array<LessonWasReactedUpdateFieldInput>>;
+};
+
+export type LessonWasReactedAggregateInput = {
+  count?: InputMaybe<Scalars["Int"]["input"]>;
+  count_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  count_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  count_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  count_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  AND?: InputMaybe<Array<LessonWasReactedAggregateInput>>;
+  OR?: InputMaybe<Array<LessonWasReactedAggregateInput>>;
+  NOT?: InputMaybe<LessonWasReactedAggregateInput>;
+  node?: InputMaybe<LessonWasReactedNodeAggregationWhereInput>;
+  edge?: InputMaybe<ReactedAggregationWhereInput>;
+};
+
+export type LessonWasReactedConnectFieldInput = {
+  edge: ReactedCreateInput;
+  where?: InputMaybe<UserConnectWhere>;
+  /** Whether or not to overwrite any matching relationship with the new properties. */
+  overwrite?: Scalars["Boolean"]["input"];
+  connect?: InputMaybe<Array<UserConnectInput>>;
+};
+
+export type LessonWasReactedConnectionSort = {
+  node?: InputMaybe<UserSort>;
+  edge?: InputMaybe<ReactedSort>;
+};
+
+export type LessonWasReactedConnectionWhere = {
+  AND?: InputMaybe<Array<LessonWasReactedConnectionWhere>>;
+  OR?: InputMaybe<Array<LessonWasReactedConnectionWhere>>;
+  NOT?: InputMaybe<LessonWasReactedConnectionWhere>;
+  node?: InputMaybe<UserWhere>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  node_NOT?: InputMaybe<UserWhere>;
+  edge?: InputMaybe<ReactedWhere>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  edge_NOT?: InputMaybe<ReactedWhere>;
+};
+
+export type LessonWasReactedConnectOrCreateFieldInput = {
+  where: UserConnectOrCreateWhere;
+  onCreate: LessonWasReactedConnectOrCreateFieldInputOnCreate;
+};
+
+export type LessonWasReactedConnectOrCreateFieldInputOnCreate = {
+  node: UserOnCreateInput;
+  edge: ReactedCreateInput;
+};
+
+export type LessonWasReactedCreateFieldInput = {
+  edge: ReactedCreateInput;
+  node: UserCreateInput;
+};
+
+export type LessonWasReactedDeleteFieldInput = {
+  where?: InputMaybe<LessonWasReactedConnectionWhere>;
+  delete?: InputMaybe<UserDeleteInput>;
+};
+
+export type LessonWasReactedDisconnectFieldInput = {
+  where?: InputMaybe<LessonWasReactedConnectionWhere>;
+  disconnect?: InputMaybe<UserDisconnectInput>;
+};
+
+export type LessonWasReactedFieldInput = {
+  connectOrCreate?: InputMaybe<
+    Array<LessonWasReactedConnectOrCreateFieldInput>
+  >;
+  connect?: InputMaybe<Array<LessonWasReactedConnectFieldInput>>;
+  create?: InputMaybe<Array<LessonWasReactedCreateFieldInput>>;
+};
+
+export type LessonWasReactedNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<LessonWasReactedNodeAggregationWhereInput>>;
+  OR?: InputMaybe<Array<LessonWasReactedNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<LessonWasReactedNodeAggregationWhereInput>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  id_EQUAL?: InputMaybe<Scalars["ID"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  clerkId_EQUAL?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  clerkId_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  clerkId_LONGEST_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  clerkId_SHORTEST_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  clerkId_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  clerkId_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  clerkId_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  clerkId_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  clerkId_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  clerkId_LONGEST_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  clerkId_SHORTEST_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  clerkId_AVERAGE_LENGTH_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  clerkId_LONGEST_LENGTH_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  clerkId_SHORTEST_LENGTH_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  clerkId_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  clerkId_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  clerkId_LONGEST_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  clerkId_SHORTEST_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  clerkId_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  clerkId_LONGEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  clerkId_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  clerkId_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  clerkId_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  clerkId_LONGEST_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  clerkId_SHORTEST_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  clerkId_AVERAGE_LENGTH_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  clerkId_LONGEST_LENGTH_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  clerkId_SHORTEST_LENGTH_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  clerkId_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  clerkId_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  clerkId_LONGEST_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  clerkId_SHORTEST_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  clerkId_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  clerkId_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  clerkId_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  email_EQUAL?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  email_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  email_LONGEST_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  email_SHORTEST_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  email_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  email_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  email_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  email_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  email_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  email_LONGEST_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  email_SHORTEST_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  email_AVERAGE_LENGTH_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  email_LONGEST_LENGTH_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  email_SHORTEST_LENGTH_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  email_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  email_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  email_LONGEST_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  email_SHORTEST_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  email_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  email_LONGEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  email_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  email_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  email_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  email_LONGEST_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  email_SHORTEST_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  email_AVERAGE_LENGTH_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  email_LONGEST_LENGTH_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  email_SHORTEST_LENGTH_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  email_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  email_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  email_LONGEST_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  email_SHORTEST_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  email_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  email_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  email_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+export type LessonWasReactedUpdateConnectionInput = {
+  node?: InputMaybe<UserUpdateInput>;
+  edge?: InputMaybe<ReactedUpdateInput>;
+};
+
+export type LessonWasReactedUpdateFieldInput = {
+  where?: InputMaybe<LessonWasReactedConnectionWhere>;
+  connectOrCreate?: InputMaybe<
+    Array<LessonWasReactedConnectOrCreateFieldInput>
+  >;
+  connect?: InputMaybe<Array<LessonWasReactedConnectFieldInput>>;
+  disconnect?: InputMaybe<Array<LessonWasReactedDisconnectFieldInput>>;
+  create?: InputMaybe<Array<LessonWasReactedCreateFieldInput>>;
+  update?: InputMaybe<LessonWasReactedUpdateConnectionInput>;
+  delete?: InputMaybe<Array<LessonWasReactedDeleteFieldInput>>;
 };
 
 export type LessonWhere = {
@@ -1465,6 +1734,31 @@ export type LessonWhere = {
   /** Return Lessons where some of the related LessonHasActivitiesConnections match this filter */
   hasActivitiesConnection_SOME?: InputMaybe<LessonHasActivitiesConnectionWhere>;
   hasActivitiesAggregate?: InputMaybe<LessonHasActivitiesAggregateInput>;
+  /** @deprecated Use `wasReacted_SOME` instead. */
+  wasReacted?: InputMaybe<UserWhere>;
+  /** @deprecated Use `wasReacted_NONE` instead. */
+  wasReacted_NOT?: InputMaybe<UserWhere>;
+  /** Return Lessons where all of the related Users match this filter */
+  wasReacted_ALL?: InputMaybe<UserWhere>;
+  /** Return Lessons where none of the related Users match this filter */
+  wasReacted_NONE?: InputMaybe<UserWhere>;
+  /** Return Lessons where one of the related Users match this filter */
+  wasReacted_SINGLE?: InputMaybe<UserWhere>;
+  /** Return Lessons where some of the related Users match this filter */
+  wasReacted_SOME?: InputMaybe<UserWhere>;
+  /** @deprecated Use `wasReactedConnection_SOME` instead. */
+  wasReactedConnection?: InputMaybe<LessonWasReactedConnectionWhere>;
+  /** @deprecated Use `wasReactedConnection_NONE` instead. */
+  wasReactedConnection_NOT?: InputMaybe<LessonWasReactedConnectionWhere>;
+  /** Return Lessons where all of the related LessonWasReactedConnections match this filter */
+  wasReactedConnection_ALL?: InputMaybe<LessonWasReactedConnectionWhere>;
+  /** Return Lessons where none of the related LessonWasReactedConnections match this filter */
+  wasReactedConnection_NONE?: InputMaybe<LessonWasReactedConnectionWhere>;
+  /** Return Lessons where one of the related LessonWasReactedConnections match this filter */
+  wasReactedConnection_SINGLE?: InputMaybe<LessonWasReactedConnectionWhere>;
+  /** Return Lessons where some of the related LessonWasReactedConnections match this filter */
+  wasReactedConnection_SOME?: InputMaybe<LessonWasReactedConnectionWhere>;
+  wasReactedAggregate?: InputMaybe<LessonWasReactedAggregateInput>;
 };
 
 export type ReactedAggregationWhereInput = {
@@ -1649,6 +1943,14 @@ export type UserConnectOrCreateInput = {
   >;
 };
 
+export type UserConnectOrCreateWhere = {
+  node: UserUniqueWhere;
+};
+
+export type UserConnectWhere = {
+  node: UserWhere;
+};
+
 export type UserCreateInput = {
   clerkId: Scalars["String"]["input"];
   email: Scalars["String"]["input"];
@@ -1811,6 +2113,11 @@ export type UserHasLessonsUpdateFieldInput = {
   create?: InputMaybe<Array<UserHasLessonsCreateFieldInput>>;
   update?: InputMaybe<UserHasLessonsUpdateConnectionInput>;
   delete?: InputMaybe<Array<UserHasLessonsDeleteFieldInput>>;
+};
+
+export type UserOnCreateInput = {
+  clerkId: Scalars["String"]["input"];
+  email: Scalars["String"]["input"];
 };
 
 export type UserOptions = {
@@ -2218,6 +2525,11 @@ export type UserSort = {
   id?: InputMaybe<SortDirection>;
   clerkId?: InputMaybe<SortDirection>;
   email?: InputMaybe<SortDirection>;
+};
+
+export type UserUniqueWhere = {
+  clerkId?: InputMaybe<Scalars["String"]["input"]>;
+  email?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type UserUpdateInput = {

@@ -68,6 +68,20 @@ export const UPDATE_USER = gql`
         ) {
         users {
             id
+            reactedToLessons {
+                id
+                wasReactedConnection {
+                    edges {
+                        node {
+                            id
+                            clerkId
+                        }
+                        properties{
+                            type
+                        }
+                    }
+                }
+            }
         }
         }
     }

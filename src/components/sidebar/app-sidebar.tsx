@@ -29,7 +29,7 @@ const items = [
     },
     {
         title: "Community Lessons",
-        url: "#",
+        url: "/community",
         icon: Users,
     },
 

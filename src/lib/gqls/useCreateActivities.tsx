@@ -34,6 +34,7 @@ export const useCreateActivities = () => {
             variables: {
                 input: [{
                     title: `${data.topic} / ${data.subtopic}`,
+                    level: data.level,
                     hasTopic: {
                         connect: {
                             where: {
@@ -60,9 +61,16 @@ export const useCreateActivities = () => {
                                 }
                             }
                         }))
+                    },
+                    hasKeywords: {
+                        connectOrCreate: data.keywords.map(keyword => ({
+                            where: { node: { name: keyword } },
+                            onCreate: { node: { name: keyword } }
+                        }))
                     }
                 }]
-            } satisfies MutationCreateLessonsArgs
+
+                } satisfies MutationCreateLessonsArgs
         })
 
 

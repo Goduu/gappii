@@ -1,5 +1,4 @@
 import { promptText } from "@/lib/prompt";
-import { validateApiReturnObject } from "@/lib/validateApiReturnObject";
 import { NextRequest } from "next/server";
 import OpenAI from "openai";
 
@@ -7,6 +6,7 @@ export async function POST(request: NextRequest) {
   const body = await request.json();
   const topic = body.topic
   const subtopic = body.subtopic
+  const level = body.level
 
   const token = process.env["GITHUB_TOKEN"];
   const endpoint = "https://models.inference.ai.azure.com";
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
       },
       {
         role: "user",
-        content: `Topic: ${topic} and Subtopic: ${subtopic}`,
+        content: `Topic: ${topic}, Subtopic: ${subtopic}, Level: ${level}`,
       },
     ],
   });

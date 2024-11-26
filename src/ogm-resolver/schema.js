@@ -7,6 +7,7 @@ type Topic @node {
 type Lesson @node {
   id: ID @id @unique
   title: String! @unique
+  level: Int!
   hasTopic: Topic! 
     @relationship(type: "HAS_TOPIC", direction: OUT)
   hasSubtopic: Topic! 
@@ -15,6 +16,13 @@ type Lesson @node {
     @relationship(type: "HAS_ACTIVITY", direction: OUT)
   wasReacted: [User!]!
     @relationship(type: "REACTED", properties: "Reacted", direction: IN)
+  hasKeywords: [Keyword!]!
+    @relationship(type: "HAS_KEYWORD", direction: OUT)
+}
+
+type Keyword @node {
+  id: ID @id
+  name: String! @unique
 }
 
 type Activity @node {

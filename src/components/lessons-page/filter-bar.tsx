@@ -1,9 +1,10 @@
 "use client"
 import React, { FC } from 'react'
 import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group';
-import { Crown, ThumbsDown, ThumbsUp } from "lucide-react"
+import { Crown, ThumbsDown, ThumbsUp, X } from "lucide-react"
 import { LessonFilter } from './filter-hooks';
 import { LessonReaction } from './lesson-reactions';
+import { Badge } from '../ui/badge';
 
 type FilterBarProps = {
   setFilter: (filters: LessonFilter) => void
@@ -19,6 +20,12 @@ export const FilterBar: FC<FilterBarProps> = ({ setFilter, filter }) => {
       setFilter({ ...filter, reaction })
     }
   }
+  const removeTopic = () => {
+    setFilter({ ...filter, topic: null })
+  }
+  const removeSubtopic = () => {
+    setFilter({ ...filter, subtopic: null })
+  }
 
   return (
     <div className='flex gap-4 items-center'>
@@ -30,6 +37,16 @@ export const FilterBar: FC<FilterBarProps> = ({ setFilter, filter }) => {
         <ToggleGroupItem value={"LIKED"} onClick={() => handleToggle("LIKED")}><ThumbsUp /></ToggleGroupItem>
         <ToggleGroupItem value={"CROWNED"} onClick={() => handleToggle("CROWNED")}><Crown /></ToggleGroupItem>
       </ToggleGroup>
+      {filter.topic?.title &&
+        <Badge variant="outline" className='flex gap-2'>
+          Topic: {filter.topic?.title || ""}
+          <X className='w-3 cursor-pointer' onClick={removeTopic} />
+        </Badge>}
+      {filter.subtopic?.title &&
+        <Badge variant="outline" className='flex gap-2'>
+          Subtopic: {filter.subtopic?.title || ""}
+          <X className='w-3 cursor-pointer' onClick={removeSubtopic} />
+        </Badge>}
     </div >
   );
 };

@@ -39,6 +39,7 @@ export const GET_LESSON_FILTERED = gql`
   query GetLessonActivities($where: LessonWhere!) {
     lessons(where: $where) {
       id
+      level
       hasTopic {
         id
         title
@@ -46,6 +47,10 @@ export const GET_LESSON_FILTERED = gql`
       hasSubtopic {
         id
         title
+      }
+      hasKeywords {
+        id
+        name
       }
       wasReactedConnection {
         edges {

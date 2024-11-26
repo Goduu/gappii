@@ -3,6 +3,8 @@ export type ApiActivityResponse = {
     topic: string,
     subtopic: string,
     validTopicSubtopic: boolean,
+    keywords: string[],
+    level: number,
     activities: {
         description: string,
         options: string[],
@@ -23,7 +25,7 @@ export const validateApiReturnObject = (response: object | null): ApiActivityRes
         throw new Error("Invalid response from API");
     }
     if (!data.validTopicSubtopic) {
-        throw new Error("Invalid response from API, invalid topic or subtopic");
+        // throw new Error("Invalid response from API, invalid topic or subtopic");
     }
     if (!data.topic) {
         throw new Error("Invalid response from API, missing topic");
@@ -34,6 +36,11 @@ export const validateApiReturnObject = (response: object | null): ApiActivityRes
     if (!data.activities || !data.activities.length) {
         throw new Error("Invalid response from API, missing activities");
     }
+    if(data.keywords.length === 0){
+        throw new Error("Invalid response from API, missing keywords");
+    }
 
     return data;
 };
+
+

@@ -6,8 +6,8 @@ import { LessonProgressManager } from './lesson-progress-manager'
 import { GET_LESSON_ACTIVITIES } from '@/lib/gqls/lessonGQLs'
 import { GET_USER_REPORTED_ACTIVITIES } from '@/lib/gqls/userGQLs'
 import { useUser } from '@clerk/nextjs'
-import { useTransitionContext } from '../loading-store'
 import { Skeleton } from '../ui/skeleton'
+import { PageTitle } from '../page-title/page-title'
 
 type LessonPageProps = {
     lessonId: string,
@@ -36,11 +36,14 @@ export const LessonPage: FC<LessonPageProps> = ({ lessonId }) => {
     const topic = lesson?.hasTopic
     const subtopic = lesson?.hasSubtopic
     const activities = lesson?.hasActivities
-    const reportedActivityIds = userReportedActivities?.users[0].reportedActivities
+    const reportedActivityIds = userReportedActivities?.users[0]?.reportedActivities
 
     if (!topic || !subtopic || !activities) return <Skeleton className='w-96 h-48' />
 
     return (
+        <>
+        <PageTitle title='Lesson'/>
         <LessonProgressManager topic={topic.title} subtopic={subtopic.title} activities={activities} reportedActivityIds={reportedActivityIds} />
+        </>
     )
 }

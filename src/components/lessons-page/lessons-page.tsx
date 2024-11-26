@@ -12,7 +12,7 @@ import { GET_LESSON_FILTERED } from '@/lib/gqls/lessonGQLs'
 
 export const LessonsPage = () => {
     const userData = useUser()
-    const { filter, setFilter, setSubtopicFilter, setTopicFilter } = useFilter()
+    const { filter, setFilter, setSubtopicFilter, setTopicFilter, setKeywordFilter } = useFilter()
     console.log(filter)
 
     const { data, refetch } = useQuery<{ lessons: Array<Lesson> }>(GET_LESSON_FILTERED, {
@@ -52,7 +52,7 @@ export const LessonsPage = () => {
     }
 
     return (
-        <div className='flex flex-col gap-10 px-4 py-10 w-full'>
+        <div className='flex flex-col gap-10 px-4 w-full'>
             <FilterBar setFilter={setFilter} filter={filter} />
             <div className='flex flex-wrap gap-4 justify-center'>
                 {data && lessons ?
@@ -61,7 +61,9 @@ export const LessonsPage = () => {
                     ).map(lesson => (
                         <LessonCard key={lesson.id} lesson={lesson}
                             reaction={hasReaction(lesson)}
-                            setSubtopicFilter={setSubtopicFilter} setTopicFilter={setTopicFilter}
+                            setSubtopicFilter={setSubtopicFilter} 
+                            setTopicFilter={setTopicFilter}
+                            setKeywordFilter={setKeywordFilter}
                         />
                     ))
                     : <LessonSkeletons />

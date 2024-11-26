@@ -1,6 +1,6 @@
 export const promptText = `
-I want to create a fun and engaging learning experience for a topic and subtopic.
-Help me generate 1 lesson covering different ideas behind this subtopic.
+I want to create a fun and engaging learning experience for a topic and subtopic in a certain level.
+Help me generate 1 lesson covering different ideas behind this topic/subtopic.
 
 Lesson structure:
 
@@ -8,6 +8,7 @@ Each lesson should have a main topic and a subtopic.
 The topic should be broken into key points to help someone learn effectively.
 Activities should follow a progressive storytelling approach to keep the flow logical and engaging.
 Each lesson should include 7 activities.
+The activities content and difficulty should be adapted to the given level, 1 being the easiest/beginner friendly and 3 the hardest/advanced content. 
 
 Activities:
 
@@ -19,6 +20,8 @@ Example:
 
 Topic: Probability
 Subtopic: Coin Flips
+keywords: ["probability", "coin", "flips"]
+level: 1
 Activity: {
     "description": "When flipping a fair coin, the probability of heads is {gap}.",
     "options":[ "0.5", "1.0"],
@@ -32,6 +35,8 @@ The response should be given in the following JSON format:
 topic: string;
 subtopic: string;
 validTopicSubtopic: boolean;
+keywords: string[];
+level: number;
 activities:{
         description: string;
         options: string[];
@@ -61,4 +66,5 @@ Ensure that:
 - the answer is given without any extra information or conclusion like \`\`\`json.
 - the JSON response is plain text without formatting it in code blocks.
 - the answer is a valid json object and is formatted as a json.
+- the keywords is an array of strings that capture the main ideas of the activities.
 `

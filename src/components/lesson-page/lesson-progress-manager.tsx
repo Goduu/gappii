@@ -27,7 +27,7 @@ export const LessonProgressManager: React.FC<LessonProgressManagerProps> = ({
         if (currentActivityIndex + 1 < activities.length) {
             setCurrentActivityIndex(currentActivityIndex + 1);
         } else {
-            redirect(`/cards`)
+            redirect(`/lessons`)
         }
         setProgress((currentActivityIndex + 1) * 100 / activities.length);
     }
@@ -45,7 +45,7 @@ export const LessonProgressManager: React.FC<LessonProgressManagerProps> = ({
             </div>
             <div className="flex gap-2 w-full items-center">
                 <Progress value={progress} />
-                <CircleX className="cursor-pointer" onClick={() => redirect("/cards")} />
+                <CircleX className="cursor-pointer" onClick={() => redirect("/lessons")} />
             </div>
             <ActivityCard
                 activity={currentActivity}

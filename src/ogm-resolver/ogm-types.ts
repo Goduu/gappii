@@ -41,6 +41,9 @@ export type Query = {
   lessons: Array<Lesson>;
   lessonsConnection: LessonsConnection;
   lessonsAggregate: LessonAggregateSelection;
+  keywords: Array<Keyword>;
+  keywordsConnection: KeywordsConnection;
+  keywordsAggregate: KeywordAggregateSelection;
   activities: Array<Activity>;
   activitiesConnection: ActivitiesConnection;
   activitiesAggregate: ActivityAggregateSelection;
@@ -79,6 +82,22 @@ export type QueryLessonsConnectionArgs = {
 
 export type QueryLessonsAggregateArgs = {
   where?: InputMaybe<LessonWhere>;
+};
+
+export type QueryKeywordsArgs = {
+  where?: InputMaybe<KeywordWhere>;
+  options?: InputMaybe<KeywordOptions>;
+};
+
+export type QueryKeywordsConnectionArgs = {
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  where?: InputMaybe<KeywordWhere>;
+  sort?: InputMaybe<Array<InputMaybe<KeywordSort>>>;
+};
+
+export type QueryKeywordsAggregateArgs = {
+  where?: InputMaybe<KeywordWhere>;
 };
 
 export type QueryActivitiesArgs = {
@@ -121,6 +140,9 @@ export type Mutation = {
   createLessons: CreateLessonsMutationResponse;
   deleteLessons: DeleteInfo;
   updateLessons: UpdateLessonsMutationResponse;
+  createKeywords: CreateKeywordsMutationResponse;
+  deleteKeywords: DeleteInfo;
+  updateKeywords: UpdateKeywordsMutationResponse;
   createActivities: CreateActivitiesMutationResponse;
   deleteActivities: DeleteInfo;
   updateActivities: UpdateActivitiesMutationResponse;
@@ -159,6 +181,19 @@ export type MutationUpdateLessonsArgs = {
   create?: InputMaybe<LessonRelationInput>;
   delete?: InputMaybe<LessonDeleteInput>;
   connectOrCreate?: InputMaybe<LessonConnectOrCreateInput>;
+};
+
+export type MutationCreateKeywordsArgs = {
+  input: Array<KeywordCreateInput>;
+};
+
+export type MutationDeleteKeywordsArgs = {
+  where?: InputMaybe<KeywordWhere>;
+};
+
+export type MutationUpdateKeywordsArgs = {
+  where?: InputMaybe<KeywordWhere>;
+  update?: InputMaybe<KeywordUpdateInput>;
 };
 
 export type MutationCreateActivitiesArgs = {
@@ -247,6 +282,12 @@ export type CreateInfo = {
   relationshipsCreated: Scalars["Int"]["output"];
 };
 
+export type CreateKeywordsMutationResponse = {
+  __typename?: "CreateKeywordsMutationResponse";
+  info: CreateInfo;
+  keywords: Array<Keyword>;
+};
+
 export type CreateLessonsMutationResponse = {
   __typename?: "CreateLessonsMutationResponse";
   info: CreateInfo;
@@ -280,10 +321,45 @@ export type IdAggregateSelection = {
   longest?: Maybe<Scalars["ID"]["output"]>;
 };
 
+export type IntAggregateSelection = {
+  __typename?: "IntAggregateSelection";
+  max?: Maybe<Scalars["Int"]["output"]>;
+  min?: Maybe<Scalars["Int"]["output"]>;
+  average?: Maybe<Scalars["Float"]["output"]>;
+  sum?: Maybe<Scalars["Int"]["output"]>;
+};
+
+export type Keyword = {
+  __typename?: "Keyword";
+  id?: Maybe<Scalars["ID"]["output"]>;
+  name: Scalars["String"]["output"];
+};
+
+export type KeywordAggregateSelection = {
+  __typename?: "KeywordAggregateSelection";
+  count: Scalars["Int"]["output"];
+  id: IdAggregateSelection;
+  name: StringAggregateSelection;
+};
+
+export type KeywordEdge = {
+  __typename?: "KeywordEdge";
+  cursor: Scalars["String"]["output"];
+  node: Keyword;
+};
+
+export type KeywordsConnection = {
+  __typename?: "KeywordsConnection";
+  totalCount: Scalars["Int"]["output"];
+  pageInfo: PageInfo;
+  edges: Array<KeywordEdge>;
+};
+
 export type Lesson = {
   __typename?: "Lesson";
   id?: Maybe<Scalars["ID"]["output"]>;
   title: Scalars["String"]["output"];
+  level: Scalars["Int"]["output"];
   hasTopicAggregate?: Maybe<LessonTopicHasTopicAggregationSelection>;
   hasTopic: Topic;
   hasTopicConnection: LessonHasTopicConnection;
@@ -296,6 +372,9 @@ export type Lesson = {
   wasReactedAggregate?: Maybe<LessonUserWasReactedAggregationSelection>;
   wasReacted: Array<User>;
   wasReactedConnection: LessonWasReactedConnection;
+  hasKeywordsAggregate?: Maybe<LessonKeywordHasKeywordsAggregationSelection>;
+  hasKeywords: Array<Keyword>;
+  hasKeywordsConnection: LessonHasKeywordsConnection;
 };
 
 export type LessonHasTopicAggregateArgs = {
@@ -374,6 +453,25 @@ export type LessonWasReactedConnectionArgs = {
   sort?: InputMaybe<Array<LessonWasReactedConnectionSort>>;
 };
 
+export type LessonHasKeywordsAggregateArgs = {
+  where?: InputMaybe<KeywordWhere>;
+  directed?: InputMaybe<Scalars["Boolean"]["input"]>;
+};
+
+export type LessonHasKeywordsArgs = {
+  where?: InputMaybe<KeywordWhere>;
+  options?: InputMaybe<KeywordOptions>;
+  directed?: InputMaybe<Scalars["Boolean"]["input"]>;
+};
+
+export type LessonHasKeywordsConnectionArgs = {
+  where?: InputMaybe<LessonHasKeywordsConnectionWhere>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  directed?: InputMaybe<Scalars["Boolean"]["input"]>;
+  sort?: InputMaybe<Array<LessonHasKeywordsConnectionSort>>;
+};
+
 export type LessonActivityHasActivitiesAggregationSelection = {
   __typename?: "LessonActivityHasActivitiesAggregationSelection";
   count: Scalars["Int"]["output"];
@@ -393,6 +491,7 @@ export type LessonAggregateSelection = {
   count: Scalars["Int"]["output"];
   id: IdAggregateSelection;
   title: StringAggregateSelection;
+  level: IntAggregateSelection;
 };
 
 export type LessonEdge = {
@@ -412,6 +511,19 @@ export type LessonHasActivitiesRelationship = {
   __typename?: "LessonHasActivitiesRelationship";
   cursor: Scalars["String"]["output"];
   node: Activity;
+};
+
+export type LessonHasKeywordsConnection = {
+  __typename?: "LessonHasKeywordsConnection";
+  edges: Array<LessonHasKeywordsRelationship>;
+  totalCount: Scalars["Int"]["output"];
+  pageInfo: PageInfo;
+};
+
+export type LessonHasKeywordsRelationship = {
+  __typename?: "LessonHasKeywordsRelationship";
+  cursor: Scalars["String"]["output"];
+  node: Keyword;
 };
 
 export type LessonHasSubtopicConnection = {
@@ -438,6 +550,18 @@ export type LessonHasTopicRelationship = {
   __typename?: "LessonHasTopicRelationship";
   cursor: Scalars["String"]["output"];
   node: Topic;
+};
+
+export type LessonKeywordHasKeywordsAggregationSelection = {
+  __typename?: "LessonKeywordHasKeywordsAggregationSelection";
+  count: Scalars["Int"]["output"];
+  node?: Maybe<LessonKeywordHasKeywordsNodeAggregateSelection>;
+};
+
+export type LessonKeywordHasKeywordsNodeAggregateSelection = {
+  __typename?: "LessonKeywordHasKeywordsNodeAggregateSelection";
+  id: IdAggregateSelection;
+  name: StringAggregateSelection;
 };
 
 export type LessonsConnection = {
@@ -570,6 +694,12 @@ export type UpdateInfo = {
   nodesDeleted: Scalars["Int"]["output"];
   relationshipsCreated: Scalars["Int"]["output"];
   relationshipsDeleted: Scalars["Int"]["output"];
+};
+
+export type UpdateKeywordsMutationResponse = {
+  __typename?: "UpdateKeywordsMutationResponse";
+  info: UpdateInfo;
+  keywords: Array<Keyword>;
 };
 
 export type UpdateLessonsMutationResponse = {
@@ -714,6 +844,7 @@ export type UserLessonHasLessonsNodeAggregateSelection = {
   __typename?: "UserLessonHasLessonsNodeAggregateSelection";
   id: IdAggregateSelection;
   title: StringAggregateSelection;
+  level: IntAggregateSelection;
 };
 
 export type UserLessonReactedToLessonsAggregationSelection = {
@@ -732,6 +863,7 @@ export type UserLessonReactedToLessonsNodeAggregateSelection = {
   __typename?: "UserLessonReactedToLessonsNodeAggregateSelection";
   id: IdAggregateSelection;
   title: StringAggregateSelection;
+  level: IntAggregateSelection;
 };
 
 export type UserReactedToLessonsConnection = {
@@ -875,17 +1007,92 @@ export type ActivityWhere = {
   NOT?: InputMaybe<ActivityWhere>;
 };
 
+export type KeywordConnectOrCreateWhere = {
+  node: KeywordUniqueWhere;
+};
+
+export type KeywordConnectWhere = {
+  node: KeywordWhere;
+};
+
+export type KeywordCreateInput = {
+  name: Scalars["String"]["input"];
+};
+
+export type KeywordOnCreateInput = {
+  name: Scalars["String"]["input"];
+};
+
+export type KeywordOptions = {
+  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  /** Specify one or more KeywordSort objects to sort Keywords by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: InputMaybe<Array<KeywordSort>>;
+};
+
+/** Fields to sort Keywords by. The order in which sorts are applied is not guaranteed when specifying many fields in one KeywordSort object. */
+export type KeywordSort = {
+  id?: InputMaybe<SortDirection>;
+  name?: InputMaybe<SortDirection>;
+};
+
+export type KeywordUniqueWhere = {
+  name?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type KeywordUpdateInput = {
+  name?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type KeywordWhere = {
+  id?: InputMaybe<Scalars["ID"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  id_NOT?: InputMaybe<Scalars["ID"]["input"]>;
+  id_IN?: InputMaybe<Array<InputMaybe<Scalars["ID"]["input"]>>>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  id_NOT_IN?: InputMaybe<Array<InputMaybe<Scalars["ID"]["input"]>>>;
+  id_CONTAINS?: InputMaybe<Scalars["ID"]["input"]>;
+  id_STARTS_WITH?: InputMaybe<Scalars["ID"]["input"]>;
+  id_ENDS_WITH?: InputMaybe<Scalars["ID"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  id_NOT_CONTAINS?: InputMaybe<Scalars["ID"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  id_NOT_STARTS_WITH?: InputMaybe<Scalars["ID"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  id_NOT_ENDS_WITH?: InputMaybe<Scalars["ID"]["input"]>;
+  name?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  name_NOT?: InputMaybe<Scalars["String"]["input"]>;
+  name_IN?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  name_NOT_IN?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  name_CONTAINS?: InputMaybe<Scalars["String"]["input"]>;
+  name_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  name_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  name_NOT_CONTAINS?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  name_NOT_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  name_NOT_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  OR?: InputMaybe<Array<KeywordWhere>>;
+  AND?: InputMaybe<Array<KeywordWhere>>;
+  NOT?: InputMaybe<KeywordWhere>;
+};
+
 export type LessonConnectInput = {
   hasTopic?: InputMaybe<LessonHasTopicConnectFieldInput>;
   hasSubtopic?: InputMaybe<LessonHasSubtopicConnectFieldInput>;
   hasActivities?: InputMaybe<Array<LessonHasActivitiesConnectFieldInput>>;
   wasReacted?: InputMaybe<Array<LessonWasReactedConnectFieldInput>>;
+  hasKeywords?: InputMaybe<Array<LessonHasKeywordsConnectFieldInput>>;
 };
 
 export type LessonConnectOrCreateInput = {
   hasTopic?: InputMaybe<LessonHasTopicConnectOrCreateFieldInput>;
   hasSubtopic?: InputMaybe<LessonHasSubtopicConnectOrCreateFieldInput>;
   wasReacted?: InputMaybe<Array<LessonWasReactedConnectOrCreateFieldInput>>;
+  hasKeywords?: InputMaybe<Array<LessonHasKeywordsConnectOrCreateFieldInput>>;
 };
 
 export type LessonConnectOrCreateWhere = {
@@ -898,10 +1105,12 @@ export type LessonConnectWhere = {
 
 export type LessonCreateInput = {
   title: Scalars["String"]["input"];
+  level: Scalars["Int"]["input"];
   hasTopic?: InputMaybe<LessonHasTopicFieldInput>;
   hasSubtopic?: InputMaybe<LessonHasSubtopicFieldInput>;
   hasActivities?: InputMaybe<LessonHasActivitiesFieldInput>;
   wasReacted?: InputMaybe<LessonWasReactedFieldInput>;
+  hasKeywords?: InputMaybe<LessonHasKeywordsFieldInput>;
 };
 
 export type LessonDeleteInput = {
@@ -909,6 +1118,7 @@ export type LessonDeleteInput = {
   hasSubtopic?: InputMaybe<LessonHasSubtopicDeleteFieldInput>;
   hasActivities?: InputMaybe<Array<LessonHasActivitiesDeleteFieldInput>>;
   wasReacted?: InputMaybe<Array<LessonWasReactedDeleteFieldInput>>;
+  hasKeywords?: InputMaybe<Array<LessonHasKeywordsDeleteFieldInput>>;
 };
 
 export type LessonDisconnectInput = {
@@ -916,6 +1126,7 @@ export type LessonDisconnectInput = {
   hasSubtopic?: InputMaybe<LessonHasSubtopicDisconnectFieldInput>;
   hasActivities?: InputMaybe<Array<LessonHasActivitiesDisconnectFieldInput>>;
   wasReacted?: InputMaybe<Array<LessonWasReactedDisconnectFieldInput>>;
+  hasKeywords?: InputMaybe<Array<LessonHasKeywordsDisconnectFieldInput>>;
 };
 
 export type LessonHasActivitiesAggregateInput = {
@@ -1150,6 +1361,145 @@ export type LessonHasActivitiesUpdateFieldInput = {
   create?: InputMaybe<Array<LessonHasActivitiesCreateFieldInput>>;
   update?: InputMaybe<LessonHasActivitiesUpdateConnectionInput>;
   delete?: InputMaybe<Array<LessonHasActivitiesDeleteFieldInput>>;
+};
+
+export type LessonHasKeywordsAggregateInput = {
+  count?: InputMaybe<Scalars["Int"]["input"]>;
+  count_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  count_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  count_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  count_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  AND?: InputMaybe<Array<LessonHasKeywordsAggregateInput>>;
+  OR?: InputMaybe<Array<LessonHasKeywordsAggregateInput>>;
+  NOT?: InputMaybe<LessonHasKeywordsAggregateInput>;
+  node?: InputMaybe<LessonHasKeywordsNodeAggregationWhereInput>;
+};
+
+export type LessonHasKeywordsConnectFieldInput = {
+  where?: InputMaybe<KeywordConnectWhere>;
+  /** Whether or not to overwrite any matching relationship with the new properties. */
+  overwrite?: Scalars["Boolean"]["input"];
+};
+
+export type LessonHasKeywordsConnectionSort = {
+  node?: InputMaybe<KeywordSort>;
+};
+
+export type LessonHasKeywordsConnectionWhere = {
+  AND?: InputMaybe<Array<LessonHasKeywordsConnectionWhere>>;
+  OR?: InputMaybe<Array<LessonHasKeywordsConnectionWhere>>;
+  NOT?: InputMaybe<LessonHasKeywordsConnectionWhere>;
+  node?: InputMaybe<KeywordWhere>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  node_NOT?: InputMaybe<KeywordWhere>;
+};
+
+export type LessonHasKeywordsConnectOrCreateFieldInput = {
+  where: KeywordConnectOrCreateWhere;
+  onCreate: LessonHasKeywordsConnectOrCreateFieldInputOnCreate;
+};
+
+export type LessonHasKeywordsConnectOrCreateFieldInputOnCreate = {
+  node: KeywordOnCreateInput;
+};
+
+export type LessonHasKeywordsCreateFieldInput = {
+  node: KeywordCreateInput;
+};
+
+export type LessonHasKeywordsDeleteFieldInput = {
+  where?: InputMaybe<LessonHasKeywordsConnectionWhere>;
+};
+
+export type LessonHasKeywordsDisconnectFieldInput = {
+  where?: InputMaybe<LessonHasKeywordsConnectionWhere>;
+};
+
+export type LessonHasKeywordsFieldInput = {
+  connectOrCreate?: InputMaybe<
+    Array<LessonHasKeywordsConnectOrCreateFieldInput>
+  >;
+  connect?: InputMaybe<Array<LessonHasKeywordsConnectFieldInput>>;
+  create?: InputMaybe<Array<LessonHasKeywordsCreateFieldInput>>;
+};
+
+export type LessonHasKeywordsNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<LessonHasKeywordsNodeAggregationWhereInput>>;
+  OR?: InputMaybe<Array<LessonHasKeywordsNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<LessonHasKeywordsNodeAggregationWhereInput>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  id_EQUAL?: InputMaybe<Scalars["ID"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  name_EQUAL?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_LONGEST_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_SHORTEST_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  name_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  name_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  name_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  name_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_LONGEST_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_SHORTEST_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  name_AVERAGE_LENGTH_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  name_LONGEST_LENGTH_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  name_SHORTEST_LENGTH_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  name_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_LONGEST_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_SHORTEST_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  name_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  name_LONGEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  name_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  name_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_LONGEST_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_SHORTEST_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  name_AVERAGE_LENGTH_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  name_LONGEST_LENGTH_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  name_SHORTEST_LENGTH_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  name_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_LONGEST_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_SHORTEST_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  name_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  name_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  name_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+export type LessonHasKeywordsUpdateConnectionInput = {
+  node?: InputMaybe<KeywordUpdateInput>;
+};
+
+export type LessonHasKeywordsUpdateFieldInput = {
+  where?: InputMaybe<LessonHasKeywordsConnectionWhere>;
+  connectOrCreate?: InputMaybe<
+    Array<LessonHasKeywordsConnectOrCreateFieldInput>
+  >;
+  connect?: InputMaybe<Array<LessonHasKeywordsConnectFieldInput>>;
+  disconnect?: InputMaybe<Array<LessonHasKeywordsDisconnectFieldInput>>;
+  create?: InputMaybe<Array<LessonHasKeywordsCreateFieldInput>>;
+  update?: InputMaybe<LessonHasKeywordsUpdateConnectionInput>;
+  delete?: InputMaybe<Array<LessonHasKeywordsDeleteFieldInput>>;
 };
 
 export type LessonHasSubtopicAggregateInput = {
@@ -1424,6 +1774,7 @@ export type LessonHasTopicUpdateFieldInput = {
 
 export type LessonOnCreateInput = {
   title: Scalars["String"]["input"];
+  level: Scalars["Int"]["input"];
 };
 
 export type LessonOptions = {
@@ -1438,12 +1789,14 @@ export type LessonRelationInput = {
   hasSubtopic?: InputMaybe<LessonHasSubtopicCreateFieldInput>;
   hasActivities?: InputMaybe<Array<LessonHasActivitiesCreateFieldInput>>;
   wasReacted?: InputMaybe<Array<LessonWasReactedCreateFieldInput>>;
+  hasKeywords?: InputMaybe<Array<LessonHasKeywordsCreateFieldInput>>;
 };
 
 /** Fields to sort Lessons by. The order in which sorts are applied is not guaranteed when specifying many fields in one LessonSort object. */
 export type LessonSort = {
   id?: InputMaybe<SortDirection>;
   title?: InputMaybe<SortDirection>;
+  level?: InputMaybe<SortDirection>;
 };
 
 export type LessonUniqueWhere = {
@@ -1453,10 +1806,14 @@ export type LessonUniqueWhere = {
 
 export type LessonUpdateInput = {
   title?: InputMaybe<Scalars["String"]["input"]>;
+  level?: InputMaybe<Scalars["Int"]["input"]>;
+  level_INCREMENT?: InputMaybe<Scalars["Int"]["input"]>;
+  level_DECREMENT?: InputMaybe<Scalars["Int"]["input"]>;
   hasTopic?: InputMaybe<LessonHasTopicUpdateFieldInput>;
   hasSubtopic?: InputMaybe<LessonHasSubtopicUpdateFieldInput>;
   hasActivities?: InputMaybe<Array<LessonHasActivitiesUpdateFieldInput>>;
   wasReacted?: InputMaybe<Array<LessonWasReactedUpdateFieldInput>>;
+  hasKeywords?: InputMaybe<Array<LessonHasKeywordsUpdateFieldInput>>;
 };
 
 export type LessonWasReactedAggregateInput = {
@@ -1696,6 +2053,16 @@ export type LessonWhere = {
   title_NOT_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
   /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
   title_NOT_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  level?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  level_NOT?: InputMaybe<Scalars["Int"]["input"]>;
+  level_IN?: InputMaybe<Array<Scalars["Int"]["input"]>>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  level_NOT_IN?: InputMaybe<Array<Scalars["Int"]["input"]>>;
+  level_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  level_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  level_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  level_GTE?: InputMaybe<Scalars["Int"]["input"]>;
   OR?: InputMaybe<Array<LessonWhere>>;
   AND?: InputMaybe<Array<LessonWhere>>;
   NOT?: InputMaybe<LessonWhere>;
@@ -1759,6 +2126,31 @@ export type LessonWhere = {
   /** Return Lessons where some of the related LessonWasReactedConnections match this filter */
   wasReactedConnection_SOME?: InputMaybe<LessonWasReactedConnectionWhere>;
   wasReactedAggregate?: InputMaybe<LessonWasReactedAggregateInput>;
+  /** @deprecated Use `hasKeywords_SOME` instead. */
+  hasKeywords?: InputMaybe<KeywordWhere>;
+  /** @deprecated Use `hasKeywords_NONE` instead. */
+  hasKeywords_NOT?: InputMaybe<KeywordWhere>;
+  /** Return Lessons where all of the related Keywords match this filter */
+  hasKeywords_ALL?: InputMaybe<KeywordWhere>;
+  /** Return Lessons where none of the related Keywords match this filter */
+  hasKeywords_NONE?: InputMaybe<KeywordWhere>;
+  /** Return Lessons where one of the related Keywords match this filter */
+  hasKeywords_SINGLE?: InputMaybe<KeywordWhere>;
+  /** Return Lessons where some of the related Keywords match this filter */
+  hasKeywords_SOME?: InputMaybe<KeywordWhere>;
+  /** @deprecated Use `hasKeywordsConnection_SOME` instead. */
+  hasKeywordsConnection?: InputMaybe<LessonHasKeywordsConnectionWhere>;
+  /** @deprecated Use `hasKeywordsConnection_NONE` instead. */
+  hasKeywordsConnection_NOT?: InputMaybe<LessonHasKeywordsConnectionWhere>;
+  /** Return Lessons where all of the related LessonHasKeywordsConnections match this filter */
+  hasKeywordsConnection_ALL?: InputMaybe<LessonHasKeywordsConnectionWhere>;
+  /** Return Lessons where none of the related LessonHasKeywordsConnections match this filter */
+  hasKeywordsConnection_NONE?: InputMaybe<LessonHasKeywordsConnectionWhere>;
+  /** Return Lessons where one of the related LessonHasKeywordsConnections match this filter */
+  hasKeywordsConnection_SINGLE?: InputMaybe<LessonHasKeywordsConnectionWhere>;
+  /** Return Lessons where some of the related LessonHasKeywordsConnections match this filter */
+  hasKeywordsConnection_SOME?: InputMaybe<LessonHasKeywordsConnectionWhere>;
+  hasKeywordsAggregate?: InputMaybe<LessonHasKeywordsAggregateInput>;
 };
 
 export type ReactedAggregationWhereInput = {
@@ -2099,6 +2491,36 @@ export type UserHasLessonsNodeAggregationWhereInput = {
   title_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars["Float"]["input"]>;
   title_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   title_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  level_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  level_MIN_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  level_MAX_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  level_SUM_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  level_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  level_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  level_MIN_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  level_MAX_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  level_SUM_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  level_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  level_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  level_MIN_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  level_MAX_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  level_SUM_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  level_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  level_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  level_MIN_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  level_MAX_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  level_SUM_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  level_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  level_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  level_MIN_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  level_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  level_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  level_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
 };
 
 export type UserHasLessonsUpdateConnectionInput = {
@@ -2259,6 +2681,36 @@ export type UserReactedToLessonsNodeAggregationWhereInput = {
   title_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars["Float"]["input"]>;
   title_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   title_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  level_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  level_MIN_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  level_MAX_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  level_SUM_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  level_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  level_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  level_MIN_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  level_MAX_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  level_SUM_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  level_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  level_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  level_MIN_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  level_MAX_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  level_SUM_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  level_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  level_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  level_MIN_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  level_MAX_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  level_SUM_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  level_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  level_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  level_MIN_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  level_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  level_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  level_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
 };
 
 export type UserReactedToLessonsUpdateConnectionInput = {
@@ -2719,6 +3171,7 @@ export interface LessonAggregateSelectionInput {
   count?: boolean;
   id?: boolean;
   title?: boolean;
+  level?: boolean;
 }
 
 export declare class LessonModel {
@@ -2763,6 +3216,53 @@ export declare class LessonModel {
     context?: any;
     rootValue?: any;
   }): Promise<LessonAggregateSelection>;
+}
+
+export interface KeywordAggregateSelectionInput {
+  count?: boolean;
+  id?: boolean;
+  name?: boolean;
+}
+
+export declare class KeywordModel {
+  public find(args?: {
+    where?: KeywordWhere;
+
+    options?: KeywordOptions;
+    selectionSet?: string | DocumentNode | SelectionSetNode;
+    args?: any;
+    context?: any;
+    rootValue?: any;
+  }): Promise<Keyword[]>;
+  public create(args: {
+    input: KeywordCreateInput[];
+    selectionSet?: string | DocumentNode | SelectionSetNode;
+    args?: any;
+    context?: any;
+    rootValue?: any;
+  }): Promise<CreateKeywordsMutationResponse>;
+  public update(args: {
+    where?: KeywordWhere;
+    update?: KeywordUpdateInput;
+
+    selectionSet?: string | DocumentNode | SelectionSetNode;
+    args?: any;
+    context?: any;
+    rootValue?: any;
+  }): Promise<UpdateKeywordsMutationResponse>;
+  public delete(args: {
+    where?: KeywordWhere;
+
+    context?: any;
+    rootValue?: any;
+  }): Promise<{ nodesDeleted: number; relationshipsDeleted: number }>;
+  public aggregate(args: {
+    where?: KeywordWhere;
+
+    aggregate: KeywordAggregateSelectionInput;
+    context?: any;
+    rootValue?: any;
+  }): Promise<KeywordAggregateSelection>;
 }
 
 export interface ActivityAggregateSelectionInput {
@@ -2868,6 +3368,7 @@ export declare class UserModel {
 export interface ModelMap {
   Topic: TopicModel;
   Lesson: LessonModel;
+  Keyword: KeywordModel;
   Activity: ActivityModel;
   User: UserModel;
 }

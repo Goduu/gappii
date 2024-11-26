@@ -79,7 +79,7 @@ export const AutoComplete = ({
 
     const handleSelectOption = useCallback(
         (selectedOption: Option) => {
-            setInputValue(selectedOption.label)
+            setInputValue('')
 
             setSelected(selectedOption)
             onValueChange?.(selectedOption)

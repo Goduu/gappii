@@ -25,6 +25,12 @@ type Keyword @node {
   name: String! @unique
 }
 
+type ContentGroup @node {
+  id: ID @id
+  title: String!
+  hasLessons: [Lesson!]! @relationship(type: "HAS_LESSON", direction: OUT)
+}
+
 type Activity @node {
   id: ID @id
   description: String!

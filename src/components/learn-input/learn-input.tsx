@@ -10,6 +10,7 @@ import { CREATE_TOPIC, GET_TOPIC_TITLES, INTROSPECT } from '@/lib/gqls/topicGQLs
 import { useMutation, useQuery } from '@apollo/client'
 import { useTransitionContext } from '../loading-store'
 import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group'
+import { cleanTopic } from './cleanTopic'
 
 export const LearnInput = () => {
     const [topic, setTopic] = useState<Option | null>(null)
@@ -21,6 +22,10 @@ export const LearnInput = () => {
     const { startTransition, isPending } = useTransitionContext()
 
     const handleCreateNewTopic = (topic: string) => {
+        const clearedTopic = cleanTopic(topic)
+        if (!clearedTopic) {
+            return
+        }
         createTopic({
             variables: {
                 input: {

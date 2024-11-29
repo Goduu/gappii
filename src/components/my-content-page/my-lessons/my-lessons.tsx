@@ -1,7 +1,6 @@
 "use client"
 import { useQuery } from '@apollo/client'
 import React, { useEffect } from 'react'
-import { LessonCard } from './lesson-card'
 import { Lesson, QueryLessonsArgs } from '@/ogm-resolver/ogm-types'
 import { useUser } from '@clerk/nextjs'
 import { LessonReaction } from './lesson-reactions'
@@ -9,8 +8,10 @@ import { FilterBar } from './filter-bar'
 import { LessonSkeletons } from './lesson-skeletons'
 import { useFilter } from './filter-hooks'
 import { GET_LESSON_FILTERED } from '@/lib/gqls/lessonGQLs'
+import { PageTitle } from '../../page-title/page-title'
+import { LessonCard } from './lesson-card'
 
-export const LessonsPage = () => {
+export const MyLessons = () => {
     const userData = useUser()
     const { filter, setFilter, setSubtopicFilter, setTopicFilter, setKeywordFilter } = useFilter()
     console.log(filter)
@@ -61,7 +62,7 @@ export const LessonsPage = () => {
                     ).map(lesson => (
                         <LessonCard key={lesson.id} lesson={lesson}
                             reaction={hasReaction(lesson)}
-                            setSubtopicFilter={setSubtopicFilter} 
+                            setSubtopicFilter={setSubtopicFilter}
                             setTopicFilter={setTopicFilter}
                             setKeywordFilter={setKeywordFilter}
                         />

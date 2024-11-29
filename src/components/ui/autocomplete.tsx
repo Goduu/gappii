@@ -50,8 +50,8 @@ export const AutoComplete = ({
 
             // This is not a default behaviour of the <input /> field
             if (event.key === "Enter") {
+                event.preventDefault()
                 if (input.value !== "") {
-                    console.log('hier1')
                     const optionToSelect = options.find(
                         (option) => option.label === input.value,
                     )
@@ -59,6 +59,7 @@ export const AutoComplete = ({
                         setSelected(optionToSelect)
                         onValueChange?.(optionToSelect)
                     } else {
+                        console.log('on enter')
                         onAddOption?.(input.value)
                     }
                 }
@@ -132,7 +133,10 @@ export const AutoComplete = ({
                                         event.preventDefault()
                                         event.stopPropagation()
                                     }}
-                                    onSelect={() => onAddOption?.(inputValue)}
+                                    onSelect={() => {
+                                        console.log('on Select')
+                                        onAddOption?.(inputValue)
+                                    }}
                                     className="flex w-full items-center gap-2"
                                 >
                                     New Topic: {inputValue}

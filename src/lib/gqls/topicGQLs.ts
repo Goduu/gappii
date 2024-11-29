@@ -11,7 +11,7 @@ export const GET_TOPIC_AND_SUBTOPICS = gql`
 
 export const GET_TOPIC_TITLES = gql`
   query GetTopicsTitle {
-  topics {
+  topics(options: {sort: { title: ASC }}) {
     id
     title
   }

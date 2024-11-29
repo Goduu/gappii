@@ -4621,6 +4621,11 @@ object.values@^1.1.6, object.values@^1.2.0:
     define-properties "^1.2.1"
     es-object-atoms "^1.0.0"
 
+obscenity@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/obscenity/-/obscenity-0.4.0.tgz#dde099f7d09bd52e20a22e0d319af228fe7eb7b8"
+  integrity sha512-fB+Qr/bSVjDD7Gkf3umgWJuUJQpArV7PejJeNZVQlRjhlXms9MD12jIGFMI8USx3CK21ph84GWjUSZ/kqiyaPw==
+
 on-finished@2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/on-finished/-/on-finished-2.4.1.tgz#58c8c44116e54845ad57f14ab10b03533184ac3f"

@@ -1,11 +1,19 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { Card, CardFooter, CardHeader, CardTitle } from '../ui/card'
 import { Button } from '../ui/button'
 import { ImageUp } from 'lucide-react'
 import { ContentGroupActions } from './content-group-actions'
 import { Badge } from '../ui/badge'
+import { Lesson } from '@/ogm-resolver/ogm-types'
 
-export const ContentGroupCard = () => {
+
+type ContentGroupCardProps = {
+    new: boolean
+    title: string
+    lessons: Lesson[]
+}
+
+export const ContentGroupCard: FC<ContentGroupCardProps> = ({new, title, lessons }) => {
     return (
         <Card className="w-96 relative">
             <CardHeader>
@@ -17,12 +25,12 @@ export const ContentGroupCard = () => {
                         <ImageUp className='w-12 h-12' />
                     </div>
                     <div className='flex flex-col gap-2'>
-                        Group Title
+                        {title}
                         <div className='flex flex-wrap gap-1'>
-                            {Array.from({ length: 10 }).map((_, i) => (
-                                <Badge className='flex gap-1' variant="outline" key={i}>
-                                    <div className="text-s font-black cursor-pointer" >{"topic" + (Math.random() * 100).toFixed(3)}</div> /
-                                    <div className="text-xs cursor-pointer" >{"subtopic"}</div>
+                            {lessons.map((lesson) => (
+                                <Badge className='flex gap-1' variant="outline" key={lesson.id}>
+                                    <div className="text-s font-black cursor-pointer" >{lesson.hasTopic.title}</div> /
+                                    <div className="text-xs cursor-pointer" >{lesson.hasSubtopic.title}</div>
                                 </Badge>
                             ))}
                         </div>

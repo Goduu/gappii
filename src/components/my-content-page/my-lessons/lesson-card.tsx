@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card'
-import { Button } from '../ui/button'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../../ui/card'
+import { Button } from '../../ui/button'
 import { LessonReaction, LessonReactions } from './lesson-reactions'
 import { redirect } from 'next/navigation'
 import { Keyword, Lesson, Topic } from '@/ogm-resolver/ogm-types'

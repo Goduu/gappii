@@ -19,7 +19,7 @@ import { Logo } from "../logo"
 const items = [
     {
         title: "Home",
-        url: "/",
+        url: "/content",
         icon: Home,
     },
     {

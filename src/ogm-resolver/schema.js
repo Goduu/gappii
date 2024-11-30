@@ -25,9 +25,11 @@ type Keyword @node {
   name: String! @unique
 }
 
-type ContentGroup @node {
+type Collection @node {
   id: ID @id
   title: String!
+  icon: String!
+  color: String!
   hasLessons: [Lesson!]! @relationship(type: "HAS_LESSON", direction: OUT)
 }
 

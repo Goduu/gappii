@@ -11,6 +11,7 @@ import { useMutation, useQuery } from '@apollo/client'
 import { useTransitionContext } from '../loading-store'
 import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group'
 import { cleanTopic } from './cleanTopic'
+import { useToast } from '@/hooks/use-toast'
 
 export const LearnInput = () => {
     const [topic, setTopic] = useState<Option | null>(null)
@@ -20,6 +21,7 @@ export const LearnInput = () => {
     const { loading, data, error } = useQuery<{ topics: Array<{ id: string, title: string }> }>(GET_TOPIC_TITLES)
     const [createTopic] = useMutation(CREATE_TOPIC)
     const { startTransition, isPending } = useTransitionContext()
+    const { toast } = useToast()
 
     const handleCreateNewTopic = (topic: string) => {
         const clearedTopic = cleanTopic(topic)
@@ -44,9 +46,17 @@ export const LearnInput = () => {
         }
     }
 
+    const handleError = (error: any) => {
+        toast({
+            title: "Error",
+            description: error.message,
+            variant: "destructive"
+        })
+    }
+
     const handleClick = async () => {
         startTransition(async () => {
-            const apiData = topic && subTopic && await transformInputIntoData(topic.label, subTopic.label, level)
+            const apiData = topic && subTopic && await transformInputIntoData(topic.label, subTopic.label, level, handleError)
             if (apiData) {
                 createActivities(apiData, topic.value, subTopic.value)
             }

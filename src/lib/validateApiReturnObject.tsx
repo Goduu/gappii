@@ -1,4 +1,3 @@
-
 export type ApiActivityResponse = {
     topic: string,
     subtopic: string,
@@ -14,30 +13,36 @@ export type ApiActivityResponse = {
 }
 
 
-export const validateApiReturnObject = (response: object | null): ApiActivityResponse => {
+export const validateApiReturnObject = (response: object | null, onError: (error: any) => void): ApiActivityResponse => {
     if (!response) {
-        throw new Error("No response from API");
+        onError("No response from API");
     }
 
     const data = response as ApiActivityResponse;
 
     if (!data) {
+        onError("Invalid response from API");
         throw new Error("Invalid response from API");
     }
     if (!data.validTopicSubtopic) {
-        // throw new Error("Invalid response from API, invalid topic or subtopic");
+        onError("Invalid response from API, invalid topic or subtopic");
+        throw new Error("Invalid response from API, invalid topic or subtopic");
     }
     if (!data.topic) {
+        onError("Invalid response from API, missing topic");
         throw new Error("Invalid response from API, missing topic");
     }
     if (!data.subtopic) {
+        onError("Invalid response from API, missing subtopic");
         throw new Error("Invalid response from API, missing subtopic");
+
     }
     if (!data.activities || !data.activities.length) {
+        onError("Invalid response from API, missing activities");
         throw new Error("Invalid response from API, missing activities");
     }
-    if(data.keywords.length === 0){
-        throw new Error("Invalid response from API, missing keywords");
+    if (data.keywords.length === 0) {
+        onError("Invalid response from API, missing keywords");
     }
 
     return data;

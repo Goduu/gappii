@@ -1,6 +1,6 @@
 import { validateApiReturnObject } from "@/lib/validateApiReturnObject";
 
-export const transformInputIntoData = async (topic: string, subtopic: string, level: string) => {
+export const transformInputIntoData = async (topic: string, subtopic: string, level: string, onError: (error: any) => void) => {
     const apiResult = await fetch("/api/openai", {
         method: "POST",
         headers: {
@@ -10,7 +10,7 @@ export const transformInputIntoData = async (topic: string, subtopic: string, le
     })
 
     const apiResponse = await apiResult.json();
-    const validatedResponse = validateApiReturnObject(apiResponse);
+    const validatedResponse = validateApiReturnObject(apiResponse, onError);
 
     return validatedResponse;
 

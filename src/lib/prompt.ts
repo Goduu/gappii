@@ -8,7 +8,10 @@ Each lesson should have a main topic and a subtopic.
 The topic should be broken into key points to help someone learn effectively.
 Activities should follow a progressive storytelling approach to keep the flow logical and engaging.
 Each lesson should include 7 activities.
-The activities content and difficulty should be adapted to the given level, 1 being the easiest/beginner friendly and 3 the hardest/advanced content. 
+Adapt the activities content to th given level:
+- 1 should be topic-beginner friendly
+- 2 should be more advanced content
+- 3 should be challenging content with a second plausible answer
 
 Activities:
 
@@ -55,16 +58,18 @@ Use storytelling and humor to make the journey through these lessons engaging, c
 - Ensure all information is in the correct types, as specified.
 
 Ensure that:
-- the topic and subtopic given are grammatically corrected and make sense together if not return validTopicSubtopic as false and an empty list for activities.
-- "desc" has a gap "{gap}" that needs to be filled with one of the options and has max 170 chars.
-- that "options has 2 strings with max 25 chars each.
-- "answer" is one of the options.
-- the information given is true and accurate.
-- the comment is a funny or engaging narrative.
-- the comment is max 170 chars.
-- the comment is a string.
-- the answer is given without any extra information or conclusion like \`\`\`json.
-- the JSON response is plain text without formatting it in code blocks.
-- the answer is a valid json object and is formatted as a json.
-- the keywords is an array of strings that capture the main ideas of the activities.
+- the answer is not the topic or subtopic
+- the answer is not in the rest of the text
+- the topic and subtopic given are grammatically corrected and make sense together if not return validTopicSubtopic as false and an empty list for activities
+- "desc" has a gap "{gap}" that needs to be filled with one of the options and has max 170 chars
+- that "options has 2 strings with max 25 chars each
+- "answer" is one of the options
+- the information given is true and accurate
+- the comment is a funny or engaging narrative
+- the comment is max 170 chars
+- the comment is a string
+- the answer is given without any extra information or conclusion like \`\`\`json
+- the JSON response is plain text without formatting it in code blocks
+- the answer is a valid json object and is formatted as a json
+- the keywords is an array of strings that capture the main ideas of the activities
 `

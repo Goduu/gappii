@@ -3,7 +3,6 @@ import React, { FC, useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button";
 import {
     Card, CardHeader, CardTitle,
-    CardDescription,
     CardFooter
 } from "@/components/ui/card";
 import { GapInput } from './gap-input';
@@ -49,6 +48,7 @@ export const ActivityCard: FC<ActivityCardProps> = ({ topic, subtopic, activity,
             )
         }
     }
+    const activitySortedOptions = activity.options && [...activity.options].sort((a: string, b: string) => (a < b ? -1 : 1))
 
     return (
         <Card className="w-96 relative">
@@ -59,13 +59,11 @@ export const ActivityCard: FC<ActivityCardProps> = ({ topic, subtopic, activity,
                 <CardTitle className="flex justify-end items-baseline">
                     <GapInput text={activity.description} value={selectedOption} options={activity.options} />
                 </CardTitle>
-                <CardDescription>
-                </CardDescription>
             </CardHeader>
             <CardFooter className="flex justify-center gap-4">
                 {activityDone ?
                     <Button size="sm" onClick={onNext}>Go to Next</Button>
-                    : activity.options.map(option => {
+                    : activitySortedOptions.map(option => {
                         return (
                             <Button key={option} size="sm" onClick={() => handleSelect(option)}>{option}</Button>
                         )

@@ -5,7 +5,6 @@ import {
 } from 'obscenity';
 
 export const cleanTopic = (topic: string) => {
-  console.log('cleanTopic', topic)
 
   const trimmed = topic.trim()
   const matcherEn = new RegExpMatcher({

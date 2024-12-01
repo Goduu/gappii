@@ -46,6 +46,7 @@ type User @node {
   clerkId: String! @unique
   email: String! @unique
   hasLessons: [Lesson!]! @relationship(type: "HAS_LESSON", direction: OUT)
+  hasCollections: [Collection!]! @relationship(type: "HAS_COLLECTION", direction: OUT)
   reactedToLessons: [Lesson!]! @relationship(type: "REACTED", properties: "Reacted", direction: OUT)
   reportedActivities: [Activity!]! @relationship(type: "REPORTED", direction: OUT)
 }

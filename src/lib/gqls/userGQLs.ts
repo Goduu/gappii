@@ -48,6 +48,35 @@ export const GET_USER_LESSONS = gql`
     }
   }
 `
+export const GET_USER_COLLECTIONS = gql`
+  query GetUserCollections($where: UserWhere!) {
+    users(where: $where) {
+      id
+      hasCollections {
+        id
+        title
+        icon
+        color
+        hasLessons {
+          id
+          title
+          hasTopic {
+            id
+            title
+          }
+          hasSubtopic {
+            id
+            title
+          }
+          hasKeywords {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+`
 
 export const GET_USER_REPORTED_ACTIVITIES = gql`
   query GetUserLessons($where: UserWhere!) {

@@ -40,7 +40,6 @@ export const MyLessons = () => {
     )
 
     useEffect(() => {
-        console.log('refetching')
         refetch()
     }, [filter])
 

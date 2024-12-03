@@ -5,6 +5,9 @@ import { Badge } from "../../ui/badge";
 import { IconByName } from "./icons-by-name";
 import { Droppable } from "@/components/ui/dnd/droppable";
 import { Collection, Lesson } from "@/ogm-resolver/ogm-types";
+import { getInitials } from "@/lib/utils";
+import { CollectionPageMode } from "./types";
+import { Edit } from "lucide-react";
 
 interface Card {
     title: string;
@@ -16,20 +19,28 @@ interface CardStackProps {
     cards: Lesson[];
     collection: Collection
     isDragging: boolean
-}
-export type Cover = {
-    color: string;
-    title: string;
-    icon: string;
+    mode: CollectionPageMode
+    setCollectionFormOpen?: (open: boolean) => void
 }
 
-
-export const Collections: React.FC<CardStackProps> = ({ cards, collection, isDragging }) => {
+export const Collections: React.FC<CardStackProps> = ({ cards, collection, isDragging, mode, setCollectionFormOpen }) => {
     const [show, setShow] = useState(false);
+    const isEditMode = mode === "edit";
+
+    const handleClick = () => {
+        if (mode === "edit") {
+            setCollectionFormOpen?.(true);
+        } else {
+            setShow(!show);
+        }
+    }
 
     return (
         <Droppable id={collection.id || ""}>
-            <div className={`relative gap-0 ${show ? "gap-10" : "gap-0"} flex flex-col transition-all ease-in-out mt-40 ${show ? "cursor-n-resize" : "cursor-s-resize"} `} onClick={() => setShow(!show)}>
+            <div className={`relative gap-0
+              flex flex-col transition-all ease-in-out mt-40
+               ${isEditMode ? "cursor-pointer" : show ? "cursor-n-resize gap-10" : "cursor-s-resize gap-0"} `}
+                onClick={handleClick}>
                 {isDragging && <div className="absolute z-30 rounded-lg hover:opacity-75 -mt-36 bg-slate-50 opacity-25 w-full h-full flex items-center justify-center">
                     <div className="text-2xl">
                         DROP HERE
@@ -68,7 +79,16 @@ export const Collections: React.FC<CardStackProps> = ({ cards, collection, isDra
                             <div className="text-5xl font-black" >{collection.title}</div>
                         </CardTitle>
                     </CardHeader>
-                    <IconByName name={collection.icon} size={50} className="w-20 h-20 absolute right-2 bottom-2" />
+                    {collection.icon === "text" ? (
+                        <div className="text-6xl font-black absolute right-2 bottom-2 tracking-tighter" >{getInitials(collection.title)}</div>
+                    ) : (
+                        <IconByName name={collection.icon} size={50} className="w-20 h-20 absolute right-2 bottom-2" />
+                    )}
+                    {mode === "edit" && (
+                        <div className="absolute top-2 right-2 z-40 opacity-30">
+                            <Edit size={50} />
+                        </div>
+                    )}
                 </Card>
             </div>
         </Droppable>

@@ -19,17 +19,17 @@ import { Logo } from "../logo"
 const items = [
     {
         title: "Home",
-        url: "/content",
+        url: "/logged-in/content",
         icon: Home,
     },
     {
         title: "My Lessons",
-        url: "/lessons",
+        url: "/logged-in/lessons",
         icon: Book,
     },
     {
         title: "Community Lessons",
-        url: "/community",
+        url: "/logged-in/community",
         icon: Users,
     },
 

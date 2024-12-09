@@ -34,7 +34,7 @@ export const MyContentPage = () => {
                     }
                 } satisfies MutationUpdateCollectionsArgs
             })
-        }
+        }   
         setIsDragging(false)
     }
 

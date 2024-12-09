@@ -8,6 +8,7 @@ import { Collection, Lesson } from "@/ogm-resolver/ogm-types";
 import { getInitials } from "@/lib/utils";
 import { CollectionPageMode } from "./types";
 import { Edit } from "lucide-react";
+import { useCollection } from "./collection-context";
 
 interface Card {
     title: string;
@@ -25,10 +26,24 @@ interface CardStackProps {
 
 export const Collections: React.FC<CardStackProps> = ({ cards, collection, isDragging, mode, setCollectionFormOpen }) => {
     const [show, setShow] = useState(false);
+    const { setCollection } = useCollection();
     const isEditMode = mode === "edit";
 
     const handleClick = () => {
         if (mode === "edit") {
+            console.log("edit", {
+                id: collection.id || "",
+                color: collection.color,
+                icon: collection.icon,
+                name: collection.title,
+            }
+            )
+            setCollection({
+                id: collection.id || "",
+                color: collection.color,
+                icon: collection.icon,
+                name: collection.title,
+            });
             setCollectionFormOpen?.(true);
         } else {
             setShow(!show);

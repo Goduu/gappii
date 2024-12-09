@@ -6,15 +6,12 @@ import { Input } from "@/components/ui/input"
 import { IconByName } from "./icons-by-name"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { Card, CardHeader, CardTitle } from "@/components/ui/card"
-import { useMutation } from "@apollo/client"
-import { CREATE_COLLECTION } from "@/lib/gqls/colectionGQLs"
-import { MutationCreateCollectionsArgs, MutationUpdateUsersArgs } from "@/ogm-resolver/ogm-types"
-import { GET_USER_COLLECTIONS, UPDATE_USER } from "@/lib/gqls/userGQLs"
-import { useUser } from "@clerk/nextjs"
 import { useTransitionContext } from "@/components/loading-store"
 import { FC } from "react"
 import { Form, FormField } from "@/components/ui/form"
 import { useCollectionForm } from "./useCollectionForm"
+import { useCollection } from "./collection-context"
+import { useCollectionFormFunctions } from "./use-collection-form-functions"
 
 type CollectionFormProps = {
     className?: React.ComponentProps<"form">["className"]
@@ -22,50 +19,12 @@ type CollectionFormProps = {
 }
 
 export const CollectionForm: FC<CollectionFormProps> = ({ className, onClose }) => {
-    const [createCollection] = useMutation(CREATE_COLLECTION)
-    const [updateUser] = useMutation(UPDATE_USER)
-    const { startTransition, isPending } = useTransitionContext()
-    const userData = useUser()
-    const { form } = useCollectionForm()
+    const { isPending } = useTransitionContext()
+    const { collection } = useCollection();
+    const { form } = useCollectionForm(collection ? collection : undefined)
     const formValues = form.watch()
-
-
-    const handleCreateNewCollection = async () => {
-        startTransition(async () => {
-            const createdCollection = await createCollection({
-                variables: {
-                    input: [{
-                        title: formValues.name,
-                        icon: formValues.icon,
-                        color: formValues.color
-                    }]
-                } satisfies MutationCreateCollectionsArgs
-            })
-            if (createdCollection.data.createCollections.collections[0].id) {
-                await updateUser({
-                    variables: {
-                        where: {
-                            clerkId: userData.user?.id
-                        },
-                        update: {
-                            hasCollections: [{
-                                connect: [{
-                                    where: {
-                                        node: {
-                                            id: createdCollection.data.createCollections.collections[0].id
-                                        }
-                                    }
-                                }]
-                            }]
-                        }
-                    } satisfies MutationUpdateUsersArgs,
-                    refetchQueries: [{ query: GET_USER_COLLECTIONS }]
-                })
-                onClose()
-
-            }
-        })
-    }
+    console.log("formValues", formValues)
+    const { handleCreateCollection, handleEditCollection } = useCollectionFormFunctions()
 
     return (
         <Form {...form}>
@@ -141,7 +100,13 @@ export const CollectionForm: FC<CollectionFormProps> = ({ className, onClose }) 
                     />
 
                 </div>
-                <Button onClick={handleCreateNewCollection} disabled={isPending}>Save changes</Button>
+                <Button
+                    onClick={() => formValues.id ?
+                        handleEditCollection(formValues, onClose) :
+                        handleCreateCollection(formValues, onClose)}
+                    disabled={isPending}>
+                    Save changes
+                </Button>
             </div>
         </Form>
 

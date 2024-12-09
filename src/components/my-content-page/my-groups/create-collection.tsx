@@ -22,18 +22,21 @@ import {
 import { useMediaQuery } from "@/lib/use-media-query"
 import { CollectionForm } from "./collection-form"
 import { SquarePlus } from "lucide-react"
+import { CollectionPageMode } from "./types"
 
 const texts = {
     create: "Create",
+    edit: "Edit",
     description: "Create a new collection"
 }
 
 type CreateCollectionProps = {
+    mode: CollectionPageMode
     open: boolean
     setOpen: (open: boolean) => void
 }
 
-export const CreateCollection: FC<CreateCollectionProps> = ({ open, setOpen }) => {
+export const CreateCollection: FC<CreateCollectionProps> = ({ mode, open, setOpen }) => {
     const isDesktop = useMediaQuery("(min-width: 768px)")
     const close = () => setOpen(false)
 
@@ -48,7 +51,7 @@ export const CreateCollection: FC<CreateCollectionProps> = ({ open, setOpen }) =
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[550px]">
                     <DialogHeader>
-                        <DialogTitle>{texts.create}</DialogTitle>
+                        <DialogTitle>{mode === "edit" ? texts.edit : texts.create}</DialogTitle>
                         <DialogDescription>
                             {texts.description}
                         </DialogDescription>
@@ -69,7 +72,7 @@ export const CreateCollection: FC<CreateCollectionProps> = ({ open, setOpen }) =
             </DrawerTrigger>
             <DrawerContent>
                 <DrawerHeader className="text-left">
-                    <DrawerTitle>{texts.create}</DrawerTitle>
+                    <DrawerTitle>{mode === "edit" ? texts.edit : texts.create}</DrawerTitle>
                     <DrawerDescription>
                         {texts.description}
                     </DrawerDescription>

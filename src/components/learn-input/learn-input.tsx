@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { FC, useState } from 'react'
 import { Button } from '../ui/button'
 import { Badge } from '../ui/badge'
 import { X } from 'lucide-react'
@@ -13,7 +13,11 @@ import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group'
 import { cleanTopic } from './cleanTopic'
 import { useToast } from '@/hooks/use-toast'
 
-export const LearnInput = () => {
+type LearnInputProps = {
+    hideLevel: boolean
+}
+
+export const LearnInput: FC<LearnInputProps> = ({ hideLevel }) => {
     const [topic, setTopic] = useState<Option | null>(null)
     const [subTopic, setSubTopic] = useState<Option | null>(null)
     const [level, setLevel] = useState<string>("1")
@@ -74,9 +78,9 @@ export const LearnInput = () => {
     }
 
     return (
-        <div className='flex flex-col gap-2 w-full p-10'>
-            <div className='flex gap-2'>
-                <div className='flex-col flex gap-1'>
+        <div className='flex flex-col gap-2 w-full'>
+            <div className='flex gap-2 w-full'>
+                <div className='flex-col flex gap-1 w-1/2'>
                     <p className='text-sm'>Topic:</p>
                     <Badge variant="outline" className='flex items-center gap-2 h-8'>
                         {topic ?
@@ -90,7 +94,7 @@ export const LearnInput = () => {
                         }
                     </Badge>
                 </div>
-                <div className='flex-col flex gap-1'>
+                <div className='flex-col flex gap-1 w-1/2'>
                     <p className='text-sm'>Subtopic:</p>
                     <Badge variant="outline" className='flex items-center gap-2 h-8'>
                         {subTopic ?
@@ -104,19 +108,22 @@ export const LearnInput = () => {
                         }
                     </Badge>
                 </div>
-                <div className='flex-col flex gap-1'>
-                    <p className='text-sm'>Level:</p>
-                    <ToggleGroup type="single" variant="outline" value={level} onValueChange={setLevel}>
-                        <ToggleGroupItem value="1" aria-label="Toggle bold" className='text-xs h-8'>
-                            Beg
-                        </ToggleGroupItem>
-                        <ToggleGroupItem value="2" aria-label="Toggle italic" className='text-xs h-8'>
-                            Mid
-                        </ToggleGroupItem>
-                        <ToggleGroupItem value="3" aria-label="Toggle strikethrough" className='text-xs h-8'>
-                            Adv
-                        </ToggleGroupItem>
-                    </ToggleGroup></div>
+                {!hideLevel &&
+                    <div className='flex-col flex gap-1'>
+                        <p className='text-sm'>Level:</p>
+                        <ToggleGroup type="single" variant="outline" value={level} onValueChange={setLevel}>
+                            <ToggleGroupItem value="1" aria-label="Toggle bold" className='text-xs h-8'>
+                                Beg
+                            </ToggleGroupItem>
+                            <ToggleGroupItem value="2" aria-label="Toggle italic" className='text-xs h-8'>
+                                Mid
+                            </ToggleGroupItem>
+                            <ToggleGroupItem value="3" aria-label="Toggle strikethrough" className='text-xs h-8'>
+                                Adv
+                            </ToggleGroupItem>
+                        </ToggleGroup>
+                    </div>
+                }
             </div>
             <div className='flex gap-2'>
                 <AutoComplete

@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 
 export default function LoggedInLayout({ children }: { children: ReactNode }) {
     return (
-        <div className="font-bold gap-4 flex flex-col">
+        <div className="relative font-bold gap-4 flex flex-row">
             <AppSidebar />
             <SidebarTrigger />
             {children}

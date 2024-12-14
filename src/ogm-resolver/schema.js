@@ -8,6 +8,7 @@ type Lesson @node {
   id: ID @id @unique
   title: String! @unique
   level: Int!
+  createdAt: DateTime!
   hasTopic: Topic! 
     @relationship(type: "HAS_TOPIC", direction: OUT)
   hasSubtopic: Topic! 
@@ -18,6 +19,10 @@ type Lesson @node {
     @relationship(type: "REACTED", properties: "Reacted", direction: IN)
   hasKeywords: [Keyword!]!
     @relationship(type: "HAS_KEYWORD", direction: OUT)
+  reactedCount: Int! 
+    @cypher(statement: "RETURN count([(this)<-[:REACTED]-() | 0]) AS reactedCount", columnName: "reactedCount")
+  hasLessonCount: Int! 
+    @cypher(statement: "RETURN count([(this)<-[:HAS_LESSON]-() | 0]) AS hasLessonCount", columnName: "hasLessonCount")
 }
 
 type Keyword @node {

@@ -10,6 +10,7 @@ import { Skeleton } from "./skeleton"
 export type Option = Record<"value" | "label", string> & Record<string, string>
 
 type AutoCompleteProps = {
+    className?: string
     options: Option[]
     emptyMessage: string
     value?: Option
@@ -21,6 +22,7 @@ type AutoCompleteProps = {
 }
 
 export const AutoComplete = ({
+    className,
     options,
     placeholder,
     emptyMessage,
@@ -94,20 +96,18 @@ export const AutoComplete = ({
     )
 
     return (
-        <CommandPrimitive onKeyDown={handleKeyDown}>
-            <div>
-                <CommandInput
-                    ref={inputRef}
-                    value={inputValue}
-                    onValueChange={isLoading ? undefined : setInputValue}
-                    onBlur={handleBlur}
-                    onFocus={() => setOpen(true)}
-                    placeholder={placeholder}
-                    disabled={disabled}
-                    className="text-base"
-                />
-            </div>
-            <div className="relative mt-1">
+        <CommandPrimitive onKeyDown={handleKeyDown} className="w-full">
+            <CommandInput
+                ref={inputRef}
+                value={inputValue}
+                onValueChange={isLoading ? undefined : setInputValue}
+                onBlur={handleBlur}
+                onFocus={() => setOpen(true)}
+                placeholder={placeholder}
+                disabled={disabled}
+                className="text-base w-full"
+            />
+            <div className={`relative mt-1 ${className}`}>
                 <div
                     className={cn(
                         "animate-in fade-in-0 zoom-in-95 absolute top-0 z-10 w-full rounded-xl bg-white outline-none",
@@ -126,19 +126,19 @@ export const AutoComplete = ({
                             <CommandGroup>
                                 {inputValue !== "" &&
                                     (options.find(option => option.label === inputRef.current?.value) ? false : true)
-                                &&
-                                <CommandItem
-                                    onMouseDown={(event) => {
-                                        event.preventDefault()
-                                        event.stopPropagation()
-                                    }}
-                                    onSelect={() => {
-                                        onAddOption?.(inputValue)
-                                    }}
-                                    className="flex w-full items-center gap-2"
-                                >
-                                    New Topic: {inputValue}
-                                </CommandItem>
+                                    &&
+                                    <CommandItem
+                                        onMouseDown={(event) => {
+                                            event.preventDefault()
+                                            event.stopPropagation()
+                                        }}
+                                        onSelect={() => {
+                                            onAddOption?.(inputValue)
+                                        }}
+                                        className="flex w-full items-center gap-2"
+                                    >
+                                        New Topic: {inputValue}
+                                    </CommandItem>
 
                                 }
                                 {options.map((option) => {

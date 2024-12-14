@@ -33,6 +33,34 @@ export const GET_LESSON_ACTIVITIES = gql`
     }
   }
 `
+export const GET_HOT_LESSON = gql`
+  query GetHotLessons {
+    hotLessons: lessons(limit: 10, sort: [{ reactedCount: DESC }]) {
+      id
+      hasTopic {
+        id
+        title
+      }
+      hasSubtopic {
+        id
+        title
+      }
+      reactedCount 
+    } ,
+    newLessons: lessons(limit: 10, sort: [{ createdAt: DESC }]) {
+      id
+      hasTopic {
+        id
+        title
+      }
+      hasSubtopic {
+        id
+        title
+      }
+    } 
+  }
+`
+
 
 
 export const GET_LESSON_FILTERED = gql`

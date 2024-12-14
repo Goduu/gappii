@@ -23,7 +23,6 @@ export const CollectionForm: FC<CollectionFormProps> = ({ className, onClose }) 
     const { collection } = useCollection();
     const { form } = useCollectionForm(collection ? collection : undefined)
     const formValues = form.watch()
-    console.log("formValues", formValues)
     const { handleCreateCollection, handleEditCollection } = useCollectionFormFunctions()
 
     return (

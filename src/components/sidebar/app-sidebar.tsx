@@ -14,22 +14,23 @@ import {
 } from "@/components/ui/sidebar"
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs"
 import { Logo } from "../logo"
+import { routes } from "@/lib/routes"
 
 // Menu items.
 const items = [
     {
         title: "Home",
-        url: "/logged-in/content",
+        url: routes.home,
         icon: Home,
     },
     {
         title: "My Lessons",
-        url: "/logged-in/lessons",
+        url: routes.lessons,
         icon: Book,
     },
     {
         title: "Community Lessons",
-        url: "/logged-in/community",
+        url: routes.community,
         icon: Users,
     },
 
@@ -37,7 +38,7 @@ const items = [
 
 export const AppSidebar = () => {
     return (
-        <Sidebar>
+        <Sidebar className="fixed">
             <SidebarHeader className="flex items-center justify-center">
                 <Logo className="w-32 h-fit cursor-pointer" />
             </SidebarHeader>

@@ -1,4 +1,5 @@
 "use client"
+import { routes } from "@/lib/routes";
 import { redirect } from "next/navigation";
 import { FC, SVGProps } from "react";
 
@@ -6,7 +7,7 @@ export const Logo: FC<SVGProps<SVGSVGElement>> = (svgProps) => (
     <svg
     xmlns="http://www.w3.org/2000/svg"
     xmlSpace="preserve"
-    onClick={() => redirect("/")}
+    onClick={() => redirect(routes.home)}
     style={{
       fillRule: "evenodd",
       clipRule: "evenodd",

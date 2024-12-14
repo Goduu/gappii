@@ -31,6 +31,8 @@ export type Scalars = {
   Int: { input: number; output: number };
   /** The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point). */
   Float: { input: number; output: number };
+  /** A date and time, represented as an ISO-8601 string */
+  DateTime: { input: any; output: any };
 };
 
 export type Query = {
@@ -377,6 +379,7 @@ export type CollectionLessonHasLessonsNodeAggregateSelection = {
   id: IdAggregateSelection;
   title: StringAggregateSelection;
   level: IntAggregateSelection;
+  createdAt: DateTimeAggregateSelection;
 };
 
 export type CollectionsConnection = {
@@ -429,6 +432,12 @@ export type CreateUsersMutationResponse = {
   __typename?: "CreateUsersMutationResponse";
   info: CreateInfo;
   users: Array<User>;
+};
+
+export type DateTimeAggregateSelection = {
+  __typename?: "DateTimeAggregateSelection";
+  min?: Maybe<Scalars["DateTime"]["output"]>;
+  max?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 /** Information about the number of nodes and relationships deleted during a delete mutation */
@@ -485,6 +494,8 @@ export type Lesson = {
   id?: Maybe<Scalars["ID"]["output"]>;
   title: Scalars["String"]["output"];
   level: Scalars["Int"]["output"];
+  createdAt: Scalars["DateTime"]["output"];
+  reactedCount: Scalars["Int"]["output"];
   hasTopicAggregate?: Maybe<LessonTopicHasTopicAggregationSelection>;
   hasTopic: Topic;
   hasTopicConnection: LessonHasTopicConnection;
@@ -617,6 +628,7 @@ export type LessonAggregateSelection = {
   id: IdAggregateSelection;
   title: StringAggregateSelection;
   level: IntAggregateSelection;
+  createdAt: DateTimeAggregateSelection;
 };
 
 export type LessonEdge = {
@@ -1025,6 +1037,7 @@ export type UserLessonHasLessonsNodeAggregateSelection = {
   id: IdAggregateSelection;
   title: StringAggregateSelection;
   level: IntAggregateSelection;
+  createdAt: DateTimeAggregateSelection;
 };
 
 export type UserLessonReactedToLessonsAggregationSelection = {
@@ -1044,6 +1057,7 @@ export type UserLessonReactedToLessonsNodeAggregateSelection = {
   id: IdAggregateSelection;
   title: StringAggregateSelection;
   level: IntAggregateSelection;
+  createdAt: DateTimeAggregateSelection;
 };
 
 export type UserReactedToLessonsConnection = {
@@ -1368,6 +1382,26 @@ export type CollectionHasLessonsNodeAggregationWhereInput = {
   level_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   level_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   level_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  createdAt_EQUAL?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MIN_EQUAL?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MAX_EQUAL?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  createdAt_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MIN_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MAX_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  createdAt_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MIN_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MAX_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  createdAt_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MIN_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MAX_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  createdAt_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MIN_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MAX_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
 };
 
 export type CollectionHasLessonsUpdateConnectionInput = {
@@ -1602,6 +1636,7 @@ export type LessonConnectWhere = {
 export type LessonCreateInput = {
   title: Scalars["String"]["input"];
   level: Scalars["Int"]["input"];
+  createdAt: Scalars["DateTime"]["input"];
   hasTopic?: InputMaybe<LessonHasTopicFieldInput>;
   hasSubtopic?: InputMaybe<LessonHasSubtopicFieldInput>;
   hasActivities?: InputMaybe<LessonHasActivitiesFieldInput>;
@@ -2271,6 +2306,7 @@ export type LessonHasTopicUpdateFieldInput = {
 export type LessonOnCreateInput = {
   title: Scalars["String"]["input"];
   level: Scalars["Int"]["input"];
+  createdAt: Scalars["DateTime"]["input"];
 };
 
 export type LessonOptions = {
@@ -2293,6 +2329,8 @@ export type LessonSort = {
   id?: InputMaybe<SortDirection>;
   title?: InputMaybe<SortDirection>;
   level?: InputMaybe<SortDirection>;
+  createdAt?: InputMaybe<SortDirection>;
+  reactedCount?: InputMaybe<SortDirection>;
 };
 
 export type LessonUniqueWhere = {
@@ -2305,6 +2343,7 @@ export type LessonUpdateInput = {
   level?: InputMaybe<Scalars["Int"]["input"]>;
   level_INCREMENT?: InputMaybe<Scalars["Int"]["input"]>;
   level_DECREMENT?: InputMaybe<Scalars["Int"]["input"]>;
+  createdAt?: InputMaybe<Scalars["DateTime"]["input"]>;
   hasTopic?: InputMaybe<LessonHasTopicUpdateFieldInput>;
   hasSubtopic?: InputMaybe<LessonHasSubtopicUpdateFieldInput>;
   hasActivities?: InputMaybe<Array<LessonHasActivitiesUpdateFieldInput>>;
@@ -2559,6 +2598,26 @@ export type LessonWhere = {
   level_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   level_GT?: InputMaybe<Scalars["Int"]["input"]>;
   level_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  createdAt?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  createdAt_NOT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_IN?: InputMaybe<Array<Scalars["DateTime"]["input"]>>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  createdAt_NOT_IN?: InputMaybe<Array<Scalars["DateTime"]["input"]>>;
+  createdAt_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  reactedCount?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  reactedCount_NOT?: InputMaybe<Scalars["Int"]["input"]>;
+  reactedCount_IN?: InputMaybe<Array<Scalars["Int"]["input"]>>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  reactedCount_NOT_IN?: InputMaybe<Array<Scalars["Int"]["input"]>>;
+  reactedCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  reactedCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  reactedCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  reactedCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
   OR?: InputMaybe<Array<LessonWhere>>;
   AND?: InputMaybe<Array<LessonWhere>>;
   NOT?: InputMaybe<LessonWhere>;
@@ -3258,6 +3317,26 @@ export type UserHasLessonsNodeAggregationWhereInput = {
   level_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   level_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   level_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  createdAt_EQUAL?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MIN_EQUAL?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MAX_EQUAL?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  createdAt_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MIN_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MAX_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  createdAt_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MIN_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MAX_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  createdAt_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MIN_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MAX_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  createdAt_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MIN_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MAX_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
 };
 
 export type UserHasLessonsUpdateConnectionInput = {
@@ -3448,6 +3527,26 @@ export type UserReactedToLessonsNodeAggregationWhereInput = {
   level_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   level_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   level_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  createdAt_EQUAL?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MIN_EQUAL?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MAX_EQUAL?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  createdAt_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MIN_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MAX_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  createdAt_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MIN_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MAX_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  createdAt_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MIN_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MAX_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  createdAt_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MIN_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  createdAt_MAX_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
 };
 
 export type UserReactedToLessonsUpdateConnectionInput = {
@@ -3936,6 +4035,7 @@ export interface LessonAggregateSelectionInput {
   id?: boolean;
   title?: boolean;
   level?: boolean;
+  createdAt?: boolean;
 }
 
 export declare class LessonModel {

@@ -4,13 +4,14 @@ import { Activity } from "@/ogm-resolver/ogm-types";
 import { Progress } from "../ui/progress";
 import { redirect } from "next/navigation";
 import { CircleX } from "lucide-react";
-
+import { routes } from "@/lib/routes";
+import { AnimatePresence } from "framer-motion";
 type LessonProgressManagerProps = {
-    topic: string,
-    subtopic: string,
+    topic: string;
+    subtopic: string;
     activities: Activity[];
-    reportedActivityIds: Activity[] | undefined
-}
+    reportedActivityIds: Activity[] | undefined;
+};
 
 export const LessonProgressManager: React.FC<LessonProgressManagerProps> = ({
     activities,
@@ -21,16 +22,18 @@ export const LessonProgressManager: React.FC<LessonProgressManagerProps> = ({
     const [currentActivityIndex, setCurrentActivityIndex] = useState(0);
     const [completedActivities, setCompletedActivities] = useState<number[]>([]);
     const [progress, setProgress] = useState(0);
+    const [transitionDirection, setTransitionDirection] = useState<'next' | 'prev'>('next');
 
     const handleNext = () => {
+        setTransitionDirection('next');
         setCompletedActivities([...completedActivities, currentActivityIndex]);
         if (currentActivityIndex + 1 < activities.length) {
             setCurrentActivityIndex(currentActivityIndex + 1);
+            setProgress(((currentActivityIndex + 1) * 100) / activities.length);
         } else {
-            redirect(`/lessons`)
+            redirect(routes.lessons);
         }
-        setProgress((currentActivityIndex + 1) * 100 / activities.length);
-    }
+    };
 
     // Get current activity
     const currentActivity = activities[currentActivityIndex];
@@ -39,20 +42,35 @@ export const LessonProgressManager: React.FC<LessonProgressManagerProps> = ({
     const canInteract = completedActivities.length === currentActivityIndex;
 
     return (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 w-96">
             <div>
-                <span className="text-lg font-black">{topic}</span> / <span className="text-lg">{subtopic}</span>
+                <span className="text-lg font-black">{topic}</span> /
+                <span className="text-lg">{subtopic}</span>
             </div>
             <div className="flex gap-2 w-full items-center">
                 <Progress value={progress} />
-                <CircleX className="cursor-pointer" onClick={() => redirect("/lessons")} />
+                <CircleX
+                    className="cursor-pointer"
+                    onClick={() => redirect(routes.lessons)}
+                />
             </div>
-            <ActivityCard
-                activity={currentActivity}
-                topic={topic}
-                subtopic={subtopic}
-                reported={reportedActivityIds && reportedActivityIds.some((activity) => activity.id === currentActivity.id) || false}
-                onNext={handleNext} />
+            <div className="">
+                <AnimatePresence initial={false} mode="wait">
+                    <ActivityCard
+                        key={currentActivity.id}
+                        activity={currentActivity}
+                        topic={topic}
+                        subtopic={subtopic}
+                        reported={
+                            reportedActivityIds
+                                ? reportedActivityIds.some((activity) => activity.id === currentActivity.id)
+                                : false
+                        }
+                        onNext={handleNext}
+                        direction={transitionDirection}
+                    />
+                </AnimatePresence>
+            </div>
         </div>
-    )
-}
+    );
+};

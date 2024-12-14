@@ -28,7 +28,7 @@ export const MyCollections: FC<MyGroupsProps> = ({ isDragging }) => {
     skip: !userData.user
   }
   )
-  const collections = data?.users[0].hasCollections
+  const collections = data?.users[0]?.hasCollections
 
   return (
     <div className='h-96 z-20 flex flex-row gap-4'>

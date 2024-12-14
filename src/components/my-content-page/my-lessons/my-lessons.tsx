@@ -14,7 +14,6 @@ import { LessonCard } from './lesson-card'
 export const MyLessons = () => {
     const userData = useUser()
     const { filter, setFilter, setSubtopicFilter, setTopicFilter, setKeywordFilter } = useFilter()
-    console.log(filter)
 
     const { data, refetch } = useQuery<{ lessons: Array<Lesson> }>(GET_LESSON_FILTERED, {
         variables: {

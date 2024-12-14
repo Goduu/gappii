@@ -15,7 +15,7 @@ export const MyContentPage = () => {
 
     const handleDragEnd = (event: any) => {
         const {active: lesson, over: collection} = event
-        if(lesson.id && collection.id) {
+        if(lesson?.id && collection?.id) {
             updateCollection({
                 variables: {
                     where: {

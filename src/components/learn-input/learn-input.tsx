@@ -125,9 +125,10 @@ export const LearnInput: FC<LearnInputProps> = ({ hideLevel }) => {
                     </div>
                 }
             </div>
-            <div className='flex gap-2'>
+            <div className='flex gap-2 w-full'>
                 <AutoComplete
                     emptyMessage='Empty'
+                    className='w-full'
                     options={(data?.topics || []).map<Option>(t => ({ label: t.title, value: t.id }))}
                     isLoading={loading}
                     onAddOption={handleCreateNewTopic}

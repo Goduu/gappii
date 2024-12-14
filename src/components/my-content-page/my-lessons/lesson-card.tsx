@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation'
 import { Keyword, Lesson, Topic } from '@/ogm-resolver/ogm-types'
 import { KeywordsBadgeDisplay } from './keywords-display'
 import { Draggable } from '@/components/ui/dnd/draggable'
+import { routes } from '@/lib/routes'
 
 type LessonCardProps = {
     lesson: Lesson
@@ -21,7 +22,7 @@ export const LessonCard: FC<LessonCardProps> = ({ lesson, reaction, setTopicFilt
 
     const handleStart = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.stopPropagation()
-        redirect(`lesson/${lesson.id}`)
+        lesson.id && redirect(routes.lesson(lesson.id))
     }
 
     return (
@@ -45,7 +46,7 @@ export const LessonCard: FC<LessonCardProps> = ({ lesson, reaction, setTopicFilt
                         <KeywordsBadgeDisplay keywords={lesson.hasKeywords} level={lesson.level} />
                     </CardContent>
                 </CardHeader>
-                <CardFooter className="flex justify-center gap-4">
+                <CardFooter className="flex justify-center gap-4 z-30">
                     <Button onClick={handleStart}> Start</Button>
                 </CardFooter>
             </Card>

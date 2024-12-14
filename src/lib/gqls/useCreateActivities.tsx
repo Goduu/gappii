@@ -7,6 +7,7 @@ import { User } from "@clerk/nextjs/server";
 import { useUser } from "@clerk/nextjs";
 import { CREATE_ACTIVITIES } from "./activityGQLs";
 import { CREATE_LESSONS } from "./lessonGQLs";
+import { routes } from "../routes";
 
 export const useCreateActivities = () => {
     const clerkUserData = useUser()
@@ -35,6 +36,7 @@ export const useCreateActivities = () => {
                 input: [{
                     title: `${data.topic} / ${data.subtopic}`,
                     level: data.level,
+                    createdAt: new Date().toISOString(),
                     hasTopic: {
                         connect: {
                             where: {
@@ -70,10 +72,8 @@ export const useCreateActivities = () => {
                     }
                 }]
 
-                } satisfies MutationCreateLessonsArgs
+            } satisfies MutationCreateLessonsArgs
         })
-
-
 
         if (clerkUserData.user) {
             if (!loading && !userData?.users || !userData?.users.length) {
@@ -125,7 +125,7 @@ export const useCreateActivities = () => {
         }
 
 
-        redirect(`/lesson/${lessonData.data.createLessons.lessons[0].id}`)
+        redirect(routes.lesson(lessonData.data.createLessons.lessons[0].id))
 
     }
 

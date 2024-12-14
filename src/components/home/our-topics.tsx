@@ -6,18 +6,16 @@ import { Badge } from '../ui/badge';
 import { Flame } from 'lucide-react';
 import { MdOutlineFiberNew } from './NewIcon';
 
-export const HotTopics = () => {
+export const OurTopics = () => {
 
     return (
-        <div className='flex flex-col gap-4 w-96 md:w-[30rem] lg:w-[40rem] items-center border rounded-lg p-10'>
-            <div className='text-3xl '>
-                Check one of our topics
-            </div>
-            <Marquee className='overflow-visible'>
-                <div className='flex gap-4 overflow-visible'>
+        <div className='flex flex-col w-96 md:w-[30rem] lg:w-[40rem] items-center relative'>
+            <div className='w-24 absolute -left-10 h-full bg-white z-10 blur-md '></div>
+            <Marquee className='overflow-visible' speed={40}>
+                <div className='flex gap-2 overflow-visible'>
                     {hotTopics.map(({ topic, subtopic, status }, i) => (
-                        <div className=' p-5'>
-                            <Badge key={i} className='relative flex overflow-visible text-2xl' variant="outline">
+                        <div className=' p-5' key={i}>
+                            <Badge className='relative flex overflow-visible text-xs sm:text-sm' variant="outline">
                                 {status === 'hot' ?
                                     <span className='absolute -top-3 -right-4 text-xs z-20'>
                                         <Flame className='w-10 animate-ping absolute text-red-500 fill-red-500 opacity-50' />
@@ -37,6 +35,31 @@ export const HotTopics = () => {
                     ))}
                 </div>
             </Marquee>
+            <Marquee className='overflow-visible' speed={30}>
+                <div className='flex gap-4 overflow-visible'>
+                    {hotTopics.map(({ topic, subtopic, status }, i) => (
+                        <div className='p-5' key={i}>
+                            <Badge className='relative flex overflow-visible text-sm sm:text-md' variant="outline">
+                                {status === 'hot' ?
+                                    <span className='absolute -top-3 -right-4 text-xs z-20'>
+                                        <Flame className='w-10 animate-ping absolute text-red-500 fill-red-500 opacity-50' />
+                                        <Flame className='w-10 relative text-red-500 fill-red-500' />
+                                    </span>
+                                    :
+                                    status === 'new' ?
+                                        <span className='absolute -top-5 -right-4 text-xs z-20'>
+                                            <MdOutlineFiberNew className='h-10 w-10 animate-ping absolute text-green-500 fill-green-500 opacity-50' />
+                                            <MdOutlineFiberNew className='h-10 w-10 relative text-green-500 fill-green-500' />
+                                        </span>
+                                        : null}
+
+                                {topic.title} - {subtopic.title}
+                            </Badge>
+                        </div>
+                    ))}
+                </div>
+            </Marquee>
+            <div className='w-24 absolute -right-10 h-full bg-white z-10 blur-md '></div>
         </div>
 
     );

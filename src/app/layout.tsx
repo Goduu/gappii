@@ -6,8 +6,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { ClerkProvider } from '@clerk/nextjs'
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { TransitionProvider } from "@/components/loading-store";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/sidebar/app-sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { Footer } from "@/components/home/footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -46,7 +46,8 @@ export default function RootLayout({
                       {children}
                     </ApolloWrapper>
                   </main>
-                  <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
+                  <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center pt-4">
+                    <Footer />
                   </footer>
                 </div>
               </TooltipProvider>

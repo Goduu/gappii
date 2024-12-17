@@ -20,45 +20,19 @@ export const CREATE_USER = gql`
 `
 
 export const GET_USER_LESSONS = gql`
-  query GetUserLessons($where: UserWhere!) {
-    users(where: $where) {
-      id
-      hasLessons{
-        id
-        title
-        hasTopic {
-            id
-            title
-        }
-        hasSubtopic {
-            id
-            title
-        }
-      }
-      reactedToLessonsConnection {
-        edges{
-            node{
-                id
-            }
-            properties{
-                type
-            }
-      }
-      }
-    }
-  }
-`
-export const GET_USER_COLLECTIONS = gql`
-  query GetUserCollections($where: UserWhere!) {
-    users(where: $where) {
-      id
-      hasCollections {
-        id
-        title
-        icon
-        color
-        hasLessons {
+query GetUserLessons($where: UserWhere!, $first: Int!,$after: String, $lessonWhere: UserHasLessonsConnectionWhere) {
+  users(where: $where) {
+    id
+    hasLessonsConnection(
+      first: $first
+      after: $after
+      sort: [{ node: { title: ASC } }]
+      where: $lessonWhere
+    ) {
+      edges{
+        node{
           id
+          level
           title
           hasTopic {
             id
@@ -72,46 +46,92 @@ export const GET_USER_COLLECTIONS = gql`
             id
             name
           }
+          wasReactedConnection {
+            edges {
+                node {
+                    id
+                    clerkId
+                }
+                properties{
+                    type
+                }
+            }
+          }
+        }
+      }
+      totalCount
+      pageInfo{
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}`
+
+export const GET_USER_COLLECTIONS = gql`
+  query GetUserCollections($where: UserWhere!) {
+  users(where: $where) {
+    id
+      hasCollections {
+      id
+      title
+      icon
+      color
+        hasLessons {
+        id
+        title
+          hasTopic {
+          id
+          title
+        }
+          hasSubtopic {
+          id
+          title
+        }
+          hasKeywords {
+          id
+          name
         }
       }
     }
   }
+}
 `
 
 export const GET_USER_REPORTED_ACTIVITIES = gql`
   query GetUserLessons($where: UserWhere!) {
-    users(where: $where) {
-      id
+  users(where: $where) {
+    id
       reportedActivities {
-        id
-      }
+      id
     }
   }
+}
 `
 
 export const UPDATE_USER = gql`
     mutation UpdateUser($where: UserWhere!, $update: UserUpdateInput!) {
-        updateUsers(
-        where: $where,
-        update: $update
-        ) {
+  updateUsers(
+    where: $where,
+    update: $update
+  ) {
         users {
-            id
+      id
             reactedToLessons {
-                id
+        id
                 wasReactedConnection {
                     edges {
                         node {
-                            id
-                            clerkId
-                        }
-                        properties{
-                            type
-                        }
-                    }
-                }
+              id
+              clerkId
             }
+                        properties{
+              type
+            }
+          }
         }
-        }
+      }
     }
+  }
+}
 `

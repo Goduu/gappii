@@ -30,13 +30,12 @@ export const FilterBar: FC<FilterBarProps> = ({ setFilter, filter }) => {
   return (
     <div className='flex gap-4 items-center'>
       <div className='font-bold text-gray-500'>
-        Filters: {filter.reaction ? filter.reaction : "None"}
+        Filters: 
       </div>
       <ToggleGroup type="single">
         <ToggleGroupItem value={"DISLIKED"} onClick={() => handleToggle("DISLIKED")}><ThumbsDown /></ToggleGroupItem>
         <ToggleGroupItem value={"LIKED"} onClick={() => handleToggle("LIKED")}><ThumbsUp /></ToggleGroupItem>
         <ToggleGroupItem value={"CROWNED"} onClick={() => handleToggle("CROWNED")}><Crown /></ToggleGroupItem>
-        <ToggleGroupItem value={"CROWNED"} onClick={() => handleToggle("CROWNED")}><Guitar /></ToggleGroupItem>
       </ToggleGroup>
       {filter.topic?.title &&
         <Badge variant="outline" className='flex gap-2'>

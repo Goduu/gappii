@@ -7,6 +7,7 @@ import { Keyword, Lesson, Topic } from '@/ogm-resolver/ogm-types'
 import { KeywordsBadgeDisplay } from './keywords-display'
 import { Draggable } from '@/components/ui/dnd/draggable'
 import { routes } from '@/lib/routes'
+import { Play } from 'lucide-react'
 
 type LessonCardProps = {
     lesson: Lesson
@@ -17,7 +18,6 @@ type LessonCardProps = {
 
 }
 export const LessonCard: FC<LessonCardProps> = ({ lesson, reaction, setTopicFilter, setSubtopicFilter, setKeywordFilter }) => {
-    const topic = lesson.hasTopic.title
     const subtopic = lesson.hasSubtopic.title
 
     const handleStart = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -28,27 +28,23 @@ export const LessonCard: FC<LessonCardProps> = ({ lesson, reaction, setTopicFilt
     return (
         <Draggable id={lesson.id || ""}>
             <Card className="w-96 relative">
-                <CardHeader>
-                    <div className='absolute right-1 top-1'>
-                        <div className='justify-end items-end flex'>
-                            {lesson.id && <LessonReactions lessonId={lesson.id} reaction={reaction} />}
-                        </div>
-                    </div>
-                    <CardTitle className="flex justify-between items-start w-full">
-                        <div className='whitespace-nowrap overflow-hidden text-ellipsis w-full'>
-                            <div className='flex justify-between items-start w-full gap-1'>
+                <div className='absolute right-1 top-1'>
+                    {lesson.id && <LessonReactions lessonId={lesson.id} reaction={reaction} />}
+                </div>
+                <div className="flex gap-4 p-6 items-center">
+                    <div className='flex flex-col gap-4 w-72'>
+                        <div className='whitespace-nowrap overflow-hidden text-ellipsis'>
+                            {/* <div className='flex justify-between items-start w-full gap-1'>
                                 <div className="text-lg font-black cursor-pointer" onClick={() => setTopicFilter(lesson.hasTopic)}>{topic}</div>
-                            </div>
+                            </div> */}
                             <span className="text-md cursor-pointer" onClick={() => setSubtopicFilter(lesson.hasSubtopic)}>{subtopic}</span>
                         </div>
-                    </CardTitle>
-                    <CardContent>
-                        <KeywordsBadgeDisplay keywords={lesson.hasKeywords} level={lesson.level} />
-                    </CardContent>
-                </CardHeader>
-                <CardFooter className="flex justify-center gap-4 z-30">
-                    <Button onClick={handleStart}> Start</Button>
-                </CardFooter>
+                        <div className='w-64'>
+                            <KeywordsBadgeDisplay keywords={lesson.hasKeywords} level={lesson.level} />
+                        </div>
+                    </div>
+                    <Button size="icon" onClick={handleStart} className='absolute right-4 bottom-4'><Play /></Button>
+                </div>
             </Card>
         </Draggable>
 

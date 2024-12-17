@@ -64,8 +64,8 @@ export const GET_HOT_LESSON = gql`
 
 
 export const GET_LESSON_FILTERED = gql`
-  query GetLessonActivities($where: LessonWhere!) {
-    lessons(where: $where) {
+  query GetLessonActivities($where: LessonWhere!, $limit: Int!) {
+    lessons(where: $where, limit: $limit, sort:[{title: ASC}]) {
       id
       level
       hasTopic {

@@ -42,6 +42,7 @@ export const MyContentPage = () => {
         console.log("handleDragStart", event)
         setIsDragging(true)
     }
+
     const mouseSensor = useSensor(MouseSensor, {
         activationConstraint: {
             delay: 150,
@@ -51,10 +52,10 @@ export const MyContentPage = () => {
     const sensors = useSensors(mouseSensor);
 
     return (
-        <div className='flex flex-col gap-10 px-4 w-full'>
+        <div className='flex flex-col gap-10 w-full'>
             <DndContext onDragEnd={handleDragEnd} onDragStart={handleDragStart} sensors={sensors}>
-                <PageTitle title='My Collections' />
-                <MyCollections isDragging={isDragging}/>
+                {/* <PageTitle title='My Collections' /> */}
+                {/* <MyCollections isDragging={isDragging}/> */}
                 <PageTitle title='My Lessons' />
                 <MyLessons />
             </DndContext>

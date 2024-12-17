@@ -1,4 +1,3 @@
-"use client"
 import React from 'react';
 import { LearnInput } from '../learn-input/learn-input';
 
@@ -10,8 +9,6 @@ export const CreateTopic = () => {
                 Create your custom lesson
             </div>
             <LearnInput hideLevel={true}/>
-            
         </div>
-
     );
 };

@@ -12,13 +12,15 @@ import { useTransitionContext } from '../loading-store'
 import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group'
 import { cleanTopic } from './cleanTopic'
 import { useToast } from '@/hooks/use-toast'
+import { Topic } from '@/ogm-resolver/ogm-types'
 
 type LearnInputProps = {
-    hideLevel: boolean
+    initialTopic?: Topic
+    hideLevel?: boolean
 }
 
-export const LearnInput: FC<LearnInputProps> = ({ hideLevel }) => {
-    const [topic, setTopic] = useState<Option | null>(null)
+export const LearnInput: FC<LearnInputProps> = ({ initialTopic, hideLevel = false }) => {
+    const [topic, setTopic] = useState<Option | null>(initialTopic ? { label: initialTopic.title || "", value: initialTopic.id || "" } : null)
     const [subTopic, setSubTopic] = useState<Option | null>(null)
     const [level, setLevel] = useState<string>("1")
     const createActivities = useCreateActivities()

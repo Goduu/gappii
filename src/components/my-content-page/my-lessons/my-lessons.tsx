@@ -1,73 +1,53 @@
 "use client"
-import { useQuery } from '@apollo/client'
-import React, { useEffect } from 'react'
-import { Lesson, QueryLessonsArgs } from '@/ogm-resolver/ogm-types'
-import { useUser } from '@clerk/nextjs'
-import { LessonReaction } from './lesson-reactions'
+import React from 'react'
 import { FilterBar } from './filter-bar'
 import { LessonSkeletons } from './lesson-skeletons'
-import { useFilter } from './filter-hooks'
-import { GET_LESSON_FILTERED } from '@/lib/gqls/lessonGQLs'
-import { PageTitle } from '../../page-title/page-title'
-import { LessonCard } from './lesson-card'
+import { TopicSection } from './topic-section'
+import { Button } from '@/components/ui/button'
+import { useMyLessonsFunctions } from './useMyLessonsFunctions'
+
+const TOPICS_PER_PAGE = 10; // Number of topics to load per scroll
 
 export const MyLessons = () => {
-    const userData = useUser()
-    const { filter, setFilter, setSubtopicFilter, setTopicFilter, setKeywordFilter } = useFilter()
 
-    const { data, refetch } = useQuery<{ lessons: Array<Lesson> }>(GET_LESSON_FILTERED, {
-        variables: {
-            where: {
-                hasTopic: filter.topic?.id ? {
-                    id: filter.topic.id
-                } : {},
-                hasSubtopic: filter.subtopic?.id ? {
-                    id: filter.subtopic.id
-                } : {},
-                wasReactedConnection_SOME: filter.reaction ? {
-                    node: {
-                        clerkId: userData.user?.id
-                    },
-                    edge: filter.reaction ? {
-                        type: filter.reaction
-                    } : {}
-                } : {}
-            }
-        } satisfies QueryLessonsArgs,
-        skip: !userData.user
-    }
-    )
+    const { filter,
+        setFilter,
+        sortedLessonByTopic,
+        hasNextPage,
+        loadMoreLessons,
+        loading,
+        setKeywordFilter,
+        setTopicFilter,
+        setSubtopicFilter } = useMyLessonsFunctions()
 
-    useEffect(() => {
-        refetch()
-    }, [filter])
-
-    const lessons = data?.lessons
-
-    const hasReaction = (lesson: Lesson): LessonReaction | null => {
-        if (!userData.user?.id) return null
-        const reactionEdge = lesson.wasReactedConnection.edges.find(edge => edge.node.clerkId === userData.user.id)
-        return reactionEdge?.properties.type as LessonReaction
-    }
 
     return (
-        <div className='flex flex-col gap-10 px-4 w-full'>
+        <div className='flex flex-col gap-10 w-full'>
             <FilterBar setFilter={setFilter} filter={filter} />
             <div className='flex flex-wrap gap-4 justify-center'>
-                {data && lessons ?
-                    lessons.filter(lesson =>
-                        lesson
-                    ).map(lesson => (
-                        <LessonCard key={lesson.id} lesson={lesson}
-                            reaction={hasReaction(lesson)}
+                <>
+                    {Object.entries(sortedLessonByTopic).map(([topic, lessons]) => (
+                        <TopicSection
+                            key={topic}
+                            lessons={lessons}
+                            topic={lessons[0].hasTopic}
+                            setKeywordFilter={setKeywordFilter}
                             setSubtopicFilter={setSubtopicFilter}
                             setTopicFilter={setTopicFilter}
-                            setKeywordFilter={setKeywordFilter}
                         />
-                    ))
-                    : <LessonSkeletons />
-                }
+                    ))}
+                </>
+
             </div>
+            {loading ?
+                <LessonSkeletons />
+                :
+                hasNextPage && (
+                    <Button onClick={loadMoreLessons} variant="outline">
+                        Load More
+                    </Button>
+                )
+            }
         </div>
     )
 }

@@ -7,22 +7,19 @@ type Topic @node {
 type Lesson @node {
   id: ID @id @unique
   title: String! @unique
+  description: String!
   level: Int!
+  isPublic: Boolean! # Tracks public/private status
+  creator: User! @relationship(type: "CREATED", direction: IN)
   createdAt: DateTime!
-  hasTopic: Topic! 
-    @relationship(type: "HAS_TOPIC", direction: OUT)
-  hasSubtopic: Topic! 
-    @relationship(type: "HAS_SUBTOPIC", direction: OUT)
-  hasActivities: [Activity!]!
-    @relationship(type: "HAS_ACTIVITY", direction: OUT)
-  wasReacted: [User!]!
-    @relationship(type: "REACTED", properties: "Reacted", direction: IN)
-  hasKeywords: [Keyword!]!
-    @relationship(type: "HAS_KEYWORD", direction: OUT)
-  reactedCount: Int! 
-    @cypher(statement: "RETURN count([(this)<-[:REACTED]-() | 0]) AS reactedCount", columnName: "reactedCount")
-  hasLessonCount: Int! 
-    @cypher(statement: "RETURN count([(this)<-[:HAS_LESSON]-() | 0]) AS hasLessonCount", columnName: "hasLessonCount")
+  hasTopic: Topic! @relationship(type: "HAS_TOPIC", direction: OUT)
+  hasSubtopic: Topic! @relationship(type: "HAS_SUBTOPIC", direction: OUT)
+  hasKeywords: [Keyword!]! @relationship(type: "HAS_KEYWORD", direction: OUT)
+  hasActivities: [Activity!]! @relationship(type: "HAS_ACTIVITY", direction: OUT)
+  wasReacted: [User!]! @relationship(type: "REACTED", properties: "Reacted", direction: IN)
+  likeCount: Int!
+  dislikeCount: Int!
+  crownCount: Int!
 }
 
 type Keyword @node {
@@ -35,6 +32,7 @@ type Collection @node {
   title: String!
   icon: String!
   color: String!
+  parent: Collection @relationship(type: "HAS_SUBCOLLECTION", direction: OUT)
   hasLessons: [Lesson!]! @relationship(type: "HAS_LESSON", direction: OUT)
 }
 
@@ -44,6 +42,7 @@ type Activity @node {
   options: [String!]!
   answer: String!
   comment: String!
+  reportCount: Int! # Tracks the number of reports
 }
 
 type User @node {
@@ -57,7 +56,7 @@ type User @node {
 }
 
 type Reacted @relationshipProperties {
-  type: String!
+  type: String! # "Like", "Dislike", "Crown"
 }
 `;
 

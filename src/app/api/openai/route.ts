@@ -1,4 +1,4 @@
-import { promptText } from "@/lib/prompt";
+import { promptText } from "@/lib/prompt2";
 import { NextRequest } from "next/server";
 import OpenAI from "openai";
 

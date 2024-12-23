@@ -14,13 +14,13 @@ export type ActivityReactionsProps = {
 }
 
 export const ActivityReactions: FC<ActivityReactionsProps> = ({ activityId, reported = false }) => {
-    const [updateUserLikesMutation] = useMutation(UPDATE_USER, { refetchQueries: [GET_USER_REPORTED_ACTIVITIES] })
+    const [updateUserReactionMutation] = useMutation(UPDATE_USER, { refetchQueries: [GET_USER_REPORTED_ACTIVITIES] })
     const userData = useUser()
 
     const connectDisconnectVar = connectDisconnect(reported, activityId)
 
     const handleReport = () => {
-        updateUserLikesMutation({
+        updateUserReactionMutation({
             variables: {
                 where: {
                     clerkId: userData.user?.id

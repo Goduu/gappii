@@ -1,5 +1,5 @@
 "use client"
-import React, { FC, useState } from 'react'
+import React, { FC, useRef, useState } from 'react'
 import { Button } from '../ui/button'
 import { Badge } from '../ui/badge'
 import { X } from 'lucide-react'
@@ -28,6 +28,7 @@ export const LearnInput: FC<LearnInputProps> = ({ initialTopic, hideLevel = fals
     const [createTopic] = useMutation(CREATE_TOPIC)
     const { startTransition, isPending } = useTransitionContext()
     const { toast } = useToast()
+    const autocompleteRef = useRef<HTMLInputElement>(null)
 
     const handleCreateNewTopic = (topic: string) => {
         const clearedTopic = cleanTopic(topic)
@@ -52,10 +53,10 @@ export const LearnInput: FC<LearnInputProps> = ({ initialTopic, hideLevel = fals
         }
     }
 
-    const handleError = (error: any) => {
+    const handleError = (error: string) => {
         toast({
             title: "Error",
-            description: error.message,
+            description: error,
             variant: "destructive"
         })
     }
@@ -63,6 +64,7 @@ export const LearnInput: FC<LearnInputProps> = ({ initialTopic, hideLevel = fals
     const handleClick = async () => {
         startTransition(async () => {
             const apiData = topic && subTopic && await transformInputIntoData(topic.label, subTopic.label, level, handleError)
+
             if (apiData) {
                 createActivities(apiData, topic.value, subTopic.value)
             }
@@ -77,6 +79,18 @@ export const LearnInput: FC<LearnInputProps> = ({ initialTopic, hideLevel = fals
 
     const removeSubTopic = () => {
         setSubTopic(null)
+        autocompleteRef.current?.focus()
+        autocompleteRef.current?.click()
+    }
+
+    const handleClickOnEmpty = () => {
+        if (!topic || !subTopic) {
+            if (autocompleteRef) {
+                autocompleteRef.current?.focus()
+                autocompleteRef.current?.click()
+
+            }
+        }
     }
 
     return (
@@ -84,7 +98,7 @@ export const LearnInput: FC<LearnInputProps> = ({ initialTopic, hideLevel = fals
             <div className='flex gap-2 w-full'>
                 <div className='flex-col flex gap-1 w-1/2'>
                     <p className='text-sm'>Topic:</p>
-                    <Badge variant="outline" className='flex items-center gap-2 h-8'>
+                    <Badge variant="outline" className='flex items-center gap-2 h-8' onClick={handleClickOnEmpty}>
                         {topic ?
                             <>
                                 {topic.label}
@@ -98,7 +112,7 @@ export const LearnInput: FC<LearnInputProps> = ({ initialTopic, hideLevel = fals
                 </div>
                 <div className='flex-col flex gap-1 w-1/2'>
                     <p className='text-sm'>Subtopic:</p>
-                    <Badge variant="outline" className='flex items-center gap-2 h-8'>
+                    <Badge variant="outline" className='flex items-center gap-2 h-8' onClick={handleClickOnEmpty}>
                         {subTopic ?
                             <>
                                 {subTopic.label}
@@ -129,6 +143,7 @@ export const LearnInput: FC<LearnInputProps> = ({ initialTopic, hideLevel = fals
             </div>
             <div className='flex gap-2 w-full'>
                 <AutoComplete
+                    inputRef={autocompleteRef}
                     emptyMessage='Empty'
                     className='w-full'
                     options={(data?.topics || []).map<Option>(t => ({ label: t.title, value: t.id }))}

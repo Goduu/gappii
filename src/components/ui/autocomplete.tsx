@@ -1,6 +1,6 @@
 
 import { Command as CommandPrimitive } from "cmdk"
-import { useState, useRef, useCallback, type KeyboardEvent } from "react"
+import { useState, useCallback, type KeyboardEvent, RefObject } from "react"
 
 import { Check } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -10,6 +10,7 @@ import { Skeleton } from "./skeleton"
 export type Option = Record<"value" | "label", string> & Record<string, string>
 
 type AutoCompleteProps = {
+    inputRef?: RefObject<HTMLInputElement>
     className?: string
     options: Option[]
     emptyMessage: string
@@ -22,6 +23,7 @@ type AutoCompleteProps = {
 }
 
 export const AutoComplete = ({
+    inputRef,
     className,
     options,
     placeholder,
@@ -32,7 +34,6 @@ export const AutoComplete = ({
     disabled,
     isLoading = false,
 }: AutoCompleteProps) => {
-    const inputRef = useRef<HTMLInputElement>(null)
 
     const [isOpen, setOpen] = useState(false)
     const [selected, setSelected] = useState<Option>(value as Option)
@@ -40,6 +41,7 @@ export const AutoComplete = ({
 
     const handleKeyDown = useCallback(
         (event: KeyboardEvent<HTMLDivElement>) => {
+            if(!inputRef) return 
             const input = inputRef.current
             if (!input) {
                 return
@@ -125,7 +127,7 @@ export const AutoComplete = ({
                         {options.length > 0 && !isLoading ? (
                             <CommandGroup>
                                 {inputValue !== "" &&
-                                    (options.find(option => option.label === inputRef.current?.value) ? false : true)
+                                    (options.find(option => option.label === inputRef?.current?.value) ? false : true)
                                     &&
                                     <CommandItem
                                         onMouseDown={(event) => {
@@ -164,13 +166,13 @@ export const AutoComplete = ({
                                 })}
                             </CommandGroup>
                         ) : null}
-                        {!isLoading && !inputRef.current?.value ? (
+                        {!isLoading && !inputRef?.current?.value ? (
                             <CommandPrimitive.Empty className="select-none rounded-sm px-2 py-3 text-center text-sm">
                                 {emptyMessage}
                             </CommandPrimitive.Empty>
                         ) : !isLoading ?
                             <CommandPrimitive.Empty className="select-none rounded-sm px-2 py-3 text-center text-sm">
-                                New topic: {inputRef.current?.value}
+                                New topic: {inputRef?.current?.value}
                             </CommandPrimitive.Empty>
                             :
                             null}

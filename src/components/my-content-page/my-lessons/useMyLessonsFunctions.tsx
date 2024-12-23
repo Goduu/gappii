@@ -13,7 +13,7 @@ export const useMyLessonsFunctions = () => {
     const { filter, setFilter, setSubtopicFilter, setTopicFilter, setKeywordFilter } = useFilter()
     const [endCursor, setEndCursor] = useState<string | null>(null);
     const [sortedLessonByTopic, setSortedLessonByTopic] = useState<Record<string, Lesson[]>>({});
-    const [hasNextPage, setHasNextPage] = useState(true);
+    const [hasNextPage, setHasNextPage] = useState(false);
     const [page, setPage] = useState(1);
 
     // GraphQL query with pagination support

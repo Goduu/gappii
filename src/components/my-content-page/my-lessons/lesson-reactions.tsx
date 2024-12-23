@@ -3,10 +3,9 @@ import { Crown, ThumbsDown, ThumbsUp } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import React, { FC } from 'react'
 import { useMutation } from "@apollo/client";
-import { UPDATE_USER } from "@/lib/gqls/userGQLs";
+import { GET_USER_LESSONS, UPDATE_USER } from "@/lib/gqls/userGQLs";
 import { useUser } from "@clerk/nextjs";
 import { MutationUpdateUsersArgs } from "@/ogm-resolver/ogm-types";
-import { GET_LESSON_FILTERED } from "@/lib/gqls/lessonGQLs";
 
 export type LessonReaction = "LIKED" | "DISLIKED" | "CROWNED" | undefined | null
 
@@ -16,7 +15,7 @@ export type LessonReactionsProps = {
 }
 
 export const LessonReactions: FC<LessonReactionsProps> = ({ lessonId, reaction }) => {
-    const [updateUserLikesMutation] = useMutation(UPDATE_USER, { refetchQueries: [GET_LESSON_FILTERED] })
+    const [updateUserLikesMutation] = useMutation(UPDATE_USER, { refetchQueries: [GET_USER_LESSONS] })
     const userData = useUser()
 
     const handleReact = (type: NonNullable<LessonReaction>) => {

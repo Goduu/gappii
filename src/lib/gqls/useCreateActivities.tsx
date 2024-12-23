@@ -37,6 +37,10 @@ export const useCreateActivities = () => {
                     title: `${data.topic} / ${data.subtopic}`,
                     level: data.level,
                     createdAt: new Date().toISOString(),
+                    isPublic: true,
+                    crownCount: 0,
+                    dislikeCount: 0,
+                    likeCount: 0,
                     hasTopic: {
                         connect: {
                             where: {
@@ -91,6 +95,9 @@ export const useCreateActivities = () => {
                                                 node: {
                                                     id: lessonData.data?.createLessons.lessons[0].id
                                                 }
+                                            },
+                                            edge: {
+                                                type: "CREATED"
                                             }
                                         }
                                     ]
@@ -114,6 +121,9 @@ export const useCreateActivities = () => {
                                             node: {
                                                 id: lessonData.data?.createLessons.lessons[0].id
                                             }
+                                        },
+                                        edge: {
+                                            type: "CREATED"
                                         }
                                     }
                                 ]

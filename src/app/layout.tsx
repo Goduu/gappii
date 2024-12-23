@@ -3,11 +3,13 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ApolloWrapper } from "@/lib/apollo-provider";
 import { Toaster } from "@/components/ui/toaster";
-import { ClerkProvider } from '@clerk/nextjs'
+import { ClerkProvider, SignedIn, SignedOut, SignInButton } from '@clerk/nextjs'
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { TransitionProvider } from "@/components/loading-store";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Footer } from "@/components/home/footer";
+import { LogIn } from "lucide-react";
+import { LoggedInMenu } from "./loggedin-menu";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -45,6 +47,18 @@ export default function RootLayout({
                     <ApolloWrapper >
                       {children}
                     </ApolloWrapper>
+                    <div className="absolute left-4 top-4">
+                      <SignedOut>
+                        <SignInButton mode="modal">
+                          <div className="rounded-full aspect-square outline p-1 hover:bg-gray-100 cursor-pointer">
+                            <LogIn size={18} />
+                          </div>
+                        </SignInButton>
+                      </SignedOut>
+                      <SignedIn>
+                        <LoggedInMenu />
+                      </SignedIn>
+                    </div>
                   </main>
                   <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center pt-4">
                     <Footer />

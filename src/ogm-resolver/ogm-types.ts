@@ -293,6 +293,7 @@ export type Activity = {
   options: Array<Scalars["String"]["output"]>;
   answer: Scalars["String"]["output"];
   comment: Scalars["String"]["output"];
+  reportCount?: Maybe<Scalars["Int"]["output"]>;
 };
 
 export type ActivityAggregateSelection = {
@@ -302,6 +303,7 @@ export type ActivityAggregateSelection = {
   description: StringAggregateSelection;
   answer: StringAggregateSelection;
   comment: StringAggregateSelection;
+  reportCount: IntAggregateSelection;
 };
 
 export type ActivityEdge = {
@@ -316,9 +318,31 @@ export type Collection = {
   title: Scalars["String"]["output"];
   icon: Scalars["String"]["output"];
   color: Scalars["String"]["output"];
+  parentAggregate?: Maybe<CollectionCollectionParentAggregationSelection>;
+  parent?: Maybe<Collection>;
+  parentConnection: CollectionParentConnection;
   hasLessonsAggregate?: Maybe<CollectionLessonHasLessonsAggregationSelection>;
   hasLessons: Array<Lesson>;
   hasLessonsConnection: CollectionHasLessonsConnection;
+};
+
+export type CollectionParentAggregateArgs = {
+  where?: InputMaybe<CollectionWhere>;
+  directed?: InputMaybe<Scalars["Boolean"]["input"]>;
+};
+
+export type CollectionParentArgs = {
+  where?: InputMaybe<CollectionWhere>;
+  options?: InputMaybe<CollectionOptions>;
+  directed?: InputMaybe<Scalars["Boolean"]["input"]>;
+};
+
+export type CollectionParentConnectionArgs = {
+  where?: InputMaybe<CollectionParentConnectionWhere>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  directed?: InputMaybe<Scalars["Boolean"]["input"]>;
+  sort?: InputMaybe<Array<CollectionParentConnectionSort>>;
 };
 
 export type CollectionHasLessonsAggregateArgs = {
@@ -343,6 +367,20 @@ export type CollectionHasLessonsConnectionArgs = {
 export type CollectionAggregateSelection = {
   __typename?: "CollectionAggregateSelection";
   count: Scalars["Int"]["output"];
+  id: IdAggregateSelection;
+  title: StringAggregateSelection;
+  icon: StringAggregateSelection;
+  color: StringAggregateSelection;
+};
+
+export type CollectionCollectionParentAggregationSelection = {
+  __typename?: "CollectionCollectionParentAggregationSelection";
+  count: Scalars["Int"]["output"];
+  node?: Maybe<CollectionCollectionParentNodeAggregateSelection>;
+};
+
+export type CollectionCollectionParentNodeAggregateSelection = {
+  __typename?: "CollectionCollectionParentNodeAggregateSelection";
   id: IdAggregateSelection;
   title: StringAggregateSelection;
   icon: StringAggregateSelection;
@@ -380,6 +418,22 @@ export type CollectionLessonHasLessonsNodeAggregateSelection = {
   title: StringAggregateSelection;
   level: IntAggregateSelection;
   createdAt: DateTimeAggregateSelection;
+  likeCount: IntAggregateSelection;
+  dislikeCount: IntAggregateSelection;
+  crownCount: IntAggregateSelection;
+};
+
+export type CollectionParentConnection = {
+  __typename?: "CollectionParentConnection";
+  edges: Array<CollectionParentRelationship>;
+  totalCount: Scalars["Int"]["output"];
+  pageInfo: PageInfo;
+};
+
+export type CollectionParentRelationship = {
+  __typename?: "CollectionParentRelationship";
+  cursor: Scalars["String"]["output"];
+  node: Collection;
 };
 
 export type CollectionsConnection = {
@@ -449,6 +503,15 @@ export type DeleteInfo = {
   relationshipsDeleted: Scalars["Int"]["output"];
 };
 
+/**
+ * The edge properties for the following fields:
+ * * User.hasLessons
+ */
+export type HasLesson = {
+  __typename?: "HasLesson";
+  type: Scalars["String"]["output"];
+};
+
 export type IdAggregateSelection = {
   __typename?: "IDAggregateSelection";
   shortest?: Maybe<Scalars["ID"]["output"]>;
@@ -494,23 +557,26 @@ export type Lesson = {
   id?: Maybe<Scalars["ID"]["output"]>;
   title: Scalars["String"]["output"];
   level: Scalars["Int"]["output"];
+  isPublic: Scalars["Boolean"]["output"];
   createdAt: Scalars["DateTime"]["output"];
-  reactedCount: Scalars["Int"]["output"];
+  likeCount: Scalars["Int"]["output"];
+  dislikeCount: Scalars["Int"]["output"];
+  crownCount: Scalars["Int"]["output"];
   hasTopicAggregate?: Maybe<LessonTopicHasTopicAggregationSelection>;
   hasTopic: Topic;
   hasTopicConnection: LessonHasTopicConnection;
   hasSubtopicAggregate?: Maybe<LessonTopicHasSubtopicAggregationSelection>;
   hasSubtopic: Topic;
   hasSubtopicConnection: LessonHasSubtopicConnection;
+  hasKeywordsAggregate?: Maybe<LessonKeywordHasKeywordsAggregationSelection>;
+  hasKeywords: Array<Keyword>;
+  hasKeywordsConnection: LessonHasKeywordsConnection;
   hasActivitiesAggregate?: Maybe<LessonActivityHasActivitiesAggregationSelection>;
   hasActivities: Array<Activity>;
   hasActivitiesConnection: LessonHasActivitiesConnection;
   wasReactedAggregate?: Maybe<LessonUserWasReactedAggregationSelection>;
   wasReacted: Array<User>;
   wasReactedConnection: LessonWasReactedConnection;
-  hasKeywordsAggregate?: Maybe<LessonKeywordHasKeywordsAggregationSelection>;
-  hasKeywords: Array<Keyword>;
-  hasKeywordsConnection: LessonHasKeywordsConnection;
 };
 
 export type LessonHasTopicAggregateArgs = {
@@ -551,6 +617,25 @@ export type LessonHasSubtopicConnectionArgs = {
   sort?: InputMaybe<Array<LessonHasSubtopicConnectionSort>>;
 };
 
+export type LessonHasKeywordsAggregateArgs = {
+  where?: InputMaybe<KeywordWhere>;
+  directed?: InputMaybe<Scalars["Boolean"]["input"]>;
+};
+
+export type LessonHasKeywordsArgs = {
+  where?: InputMaybe<KeywordWhere>;
+  options?: InputMaybe<KeywordOptions>;
+  directed?: InputMaybe<Scalars["Boolean"]["input"]>;
+};
+
+export type LessonHasKeywordsConnectionArgs = {
+  where?: InputMaybe<LessonHasKeywordsConnectionWhere>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  directed?: InputMaybe<Scalars["Boolean"]["input"]>;
+  sort?: InputMaybe<Array<LessonHasKeywordsConnectionSort>>;
+};
+
 export type LessonHasActivitiesAggregateArgs = {
   where?: InputMaybe<ActivityWhere>;
   directed?: InputMaybe<Scalars["Boolean"]["input"]>;
@@ -589,25 +674,6 @@ export type LessonWasReactedConnectionArgs = {
   sort?: InputMaybe<Array<LessonWasReactedConnectionSort>>;
 };
 
-export type LessonHasKeywordsAggregateArgs = {
-  where?: InputMaybe<KeywordWhere>;
-  directed?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-export type LessonHasKeywordsArgs = {
-  where?: InputMaybe<KeywordWhere>;
-  options?: InputMaybe<KeywordOptions>;
-  directed?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-export type LessonHasKeywordsConnectionArgs = {
-  where?: InputMaybe<LessonHasKeywordsConnectionWhere>;
-  first?: InputMaybe<Scalars["Int"]["input"]>;
-  after?: InputMaybe<Scalars["String"]["input"]>;
-  directed?: InputMaybe<Scalars["Boolean"]["input"]>;
-  sort?: InputMaybe<Array<LessonHasKeywordsConnectionSort>>;
-};
-
 export type LessonActivityHasActivitiesAggregationSelection = {
   __typename?: "LessonActivityHasActivitiesAggregationSelection";
   count: Scalars["Int"]["output"];
@@ -620,6 +686,7 @@ export type LessonActivityHasActivitiesNodeAggregateSelection = {
   description: StringAggregateSelection;
   answer: StringAggregateSelection;
   comment: StringAggregateSelection;
+  reportCount: IntAggregateSelection;
 };
 
 export type LessonAggregateSelection = {
@@ -629,6 +696,9 @@ export type LessonAggregateSelection = {
   title: StringAggregateSelection;
   level: IntAggregateSelection;
   createdAt: DateTimeAggregateSelection;
+  likeCount: IntAggregateSelection;
+  dislikeCount: IntAggregateSelection;
+  crownCount: IntAggregateSelection;
 };
 
 export type LessonEdge = {
@@ -970,6 +1040,7 @@ export type UserActivityReportedActivitiesNodeAggregateSelection = {
   description: StringAggregateSelection;
   answer: StringAggregateSelection;
   comment: StringAggregateSelection;
+  reportCount: IntAggregateSelection;
 };
 
 export type UserAggregateSelection = {
@@ -1024,12 +1095,19 @@ export type UserHasLessonsRelationship = {
   __typename?: "UserHasLessonsRelationship";
   cursor: Scalars["String"]["output"];
   node: Lesson;
+  properties: HasLesson;
 };
 
 export type UserLessonHasLessonsAggregationSelection = {
   __typename?: "UserLessonHasLessonsAggregationSelection";
   count: Scalars["Int"]["output"];
   node?: Maybe<UserLessonHasLessonsNodeAggregateSelection>;
+  edge?: Maybe<UserLessonHasLessonsEdgeAggregateSelection>;
+};
+
+export type UserLessonHasLessonsEdgeAggregateSelection = {
+  __typename?: "UserLessonHasLessonsEdgeAggregateSelection";
+  type: StringAggregateSelection;
 };
 
 export type UserLessonHasLessonsNodeAggregateSelection = {
@@ -1038,6 +1116,9 @@ export type UserLessonHasLessonsNodeAggregateSelection = {
   title: StringAggregateSelection;
   level: IntAggregateSelection;
   createdAt: DateTimeAggregateSelection;
+  likeCount: IntAggregateSelection;
+  dislikeCount: IntAggregateSelection;
+  crownCount: IntAggregateSelection;
 };
 
 export type UserLessonReactedToLessonsAggregationSelection = {
@@ -1058,6 +1139,9 @@ export type UserLessonReactedToLessonsNodeAggregateSelection = {
   title: StringAggregateSelection;
   level: IntAggregateSelection;
   createdAt: DateTimeAggregateSelection;
+  likeCount: IntAggregateSelection;
+  dislikeCount: IntAggregateSelection;
+  crownCount: IntAggregateSelection;
 };
 
 export type UserReactedToLessonsConnection = {
@@ -1103,6 +1187,7 @@ export type ActivityCreateInput = {
   options: Array<Scalars["String"]["input"]>;
   answer: Scalars["String"]["input"];
   comment: Scalars["String"]["input"];
+  reportCount?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type ActivityOptions = {
@@ -1118,6 +1203,7 @@ export type ActivitySort = {
   description?: InputMaybe<SortDirection>;
   answer?: InputMaybe<SortDirection>;
   comment?: InputMaybe<SortDirection>;
+  reportCount?: InputMaybe<SortDirection>;
 };
 
 export type ActivityUpdateInput = {
@@ -1127,6 +1213,9 @@ export type ActivityUpdateInput = {
   options_PUSH?: InputMaybe<Array<Scalars["String"]["input"]>>;
   answer?: InputMaybe<Scalars["String"]["input"]>;
   comment?: InputMaybe<Scalars["String"]["input"]>;
+  reportCount?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_INCREMENT?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_DECREMENT?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type ActivityWhere = {
@@ -1196,12 +1285,23 @@ export type ActivityWhere = {
   comment_NOT_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
   /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
   comment_NOT_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  reportCount?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  reportCount_NOT?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_IN?: InputMaybe<Array<InputMaybe<Scalars["Int"]["input"]>>>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  reportCount_NOT_IN?: InputMaybe<Array<InputMaybe<Scalars["Int"]["input"]>>>;
+  reportCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
   OR?: InputMaybe<Array<ActivityWhere>>;
   AND?: InputMaybe<Array<ActivityWhere>>;
   NOT?: InputMaybe<ActivityWhere>;
 };
 
 export type CollectionConnectInput = {
+  parent?: InputMaybe<CollectionParentConnectFieldInput>;
   hasLessons?: InputMaybe<Array<CollectionHasLessonsConnectFieldInput>>;
 };
 
@@ -1217,14 +1317,17 @@ export type CollectionCreateInput = {
   title: Scalars["String"]["input"];
   icon: Scalars["String"]["input"];
   color: Scalars["String"]["input"];
+  parent?: InputMaybe<CollectionParentFieldInput>;
   hasLessons?: InputMaybe<CollectionHasLessonsFieldInput>;
 };
 
 export type CollectionDeleteInput = {
+  parent?: InputMaybe<CollectionParentDeleteFieldInput>;
   hasLessons?: InputMaybe<Array<CollectionHasLessonsDeleteFieldInput>>;
 };
 
 export type CollectionDisconnectInput = {
+  parent?: InputMaybe<CollectionParentDisconnectFieldInput>;
   hasLessons?: InputMaybe<Array<CollectionHasLessonsDisconnectFieldInput>>;
 };
 
@@ -1402,6 +1505,96 @@ export type CollectionHasLessonsNodeAggregationWhereInput = {
   createdAt_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
   createdAt_MIN_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
   createdAt_MAX_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  likeCount_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MIN_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MAX_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_SUM_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  likeCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MIN_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MAX_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_SUM_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  likeCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MIN_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MAX_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_SUM_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  likeCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MIN_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MAX_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_SUM_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  likeCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MIN_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  dislikeCount_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MIN_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MAX_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_SUM_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  dislikeCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MIN_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MAX_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_SUM_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  dislikeCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MIN_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MAX_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_SUM_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  dislikeCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MIN_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MAX_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_SUM_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  dislikeCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MIN_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  crownCount_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MIN_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MAX_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_SUM_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  crownCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MIN_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MAX_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_SUM_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  crownCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MIN_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MAX_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_SUM_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  crownCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MIN_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MAX_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_SUM_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  crownCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MIN_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
 };
 
 export type CollectionHasLessonsUpdateConnectionInput = {
@@ -1427,7 +1620,245 @@ export type CollectionOptions = {
   sort?: InputMaybe<Array<CollectionSort>>;
 };
 
+export type CollectionParentAggregateInput = {
+  count?: InputMaybe<Scalars["Int"]["input"]>;
+  count_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  count_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  count_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  count_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  AND?: InputMaybe<Array<CollectionParentAggregateInput>>;
+  OR?: InputMaybe<Array<CollectionParentAggregateInput>>;
+  NOT?: InputMaybe<CollectionParentAggregateInput>;
+  node?: InputMaybe<CollectionParentNodeAggregationWhereInput>;
+};
+
+export type CollectionParentConnectFieldInput = {
+  where?: InputMaybe<CollectionConnectWhere>;
+  /** Whether or not to overwrite any matching relationship with the new properties. */
+  overwrite?: Scalars["Boolean"]["input"];
+  connect?: InputMaybe<CollectionConnectInput>;
+};
+
+export type CollectionParentConnectionSort = {
+  node?: InputMaybe<CollectionSort>;
+};
+
+export type CollectionParentConnectionWhere = {
+  AND?: InputMaybe<Array<CollectionParentConnectionWhere>>;
+  OR?: InputMaybe<Array<CollectionParentConnectionWhere>>;
+  NOT?: InputMaybe<CollectionParentConnectionWhere>;
+  node?: InputMaybe<CollectionWhere>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  node_NOT?: InputMaybe<CollectionWhere>;
+};
+
+export type CollectionParentCreateFieldInput = {
+  node: CollectionCreateInput;
+};
+
+export type CollectionParentDeleteFieldInput = {
+  where?: InputMaybe<CollectionParentConnectionWhere>;
+  delete?: InputMaybe<CollectionDeleteInput>;
+};
+
+export type CollectionParentDisconnectFieldInput = {
+  where?: InputMaybe<CollectionParentConnectionWhere>;
+  disconnect?: InputMaybe<CollectionDisconnectInput>;
+};
+
+export type CollectionParentFieldInput = {
+  connect?: InputMaybe<CollectionParentConnectFieldInput>;
+  create?: InputMaybe<CollectionParentCreateFieldInput>;
+};
+
+export type CollectionParentNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<CollectionParentNodeAggregationWhereInput>>;
+  OR?: InputMaybe<Array<CollectionParentNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<CollectionParentNodeAggregationWhereInput>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  id_EQUAL?: InputMaybe<Scalars["ID"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  title_EQUAL?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  title_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  title_LONGEST_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  title_SHORTEST_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  title_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  title_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  title_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  title_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  title_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  title_LONGEST_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  title_SHORTEST_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  title_AVERAGE_LENGTH_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  title_LONGEST_LENGTH_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  title_SHORTEST_LENGTH_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  title_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  title_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  title_LONGEST_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  title_SHORTEST_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  title_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  title_LONGEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  title_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  title_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  title_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  title_LONGEST_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  title_SHORTEST_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  title_AVERAGE_LENGTH_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  title_LONGEST_LENGTH_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  title_SHORTEST_LENGTH_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  title_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  title_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  title_LONGEST_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  title_SHORTEST_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  title_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  title_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  title_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  icon_EQUAL?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  icon_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  icon_LONGEST_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  icon_SHORTEST_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  icon_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  icon_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  icon_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  icon_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  icon_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  icon_LONGEST_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  icon_SHORTEST_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  icon_AVERAGE_LENGTH_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  icon_LONGEST_LENGTH_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  icon_SHORTEST_LENGTH_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  icon_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  icon_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  icon_LONGEST_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  icon_SHORTEST_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  icon_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  icon_LONGEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  icon_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  icon_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  icon_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  icon_LONGEST_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  icon_SHORTEST_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  icon_AVERAGE_LENGTH_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  icon_LONGEST_LENGTH_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  icon_SHORTEST_LENGTH_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  icon_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  icon_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  icon_LONGEST_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  icon_SHORTEST_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  icon_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  icon_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  icon_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  color_EQUAL?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  color_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  color_LONGEST_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  color_SHORTEST_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  color_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  color_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  color_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  color_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  color_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  color_LONGEST_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  color_SHORTEST_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  color_AVERAGE_LENGTH_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  color_LONGEST_LENGTH_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  color_SHORTEST_LENGTH_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  color_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  color_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  color_LONGEST_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  color_SHORTEST_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  color_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  color_LONGEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  color_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  color_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  color_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  color_LONGEST_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  color_SHORTEST_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  color_AVERAGE_LENGTH_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  color_LONGEST_LENGTH_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  color_SHORTEST_LENGTH_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  color_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  color_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  color_LONGEST_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  color_SHORTEST_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  color_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  color_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  color_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+export type CollectionParentUpdateConnectionInput = {
+  node?: InputMaybe<CollectionUpdateInput>;
+};
+
+export type CollectionParentUpdateFieldInput = {
+  where?: InputMaybe<CollectionParentConnectionWhere>;
+  connect?: InputMaybe<CollectionParentConnectFieldInput>;
+  disconnect?: InputMaybe<CollectionParentDisconnectFieldInput>;
+  create?: InputMaybe<CollectionParentCreateFieldInput>;
+  update?: InputMaybe<CollectionParentUpdateConnectionInput>;
+  delete?: InputMaybe<CollectionParentDeleteFieldInput>;
+};
+
 export type CollectionRelationInput = {
+  parent?: InputMaybe<CollectionParentCreateFieldInput>;
   hasLessons?: InputMaybe<Array<CollectionHasLessonsCreateFieldInput>>;
 };
 
@@ -1443,6 +1874,7 @@ export type CollectionUpdateInput = {
   title?: InputMaybe<Scalars["String"]["input"]>;
   icon?: InputMaybe<Scalars["String"]["input"]>;
   color?: InputMaybe<Scalars["String"]["input"]>;
+  parent?: InputMaybe<CollectionParentUpdateFieldInput>;
   hasLessons?: InputMaybe<Array<CollectionHasLessonsUpdateFieldInput>>;
 };
 
@@ -1510,6 +1942,11 @@ export type CollectionWhere = {
   OR?: InputMaybe<Array<CollectionWhere>>;
   AND?: InputMaybe<Array<CollectionWhere>>;
   NOT?: InputMaybe<CollectionWhere>;
+  parent?: InputMaybe<CollectionWhere>;
+  parent_NOT?: InputMaybe<CollectionWhere>;
+  parentConnection?: InputMaybe<CollectionParentConnectionWhere>;
+  parentConnection_NOT?: InputMaybe<CollectionParentConnectionWhere>;
+  parentAggregate?: InputMaybe<CollectionParentAggregateInput>;
   /** @deprecated Use `hasLessons_SOME` instead. */
   hasLessons?: InputMaybe<LessonWhere>;
   /** @deprecated Use `hasLessons_NONE` instead. */
@@ -1535,6 +1972,100 @@ export type CollectionWhere = {
   /** Return Collections where some of the related CollectionHasLessonsConnections match this filter */
   hasLessonsConnection_SOME?: InputMaybe<CollectionHasLessonsConnectionWhere>;
   hasLessonsAggregate?: InputMaybe<CollectionHasLessonsAggregateInput>;
+};
+
+export type HasLessonAggregationWhereInput = {
+  AND?: InputMaybe<Array<HasLessonAggregationWhereInput>>;
+  OR?: InputMaybe<Array<HasLessonAggregationWhereInput>>;
+  NOT?: InputMaybe<HasLessonAggregationWhereInput>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  type_EQUAL?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  type_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  type_LONGEST_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  type_SHORTEST_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  type_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  type_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  type_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  type_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  type_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  type_LONGEST_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  type_SHORTEST_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  type_AVERAGE_LENGTH_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  type_LONGEST_LENGTH_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  type_SHORTEST_LENGTH_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  type_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  type_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  type_LONGEST_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  type_SHORTEST_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  type_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  type_LONGEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  type_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  type_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  type_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  type_LONGEST_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  type_SHORTEST_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  type_AVERAGE_LENGTH_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  type_LONGEST_LENGTH_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  type_SHORTEST_LENGTH_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  type_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  type_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  type_LONGEST_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  type_SHORTEST_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  type_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  type_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  type_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+export type HasLessonCreateInput = {
+  type: Scalars["String"]["input"];
+};
+
+export type HasLessonSort = {
+  type?: InputMaybe<SortDirection>;
+};
+
+export type HasLessonUpdateInput = {
+  type?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type HasLessonWhere = {
+  type?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  type_NOT?: InputMaybe<Scalars["String"]["input"]>;
+  type_IN?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  type_NOT_IN?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  type_CONTAINS?: InputMaybe<Scalars["String"]["input"]>;
+  type_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  type_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  type_NOT_CONTAINS?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  type_NOT_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  type_NOT_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  OR?: InputMaybe<Array<HasLessonWhere>>;
+  AND?: InputMaybe<Array<HasLessonWhere>>;
+  NOT?: InputMaybe<HasLessonWhere>;
 };
 
 export type KeywordConnectOrCreateWhere = {
@@ -1613,16 +2144,16 @@ export type KeywordWhere = {
 export type LessonConnectInput = {
   hasTopic?: InputMaybe<LessonHasTopicConnectFieldInput>;
   hasSubtopic?: InputMaybe<LessonHasSubtopicConnectFieldInput>;
+  hasKeywords?: InputMaybe<Array<LessonHasKeywordsConnectFieldInput>>;
   hasActivities?: InputMaybe<Array<LessonHasActivitiesConnectFieldInput>>;
   wasReacted?: InputMaybe<Array<LessonWasReactedConnectFieldInput>>;
-  hasKeywords?: InputMaybe<Array<LessonHasKeywordsConnectFieldInput>>;
 };
 
 export type LessonConnectOrCreateInput = {
   hasTopic?: InputMaybe<LessonHasTopicConnectOrCreateFieldInput>;
   hasSubtopic?: InputMaybe<LessonHasSubtopicConnectOrCreateFieldInput>;
-  wasReacted?: InputMaybe<Array<LessonWasReactedConnectOrCreateFieldInput>>;
   hasKeywords?: InputMaybe<Array<LessonHasKeywordsConnectOrCreateFieldInput>>;
+  wasReacted?: InputMaybe<Array<LessonWasReactedConnectOrCreateFieldInput>>;
 };
 
 export type LessonConnectOrCreateWhere = {
@@ -1636,28 +2167,32 @@ export type LessonConnectWhere = {
 export type LessonCreateInput = {
   title: Scalars["String"]["input"];
   level: Scalars["Int"]["input"];
+  isPublic: Scalars["Boolean"]["input"];
   createdAt: Scalars["DateTime"]["input"];
+  likeCount: Scalars["Int"]["input"];
+  dislikeCount: Scalars["Int"]["input"];
+  crownCount: Scalars["Int"]["input"];
   hasTopic?: InputMaybe<LessonHasTopicFieldInput>;
   hasSubtopic?: InputMaybe<LessonHasSubtopicFieldInput>;
+  hasKeywords?: InputMaybe<LessonHasKeywordsFieldInput>;
   hasActivities?: InputMaybe<LessonHasActivitiesFieldInput>;
   wasReacted?: InputMaybe<LessonWasReactedFieldInput>;
-  hasKeywords?: InputMaybe<LessonHasKeywordsFieldInput>;
 };
 
 export type LessonDeleteInput = {
   hasTopic?: InputMaybe<LessonHasTopicDeleteFieldInput>;
   hasSubtopic?: InputMaybe<LessonHasSubtopicDeleteFieldInput>;
+  hasKeywords?: InputMaybe<Array<LessonHasKeywordsDeleteFieldInput>>;
   hasActivities?: InputMaybe<Array<LessonHasActivitiesDeleteFieldInput>>;
   wasReacted?: InputMaybe<Array<LessonWasReactedDeleteFieldInput>>;
-  hasKeywords?: InputMaybe<Array<LessonHasKeywordsDeleteFieldInput>>;
 };
 
 export type LessonDisconnectInput = {
   hasTopic?: InputMaybe<LessonHasTopicDisconnectFieldInput>;
   hasSubtopic?: InputMaybe<LessonHasSubtopicDisconnectFieldInput>;
+  hasKeywords?: InputMaybe<Array<LessonHasKeywordsDisconnectFieldInput>>;
   hasActivities?: InputMaybe<Array<LessonHasActivitiesDisconnectFieldInput>>;
   wasReacted?: InputMaybe<Array<LessonWasReactedDisconnectFieldInput>>;
-  hasKeywords?: InputMaybe<Array<LessonHasKeywordsDisconnectFieldInput>>;
 };
 
 export type LessonHasActivitiesAggregateInput = {
@@ -1879,6 +2414,36 @@ export type LessonHasActivitiesNodeAggregationWhereInput = {
   comment_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars["Float"]["input"]>;
   comment_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   comment_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  reportCount_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_MIN_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_MAX_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_SUM_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  reportCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_MIN_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_MAX_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_SUM_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  reportCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_MIN_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_MAX_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_SUM_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  reportCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_MIN_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_MAX_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_SUM_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  reportCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_MIN_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
 };
 
 export type LessonHasActivitiesUpdateConnectionInput = {
@@ -2306,7 +2871,11 @@ export type LessonHasTopicUpdateFieldInput = {
 export type LessonOnCreateInput = {
   title: Scalars["String"]["input"];
   level: Scalars["Int"]["input"];
+  isPublic: Scalars["Boolean"]["input"];
   createdAt: Scalars["DateTime"]["input"];
+  likeCount: Scalars["Int"]["input"];
+  dislikeCount: Scalars["Int"]["input"];
+  crownCount: Scalars["Int"]["input"];
 };
 
 export type LessonOptions = {
@@ -2319,9 +2888,9 @@ export type LessonOptions = {
 export type LessonRelationInput = {
   hasTopic?: InputMaybe<LessonHasTopicCreateFieldInput>;
   hasSubtopic?: InputMaybe<LessonHasSubtopicCreateFieldInput>;
+  hasKeywords?: InputMaybe<Array<LessonHasKeywordsCreateFieldInput>>;
   hasActivities?: InputMaybe<Array<LessonHasActivitiesCreateFieldInput>>;
   wasReacted?: InputMaybe<Array<LessonWasReactedCreateFieldInput>>;
-  hasKeywords?: InputMaybe<Array<LessonHasKeywordsCreateFieldInput>>;
 };
 
 /** Fields to sort Lessons by. The order in which sorts are applied is not guaranteed when specifying many fields in one LessonSort object. */
@@ -2329,8 +2898,11 @@ export type LessonSort = {
   id?: InputMaybe<SortDirection>;
   title?: InputMaybe<SortDirection>;
   level?: InputMaybe<SortDirection>;
+  isPublic?: InputMaybe<SortDirection>;
   createdAt?: InputMaybe<SortDirection>;
-  reactedCount?: InputMaybe<SortDirection>;
+  likeCount?: InputMaybe<SortDirection>;
+  dislikeCount?: InputMaybe<SortDirection>;
+  crownCount?: InputMaybe<SortDirection>;
 };
 
 export type LessonUniqueWhere = {
@@ -2343,12 +2915,22 @@ export type LessonUpdateInput = {
   level?: InputMaybe<Scalars["Int"]["input"]>;
   level_INCREMENT?: InputMaybe<Scalars["Int"]["input"]>;
   level_DECREMENT?: InputMaybe<Scalars["Int"]["input"]>;
+  isPublic?: InputMaybe<Scalars["Boolean"]["input"]>;
   createdAt?: InputMaybe<Scalars["DateTime"]["input"]>;
+  likeCount?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_INCREMENT?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_DECREMENT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_INCREMENT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_DECREMENT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_INCREMENT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_DECREMENT?: InputMaybe<Scalars["Int"]["input"]>;
   hasTopic?: InputMaybe<LessonHasTopicUpdateFieldInput>;
   hasSubtopic?: InputMaybe<LessonHasSubtopicUpdateFieldInput>;
+  hasKeywords?: InputMaybe<Array<LessonHasKeywordsUpdateFieldInput>>;
   hasActivities?: InputMaybe<Array<LessonHasActivitiesUpdateFieldInput>>;
   wasReacted?: InputMaybe<Array<LessonWasReactedUpdateFieldInput>>;
-  hasKeywords?: InputMaybe<Array<LessonHasKeywordsUpdateFieldInput>>;
 };
 
 export type LessonWasReactedAggregateInput = {
@@ -2598,6 +3180,9 @@ export type LessonWhere = {
   level_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   level_GT?: InputMaybe<Scalars["Int"]["input"]>;
   level_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  isPublic?: InputMaybe<Scalars["Boolean"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  isPublic_NOT?: InputMaybe<Scalars["Boolean"]["input"]>;
   createdAt?: InputMaybe<Scalars["DateTime"]["input"]>;
   /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
   createdAt_NOT?: InputMaybe<Scalars["DateTime"]["input"]>;
@@ -2608,16 +3193,36 @@ export type LessonWhere = {
   createdAt_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
   createdAt_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
   createdAt_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
-  reactedCount?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount?: InputMaybe<Scalars["Int"]["input"]>;
   /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  reactedCount_NOT?: InputMaybe<Scalars["Int"]["input"]>;
-  reactedCount_IN?: InputMaybe<Array<Scalars["Int"]["input"]>>;
+  likeCount_NOT?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_IN?: InputMaybe<Array<Scalars["Int"]["input"]>>;
   /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  reactedCount_NOT_IN?: InputMaybe<Array<Scalars["Int"]["input"]>>;
-  reactedCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  reactedCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  reactedCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  reactedCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_NOT_IN?: InputMaybe<Array<Scalars["Int"]["input"]>>;
+  likeCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  dislikeCount_NOT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_IN?: InputMaybe<Array<Scalars["Int"]["input"]>>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  dislikeCount_NOT_IN?: InputMaybe<Array<Scalars["Int"]["input"]>>;
+  dislikeCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  crownCount_NOT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_IN?: InputMaybe<Array<Scalars["Int"]["input"]>>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  crownCount_NOT_IN?: InputMaybe<Array<Scalars["Int"]["input"]>>;
+  crownCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
   OR?: InputMaybe<Array<LessonWhere>>;
   AND?: InputMaybe<Array<LessonWhere>>;
   NOT?: InputMaybe<LessonWhere>;
@@ -2631,6 +3236,31 @@ export type LessonWhere = {
   hasSubtopicConnection?: InputMaybe<LessonHasSubtopicConnectionWhere>;
   hasSubtopicConnection_NOT?: InputMaybe<LessonHasSubtopicConnectionWhere>;
   hasSubtopicAggregate?: InputMaybe<LessonHasSubtopicAggregateInput>;
+  /** @deprecated Use `hasKeywords_SOME` instead. */
+  hasKeywords?: InputMaybe<KeywordWhere>;
+  /** @deprecated Use `hasKeywords_NONE` instead. */
+  hasKeywords_NOT?: InputMaybe<KeywordWhere>;
+  /** Return Lessons where all of the related Keywords match this filter */
+  hasKeywords_ALL?: InputMaybe<KeywordWhere>;
+  /** Return Lessons where none of the related Keywords match this filter */
+  hasKeywords_NONE?: InputMaybe<KeywordWhere>;
+  /** Return Lessons where one of the related Keywords match this filter */
+  hasKeywords_SINGLE?: InputMaybe<KeywordWhere>;
+  /** Return Lessons where some of the related Keywords match this filter */
+  hasKeywords_SOME?: InputMaybe<KeywordWhere>;
+  /** @deprecated Use `hasKeywordsConnection_SOME` instead. */
+  hasKeywordsConnection?: InputMaybe<LessonHasKeywordsConnectionWhere>;
+  /** @deprecated Use `hasKeywordsConnection_NONE` instead. */
+  hasKeywordsConnection_NOT?: InputMaybe<LessonHasKeywordsConnectionWhere>;
+  /** Return Lessons where all of the related LessonHasKeywordsConnections match this filter */
+  hasKeywordsConnection_ALL?: InputMaybe<LessonHasKeywordsConnectionWhere>;
+  /** Return Lessons where none of the related LessonHasKeywordsConnections match this filter */
+  hasKeywordsConnection_NONE?: InputMaybe<LessonHasKeywordsConnectionWhere>;
+  /** Return Lessons where one of the related LessonHasKeywordsConnections match this filter */
+  hasKeywordsConnection_SINGLE?: InputMaybe<LessonHasKeywordsConnectionWhere>;
+  /** Return Lessons where some of the related LessonHasKeywordsConnections match this filter */
+  hasKeywordsConnection_SOME?: InputMaybe<LessonHasKeywordsConnectionWhere>;
+  hasKeywordsAggregate?: InputMaybe<LessonHasKeywordsAggregateInput>;
   /** @deprecated Use `hasActivities_SOME` instead. */
   hasActivities?: InputMaybe<ActivityWhere>;
   /** @deprecated Use `hasActivities_NONE` instead. */
@@ -2681,31 +3311,6 @@ export type LessonWhere = {
   /** Return Lessons where some of the related LessonWasReactedConnections match this filter */
   wasReactedConnection_SOME?: InputMaybe<LessonWasReactedConnectionWhere>;
   wasReactedAggregate?: InputMaybe<LessonWasReactedAggregateInput>;
-  /** @deprecated Use `hasKeywords_SOME` instead. */
-  hasKeywords?: InputMaybe<KeywordWhere>;
-  /** @deprecated Use `hasKeywords_NONE` instead. */
-  hasKeywords_NOT?: InputMaybe<KeywordWhere>;
-  /** Return Lessons where all of the related Keywords match this filter */
-  hasKeywords_ALL?: InputMaybe<KeywordWhere>;
-  /** Return Lessons where none of the related Keywords match this filter */
-  hasKeywords_NONE?: InputMaybe<KeywordWhere>;
-  /** Return Lessons where one of the related Keywords match this filter */
-  hasKeywords_SINGLE?: InputMaybe<KeywordWhere>;
-  /** Return Lessons where some of the related Keywords match this filter */
-  hasKeywords_SOME?: InputMaybe<KeywordWhere>;
-  /** @deprecated Use `hasKeywordsConnection_SOME` instead. */
-  hasKeywordsConnection?: InputMaybe<LessonHasKeywordsConnectionWhere>;
-  /** @deprecated Use `hasKeywordsConnection_NONE` instead. */
-  hasKeywordsConnection_NOT?: InputMaybe<LessonHasKeywordsConnectionWhere>;
-  /** Return Lessons where all of the related LessonHasKeywordsConnections match this filter */
-  hasKeywordsConnection_ALL?: InputMaybe<LessonHasKeywordsConnectionWhere>;
-  /** Return Lessons where none of the related LessonHasKeywordsConnections match this filter */
-  hasKeywordsConnection_NONE?: InputMaybe<LessonHasKeywordsConnectionWhere>;
-  /** Return Lessons where one of the related LessonHasKeywordsConnections match this filter */
-  hasKeywordsConnection_SINGLE?: InputMaybe<LessonHasKeywordsConnectionWhere>;
-  /** Return Lessons where some of the related LessonHasKeywordsConnections match this filter */
-  hasKeywordsConnection_SOME?: InputMaybe<LessonHasKeywordsConnectionWhere>;
-  hasKeywordsAggregate?: InputMaybe<LessonHasKeywordsAggregateInput>;
 };
 
 export type ReactedAggregationWhereInput = {
@@ -3175,9 +3780,11 @@ export type UserHasLessonsAggregateInput = {
   OR?: InputMaybe<Array<UserHasLessonsAggregateInput>>;
   NOT?: InputMaybe<UserHasLessonsAggregateInput>;
   node?: InputMaybe<UserHasLessonsNodeAggregationWhereInput>;
+  edge?: InputMaybe<HasLessonAggregationWhereInput>;
 };
 
 export type UserHasLessonsConnectFieldInput = {
+  edge: HasLessonCreateInput;
   where?: InputMaybe<LessonConnectWhere>;
   /** Whether or not to overwrite any matching relationship with the new properties. */
   overwrite?: Scalars["Boolean"]["input"];
@@ -3186,6 +3793,7 @@ export type UserHasLessonsConnectFieldInput = {
 
 export type UserHasLessonsConnectionSort = {
   node?: InputMaybe<LessonSort>;
+  edge?: InputMaybe<HasLessonSort>;
 };
 
 export type UserHasLessonsConnectionWhere = {
@@ -3195,6 +3803,9 @@ export type UserHasLessonsConnectionWhere = {
   node?: InputMaybe<LessonWhere>;
   /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
   node_NOT?: InputMaybe<LessonWhere>;
+  edge?: InputMaybe<HasLessonWhere>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  edge_NOT?: InputMaybe<HasLessonWhere>;
 };
 
 export type UserHasLessonsConnectOrCreateFieldInput = {
@@ -3204,9 +3815,11 @@ export type UserHasLessonsConnectOrCreateFieldInput = {
 
 export type UserHasLessonsConnectOrCreateFieldInputOnCreate = {
   node: LessonOnCreateInput;
+  edge: HasLessonCreateInput;
 };
 
 export type UserHasLessonsCreateFieldInput = {
+  edge: HasLessonCreateInput;
   node: LessonCreateInput;
 };
 
@@ -3337,10 +3950,101 @@ export type UserHasLessonsNodeAggregationWhereInput = {
   createdAt_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
   createdAt_MIN_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
   createdAt_MAX_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  likeCount_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MIN_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MAX_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_SUM_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  likeCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MIN_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MAX_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_SUM_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  likeCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MIN_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MAX_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_SUM_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  likeCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MIN_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MAX_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_SUM_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  likeCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MIN_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  dislikeCount_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MIN_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MAX_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_SUM_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  dislikeCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MIN_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MAX_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_SUM_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  dislikeCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MIN_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MAX_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_SUM_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  dislikeCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MIN_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MAX_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_SUM_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  dislikeCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MIN_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  crownCount_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MIN_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MAX_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_SUM_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  crownCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MIN_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MAX_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_SUM_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  crownCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MIN_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MAX_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_SUM_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  crownCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MIN_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MAX_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_SUM_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  crownCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MIN_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
 };
 
 export type UserHasLessonsUpdateConnectionInput = {
   node?: InputMaybe<LessonUpdateInput>;
+  edge?: InputMaybe<HasLessonUpdateInput>;
 };
 
 export type UserHasLessonsUpdateFieldInput = {
@@ -3547,6 +4251,96 @@ export type UserReactedToLessonsNodeAggregationWhereInput = {
   createdAt_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
   createdAt_MIN_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
   createdAt_MAX_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  likeCount_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MIN_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MAX_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_SUM_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  likeCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MIN_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MAX_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_SUM_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  likeCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MIN_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MAX_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_SUM_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  likeCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MIN_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MAX_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_SUM_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  likeCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MIN_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  likeCount_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  dislikeCount_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MIN_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MAX_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_SUM_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  dislikeCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MIN_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MAX_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_SUM_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  dislikeCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MIN_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MAX_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_SUM_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  dislikeCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MIN_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MAX_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_SUM_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  dislikeCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MIN_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  dislikeCount_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  crownCount_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MIN_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MAX_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_SUM_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  crownCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MIN_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MAX_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_SUM_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  crownCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MIN_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MAX_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_SUM_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  crownCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MIN_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MAX_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_SUM_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  crownCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MIN_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  crownCount_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
 };
 
 export type UserReactedToLessonsUpdateConnectionInput = {
@@ -3794,6 +4588,36 @@ export type UserReportedActivitiesNodeAggregationWhereInput = {
   comment_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars["Float"]["input"]>;
   comment_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   comment_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  reportCount_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_MIN_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_MAX_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_SUM_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  reportCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_MIN_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_MAX_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_SUM_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  reportCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_MIN_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_MAX_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_SUM_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  reportCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_MIN_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_MAX_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_SUM_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  reportCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_MIN_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  reportCount_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
 };
 
 export type UserReportedActivitiesUpdateConnectionInput = {
@@ -4036,6 +4860,9 @@ export interface LessonAggregateSelectionInput {
   title?: boolean;
   level?: boolean;
   createdAt?: boolean;
+  likeCount?: boolean;
+  dislikeCount?: boolean;
+  crownCount?: boolean;
 }
 
 export declare class LessonModel {
@@ -4187,6 +5014,7 @@ export interface ActivityAggregateSelectionInput {
   description?: boolean;
   answer?: boolean;
   comment?: boolean;
+  reportCount?: boolean;
 }
 
 export declare class ActivityModel {

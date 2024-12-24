@@ -17,15 +17,13 @@ export const LoggedInMenu = () => {
         <div className="flex gap-2 flex-col items-center">
             <UserButton />
             <DropdownMenu>
-                <DropdownMenuTrigger>
-                    <div className="rounded-full aspect-square outline p-1 hover:bg-gray-100 cursor-pointer">
-                        <Lightbulb size={18} />
-                    </div>
+                <DropdownMenuTrigger className="rounded-full aspect-square outline outline-gray-200 p-1 hover:bg-gray-100 cursor-pointer">
+                    <Lightbulb size={18} />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                     {items.map(item => (
                         <DropdownMenuItem key={item.title} >
-                            <a href={item.url} className="flex items-center gap-1">
+                            <a href={item.url} className="flex items-center gap-1 w-full">
                                 <item.icon />
                                 <span>{item.title}</span>
                             </a>

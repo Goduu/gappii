@@ -3,6 +3,8 @@ import { EditActivity } from './edit-activity'
 import { Lesson } from '@/ogm-resolver/ogm-types'
 import { useLessonForm } from './useLessonForm'
 import { Form } from '@/components/ui/form'
+import { Button } from '@/components/ui/button'
+import { Plus } from 'lucide-react'
 
 type EditLessonFormProps = {
   lesson: Lesson
@@ -10,12 +12,10 @@ type EditLessonFormProps = {
 
 export const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
   const { form } = useLessonForm(lesson)
-  
-  const formValues = form.watch()
 
   return (
     <Form {...form}>
-      <div className='flex flex-col items-center gap-4 w-full'>
+      <div className='flex flex-col items-start gap-4 w-full'>
         {lesson.hasActivities.map((activity, index) => (
           <EditActivity
             key={activity.id}
@@ -24,7 +24,11 @@ export const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
             form={form}
           />
         ))}
+        <div className='flex-col border rounded-md p-2 px-4 flex items-center gap-3 w-full cursor-pointer'>
+           <Plus />
+        </div>
       </div>
+      <Button type="submit" className='w-40'>Save</Button>
     </Form>
   )
 }

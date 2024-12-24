@@ -22,7 +22,7 @@ export const MyLessons = () => {
 
 
     return (
-        <div className='flex flex-col gap-10 w-full'>
+        <div className='flex flex-col gap-10 w-full items-start'>
             <FilterBar setFilter={setFilter} filter={filter} />
             <div className='flex flex-wrap gap-4 justify-center'>
                 <>

@@ -17,8 +17,6 @@ export const KeywordsBadgeDisplay: React.FC<KeywordsBadgeDisplayProps> = ({
     maxVisibleBadges = 3
 }) => {
     // Determine which keywords to display and which to hide
-    const visibleKeywords = keywords.slice(0, maxVisibleBadges);
-    const hiddenKeywords = keywords.slice(maxVisibleBadges);
 
     return (
         <div className='flex flex-col items-center relative'>

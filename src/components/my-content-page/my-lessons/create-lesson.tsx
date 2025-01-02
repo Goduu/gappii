@@ -42,7 +42,7 @@ export const CreateLesson: FC<CreateLessonProps> = ({ topic, mode = "create", op
     const isDesktop = useMediaQuery("(min-width: 768px)")
 
     const handleCreate = () => {
-        setOpen(true)
+        setOpen(!open)
     }
 
     if (isDesktop) {

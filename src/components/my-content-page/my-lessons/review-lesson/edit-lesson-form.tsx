@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { AddActivityButton } from './add-activity-button'
 import { useFieldArray } from 'react-hook-form'
 import { EditLessonKeywords } from './edit-lesson-keywords'
+import { Save } from 'lucide-react'
 
 type EditLessonFormProps = {
   lesson: Lesson
@@ -14,7 +15,7 @@ type EditLessonFormProps = {
 
 export const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
   const { form } = useLessonForm(lesson)
-  const { fields: activities, append: appendActivity } = useFieldArray({
+  const { fields: activities, append: appendActivity, remove } = useFieldArray({
     control: form.control,
     name: "activities"
   });
@@ -26,18 +27,21 @@ export const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-4'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-4 items-center'>
         <EditLessonKeywords form={form} />
         {activities.map((activity, index) => (
           <EditActivity
             key={activity.id}
             activity={activity}
             index={index}
+            removeActivity={() => remove(index)}
             form={form}
           />
         ))}
-        <AddActivityButton form={form} appendActivity={appendActivity} />
-        <Button type="submit" className='w-40'>Save</Button>
+        <AddActivityButton appendActivity={appendActivity} />
+        <Button type="submit" className='w-40 flex gap-2 items-center'>
+          <Save />
+          Save</Button>
       </form>
     </Form >
   )

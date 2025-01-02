@@ -2,7 +2,7 @@ import { Activity } from '@/ogm-resolver/ogm-types'
 import React, { FC } from 'react'
 import { UseFormReturn } from 'react-hook-form'
 import { LessonFormValues } from './useLessonForm'
-import { FormField } from '@/components/ui/form'
+import { FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { GripHorizontal } from 'lucide-react'
 
@@ -13,17 +13,20 @@ export type EditActivityProps = {
 }
 
 export const EditActivity: FC<EditActivityProps> = ({ activity, index, form }) => {
-    const values = form.watch()
 
     return (
-        <div className='border rounded-md p-2 px-4 flex items-center gap-3'>
+        <div className='border rounded-md p-2 px-4 flex items-center gap-3 w-full'>
             <GripHorizontal className='cursor-move' />
-            <div className='flex flex-col gap-2 w-full max-w-screen-md items-start'>
+            <div className='flex flex-col gap-2 w-full items-start'>
                 <FormField
                     control={form.control}
-                    name={`${index}.description`}
+                    name={`activities.${index}.description`}
                     render={({ field }) => (
-                        <Input className="text-xs sm:text-lg" type="text" value={field.value || ''} onChange={field.onChange} />
+                        <FormItem>
+                            <FormControl>
+                                <Input className="text-xs sm:text-lg" type="text" value={field.value || ''} onChange={field.onChange} />
+                            </FormControl>
+                        </FormItem>
                     )}
                 />
 
@@ -32,13 +35,28 @@ export const EditActivity: FC<EditActivityProps> = ({ activity, index, form }) =
                         <FormField
                             key={`${option}-${optionIndex}`}
                             control={form.control}
-                            name={`${index}.options.${optionIndex}`}
+                            name={`activities.${index}.options.${optionIndex}`}
                             render={({ field }) => (
-                                <Input className="text-xs sm:text-lg" type="text" value={field.value || ''} onChange={field.onChange} />
+                                <FormItem>
+                                    <FormControl>
+                                        <Input className="text-xs sm:text-lg" type="text" value={field.value || ''} onChange={field.onChange} />
+                                    </FormControl>
+                                </FormItem>
                             )}
                         />
                     ))}
                 </div>
+            <FormField
+                control={form.control}
+                name={`activities.${index}.comment`}
+                render={({ field }) => (
+                    <FormItem>
+                        <FormControl>
+                            <Input {...field} placeholder="Comment" />
+                        </FormControl>
+                    </FormItem>
+                )}
+            />
             </div>
         </div>
     )

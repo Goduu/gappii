@@ -21,7 +21,7 @@ export const ReviewLesson: FC<ReviewLessonProps> = ({ lessonId }) => {
         skip: !lessonId
     })
 
-    if (loading || !data) return <Skeleton className='w-96 h-48' />
+    if (loading || !data) return <Skeleton className='w-[30rem] h-24' />
 
 
     const lesson = data?.lessons[0]

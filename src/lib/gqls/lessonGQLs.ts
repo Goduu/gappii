@@ -30,6 +30,10 @@ export const GET_LESSON_ACTIVITIES = gql`
         answer
         comment
       }
+      hasKeywords {
+        id
+        name
+      }
     }
   }
 `

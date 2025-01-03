@@ -37,33 +37,3 @@ export async function POST(request: NextRequest) {
   }
 }
 
-const test = `
-{
-    "basicInfo": {
-        "name": "Sarah Lin",
-        "age": "1993-07-09",
-        "allergies": ["penicillin", "sulfa drugs"]
-    },
-    "vitals": {
-        "temperature": "101°F",
-        "bloodPressure": "130/85",
-        "heartRate": 88,
-        "respiratoryRate": 18,
-        "mentalStatus": "Drowsy",
-        "painLevel": 7,
-        "painLocation": "left leg",
-        "painResponse": ""
-    },
-    "medications": [
-        {
-            "name": "acetaminophen",
-            "lastDose": "3 PM"
-        }
-    ],
-    "shiftNotes": {
-        "summary": "Patient resting, slight fever.",
-        "nextShift": "Monitor temperature, and consider pain management update."
-    }
-}
-`
-

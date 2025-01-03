@@ -8,6 +8,7 @@ import { AddActivityButton } from './add-activity-button'
 import { useFieldArray } from 'react-hook-form'
 import { EditLessonKeywords } from './edit-lesson-keywords'
 import { Save } from 'lucide-react'
+import { useSaveLessonForm } from './useSaveLessonForm'
 
 type EditLessonFormProps = {
   lesson: Lesson
@@ -15,6 +16,7 @@ type EditLessonFormProps = {
 
 export const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
   const { form } = useLessonForm(lesson)
+  const { handleUpdateLesson } = useSaveLessonForm()
   const { fields: activities, append: appendActivity, remove } = useFieldArray({
     control: form.control,
     name: "activities"
@@ -22,6 +24,7 @@ export const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
 
   const onSubmit = (data: LessonFormValues) => {
     console.log(data)
+    handleUpdateLesson(lesson, data, () => { })
   }
 
 

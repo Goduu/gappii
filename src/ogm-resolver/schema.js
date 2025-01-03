@@ -36,6 +36,7 @@ type Collection @node {
 
 type Activity @node {
   id: ID @id
+  order: Int!
   description: String!
   options: [String!]!
   answer: String!

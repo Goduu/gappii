@@ -21,3 +21,28 @@ export const CREATE_ACTIVITIES = gql`
   }
 }
 `
+
+export const UPDATE_ACTIVITY = gql`
+  mutation UpdateActivity(
+    $where: ActivityWhere!, 
+    $update: ActivityUpdateInput!, 
+) {
+  updateActivities(
+    where: $where, 
+    update: $update, 
+  ) {
+    activities {
+      id
+    }
+  }
+}
+`
+
+export const DELETE_ACTIVITY = gql`
+  mutation DeleteActivity($where: ActivityWhere!) {
+    deleteActivities(where: $where){
+      nodesDeleted
+      relationshipsDeleted
+    }
+  }
+`

@@ -6,6 +6,7 @@ export type ApiActivityResponse = {
     level: number,
     activities: {
         description: string,
+        order: number,
         options: string[],
         answer: string,
         comment: string
@@ -38,6 +39,16 @@ export const validateApiReturnObject = (response: object | null, onError: (error
     }
     if (!data.activities || !data.activities.length) {
         onError("Invalid response from API, missing activities");
+        return null
+    }
+    if (!!data.activities.find(activity => {
+        typeof activity.order !== 'number' ||
+            !activity.description ||
+            !activity.comment ||
+            !activity.options.includes(activity.answer) ||
+            activity.options.length < 1
+    })) {
+        onError("Invalid response from API, missing activity properties");
         return null
     }
     if (data.keywords.length === 0) {

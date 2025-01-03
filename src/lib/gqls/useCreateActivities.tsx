@@ -24,6 +24,7 @@ export const useCreateActivities = () => {
             variables: {
                 input: data.activities.map(activity => ({
                     description: activity.description,
+                    order: activity.order,
                     options: activity.options,
                     answer: activity.answer,
                     comment: activity.comment,

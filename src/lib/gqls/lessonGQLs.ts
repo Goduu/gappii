@@ -50,7 +50,7 @@ export const GET_HOT_LESSON = gql`
         title
       }
       reactedCount 
-    } ,
+    },
     newLessons: lessons(limit: 10, sort: [{ createdAt: DESC }]) {
       id
       hasTopic {
@@ -62,6 +62,31 @@ export const GET_HOT_LESSON = gql`
         title
       }
     } 
+  }
+`
+
+
+export const UPDATE_LESSON = gql`
+  mutation UpdateLesson(
+    $where: LessonWhere!, 
+    $update: LessonUpdateInput!
+  ) {
+    updateLessons(
+      where: $where,
+      update: $update
+    ) {
+      lessons {
+        id
+        hasTopic {
+          id
+          title
+        }
+        hasSubtopic {
+          id
+          title
+        }
+      }
+    }
   }
 `
 

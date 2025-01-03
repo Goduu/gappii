@@ -17,7 +17,7 @@ export const EditLessonKeyword: FC<EditLessonKeywordProps> = ({ index, form }) =
             name={`keywords.${index}`}
             render={({ field }) => (
                 <Input
-                    className="text-xs sm:text-lg w-fit"
+                    className="text-xs sm:text-md w-32"
                     type="text"
                     value={field.value.name || ''}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => field.onChange({ name: event.target.value, id: field.value.id })}

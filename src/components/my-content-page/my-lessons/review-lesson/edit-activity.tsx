@@ -20,11 +20,11 @@ export type EditActivityProps = {
 export const EditActivity: FC<EditActivityProps> = ({ activity, index, form, removeActivity }) => {
     return (
         <Card className="w-full bg-white shadow-sm hover:shadow-md transition-shadow duration-200 relative">
-            <Button size="icon" variant="ghost" onClick={removeActivity} className="absolute top-2 right-2">
+            <Button size="icon" variant="ghost" onClick={removeActivity} className="absolute top-0 right-0">
                 <Trash  />
             </Button>
-            <CardContent className="p-6">
-                <div className="flex items-start gap-4">
+            <CardContent className="p-2 md:p-4 lg:p-6">
+                <div className="flex items-center gap-1 md:gap-4">
                     <div className="mt-2">
                         <TooltipIcon title="Drag to reorder">
                             <GripHorizontal className="cursor-move text-gray-400 hover:text-gray-600 transition-colors" />
@@ -45,7 +45,7 @@ export const EditActivity: FC<EditActivityProps> = ({ activity, index, form, rem
                                     <FormItem>
                                         <FormControl>
                                             <Input
-                                                className="text-sm sm:text-base border-gray-200 focus:border-blue-400 focus:ring-blue-400"
+                                                className="text-xs md:text-sm sm:text-base border-gray-200 focus:border-blue-400 focus:ring-blue-400"
                                                 placeholder="Enter your question here..."
                                                 {...field}
                                             />
@@ -87,7 +87,7 @@ export const EditActivity: FC<EditActivityProps> = ({ activity, index, form, rem
                                                 <FormItem className="flex-1">
                                                     <FormControl>
                                                         <Input
-                                                            className={`text-sm sm:text-base border-gray-200 focus:border-blue-400 focus:ring-blue-400
+                                                            className={`text-xs md:text-sm sm:text-base border-gray-200 focus:border-blue-400 focus:ring-blue-400
                                                                 ${field.value === activity.answer ? 'text-green-600 font-medium' : ''}
                                                             `}
                                                             placeholder={`Option ${optionIndex + 1}`}
@@ -115,7 +115,7 @@ export const EditActivity: FC<EditActivityProps> = ({ activity, index, form, rem
                                     <FormItem>
                                         <FormControl>
                                             <Input
-                                                className="text-sm sm:text-base border-gray-200 focus:border-blue-400 focus:ring-blue-400"
+                                                className="text-xs md:text-sm sm:text-base border-gray-200 focus:border-blue-400 focus:ring-blue-400"
                                                 placeholder="Add any additional comments here..."
                                                 {...field}
                                             />

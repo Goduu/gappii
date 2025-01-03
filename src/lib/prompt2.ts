@@ -28,6 +28,7 @@ Each lesson must include **7 activities** that encourage engagement and critical
   3. A brief **comment** (max 170 characters) explaining the answer, using engaging or relatable phrasing.
 - Ensure that:
   - The correct answer is one of the options.
+  - The order property is set to reflect the activity sequence.
   - The wrong option is plausible but incorrect.
   - The answer is not directly stated elsewhere in the description or comment.
 
@@ -39,6 +40,7 @@ Level: 1 (Beginner)
 
 {
   "topic": "Artificial Intelligence",
+  "order": 0,
   "subtopic": "Automation",
   "validTopicSubtopic": true,
   "keywords": ["AI", "automation", "algorithms"],
@@ -66,6 +68,7 @@ Response Format:
     "activities": [
       {
         "description": string,
+        "order": number,
         "options": string[],
         "answer": string,
         "comment": string

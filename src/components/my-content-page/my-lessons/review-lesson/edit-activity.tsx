@@ -9,6 +9,8 @@ import { Button } from '@/components/ui/button';
 import { OptionsSection } from './options-section';
 import { QuestionSection } from './question-section';
 import { CommentSection } from './comment-section';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 export type EditActivityProps = {
     activity: Activity;
@@ -18,14 +20,30 @@ export type EditActivityProps = {
 };
 
 export const EditActivity: FC<EditActivityProps> = ({ activity, index, form, removeActivity }) => {
+
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        setActivatorNodeRef,
+        transition,
+    } = useSortable({ id: activity.order });
+
+
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+    };
+
     return (
-        <Card className="w-full bg-white shadow-sm hover:shadow-md transition-shadow duration-200 relative">
+        <Card className="w-full bg-white shadow-sm hover:shadow-md transition-shadow duration-200 relative" ref={setNodeRef} style={style} >
             <Button size="icon" variant="ghost" onClick={removeActivity} className="absolute top-0 right-0">
                 <Trash />
             </Button>
             <CardContent className="p-2 md:p-4 lg:p-6">
                 <div className="flex items-center gap-1 md:gap-4">
-                    <div className="mt-2">
+                    <div className="mt-2" ref={setActivatorNodeRef} {...listeners} {...attributes}>
                         <TooltipIcon title="Drag to reorder">
                             <GripHorizontal className="cursor-move text-gray-400 hover:text-gray-600 transition-colors" />
                         </TooltipIcon>
@@ -41,6 +59,7 @@ export const EditActivity: FC<EditActivityProps> = ({ activity, index, form, rem
                 </div>
             </CardContent>
         </Card>
+
     );
 };
 

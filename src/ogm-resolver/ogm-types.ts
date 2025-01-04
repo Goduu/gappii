@@ -289,6 +289,7 @@ export type ActivitiesConnection = {
 export type Activity = {
   __typename?: "Activity";
   id?: Maybe<Scalars["ID"]["output"]>;
+  order: Scalars["Int"]["output"];
   description: Scalars["String"]["output"];
   options: Array<Scalars["String"]["output"]>;
   answer: Scalars["String"]["output"];
@@ -300,6 +301,7 @@ export type ActivityAggregateSelection = {
   __typename?: "ActivityAggregateSelection";
   count: Scalars["Int"]["output"];
   id: IdAggregateSelection;
+  order: IntAggregateSelection;
   description: StringAggregateSelection;
   answer: StringAggregateSelection;
   comment: StringAggregateSelection;
@@ -683,6 +685,7 @@ export type LessonActivityHasActivitiesAggregationSelection = {
 export type LessonActivityHasActivitiesNodeAggregateSelection = {
   __typename?: "LessonActivityHasActivitiesNodeAggregateSelection";
   id: IdAggregateSelection;
+  order: IntAggregateSelection;
   description: StringAggregateSelection;
   answer: StringAggregateSelection;
   comment: StringAggregateSelection;
@@ -1037,6 +1040,7 @@ export type UserActivityReportedActivitiesAggregationSelection = {
 export type UserActivityReportedActivitiesNodeAggregateSelection = {
   __typename?: "UserActivityReportedActivitiesNodeAggregateSelection";
   id: IdAggregateSelection;
+  order: IntAggregateSelection;
   description: StringAggregateSelection;
   answer: StringAggregateSelection;
   comment: StringAggregateSelection;
@@ -1183,6 +1187,7 @@ export type ActivityConnectWhere = {
 };
 
 export type ActivityCreateInput = {
+  order: Scalars["Int"]["input"];
   description: Scalars["String"]["input"];
   options: Array<Scalars["String"]["input"]>;
   answer: Scalars["String"]["input"];
@@ -1200,6 +1205,7 @@ export type ActivityOptions = {
 /** Fields to sort Activities by. The order in which sorts are applied is not guaranteed when specifying many fields in one ActivitySort object. */
 export type ActivitySort = {
   id?: InputMaybe<SortDirection>;
+  order?: InputMaybe<SortDirection>;
   description?: InputMaybe<SortDirection>;
   answer?: InputMaybe<SortDirection>;
   comment?: InputMaybe<SortDirection>;
@@ -1207,6 +1213,9 @@ export type ActivitySort = {
 };
 
 export type ActivityUpdateInput = {
+  order?: InputMaybe<Scalars["Int"]["input"]>;
+  order_INCREMENT?: InputMaybe<Scalars["Int"]["input"]>;
+  order_DECREMENT?: InputMaybe<Scalars["Int"]["input"]>;
   description?: InputMaybe<Scalars["String"]["input"]>;
   options?: InputMaybe<Array<Scalars["String"]["input"]>>;
   options_POP?: InputMaybe<Scalars["Int"]["input"]>;
@@ -1234,6 +1243,16 @@ export type ActivityWhere = {
   id_NOT_STARTS_WITH?: InputMaybe<Scalars["ID"]["input"]>;
   /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
   id_NOT_ENDS_WITH?: InputMaybe<Scalars["ID"]["input"]>;
+  order?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  order_NOT?: InputMaybe<Scalars["Int"]["input"]>;
+  order_IN?: InputMaybe<Array<Scalars["Int"]["input"]>>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  order_NOT_IN?: InputMaybe<Array<Scalars["Int"]["input"]>>;
+  order_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  order_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  order_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  order_GTE?: InputMaybe<Scalars["Int"]["input"]>;
   description?: InputMaybe<Scalars["String"]["input"]>;
   /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
   description_NOT?: InputMaybe<Scalars["String"]["input"]>;
@@ -2249,6 +2268,36 @@ export type LessonHasActivitiesNodeAggregationWhereInput = {
   NOT?: InputMaybe<LessonHasActivitiesNodeAggregationWhereInput>;
   /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
   id_EQUAL?: InputMaybe<Scalars["ID"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  order_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  order_MIN_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  order_MAX_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  order_SUM_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  order_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  order_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  order_MIN_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  order_MAX_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  order_SUM_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  order_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  order_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  order_MIN_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  order_MAX_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  order_SUM_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  order_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  order_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  order_MIN_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  order_MAX_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  order_SUM_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  order_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  order_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  order_MIN_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  order_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  order_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  order_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
   /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
   description_EQUAL?: InputMaybe<Scalars["String"]["input"]>;
   /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
@@ -4424,6 +4473,36 @@ export type UserReportedActivitiesNodeAggregationWhereInput = {
   /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
   id_EQUAL?: InputMaybe<Scalars["ID"]["input"]>;
   /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  order_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  order_MIN_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  order_MAX_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  order_SUM_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  order_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  order_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  order_MIN_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  order_MAX_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  order_SUM_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  order_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  order_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  order_MIN_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  order_MAX_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  order_SUM_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  order_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  order_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  order_MIN_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  order_MAX_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  order_SUM_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  order_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  order_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  order_MIN_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  order_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  order_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  order_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
   description_EQUAL?: InputMaybe<Scalars["String"]["input"]>;
   /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
   description_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
@@ -5011,6 +5090,7 @@ export declare class CollectionModel {
 export interface ActivityAggregateSelectionInput {
   count?: boolean;
   id?: boolean;
+  order?: boolean;
   description?: boolean;
   answer?: boolean;
   comment?: boolean;

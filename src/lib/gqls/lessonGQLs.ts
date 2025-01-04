@@ -23,12 +23,13 @@ export const GET_LESSON_ACTIVITIES = gql`
         id
         title
       }
-      hasActivities {
+      hasActivities(sort: [{order: ASC}]) {
         id
         description
         options
         answer
         comment
+        order
       }
       hasKeywords {
         id

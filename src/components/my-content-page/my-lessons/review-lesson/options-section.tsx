@@ -44,9 +44,7 @@ export const OptionsSection: FC<OptionsSectionProps> = ({ activity, form, index 
                                 <FormItem className="flex-1">
                                     <FormControl>
                                         <Input
-                                            className={`text-xs md:text-sm sm:text-base border-gray-200 focus:border-blue-400 focus:ring-blue-400
-                                        ${field.value === activity.answer ? 'text-green-600 font-medium' : ''}
-                                    `}
+                                            className="text-xs md:text-sm sm:text-base border-gray-200 focus:border-blue-400 focus:ring-blue-400"
                                             placeholder={`Option ${optionIndex + 1}`}
                                             {...field}
                                         />

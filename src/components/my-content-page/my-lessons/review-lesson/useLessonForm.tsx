@@ -17,6 +17,7 @@ const LessonSchema = z.object({
             options: z.array(z.string()),
             answer: z.string(),
             comment: z.string(),
+            order: z.number()
         })
     )
 })
@@ -25,7 +26,6 @@ const LessonSchema = z.object({
 export type LessonFormValues = z.infer<typeof LessonSchema>
 
 export const useLessonForm = (lesson?: Lesson) => {
-
     const form = useForm<LessonFormValues>({
         resolver: zodResolver(LessonSchema),
         defaultValues: {
@@ -35,8 +35,9 @@ export const useLessonForm = (lesson?: Lesson) => {
                 description: activity.description,
                 options: activity.options,
                 answer: activity.answer,
-                comment: activity.comment
-            })) || []
+                comment: activity.comment,
+                order: activity.order
+            })).sort((a,b) => a.order - b.order ) || []
         }
     })
 

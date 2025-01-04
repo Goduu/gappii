@@ -57,6 +57,7 @@ export const useSaveLessonForm = () => {
                                     options: activity.options,
                                     answer: activity.answer,
                                     comment: activity.comment,
+                                    order: activity.order,
                                 },
                             },
                         })
@@ -78,8 +79,6 @@ export const useSaveLessonForm = () => {
     };
 
     const calculateChanges = (lesson: Lesson, formValues: LessonFormValues) => {
-        console.log('formKeywords', formValues.keywords)
-        console.log('lesson.hasKeywords', lesson.hasKeywords)
         const deletedKeywords = lesson.hasKeywords.filter(
             (keyword) => !formValues.keywords.some((k) => k.name === keyword.name)
         );
@@ -151,6 +150,7 @@ export const useSaveLessonForm = () => {
                                     options: activity.options,
                                     answer: activity.answer,
                                     comment: activity.comment,
+                                    order: activity.order,
                                 },
                             })),
                         }),

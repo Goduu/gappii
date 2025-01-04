@@ -1,4 +1,4 @@
-import { FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { MessageCircle } from 'lucide-react'
 import React, { FC } from 'react'
@@ -27,6 +27,7 @@ export const CommentSection: FC<CommentSectionProps> = ({ form, index }) => {
                                 {...field}
                             />
                         </FormControl>
+                        <FormMessage />
                     </FormItem>
                 )}
             />

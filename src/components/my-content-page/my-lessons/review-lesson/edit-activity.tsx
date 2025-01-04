@@ -37,7 +37,7 @@ export const EditActivity: FC<EditActivityProps> = ({ activity, index, form, rem
     };
 
     return (
-        <Card className="w-full bg-white shadow-sm hover:shadow-md transition-shadow duration-200 relative" ref={setNodeRef} style={style} >
+        <Card className="min-w-96 md:min-w-[30rem] bg-white shadow-sm hover:shadow-md transition-shadow duration-200 relative" ref={setNodeRef} style={style} >
             <Button size="icon" variant="ghost" onClick={removeActivity} className="absolute top-0 right-0">
                 <Trash />
             </Button>
@@ -52,9 +52,11 @@ export const EditActivity: FC<EditActivityProps> = ({ activity, index, form, rem
                     <div className="flex-1 space-y-6">
                         <QuestionSection index={index} form={form} />
 
-                        <OptionsSection activity={activity} index={index} form={form} />
+                        <div className='flex flex-col md:flex-row gap-4'>
 
-                        <CommentSection index={index} form={form} />
+                            <OptionsSection activity={activity} index={index} form={form} />
+                            <CommentSection index={index} form={form} />
+                        </div>
                     </div>
                 </div>
             </CardContent>

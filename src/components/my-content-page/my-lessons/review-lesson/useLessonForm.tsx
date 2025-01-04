@@ -13,10 +13,16 @@ const LessonSchema = z.object({
     activities: z.array(
         z.object({
             id: z.string(),
-            description: z.string(),
-            options: z.array(z.string()),
-            answer: z.string(),
-            comment: z.string(),
+            description: z.string().min(1, "Question is required").refine(
+                (val) => {
+                    const gapCount = (val.match(/{gap}/g) || []).length;
+                    return gapCount === 1;
+                },
+                "Question must contain exactly one gap placeholder '{gap}'"
+            ),
+            options: z.array(z.string().min(1, "Option is required")),
+            answer: z.string().min(1, "Answer is required"),
+            comment: z.string().min(1, "Comment is required"),
             order: z.number()
         })
     )
@@ -37,8 +43,9 @@ export const useLessonForm = (lesson?: Lesson) => {
                 answer: activity.answer,
                 comment: activity.comment,
                 order: activity.order
-            })).sort((a,b) => a.order - b.order ) || []
-        }
+            })).sort((a, b) => a.order - b.order) || []
+        },
+
     })
 
 

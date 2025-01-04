@@ -1,5 +1,5 @@
 import { Checkbox } from '@/components/ui/checkbox'
-import { FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Activity } from '@/ogm-resolver/ogm-types'
 import { ListTodo } from 'lucide-react'
@@ -34,6 +34,7 @@ export const OptionsSection: FC<OptionsSectionProps> = ({ activity, form, index 
                                             onCheckedChange={() => field.onChange(option)}
                                         />
                                     </FormControl>
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
@@ -49,6 +50,7 @@ export const OptionsSection: FC<OptionsSectionProps> = ({ activity, form, index 
                                             {...field}
                                         />
                                     </FormControl>
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />

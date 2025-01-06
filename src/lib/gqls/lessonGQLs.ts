@@ -40,7 +40,7 @@ export const GET_LESSON_ACTIVITIES = gql`
 `
 export const GET_HOT_LESSON = gql`
   query GetHotLessons {
-    hotLessons: lessons(limit: 10, sort: [{ reactedCount: DESC }]) {
+    hotLessons: lessons(limit: 10, sort: [{ likeCount: DESC }]) {
       id
       hasTopic {
         id
@@ -50,7 +50,7 @@ export const GET_HOT_LESSON = gql`
         id
         title
       }
-      reactedCount 
+      likeCount 
     },
     newLessons: lessons(limit: 10, sort: [{ createdAt: DESC }]) {
       id

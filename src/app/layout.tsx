@@ -43,7 +43,7 @@ export default function RootLayout({
               <TooltipProvider>
                 <Toaster />
                 <div className="items-center justify-items-center max-w-screen w-screen  min-h-screen md:min-w-[580px] pb-20 gap-16 sm:p-4 font-[family-name:var(--font-geist-sans)]">
-                  <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start w-full">
+                  <main className="flex flex-col gap-8 row-start-2 items-center w-full">
                     <ApolloWrapper >
                       {children}
                     </ApolloWrapper>

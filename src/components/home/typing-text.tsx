@@ -1,103 +1,22 @@
 "use client"
-import { motion, useInView, useAnimation, Variants } from "framer-motion"
-import { useEffect, useRef } from "react"
+import React from 'react'
+import { motion } from 'framer-motion'
+import { cn } from '@/lib/utils'
 
-type TypingTextProps = {
-  text: string | string[]
-  className?: string
-  once?: boolean
-  repeatDelay?: number
-  animationType?: keyof typeof animationTypes
+interface TypingTextProps {
+    text: string
+    className?: string
 }
 
-const animationTypes = {
-  default: {
-    hidden: {
-      opacity: 0,
-      y: 20,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.1,
-      },
-    },
-  },
-  slow: {
-    hidden: {
-      opacity: 0,
-      y: 20,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 4,
-        repeat: Infinity, // Loop the animation infinitely
-        repeatType: "loop", // Continue looping from the beginning
-      },
-    },
-  },
-} satisfies { [k: string]: Variants }
-
-export const TypingText = ({ text, className, once, repeatDelay, animationType = "default" }: TypingTextProps) => {
-  const animation = animationTypes[animationType] || animationTypes.default
-
-  const controls = useAnimation()
-  const textArray = Array.isArray(text) ? text : [text]
-  const ref = useRef(null!)
-  const isInView = useInView(ref, { amount: 0.5, once })
-
-  useEffect(() => {
-    let timeout: NodeJS.Timeout
-    const show = () => {
-      controls.start("visible")
-      if (repeatDelay) {
-        timeout = setTimeout(async () => {
-          await controls.start("hidden")
-          controls.start("visible")
-        }, repeatDelay)
-      }
-    }
-
-    if (isInView) {
-      show()
-    } else {
-      controls.start("hidden")
-    }
-
-    return () => clearTimeout(timeout)
-  }, [isInView])
-
-  return (
-    <p className={className}>
-      <span className="sr-only">{text}</span>
-      <motion.span
-        ref={ref}
-        initial="hidden"
-        animate={controls}
-        variants={{
-          visible: { transition: { staggerChildren: 0.05 } },
-          hidden: {},
-        }}
-        aria-hidden
-      >
-        {textArray.map((line, lineIndex) => (
-          <span className="block" key={`${line}-${lineIndex}`}>
-            {line.split(" ").map((word, wordIndex) => (
-              <span className="inline-block" key={`${word}-${wordIndex}`}>
-                {word.split("").map((char, charIndex) => (
-                  <motion.span key={`${char}-${charIndex}`} variants={animation}>
-                    {char}
-                  </motion.span>
-                ))}
-                <span className="inline-block">&nbsp;</span>
-              </span>
-            ))}
-          </span>
-        ))}
-      </motion.span>
-    </p>
-  )
+export const TypingText = ({ text, className }: TypingTextProps) => {
+    return (
+        <motion.span
+            className={cn('whitespace-nowrap', className)}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+        >
+            {text}
+        </motion.span>
+    )
 }

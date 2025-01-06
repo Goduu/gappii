@@ -46,7 +46,7 @@ query GetUserLessons($where: UserWhere!, $first: Int!,$after: String, $lessonWhe
             id
             name
           }
-          wasReactedConnection {
+          wasReactedConnection(where: {node: $where}) {
             edges {
                 node {
                     id
@@ -116,18 +116,18 @@ export const UPDATE_USER = gql`
     update: $update
   ) {
         users {
-      id
-            reactedToLessons {
-        id
-                wasReactedConnection {
-                    edges {
-                        node {
-              id
-              clerkId
-            }
-                        properties{
-              type
-            }
+          id
+          reactedToLessons {
+            id
+            wasReactedConnection {
+              edges {
+                node {
+                  id
+                  clerkId
+                }
+                properties{
+                  type
+                }
           }
         }
       }

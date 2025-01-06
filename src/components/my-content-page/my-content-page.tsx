@@ -1,64 +1,27 @@
-"use client"
-import React, { useState } from 'react'
+import React, { Suspense } from 'react'
 import { PageTitle } from '../page-title/page-title'
 import { MyLessons } from './my-lessons/my-lessons'
-import { MyCollections } from './my-groups/my-collections'
-import { DndContext, MouseSensor, useSensor, useSensors } from '@dnd-kit/core';
-import { useMutation } from '@apollo/client'
-import { UPDATE_COLLECTION } from '@/lib/gqls/colectionGQLs'
-import { GET_USER_COLLECTIONS } from '@/lib/gqls/userGQLs'
-import { MutationUpdateCollectionsArgs } from '@/ogm-resolver/ogm-types'
+import { LessonSkeletons } from './my-lessons/lesson-skeletons'
 
-export const MyContentPage = () => {
-    const [isDragging, setIsDragging] = useState(false)
-    const [updateCollection] = useMutation(UPDATE_COLLECTION, {refetchQueries: [GET_USER_COLLECTIONS]})
-
-    const handleDragEnd = (event: any) => {
-        const {active: lesson, over: collection} = event
-        if(lesson?.id && collection?.id) {
-            updateCollection({
-                variables: {
-                    where: {
-                        id: collection.id
-                    },
-                    update: {
-                        hasLessons: [{
-                            connect: [{
-                                where: {
-                                    node: {
-                                        id: lesson.id
-                                    }
-                                }
-                            }]
-                        }]
-                    }
-                } satisfies MutationUpdateCollectionsArgs
-            })
-        }   
-        setIsDragging(false)
+type MyContentPageProps = {
+    searchParams?: {
+        topic?: string;
+        subtopic?: string;
+        reaction?: string;
+        page?: string;
     }
+}
 
-    const handleDragStart = (event: any) => {
-        console.log("handleDragStart", event)
-        setIsDragging(true)
-    }
-
-    const mouseSensor = useSensor(MouseSensor, {
-        activationConstraint: {
-            delay: 150,
-            tolerance: 5,
-        },
-    });
-    const sensors = useSensors(mouseSensor);
+export const MyContentPage = ({ searchParams }: MyContentPageProps) => {
 
     return (
         <div className='flex flex-col gap-10 w-full'>
-            <DndContext onDragEnd={handleDragEnd} onDragStart={handleDragStart} sensors={sensors}>
-                {/* <PageTitle title='My Collections' /> */}
-                {/* <MyCollections isDragging={isDragging}/> */}
-                <PageTitle title='My Lessons' />
-                <MyLessons />
-            </DndContext>
+            {/* <PageTitle title='My Collections' /> */}
+            {/* <MyCollections isDragging={isDragging}/> */}
+            <PageTitle title='My Lessons' />
+            <Suspense fallback={<LessonSkeletons />}>
+                <MyLessons props={{ searchParams: Promise.resolve(searchParams ?? {}) }} />
+            </Suspense>
         </div>
     )
 }

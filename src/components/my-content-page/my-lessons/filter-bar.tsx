@@ -1,50 +1,61 @@
 "use client"
 import React, { FC } from 'react'
 import { ToggleGroup, ToggleGroupItem } from '../../ui/toggle-group';
-import { Crown, Guitar, ThumbsDown, ThumbsUp, X } from "lucide-react"
-import { LessonFilter } from './filter-hooks';
+import { Crown, ThumbsDown, ThumbsUp, X } from "lucide-react"
 import { LessonReaction } from './lesson-reactions';
 import { Badge } from '../../ui/badge';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-type FilterBarProps = {
-  setFilter: (filters: LessonFilter) => void
-  filter: LessonFilter
-}
 
-export const FilterBar: FC<FilterBarProps> = ({ setFilter, filter }) => {
+export const FilterBar: FC = () => {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+  const topic = searchParams.get('topic')
+  const subtopic = searchParams.get('subtopic')
+  const urlReaction = searchParams.get('reaction');
 
   const handleToggle = (reaction: LessonReaction) => {
-    if (reaction === filter.reaction) {
-      setFilter({ ...filter, reaction: null })
+    const params = new URLSearchParams(searchParams);
+
+    if (reaction && reaction !== urlReaction) {
+      params.set('reaction', reaction);
     } else {
-      setFilter({ ...filter, reaction })
+      params.delete('reaction');
     }
+
+    replace(`${pathname}?${params.toString()}`);
   }
+
   const removeTopic = () => {
-    setFilter({ ...filter, topic: null })
+    const params = new URLSearchParams(searchParams);
+    params.delete('topic');
+    replace(`${pathname}?${params.toString()}`);
   }
   const removeSubtopic = () => {
-    setFilter({ ...filter, subtopic: null })
+    const params = new URLSearchParams(searchParams);
+    params.delete('subtopic');
+    replace(`${pathname}?${params.toString()}`);
   }
 
   return (
     <div className='flex gap-4 items-center'>
       <div className='font-bold text-gray-500'>
-        Filters: 
+        Filters:
       </div>
       <ToggleGroup type="single">
         <ToggleGroupItem value={"DISLIKED"} onClick={() => handleToggle("DISLIKED")}><ThumbsDown /></ToggleGroupItem>
         <ToggleGroupItem value={"LIKED"} onClick={() => handleToggle("LIKED")}><ThumbsUp /></ToggleGroupItem>
         <ToggleGroupItem value={"CROWNED"} onClick={() => handleToggle("CROWNED")}><Crown /></ToggleGroupItem>
       </ToggleGroup>
-      {filter.topic?.title &&
+      {topic &&
         <Badge variant="outline" className='flex gap-2'>
-          Topic: {filter.topic?.title || ""}
+          Topic: {topic || ""}
           <X className='w-3 cursor-pointer' onClick={removeTopic} />
         </Badge>}
-      {filter.subtopic?.title &&
+      {subtopic &&
         <Badge variant="outline" className='flex gap-2'>
-          Subtopic: {filter.subtopic?.title || ""}
+          Subtopic: {subtopic || ""}
           <X className='w-3 cursor-pointer' onClick={removeSubtopic} />
         </Badge>}
     </div >

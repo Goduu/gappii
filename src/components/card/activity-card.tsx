@@ -88,7 +88,7 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
                 type: 'tween',
                 duration: 0.25
             }}
-            className="absolute w-full"
+            className=" w-full"
         >
             <Card className="w-96 relative">
                 <CardHeader>

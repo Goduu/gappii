@@ -1,11 +1,14 @@
+"use client"
 import { useState } from "react";
 import { ActivityCard } from "../card/activity-card";
 import { Activity } from "@/ogm-resolver/ogm-types";
 import { Progress } from "../ui/progress";
 import { redirect } from "next/navigation";
-import { CircleX } from "lucide-react";
+import { CircleX, ChevronLeft, ChevronRight } from "lucide-react";
 import { routes } from "@/lib/routes";
 import { AnimatePresence } from "framer-motion";
+import { Button } from "../ui/button";
+
 type LessonProgressManagerProps = {
     topic: string;
     subtopic: string;
@@ -35,41 +38,72 @@ export const LessonProgressManager: React.FC<LessonProgressManagerProps> = ({
         }
     };
 
-    // Get current activity
+    const handleBack = () => {
+        if (currentActivityIndex > 0) {
+            setTransitionDirection('prev');
+            setCurrentActivityIndex(currentActivityIndex - 1);
+            setProgress(((currentActivityIndex - 1) * 100) / activities.length);
+            setCompletedActivities(completedActivities.filter(i => i !== currentActivityIndex - 1));
+        }
+    };
+
     const currentActivity = activities[currentActivityIndex];
 
-    // Prevent progress if not all previous activities are completed
-    const canInteract = completedActivities.length === currentActivityIndex;
-
     return (
-        <div className="flex flex-col gap-2 w-96">
-            <div>
-                <span className="text-lg font-black">{topic}</span> /
-                <span className="text-lg">{subtopic}</span>
-            </div>
-            <div className="flex gap-2 w-full items-center">
-                <Progress value={progress} />
-                <CircleX
-                    className="cursor-pointer"
-                    onClick={() => redirect(routes.lessons)}
-                />
-            </div>
-            <div className="">
-                <AnimatePresence initial={false} mode="wait">
-                    <ActivityCard
-                        key={currentActivity.id}
-                        activity={currentActivity}
-                        topic={topic}
-                        subtopic={subtopic}
-                        reported={
-                            reportedActivityIds
-                                ? reportedActivityIds.some((activity) => activity.id === currentActivity.id)
-                                : false
-                        }
-                        onNext={handleNext}
-                        direction={transitionDirection}
+        <div className="flex flex-col px-4 py-4 gap-2 sm:py-10 items-center">
+            <div className="flex flex-col gap-2 sm:gap-4 w-full">
+                <div className="px-4 sm:px-0 flex items-center justify-between">
+                    <div className="text-base sm:text-lg font-bold flex items-center gap-2 text-ellipsis overflow-hidden">
+                        {topic} <span className="text-muted-foreground">/</span> {subtopic}
+                    </div>
+                    <CircleX
+                        className="h-5 w-5 cursor-pointer hover:text-destructive transition-colors"
+                        onClick={() => redirect(routes.lessons)}
                     />
-                </AnimatePresence>
+                </div>
+
+                <div className="flex items-center gap-2 ">
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={handleBack}
+                        disabled={currentActivityIndex === 0}
+                    >
+                        <ChevronLeft className="h-4 w-4" />
+                    </Button>
+                    <div className="relative flex items-center justify-center flex-1">
+                        <span className="text-xs text-muted-foreground whitespace-nowrap absolute z-10">
+                            {currentActivityIndex + 1}/{activities.length}
+                        </span>
+                        <Progress value={progress} className="h-4 flex-1" />
+                    </div>
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        disabled={currentActivityIndex === activities.length - 1}
+                        onClick={handleNext}
+                    >
+                        <ChevronRight className="h-4 w-4" />
+                    </Button>
+                </div>
+            </div>
+
+            <div className="flex-1 flex items-center justify-center min-h-0">
+                <div className="w-full max-w-md">
+                    <AnimatePresence initial={false} mode="wait">
+                        <ActivityCard
+                            key={currentActivity.id}
+                            activity={currentActivity}
+                            topic={topic}
+                            subtopic={subtopic}
+                            reported={reportedActivityIds?.some(
+                                (activity) => activity.id === currentActivity.id
+                            ) ?? false}
+                            onNext={handleNext}
+                            direction={transitionDirection}
+                        />
+                    </AnimatePresence>
+                </div>
             </div>
         </div>
     );

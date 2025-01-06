@@ -1,3 +1,4 @@
+"use client"
 import { FC } from "react"
 
 import { Button } from "@/components/ui/button"
@@ -34,20 +35,17 @@ const texts = {
 type CreateLessonProps = {
     topic: Topic
     mode: CollectionPageMode
-    open: boolean
-    setOpen: (open: boolean) => void
 }
 
-export const CreateLesson: FC<CreateLessonProps> = ({ topic, mode = "create", open, setOpen }) => {
+export const CreateLesson: FC<CreateLessonProps> = ({ topic, mode = "create" }) => {
     const isDesktop = useMediaQuery("(min-width: 768px)")
 
     const handleCreate = () => {
-        setOpen(!open)
     }
 
     if (isDesktop) {
         return (
-            <Dialog open={open} onOpenChange={handleCreate} modal>
+            <Dialog onOpenChange={handleCreate} modal>
                 <DialogTrigger asChild>
                     <Button variant="ghost" size="icon" className="z-30">
                         <Plus size={24} />
@@ -67,7 +65,7 @@ export const CreateLesson: FC<CreateLessonProps> = ({ topic, mode = "create", op
     }
 
     return (
-        <Drawer open={open} onOpenChange={setOpen}>
+        <Drawer>
             <DrawerTrigger asChild>
                 <Button variant="ghost" size="icon" className="z-30">
                     <Plus size={24} />

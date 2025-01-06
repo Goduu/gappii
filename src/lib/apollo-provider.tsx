@@ -11,3 +11,4 @@ export const ApolloWrapper: FC<React.PropsWithChildren> = ({ children }) => {
   return <ApolloProvider client={client}>{children}</ApolloProvider>
 }
 
+

@@ -6,20 +6,22 @@ import { useMutation } from "@apollo/client";
 import { GET_USER_LESSONS, UPDATE_USER } from "@/lib/gqls/userGQLs";
 import { useUser } from "@clerk/nextjs";
 import { MutationUpdateUsersArgs } from "@/ogm-resolver/ogm-types";
+import { useRouter } from "next/navigation"
 
 export type LessonReaction = "LIKED" | "DISLIKED" | "CROWNED" | undefined | null
 
 export type LessonReactionsProps = {
     lessonId: string
-    reaction: LessonReaction
+    reaction?: LessonReaction
 }
 
 export const LessonReactions: FC<LessonReactionsProps> = ({ lessonId, reaction }) => {
-    const [updateUserLikesMutation] = useMutation(UPDATE_USER, { refetchQueries: [GET_USER_LESSONS] })
+    const router = useRouter()
+    const [updateUserLikesMutation] = useMutation(UPDATE_USER, { refetchQueries: [{ query: GET_USER_LESSONS }] })
     const userData = useUser()
 
-    const handleReact = (type: NonNullable<LessonReaction>) => {
-        updateUserLikesMutation({
+    const handleReact = async (type: NonNullable<LessonReaction>) => {
+        await updateUserLikesMutation({
             variables: {
                 where: {
                     clerkId: userData.user?.id
@@ -51,6 +53,7 @@ export const LessonReactions: FC<LessonReactionsProps> = ({ lessonId, reaction }
                 }
             } satisfies MutationUpdateUsersArgs
         })
+        router.refresh()
     }
 
     return (

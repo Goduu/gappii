@@ -3,10 +3,18 @@ import { Card, CardFooter, CardHeader, CardTitle } from '../ui/card'
 import { Button } from '../ui/button'
 import { CommunityCardReactions } from './community-card-reactions'
 import { ImageUp } from 'lucide-react'
+import { GET_HOT_LESSON } from '@/lib/gqls/lessonGQLs'
+import { Lesson } from '@/ogm-resolver/ogm-types'
+import { getApolloClient } from '@/lib/getApolloClient'
 
-export const CommunityCard = () => {
+export const CommunityCard = async () => {
+    const client = getApolloClient();
+    const { data } = await client.query<{ hotLessons: Lesson[], newLessons: Lesson[] }>({ query: GET_HOT_LESSON });
+
+    console.log('data x-',data)
     return (
         <Card className="w-96 relative">
+            {data.hotLessons[0].hasTopic.id}
             <CardHeader>
                 <div className='absolute right-2 top-2'>
                     <CommunityCardReactions />

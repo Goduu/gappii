@@ -16,10 +16,9 @@ export const KeywordsBadgeDisplay: React.FC<KeywordsBadgeDisplayProps> = ({
     level,
     maxVisibleBadges = 3
 }) => {
-    // Determine which keywords to display and which to hide
 
     return (
-        <div className='flex flex-col items-center relative'>
+        <div className='flex flex-col items-center relative h-6'>
             <div className='w-10 absolute -left-5 h-10 -top-2 bg-white z-10 blur-sm '></div>
             <Marquee className='overflow-visible' speed={20} pauseOnHover={true}>
                 <div className={`flex gap-2 overflow-hidden`}>

@@ -41,7 +41,7 @@ export const LessonPage: FC<LessonPageProps> = ({ lessonId }) => {
     if (!topic || !subtopic || !activities) return <Skeleton className='w-96 h-48' />
 
     return (
-        <div className="flex flex-col items-center justify-center p-4 w-screen">
+        <div className="flex flex-col items-center justify-center p-4 w-full">
             <PageTitle title='Lesson' />
             <LessonProgressManager topic={topic.title} subtopic={subtopic.title} activities={activities} reportedActivityIds={reportedActivityIds} />
         </div>

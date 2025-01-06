@@ -1,9 +1,17 @@
 import { MyContentPage } from '@/components/my-content-page/my-content-page'
 import React from 'react'
 
-const Cards = () => {
+const Cards = async (props: {
+    searchParams?: Promise<{
+        topic?: string;
+        subtopic?: string;
+        reaction?: string;
+        page?: string;
+    }>;
+}) => {
+
     return (
-        <MyContentPage />
+        <MyContentPage searchParams={await props.searchParams} />
     )
 }
 

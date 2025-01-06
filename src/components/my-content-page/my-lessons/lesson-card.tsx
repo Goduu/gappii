@@ -13,7 +13,7 @@ type LessonCardProps = {
 
 export const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
 
-    const reaction = lesson.wasReactedConnection.edges[0].properties.type as LessonReaction
+    const reaction = lesson.wasReactedConnection.edges[0]?.properties.type as LessonReaction
 
     return (
         <Draggable id={lesson.id || ""}>

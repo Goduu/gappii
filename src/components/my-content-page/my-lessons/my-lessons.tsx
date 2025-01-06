@@ -7,26 +7,22 @@ import { GET_USER_LESSONS } from '@/lib/gqls/userGQLs'
 import { auth } from '@clerk/nextjs/server'
 
 type MyLessonsProps = {
-    props: {
-        searchParams?: Promise<{
-            topic?: string;
-            subtopic?: string;
-            reaction?: string;
-            page?: string;
-        }>;
+    searchParams?: { 
+        topic?: string, 
+        subtopic?: string, 
+        reaction?: string, 
+        page?: string 
     }
 }
 
-export const MyLessons: FC<MyLessonsProps> = async ({ props }) => {
+export const MyLessons: FC<MyLessonsProps> = async ({ searchParams }) => {
     const { userId } = await auth()
     if (!userId) return null
-    
-    const searchParams = await props.searchParams;
-    const topic = searchParams?.topic || '';
+
+    const topic =  searchParams?.topic || '';
     const subtopic = searchParams?.subtopic || '';
     const reaction = searchParams?.reaction || '';
     const currentPage = Number(searchParams?.page) || 1;
-
 
     const client = getApolloClient();
     const { data } = await client.query<{ users: Array<User> }>({

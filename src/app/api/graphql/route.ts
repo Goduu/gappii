@@ -6,7 +6,7 @@ import { NextRequest } from "next/server"
 import { typeDefs } from "@/ogm-resolver/schema"
 
 // Initialize Neo4j Driver
-const driver = neo4j.driver("bolt://localhost:7687", neo4j.auth.basic("neo4j", "hn123456"))
+const driver = neo4j.driver(process.env.NEXT_PUBLIC_NEO4J_URI || "", neo4j.auth.basic(process.env.NEO4J_USER || "", process.env.NEO4J_PASSWORD || ""))
 
 // Define GraphQL schema with Neo4j @relationship directive
 
@@ -19,6 +19,7 @@ const schema = await neo4jGraphQL.getSchema()
 // Create ApolloServer instance with the generated schema
 const server = new ApolloServer({
   schema,
+  introspection: true,
 })
 
 // Use the handler to handle requests in Next.js

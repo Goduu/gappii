@@ -68,7 +68,7 @@ export const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
             />
           ))}
         </DndSortingContext>
-        <AddActivityButton appendActivity={appendActivity} />
+        <AddActivityButton appendActivity={appendActivity} activitiesLen={activities.length}/>
         <Button type="submit" className='w-40 flex gap-2 items-center'>
           <Save />
           Save</Button>

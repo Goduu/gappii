@@ -7,9 +7,10 @@ import { FC } from 'react'
 
 type AddActivityButtonProps = {
     appendActivity: UseFieldArrayAppend<LessonFormValues, "activities">
+    activitiesLen: number
 }
 
-export const AddActivityButton: FC<AddActivityButtonProps> = ({ appendActivity }) => {
+export const AddActivityButton: FC<AddActivityButtonProps> = ({ appendActivity, activitiesLen }) => {
 
     return (
         <Button
@@ -18,6 +19,7 @@ export const AddActivityButton: FC<AddActivityButtonProps> = ({ appendActivity }
             className='flex-col border rounded-full border-dashed p-2 px-4 flex items-center gap-3 w-full cursor-pointer'
             onClick={() => appendActivity({
                 id: crypto.randomUUID(),
+                order: activitiesLen,
                 description: '',
                 options: ['', ''],
                 answer: '',

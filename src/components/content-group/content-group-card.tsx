@@ -6,14 +6,13 @@ import { ContentGroupActions } from './content-group-actions'
 import { Badge } from '../ui/badge'
 import { Lesson } from '@/ogm-resolver/ogm-types'
 
-
 type ContentGroupCardProps = {
-    new: boolean
+    isNew: boolean
     title: string
     lessons: Lesson[]
 }
 
-export const ContentGroupCard: FC<ContentGroupCardProps> = ({new, title, lessons }) => {
+export const ContentGroupCard: FC<ContentGroupCardProps> = ({isNew, title, lessons }) => {
     return (
         <Card className="w-96 relative">
             <CardHeader>

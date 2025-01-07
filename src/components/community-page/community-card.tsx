@@ -11,7 +11,6 @@ export const CommunityCard = async () => {
     const client = getApolloClient();
     const { data } = await client.query<{ hotLessons: Lesson[], newLessons: Lesson[] }>({ query: GET_HOT_LESSON });
 
-    console.log('data x-',data)
     return (
         <Card className="w-96 relative">
             {data.hotLessons[0].hasTopic.id}

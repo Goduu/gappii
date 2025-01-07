@@ -53,7 +53,6 @@ export const MyLessons: FC<MyLessonsProps> = async ({ searchParams }) => {
             first: 10 * currentPage, // Load cumulative lessons
         }
     });
-    console.log(data)
 
     if (!data.users[0]?.hasLessonsConnection) return <div>No lessons found</div>
 
@@ -78,7 +77,6 @@ export const MyLessons: FC<MyLessonsProps> = async ({ searchParams }) => {
             sortedAcc[key] = value;
             return sortedAcc;
         }, {} as Record<string, Lesson[]>)
-
 
     return (
         <div className='flex flex-col gap-10 w-full items-start'>

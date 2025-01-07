@@ -82,7 +82,6 @@ export const useSaveLessonForm = () => {
         const deletedKeywords = lesson.hasKeywords.filter(
             (keyword) => !formValues.keywords.some((k) => k.name === keyword.name)
         );
-        console.log('deletedKeywords', deletedKeywords)
         const addedKeywords = formValues.keywords.filter(
             (keyword) => keyword.name !== "" && !lesson.hasKeywords.some((k) => k.name === keyword.name)
         );

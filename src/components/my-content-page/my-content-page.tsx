@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react'
 import { PageTitle } from '../page-title/page-title'
 import { MyLessons } from './my-lessons/my-lessons'
-import { LessonSkeletons } from './my-lessons/lesson-skeletons'
+import { LessonsSkeletons } from './my-lessons/lessons-skeletons'
 
 type MyContentPageProps = {
     searchParams?: { 
@@ -16,7 +16,7 @@ export const MyContentPage = ({ searchParams }: MyContentPageProps) => {
     return (
         <div className='flex flex-col gap-10 w-full'>
             <PageTitle title='My Lessons' />
-            <Suspense fallback={<LessonSkeletons />}>
+            <Suspense fallback={<LessonsSkeletons />}>
                 <MyLessons searchParams={searchParams} />
             </Suspense>
         </div>

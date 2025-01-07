@@ -40,12 +40,9 @@ type CreateLessonProps = {
 export const CreateLesson: FC<CreateLessonProps> = ({ topic, mode = "create" }) => {
     const isDesktop = useMediaQuery("(min-width: 768px)")
 
-    const handleCreate = () => {
-    }
-
     if (isDesktop) {
         return (
-            <Dialog onOpenChange={handleCreate} modal>
+            <Dialog modal>
                 <DialogTrigger asChild>
                     <Button variant="ghost" size="icon" className="z-30">
                         <Plus size={24} />

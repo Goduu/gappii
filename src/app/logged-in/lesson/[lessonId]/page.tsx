@@ -1,7 +1,10 @@
 import { LessonPage } from '@/components/lesson-page/lesson-page'
-import { Skeleton } from '@/components/ui/skeleton'
+import { getApolloClient } from '@/lib/getApolloClient'
+import { GET_LESSON_ACTIVITIES } from '@/lib/gqls/lessonGQLs'
+import { Lesson, QueryLessonsArgs } from '@/ogm-resolver/ogm-types'
 import React, { FC, Suspense, use } from 'react'
-
+import { LessonSkeleton } from './lesson-skeleton'
+import { PageTitle } from '@/components/page-title/page-title'
 
 type CardsProps = {
     params: Promise<{
@@ -9,12 +12,25 @@ type CardsProps = {
     }>
 }
 
-const Cards: FC<CardsProps> = ({ params }) => {
-    const { lessonId } = use(params)
+const Cards: FC<CardsProps> = async ({ params }) => {
+    const { lessonId } = await params
+
+    const client = getApolloClient();
+    const { data } = await client.query<{ lessons: Lesson[] }>({
+        query: GET_LESSON_ACTIVITIES,
+        variables: {
+            where: {
+                id: lessonId
+            }
+        } satisfies QueryLessonsArgs
+    })
+
+    const lesson = data?.lessons[0]
 
     return (
-        <Suspense fallback={<Skeleton className='w-96 h-64' />}>
-            <LessonPage lessonId={lessonId} />
+        <Suspense fallback={<LessonSkeleton />}>
+            <PageTitle title='Lesson' />
+            <LessonPage lesson={lesson} />
         </Suspense>
     )
 }

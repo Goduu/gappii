@@ -31,13 +31,6 @@ export const Collections: React.FC<CardStackProps> = ({ cards, collection, isDra
 
     const handleClick = () => {
         if (mode === "edit") {
-            console.log("edit", {
-                id: collection.id || "",
-                color: collection.color,
-                icon: collection.icon,
-                name: collection.title,
-            }
-            )
             setCollection({
                 id: collection.id || "",
                 color: collection.color,

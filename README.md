@@ -1,6 +1,6 @@
-# Health Note
+# Gappii
 
-An simple application to make quick patient reports and notes.
+An simple application to to fill the gaps of your knowledge.
 
 # Stack
 - React
@@ -13,5 +13,9 @@ An simple application to make quick patient reports and notes.
 
 # Concept
 
-![concept image defining how to app works](https://github.com/Goduu/healthNote/blob/main/healthNote.png?raw=true)
+![create your lesson](https://github.com/Goduu/gappii/blob/main/1CreateYour.png?raw=true)
+
+![my lessons page](https://github.com/Goduu/gappii/blob/main/2LessonsPage.png?raw=true)
+
+![lesson page](https://github.com/Goduu/gappii/blob/main/3LessonPage.png?raw=true)
 

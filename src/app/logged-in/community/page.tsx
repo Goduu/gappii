@@ -1,10 +1,16 @@
 import { CommunityPage } from '@/components/community-page/community-page'
 import React from 'react'
 
-const Cards = () => {
+const Community = async (props: {
+    searchParams?: Promise<{
+        search?: string;
+        toggle?: string;
+        level?: string;
+    }>;
+}) => {
     return (
-        <CommunityPage />
+        <CommunityPage searchParams={await props.searchParams} />
     )
 }
 
-export default Cards
+export default Community

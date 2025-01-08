@@ -14,7 +14,7 @@ export type ApiActivityResponse = {
 }
 
 
-export const validateApiReturnObject = (response: object | null, onError: (error: unknown) => void): ApiActivityResponse | null => {
+export const validateApiReturnObject = (response: object | null, onError: (error: string) => void): ApiActivityResponse | null => {
     if (!response) {
         onError("No response from API")
     }

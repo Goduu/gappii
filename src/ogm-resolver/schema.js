@@ -6,7 +6,7 @@ type Topic @node {
 
 type Lesson @node {
   id: ID @id @unique
-  title: String! @unique
+  title: String!
   level: Int!
   isPublic: Boolean! # Tracks public/private status
   createdAt: DateTime!
@@ -15,6 +15,7 @@ type Lesson @node {
   hasKeywords: [Keyword!]! @relationship(type: "HAS_KEYWORD", direction: OUT)
   hasActivities: [Activity!]! @relationship(type: "HAS_ACTIVITY", direction: OUT)
   wasReacted: [User!]! @relationship(type: "REACTED", properties: "Reacted", direction: IN)
+  wasReactedCount: Int! @cypher(statement: "MATCH (this)-[:REACTED]-(u:User) RETURN COUNT(u) AS wasReactedCount",columnName: "wasReactedCount")
 }
 
 type Keyword @node {

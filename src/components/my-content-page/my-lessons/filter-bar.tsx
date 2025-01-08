@@ -1,7 +1,7 @@
 "use client"
 import React, { FC } from 'react'
 import { ToggleGroup, ToggleGroupItem } from '../../ui/toggle-group';
-import { Crown, ThumbsDown, ThumbsUp, X } from "lucide-react"
+import { Crown, ThumbsUp, X } from "lucide-react"
 import { LessonReaction } from './lesson-reactions';
 import { Badge } from '../../ui/badge';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -44,7 +44,6 @@ export const FilterBar: FC = () => {
         Filters:
       </div>
       <ToggleGroup type="single">
-        <ToggleGroupItem value={"DISLIKED"} onClick={() => handleToggle("DISLIKED")}><ThumbsDown /></ToggleGroupItem>
         <ToggleGroupItem value={"LIKED"} onClick={() => handleToggle("LIKED")}><ThumbsUp /></ToggleGroupItem>
         <ToggleGroupItem value={"CROWNED"} onClick={() => handleToggle("CROWNED")}><Crown /></ToggleGroupItem>
       </ToggleGroup>

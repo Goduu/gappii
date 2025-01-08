@@ -40,7 +40,7 @@ export const GET_LESSON_ACTIVITIES = gql`
 `
 export const GET_HOT_LESSON = gql`
   query GetHotLessons {
-    hotLessons: lessons(limit: 10, sort: [{ likeCount: DESC }]) {
+    hotLessons: lessons(limit: 10) {
       id
       hasTopic {
         id
@@ -50,7 +50,6 @@ export const GET_HOT_LESSON = gql`
         id
         title
       }
-      likeCount 
     },
     newLessons: lessons(limit: 10, sort: [{ createdAt: DESC }]) {
       id
@@ -124,9 +123,9 @@ export const GET_LESSON_FILTERED = gql`
     }
   }
 `
-
+// newestSort: createdAr: DESC, topRatedSort: wasReactedAggregate: {count: DESC}
 export const GET_COMMUNITY_LESSONS = gql`
-  query GetCommunityLessons($searchTerm: String, $level: Int) {
+  query GetCommunityLessons($searchTerm: String, $level: Int, $newestSort: SortDirection, $topRatedSort: SortDirection) {
     lessons(
       where: {
         isPublic: true
@@ -135,23 +134,28 @@ export const GET_COMMUNITY_LESSONS = gql`
       }
       options: {
         sort: [
-          { 
-            createdAt:  DESC 
-          }
+             { 
+              createdAt: $newestSort
+             }
+             { 
+              wasReactedCount: $topRatedSort
+             }
         ]
       }
     ) {
       id
       title
       level
+      createdAt
+      hasKeywords {
+        id
+        name
+      }
       hasTopic {
         title
       }
       hasSubtopic {
         title
-      }
-      wasReactedAggregate{
-        count
       }
       wasReactedConnection {
         edges {

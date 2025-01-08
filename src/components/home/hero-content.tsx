@@ -30,7 +30,7 @@ export const HeroContent = ({ features }: HeroContentProps) => {
                         text={'Fill your knowledge'}
                         className='text-2xl sm:text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80'
                     />
-                    <Badge className='ml-2 text-2xl sm:text-3xl md:text-5xl select-none group relative w-fit 
+                    <Badge className='ml-2 p-2 text-2xl sm:text-3xl md:text-5xl select-none group relative w-fit 
                     bg-gradient-to-r from-primary/20 to-primary/30 hover:from-primary/30 hover:to-primary/40
                     transition-all duration-300'>
                         <span className='md:text-opacity-0 text-gray-50 hover:text-opacity-100 

@@ -2,11 +2,9 @@
 import { Crown, ThumbsUp } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import React, { FC } from 'react'
-import { useMutation } from "@apollo/client";
-import { GET_USER_LESSONS, UPDATE_USER } from "@/lib/gqls/userGQLs";
 import { useUser } from "@clerk/nextjs";
-import { MutationUpdateUsersArgs } from "@/ogm-resolver/ogm-types";
 import { useRouter } from "next/navigation"
+import { userReactToLesson } from "@/lib/mutations/userReactToLesson";
 
 export type LessonReaction = "LIKED" | "CROWNED" | undefined | null
 
@@ -17,43 +15,10 @@ export type LessonReactionsProps = {
 
 export const LessonReactions: FC<LessonReactionsProps> = ({ lessonId, reaction }) => {
     const router = useRouter()
-    const [updateUserLikesMutation] = useMutation(UPDATE_USER, { refetchQueries: [{ query: GET_USER_LESSONS }] })
     const userData = useUser()
 
     const handleReact = async (type: NonNullable<LessonReaction>) => {
-        await updateUserLikesMutation({
-            variables: {
-                where: {
-                    clerkId: userData.user?.id
-                },
-                update: {
-                    reactedToLessons: [
-                        reaction === type ? {
-                            disconnect: [{
-                                where: {
-                                    node: {
-                                        id: lessonId
-                                    }
-                                },
-                            }]
-                        } :
-                            {
-                                connect: [{
-                                    where: {
-                                        node: {
-                                            id: lessonId
-                                        }
-                                    },
-                                    edge: {
-                                        type: type,
-                                        reactedAt: new Date().toISOString()
-                                    }
-                                }]
-                            }
-                    ]
-                }
-            } satisfies MutationUpdateUsersArgs
-        })
+        if (userData.user) await userReactToLesson(userData.user.id, lessonId, reaction, type)
         router.refresh()
     }
 

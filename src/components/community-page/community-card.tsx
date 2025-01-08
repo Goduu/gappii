@@ -1,18 +1,29 @@
+"use client"
 import React from 'react'
 import { Card, CardContent, CardFooter, CardHeader } from '../ui/card'
 import { CommunityCardReactions } from './community-card-reactions'
 import { Button } from '../ui/button'
 import { Copy, Play, Plus } from 'lucide-react'
 import { Lesson } from '@/ogm-resolver/ogm-types'
+import { toast } from '@/hooks/use-toast'
+import { KeywordsBadgeDisplay } from '../ui/keywords-display'
+import { redirect } from 'next/navigation'
+import { routes } from '@/lib/routes'
 
 interface CommunityCardProps {
   lesson: Lesson
-  onPlay: (lessonId: string) => void
-  onCopy: (lessonId: string) => void
-  onAdd: (lessonId: string) => void
 }
 
-export const CommunityCard = ({ lesson, onPlay, onCopy, onAdd }: CommunityCardProps) => {
+export const CommunityCard = ({ lesson }: CommunityCardProps) => {
+
+  const handleCopy = (lessonId: string) => {
+    // Implement copy logic
+    console.log("copying lesson", lessonId)
+    toast({
+      title: "Lesson copied",
+      description: "The lesson has been copied to your library"
+    })
+  }
   return (
     <Card className="w-full">
       <CardHeader>
@@ -25,23 +36,18 @@ export const CommunityCard = ({ lesson, onPlay, onCopy, onAdd }: CommunityCardPr
       </CardHeader>
       <CardContent>
         <div className="flex flex-wrap gap-2 mb-2">
-          <span className="text-sm bg-primary/10 px-2 py-1 rounded">
-            {lesson.hasTopic.title}
-          </span>
-          <span className="text-sm bg-primary/10 px-2 py-1 rounded">
-            {lesson.hasSubtopic.title}
-          </span>
+          <KeywordsBadgeDisplay keywords={lesson.hasKeywords} level={lesson.level} />
         </div>
         <CommunityCardReactions lesson={lesson} />
       </CardContent>
       <CardFooter className="flex flex-wrap gap-2 sm:gap-0 sm:justify-between">
-        <Button variant="ghost" size="sm" onClick={() => onPlay(lesson?.id ?? "")}>
+        <Button variant="ghost" size="sm" onClick={() => { if (lesson.id) redirect(routes.lesson(lesson.id)) }}>
           <Play className="w-4 h-4 mr-2" /> Play
         </Button>
-        <Button variant="ghost" size="sm" onClick={() => onCopy(lesson?.id ?? "")}>
+        <Button variant="ghost" size="sm" onClick={() => handleCopy(lesson?.id ?? "")}>
           <Copy className="w-4 h-4 mr-2" /> Copy
         </Button>
-        <Button variant="ghost" size="sm" onClick={() => onAdd(lesson?.id ?? "")}>
+        <Button variant="ghost" size="sm" onClick={() => {}}>
           <Plus className="w-4 h-4 mr-2" /> Add
         </Button>
       </CardFooter>

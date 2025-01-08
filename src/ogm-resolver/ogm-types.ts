@@ -558,6 +558,7 @@ export type Lesson = {
   level: Scalars["Int"]["output"];
   isPublic: Scalars["Boolean"]["output"];
   createdAt: Scalars["DateTime"]["output"];
+  wasReactedCount: Scalars["Int"]["output"];
   hasTopicAggregate?: Maybe<LessonTopicHasTopicAggregationSelection>;
   hasTopic: Topic;
   hasTopicConnection: LessonHasTopicConnection;
@@ -2841,11 +2842,11 @@ export type LessonSort = {
   level?: InputMaybe<SortDirection>;
   isPublic?: InputMaybe<SortDirection>;
   createdAt?: InputMaybe<SortDirection>;
+  wasReactedCount?: InputMaybe<SortDirection>;
 };
 
 export type LessonUniqueWhere = {
   id?: InputMaybe<Scalars["ID"]["input"]>;
-  title?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type LessonUpdateInput = {
@@ -3122,6 +3123,16 @@ export type LessonWhere = {
   createdAt_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
   createdAt_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
   createdAt_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  wasReactedCount?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  wasReactedCount_NOT?: InputMaybe<Scalars["Int"]["input"]>;
+  wasReactedCount_IN?: InputMaybe<Array<Scalars["Int"]["input"]>>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  wasReactedCount_NOT_IN?: InputMaybe<Array<Scalars["Int"]["input"]>>;
+  wasReactedCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  wasReactedCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  wasReactedCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  wasReactedCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
   OR?: InputMaybe<Array<LessonWhere>>;
   AND?: InputMaybe<Array<LessonWhere>>;
   NOT?: InputMaybe<LessonWhere>;

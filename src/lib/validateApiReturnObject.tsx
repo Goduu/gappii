@@ -14,7 +14,7 @@ export type ApiActivityResponse = {
 }
 
 
-export const validateApiReturnObject = (response: object | null, onError: (error: any) => void): ApiActivityResponse | null => {
+export const validateApiReturnObject = (response: object | null, onError: (error: unknown) => void): ApiActivityResponse | null => {
     if (!response) {
         onError("No response from API")
     }
@@ -41,13 +41,13 @@ export const validateApiReturnObject = (response: object | null, onError: (error
         onError("Invalid response from API, missing activities");
         return null
     }
-    if (!!data.activities.find(activity => {
+    if (!!data.activities.find(activity => (
         typeof activity.order !== 'number' ||
-            !activity.description ||
-            !activity.comment ||
-            !activity.options.includes(activity.answer) ||
-            activity.options.length < 1
-    })) {
+        !activity.description ||
+        !activity.comment ||
+        !activity.options.includes(activity.answer) ||
+        activity.options.length < 1)
+    )) {
         onError("Invalid response from API, missing activity properties");
         return null
     }

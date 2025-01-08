@@ -3,7 +3,7 @@ import { GET_LESSON_ACTIVITIES, UPDATE_LESSON } from "@/lib/gqls/lessonGQLs";
 import { DELETE_ACTIVITY, UPDATE_ACTIVITY } from "@/lib/gqls/activityGQLs";
 import { LessonFormValues } from "./useLessonForm";
 import { startTransition } from "react";
-import { Lesson, MutationUpdateLessonsArgs } from "@/ogm-resolver/ogm-types";
+import { Activity, Keyword, Lesson, MutationUpdateLessonsArgs } from "@/ogm-resolver/ogm-types";
 
 export const useSaveLessonForm = () => {
     const [updateLessons] = useMutation(UPDATE_LESSON);
@@ -111,10 +111,10 @@ export const useSaveLessonForm = () => {
 
     const buildLessonUpdateVariables = (
         lessonId: string,
-        addedKeywords: any[],
-        deletedKeywords: any[],
-        addedActivities: any[],
-        deletedActivities: any[]
+        addedKeywords: Keyword[],
+        deletedKeywords: Keyword[],
+        addedActivities: Activity[],
+        deletedActivities: Activity[]
     ): MutationUpdateLessonsArgs => ({
         where: { id: lessonId },
         update: {
@@ -159,7 +159,7 @@ export const useSaveLessonForm = () => {
         },
     });
 
-    const areArraysEqual = (arr1: any[], arr2: any[]) =>
+    const areArraysEqual = (arr1: string[], arr2: string[]) =>
         arr1.length === arr2.length && arr1.every((item) => arr2.includes(item));
 
     return { handleUpdateLesson };

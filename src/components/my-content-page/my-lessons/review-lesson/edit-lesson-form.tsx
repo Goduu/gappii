@@ -21,7 +21,7 @@ type EditLessonFormProps = {
 export const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
   const { form } = useLessonForm(lesson)
   const { handleUpdateLesson } = useSaveLessonForm()
-  const { startTransition, isPending } = useTransitionContext()
+  const { startTransition } = useTransitionContext()
   const { fields: activities, append: appendActivity, remove, move, update } = useFieldArray({
     control: form.control,
     name: "activities"

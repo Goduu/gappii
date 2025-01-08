@@ -42,7 +42,8 @@ export const useLearnInput = (initialTopic?: Topic) => {
     }
 
     const handleSelectTopic = (option: Option) => {
-        topic ? setSubTopic(option) : setTopic(option)
+        if(topic) setSubTopic(option)
+        else setTopic(option)
     }
 
     const handleSubmit = async () => {

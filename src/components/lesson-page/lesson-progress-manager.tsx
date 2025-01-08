@@ -35,8 +35,6 @@ const LessonContent: React.FC<LessonProgressManagerProps> = ({
                 />
             </div>
             <LessonActivity
-                topic={topic.title}
-                subtopic={subtopic.title}
                 reportedActivityIds={reportedActivityIds}
             />
         </div>

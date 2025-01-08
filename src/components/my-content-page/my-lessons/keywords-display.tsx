@@ -14,7 +14,6 @@ interface KeywordsBadgeDisplayProps {
 export const KeywordsBadgeDisplay: React.FC<KeywordsBadgeDisplayProps> = ({
     keywords,
     level,
-    maxVisibleBadges = 3
 }) => {
 
     return (

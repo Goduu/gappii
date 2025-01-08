@@ -1,7 +1,7 @@
 "use client"
 import React from 'react';
 import Marquee from 'react-fast-marquee';
-import { Lesson, QueryLessonsArgs, Topic } from '@/ogm-resolver/ogm-types';
+import { Lesson } from '@/ogm-resolver/ogm-types';
 import { Badge } from '../ui/badge';
 import { Flame } from 'lucide-react';
 import { MdOutlineFiberNew } from './NewIcon';
@@ -50,78 +50,3 @@ export const OurTopics = () => {
 
     );
 };
-
-const hotTopics: { topic: Partial<Topic>, subtopic: Partial<Topic>, status: "new" | "hot" | "default" }[] = [
-    {
-        topic: {
-            title: 'Math',
-        },
-        subtopic: {
-            title: 'Algebra',
-        },
-        status: 'hot'
-    },
-    {
-        topic: {
-            title: 'Language',
-        },
-        subtopic: {
-            title: 'English',
-        },
-        status: 'new'
-    },
-    {
-        topic: {
-            title: 'Science',
-        },
-        subtopic: {
-            title: 'Physics',
-        },
-        status: 'default'
-    },
-    {
-        topic: {
-            title: 'History',
-        },
-        subtopic: {
-            title: 'World War II',
-        },
-        status: 'hot'
-    },
-    {
-        topic: {
-            title: 'Math',
-        },
-        subtopic: {
-            title: 'Geometry',
-        },
-        status: 'new'
-    },
-    {
-        topic: {
-            title: 'Language',
-        },
-        subtopic: {
-            title: 'Spanish',
-        },
-        status: 'default'
-    },
-    {
-        topic: {
-            title: 'Science',
-        },
-        subtopic: {
-            title: 'Chemistry',
-        },
-        status: 'hot'
-    },
-    {
-        topic: {
-            title: 'History',
-        },
-        subtopic: {
-            title: 'Ancient Rome',
-        },
-        status: 'new'
-    }
-]

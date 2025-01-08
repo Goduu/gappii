@@ -28,21 +28,17 @@ const cardVariants = {
 
 // Activity Card Component
 type ActivityCardProps = {
-    topic: string;
-    subtopic: string;
     activity: Activity;
     reported: boolean;
     onNext?: () => void;
     direction: 'next' | 'prev';
 };
 
-export const ActivityCard: React.FC<ActivityCardProps> = ({ 
-    topic, 
-    subtopic, 
-    activity, 
-    reported, 
-    onNext, 
-    direction 
+export const ActivityCard: FC<ActivityCardProps> = ({
+    activity,
+    reported,
+    onNext,
+    direction
 }) => {
     const [selectedOption, setSelectedOption] = useState<string>('');
     const [activityDone, setActivityDone] = useState<boolean>(false);
@@ -72,7 +68,7 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
         }
     };
 
-    const activitySortedOptions = activity.options 
+    const activitySortedOptions = activity.options
         ? [...activity.options].sort((a: string, b: string) => (a < b ? -1 : 1))
         : [];
 
@@ -94,17 +90,17 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
                 <CardHeader>
                     <div className='absolute right-1 top-1'>
                         {activity.id && (
-                            <ActivityReactions 
-                                activityId={activity.id} 
-                                reported={reported} 
+                            <ActivityReactions
+                                activityId={activity.id}
+                                reported={reported}
                             />
                         )}
                     </div>
                     <CardTitle className="flex justify-end items-baseline">
-                        <GapInput 
-                            text={activity.description} 
-                            value={selectedOption} 
-                            options={activity.options} 
+                        <GapInput
+                            text={activity.description}
+                            value={selectedOption}
+                            options={activity.options}
                         />
                     </CardTitle>
                 </CardHeader>
@@ -113,9 +109,9 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
                         <Button size="lg" onClick={onNext}>Go to Next</Button>
                     ) : (
                         activitySortedOptions.map(option => (
-                            <Button 
-                                key={option} 
-                                size="lg" 
+                            <Button
+                                key={option}
+                                size="lg"
                                 variant="outline"
                                 className='w-1/2'
                                 onClick={() => handleSelect(option)}

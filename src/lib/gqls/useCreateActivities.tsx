@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { CreateActivitiesMutationResponse, MutationCreateActivitiesArgs, MutationCreateLessonsArgs, MutationCreateUsersArgs, MutationUpdateTopicsArgs, MutationUpdateUsersArgs, Topic, TopicModel } from "@/ogm-resolver/ogm-types";
+import { CreateActivitiesMutationResponse, MutationCreateActivitiesArgs, MutationCreateLessonsArgs, MutationCreateUsersArgs, MutationUpdateUsersArgs } from "@/ogm-resolver/ogm-types";
 import { ApiActivityResponse } from "../validateApiReturnObject";
 import { redirect } from "next/navigation";
 import { CHECK_USER, CREATE_USER, UPDATE_USER } from "./userGQLs";
@@ -11,7 +11,7 @@ import { routes } from "../routes";
 
 export const useCreateActivities = () => {
     const clerkUserData = useUser()
-    const { loading, error, data: userData } = useQuery<{ users: Array<User> }>(CHECK_USER, {
+    const { loading, data: userData } = useQuery<{ users: Array<User> }>(CHECK_USER, {
         variables: { where: { clerkId: clerkUserData.user?.id } }
     })
     const [createUserMutation] = useMutation(CREATE_USER)
@@ -39,9 +39,6 @@ export const useCreateActivities = () => {
                     level: data.level,
                     createdAt: new Date().toISOString(),
                     isPublic: true,
-                    crownCount: 0,
-                    dislikeCount: 0,
-                    likeCount: 0,
                     hasTopic: {
                         connect: {
                             where: {

@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
             { message: 'User created', user: createUserData.createUser.user },
             { status: 201 }
         );
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error('Error in POST /api/auth-handler:', error);
         return NextResponse.json({ message: 'Internal Server Error', error: error?.message }, { status: 500 });
     }

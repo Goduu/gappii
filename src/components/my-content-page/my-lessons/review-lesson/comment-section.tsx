@@ -2,9 +2,11 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/comp
 import { Input } from '@/components/ui/input'
 import { MessageCircle } from 'lucide-react'
 import React, { FC } from 'react'
+import { UseFormReturn } from 'react-hook-form'
+import { LessonFormValues } from './useLessonForm'
 
 type CommentSectionProps = {
-    form: any
+    form: UseFormReturn<LessonFormValues>
     index: number
 }
 

@@ -1,5 +1,5 @@
 "use client"
-import { Crown, ThumbsDown, ThumbsUp } from "lucide-react"
+import { Crown, ThumbsUp } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import React, { FC } from 'react'
 import { useMutation } from "@apollo/client";
@@ -8,7 +8,7 @@ import { useUser } from "@clerk/nextjs";
 import { MutationUpdateUsersArgs } from "@/ogm-resolver/ogm-types";
 import { useRouter } from "next/navigation"
 
-export type LessonReaction = "LIKED" | "DISLIKED" | "CROWNED" | undefined | null
+export type LessonReaction = "LIKED" | "CROWNED" | undefined | null
 
 export type LessonReactionsProps = {
     lessonId: string
@@ -45,7 +45,8 @@ export const LessonReactions: FC<LessonReactionsProps> = ({ lessonId, reaction }
                                         }
                                     },
                                     edge: {
-                                        type: type
+                                        type: type,
+                                        reactedAt: new Date().toISOString()
                                     }
                                 }]
                             }
@@ -58,9 +59,6 @@ export const LessonReactions: FC<LessonReactionsProps> = ({ lessonId, reaction }
 
     return (
         <div className='flex gap-1'>
-            <Button size="icon" variant="ghost" onClick={() => handleReact("DISLIKED")}>
-                <ThumbsDown className={`${reaction === "DISLIKED" ? "fill-red-500 text-red-900" : ""}`} />
-            </Button>
             <Button size="icon" variant="ghost" onClick={() => handleReact("LIKED")}>
                 <ThumbsUp className={`${reaction === "LIKED" ? "fill-green-500 text-green-900" : ""}`} />
             </Button>

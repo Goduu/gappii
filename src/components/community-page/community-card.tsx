@@ -1,42 +1,50 @@
 import React from 'react'
-import { Card, CardFooter, CardHeader, CardTitle } from '../ui/card'
-import { Button } from '../ui/button'
+import { Card, CardContent, CardFooter, CardHeader } from '../ui/card'
 import { CommunityCardReactions } from './community-card-reactions'
-import { ImageUp } from 'lucide-react'
-import { GET_HOT_LESSON } from '@/lib/gqls/lessonGQLs'
+import { Button } from '../ui/button'
+import { Copy, Play, Plus } from 'lucide-react'
 import { Lesson } from '@/ogm-resolver/ogm-types'
-import { getApolloClient } from '@/lib/getApolloClient'
 
-export const CommunityCard = async () => {
-    const client = getApolloClient();
-    const { data } = await client.query<{ hotLessons: Lesson[], newLessons: Lesson[] }>({ query: GET_HOT_LESSON });
-
-    return (
-        <Card className="w-96 relative">
-            {data.hotLessons[0].hasTopic.id}
-            <CardHeader>
-                <div className='absolute right-2 top-2'>
-                    <CommunityCardReactions />
-                </div>
-                <CardTitle className="flex justify-between items-start w-full gap-4">
-                    <div className='bg-orange-500 rounded-full h-20 aspect-square items-center flex justify-center'>
-                        <ImageUp className='w-12 h-12' />
-                    </div>
-                    <div className='whitespace-nowrap overflow-hidden text-ellipsis w-full'>
-                        <div className='flex justify-between items-start w-full gap-1'>
-                            <div className="text-lg font-black cursor-pointer" >{"topic"}</div>
-                        </div>
-                        <span className="text-md cursor-pointer" >{"subtopic"}</span>
-                    </div>
-                </CardTitle>
-            </CardHeader>
-            <CardFooter className="flex justify-center gap-4">
-                <Button > Check</Button>
-                <Button > Add</Button>
-            </CardFooter>
-            {/* <div className='absolute bottom-2 right-2'>
-                <DiamondPlus className='h-16 w-16 cursor-pointer hover:bg-gray-50 dark:bg-gray-900 rounded-xl p-1' />
-            </div> */}
-        </Card>
-    )
+interface CommunityCardProps {
+  lesson: Lesson
+  onPlay: (lessonId: string) => void
+  onCopy: (lessonId: string) => void
+  onAdd: (lessonId: string) => void
 }
+
+export const CommunityCard = ({ lesson, onPlay, onCopy, onAdd }: CommunityCardProps) => {
+  return (
+    <Card className="w-full">
+      <CardHeader>
+        <div className="flex justify-between items-center">
+          <h3 className="text-lg font-bold truncate">{lesson.title}</h3>
+          <span className="text-sm text-gray-500 whitespace-nowrap ml-2">
+            Level {lesson.level}
+          </span>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <div className="flex flex-wrap gap-2 mb-2">
+          <span className="text-sm bg-primary/10 px-2 py-1 rounded">
+            {lesson.hasTopic.title}
+          </span>
+          <span className="text-sm bg-primary/10 px-2 py-1 rounded">
+            {lesson.hasSubtopic.title}
+          </span>
+        </div>
+        <CommunityCardReactions lesson={lesson} />
+      </CardContent>
+      <CardFooter className="flex flex-wrap gap-2 sm:gap-0 sm:justify-between">
+        <Button variant="ghost" size="sm" onClick={() => onPlay(lesson?.id ?? "")}>
+          <Play className="w-4 h-4 mr-2" /> Play
+        </Button>
+        <Button variant="ghost" size="sm" onClick={() => onCopy(lesson?.id ?? "")}>
+          <Copy className="w-4 h-4 mr-2" /> Copy
+        </Button>
+        <Button variant="ghost" size="sm" onClick={() => onAdd(lesson?.id ?? "")}>
+          <Plus className="w-4 h-4 mr-2" /> Add
+        </Button>
+      </CardFooter>
+    </Card>
+  )
+} 

@@ -5,14 +5,10 @@ import { AnimatePresence } from "framer-motion";
 import { useLessonContext } from "./lesson-context";
 
 type LessonActivityProps = {
-    topic: string;
-    subtopic: string;
     reportedActivityIds: Activity[] | undefined;
 };
 
 export const LessonActivity: React.FC<LessonActivityProps> = ({
-    topic,
-    subtopic,
     reportedActivityIds,
 }) => {
     const { currentActivity, handleNext, transitionDirection } = useLessonContext();
@@ -24,8 +20,6 @@ export const LessonActivity: React.FC<LessonActivityProps> = ({
                     <ActivityCard
                         key={currentActivity.id}
                         activity={currentActivity}
-                        topic={topic}
-                        subtopic={subtopic}
                         reported={reportedActivityIds?.some(
                             (activity) => activity.id === currentActivity.id
                         ) ?? false}

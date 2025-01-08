@@ -420,9 +420,6 @@ export type CollectionLessonHasLessonsNodeAggregateSelection = {
   title: StringAggregateSelection;
   level: IntAggregateSelection;
   createdAt: DateTimeAggregateSelection;
-  likeCount: IntAggregateSelection;
-  dislikeCount: IntAggregateSelection;
-  crownCount: IntAggregateSelection;
 };
 
 export type CollectionParentConnection = {
@@ -561,9 +558,6 @@ export type Lesson = {
   level: Scalars["Int"]["output"];
   isPublic: Scalars["Boolean"]["output"];
   createdAt: Scalars["DateTime"]["output"];
-  likeCount: Scalars["Int"]["output"];
-  dislikeCount: Scalars["Int"]["output"];
-  crownCount: Scalars["Int"]["output"];
   hasTopicAggregate?: Maybe<LessonTopicHasTopicAggregationSelection>;
   hasTopic: Topic;
   hasTopicConnection: LessonHasTopicConnection;
@@ -699,9 +693,6 @@ export type LessonAggregateSelection = {
   title: StringAggregateSelection;
   level: IntAggregateSelection;
   createdAt: DateTimeAggregateSelection;
-  likeCount: IntAggregateSelection;
-  dislikeCount: IntAggregateSelection;
-  crownCount: IntAggregateSelection;
 };
 
 export type LessonEdge = {
@@ -815,6 +806,7 @@ export type LessonUserWasReactedAggregationSelection = {
 export type LessonUserWasReactedEdgeAggregateSelection = {
   __typename?: "LessonUserWasReactedEdgeAggregateSelection";
   type: StringAggregateSelection;
+  reactedAt: DateTimeAggregateSelection;
 };
 
 export type LessonUserWasReactedNodeAggregateSelection = {
@@ -855,6 +847,7 @@ export type PageInfo = {
 export type Reacted = {
   __typename?: "Reacted";
   type: Scalars["String"]["output"];
+  reactedAt: Scalars["DateTime"]["output"];
 };
 
 export type StringAggregateSelection = {
@@ -1120,9 +1113,6 @@ export type UserLessonHasLessonsNodeAggregateSelection = {
   title: StringAggregateSelection;
   level: IntAggregateSelection;
   createdAt: DateTimeAggregateSelection;
-  likeCount: IntAggregateSelection;
-  dislikeCount: IntAggregateSelection;
-  crownCount: IntAggregateSelection;
 };
 
 export type UserLessonReactedToLessonsAggregationSelection = {
@@ -1135,6 +1125,7 @@ export type UserLessonReactedToLessonsAggregationSelection = {
 export type UserLessonReactedToLessonsEdgeAggregateSelection = {
   __typename?: "UserLessonReactedToLessonsEdgeAggregateSelection";
   type: StringAggregateSelection;
+  reactedAt: DateTimeAggregateSelection;
 };
 
 export type UserLessonReactedToLessonsNodeAggregateSelection = {
@@ -1143,9 +1134,6 @@ export type UserLessonReactedToLessonsNodeAggregateSelection = {
   title: StringAggregateSelection;
   level: IntAggregateSelection;
   createdAt: DateTimeAggregateSelection;
-  likeCount: IntAggregateSelection;
-  dislikeCount: IntAggregateSelection;
-  crownCount: IntAggregateSelection;
 };
 
 export type UserReactedToLessonsConnection = {
@@ -1524,96 +1512,6 @@ export type CollectionHasLessonsNodeAggregationWhereInput = {
   createdAt_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
   createdAt_MIN_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
   createdAt_MAX_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  likeCount_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MIN_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MAX_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_SUM_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  likeCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MIN_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MAX_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_SUM_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  likeCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MIN_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MAX_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_SUM_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  likeCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MIN_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MAX_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_SUM_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  likeCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MIN_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  dislikeCount_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MIN_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MAX_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_SUM_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  dislikeCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MIN_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MAX_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_SUM_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  dislikeCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MIN_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MAX_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_SUM_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  dislikeCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MIN_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MAX_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_SUM_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  dislikeCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MIN_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  crownCount_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MIN_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MAX_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_SUM_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  crownCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MIN_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MAX_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_SUM_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  crownCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MIN_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MAX_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_SUM_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  crownCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MIN_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MAX_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_SUM_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  crownCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MIN_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
 };
 
 export type CollectionHasLessonsUpdateConnectionInput = {
@@ -2188,9 +2086,6 @@ export type LessonCreateInput = {
   level: Scalars["Int"]["input"];
   isPublic: Scalars["Boolean"]["input"];
   createdAt: Scalars["DateTime"]["input"];
-  likeCount: Scalars["Int"]["input"];
-  dislikeCount: Scalars["Int"]["input"];
-  crownCount: Scalars["Int"]["input"];
   hasTopic?: InputMaybe<LessonHasTopicFieldInput>;
   hasSubtopic?: InputMaybe<LessonHasSubtopicFieldInput>;
   hasKeywords?: InputMaybe<LessonHasKeywordsFieldInput>;
@@ -2922,9 +2817,6 @@ export type LessonOnCreateInput = {
   level: Scalars["Int"]["input"];
   isPublic: Scalars["Boolean"]["input"];
   createdAt: Scalars["DateTime"]["input"];
-  likeCount: Scalars["Int"]["input"];
-  dislikeCount: Scalars["Int"]["input"];
-  crownCount: Scalars["Int"]["input"];
 };
 
 export type LessonOptions = {
@@ -2949,9 +2841,6 @@ export type LessonSort = {
   level?: InputMaybe<SortDirection>;
   isPublic?: InputMaybe<SortDirection>;
   createdAt?: InputMaybe<SortDirection>;
-  likeCount?: InputMaybe<SortDirection>;
-  dislikeCount?: InputMaybe<SortDirection>;
-  crownCount?: InputMaybe<SortDirection>;
 };
 
 export type LessonUniqueWhere = {
@@ -2966,15 +2855,6 @@ export type LessonUpdateInput = {
   level_DECREMENT?: InputMaybe<Scalars["Int"]["input"]>;
   isPublic?: InputMaybe<Scalars["Boolean"]["input"]>;
   createdAt?: InputMaybe<Scalars["DateTime"]["input"]>;
-  likeCount?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_INCREMENT?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_DECREMENT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_INCREMENT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_DECREMENT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_INCREMENT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_DECREMENT?: InputMaybe<Scalars["Int"]["input"]>;
   hasTopic?: InputMaybe<LessonHasTopicUpdateFieldInput>;
   hasSubtopic?: InputMaybe<LessonHasSubtopicUpdateFieldInput>;
   hasKeywords?: InputMaybe<Array<LessonHasKeywordsUpdateFieldInput>>;
@@ -3242,36 +3122,6 @@ export type LessonWhere = {
   createdAt_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
   createdAt_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
   createdAt_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
-  likeCount?: InputMaybe<Scalars["Int"]["input"]>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  likeCount_NOT?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_IN?: InputMaybe<Array<Scalars["Int"]["input"]>>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  likeCount_NOT_IN?: InputMaybe<Array<Scalars["Int"]["input"]>>;
-  likeCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount?: InputMaybe<Scalars["Int"]["input"]>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  dislikeCount_NOT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_IN?: InputMaybe<Array<Scalars["Int"]["input"]>>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  dislikeCount_NOT_IN?: InputMaybe<Array<Scalars["Int"]["input"]>>;
-  dislikeCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount?: InputMaybe<Scalars["Int"]["input"]>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  crownCount_NOT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_IN?: InputMaybe<Array<Scalars["Int"]["input"]>>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  crownCount_NOT_IN?: InputMaybe<Array<Scalars["Int"]["input"]>>;
-  crownCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
   OR?: InputMaybe<Array<LessonWhere>>;
   AND?: InputMaybe<Array<LessonWhere>>;
   NOT?: InputMaybe<LessonWhere>;
@@ -3421,18 +3271,41 @@ export type ReactedAggregationWhereInput = {
   type_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars["Float"]["input"]>;
   type_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   type_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  reactedAt_EQUAL?: InputMaybe<Scalars["DateTime"]["input"]>;
+  reactedAt_MIN_EQUAL?: InputMaybe<Scalars["DateTime"]["input"]>;
+  reactedAt_MAX_EQUAL?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  reactedAt_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  reactedAt_MIN_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  reactedAt_MAX_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  reactedAt_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  reactedAt_MIN_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  reactedAt_MAX_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  reactedAt_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  reactedAt_MIN_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  reactedAt_MAX_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  reactedAt_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  reactedAt_MIN_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  reactedAt_MAX_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
 };
 
 export type ReactedCreateInput = {
   type: Scalars["String"]["input"];
+  reactedAt: Scalars["DateTime"]["input"];
 };
 
 export type ReactedSort = {
   type?: InputMaybe<SortDirection>;
+  reactedAt?: InputMaybe<SortDirection>;
 };
 
 export type ReactedUpdateInput = {
   type?: InputMaybe<Scalars["String"]["input"]>;
+  reactedAt?: InputMaybe<Scalars["DateTime"]["input"]>;
 };
 
 export type ReactedWhere = {
@@ -3451,6 +3324,16 @@ export type ReactedWhere = {
   type_NOT_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
   /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
   type_NOT_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  reactedAt?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  reactedAt_NOT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  reactedAt_IN?: InputMaybe<Array<Scalars["DateTime"]["input"]>>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  reactedAt_NOT_IN?: InputMaybe<Array<Scalars["DateTime"]["input"]>>;
+  reactedAt_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  reactedAt_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  reactedAt_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  reactedAt_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
   OR?: InputMaybe<Array<ReactedWhere>>;
   AND?: InputMaybe<Array<ReactedWhere>>;
   NOT?: InputMaybe<ReactedWhere>;
@@ -3999,96 +3882,6 @@ export type UserHasLessonsNodeAggregationWhereInput = {
   createdAt_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
   createdAt_MIN_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
   createdAt_MAX_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  likeCount_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MIN_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MAX_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_SUM_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  likeCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MIN_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MAX_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_SUM_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  likeCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MIN_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MAX_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_SUM_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  likeCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MIN_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MAX_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_SUM_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  likeCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MIN_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  dislikeCount_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MIN_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MAX_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_SUM_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  dislikeCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MIN_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MAX_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_SUM_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  dislikeCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MIN_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MAX_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_SUM_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  dislikeCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MIN_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MAX_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_SUM_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  dislikeCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MIN_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  crownCount_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MIN_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MAX_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_SUM_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  crownCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MIN_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MAX_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_SUM_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  crownCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MIN_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MAX_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_SUM_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  crownCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MIN_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MAX_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_SUM_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  crownCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MIN_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
 };
 
 export type UserHasLessonsUpdateConnectionInput = {
@@ -4300,96 +4093,6 @@ export type UserReactedToLessonsNodeAggregationWhereInput = {
   createdAt_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
   createdAt_MIN_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
   createdAt_MAX_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  likeCount_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MIN_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MAX_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_SUM_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  likeCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MIN_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MAX_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_SUM_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  likeCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MIN_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MAX_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_SUM_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  likeCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MIN_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MAX_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_SUM_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  likeCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MIN_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  likeCount_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  dislikeCount_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MIN_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MAX_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_SUM_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  dislikeCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MIN_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MAX_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_SUM_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  dislikeCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MIN_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MAX_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_SUM_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  dislikeCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MIN_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MAX_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_SUM_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  dislikeCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MIN_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  dislikeCount_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  crownCount_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MIN_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MAX_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_SUM_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  crownCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MIN_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MAX_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_SUM_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  crownCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MIN_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MAX_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_SUM_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  crownCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MIN_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MAX_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_SUM_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
-  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  crownCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MIN_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  crownCount_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
 };
 
 export type UserReactedToLessonsUpdateConnectionInput = {
@@ -4939,9 +4642,6 @@ export interface LessonAggregateSelectionInput {
   title?: boolean;
   level?: boolean;
   createdAt?: boolean;
-  likeCount?: boolean;
-  dislikeCount?: boolean;
-  crownCount?: boolean;
 }
 
 export declare class LessonModel {

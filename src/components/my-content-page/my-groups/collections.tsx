@@ -55,7 +55,7 @@ export const Collections: React.FC<CardStackProps> = ({ cards, collection, isDra
                     </div>
                 </div>
                 }
-                {cards?.map((card, index) => {
+                {cards?.map((card) => {
                     return (
                         <Card
                             className={`w-96 p-2 h-44 -mt-40`} key={card.title}>

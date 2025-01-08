@@ -125,3 +125,43 @@ export const GET_LESSON_FILTERED = gql`
   }
 `
 
+export const GET_COMMUNITY_LESSONS = gql`
+  query GetCommunityLessons($searchTerm: String, $level: Int) {
+    lessons(
+      where: {
+        isPublic: true
+        title_CONTAINS: $searchTerm 
+        level: $level
+      }
+      options: {
+        sort: [
+          { 
+            createdAt:  DESC 
+          }
+        ]
+      }
+    ) {
+      id
+      title
+      level
+      hasTopic {
+        title
+      }
+      hasSubtopic {
+        title
+      }
+      wasReactedAggregate{
+        count
+      }
+      wasReactedConnection {
+        edges {
+          properties {
+            type
+            reactedAt
+          }
+        }
+      }
+    }
+  }
+`
+

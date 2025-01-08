@@ -71,7 +71,7 @@ export const AutoComplete = ({
                 input.blur()
             }
         },
-        [isOpen, options, onValueChange],
+        [isOpen, options, onValueChange, inputRef, onAddOption],
     )
 
     // const isNewValue = options.find(option => option.label === inputValue) ? false : true
@@ -79,7 +79,7 @@ export const AutoComplete = ({
     const handleBlur = useCallback(() => {
         setOpen(false)
         // setInputValue(selected?.label)
-    }, [selected])
+    }, [])
 
     const handleSelectOption = useCallback(
         (selectedOption: Option) => {
@@ -94,7 +94,7 @@ export const AutoComplete = ({
                 inputRef?.current?.blur()
             }, 0)
         },
-        [onValueChange],
+        [inputRef, onValueChange],
     )
 
     return (

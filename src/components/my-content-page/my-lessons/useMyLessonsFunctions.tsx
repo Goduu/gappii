@@ -17,7 +17,7 @@ export const useMyLessonsFunctions = () => {
     const [page, setPage] = useState(1);
 
     // GraphQL query with pagination support
-    const { data, loading, fetchMore, refetch } = useQuery<{ users: Array<User> }>(GET_USER_LESSONS, {
+    const { loading, fetchMore, refetch } = useQuery<{ users: Array<User> }>(GET_USER_LESSONS, {
         variables: {
             where: {
                 clerkId: userData.user?.id
@@ -72,7 +72,7 @@ export const useMyLessonsFunctions = () => {
 
             // Set pagination info
             const lessonConnection = data.users[0].hasLessonsConnection;
-            lessonConnection.pageInfo.endCursor && setEndCursor(lessonConnection.pageInfo.endCursor);
+            if(lessonConnection.pageInfo.endCursor) setEndCursor(lessonConnection.pageInfo.endCursor);
             setHasNextPage(lessonConnection.pageInfo.hasNextPage);
         },
         skip: !userData.user
@@ -113,7 +113,7 @@ export const useMyLessonsFunctions = () => {
                 setSortedLessonByTopic(updatedSortedTopics);
 
                 // Update pagination info
-                pageInfo.endCursor && setEndCursor(pageInfo.endCursor);
+                if(pageInfo.endCursor) setEndCursor(pageInfo.endCursor);
                 setHasNextPage(pageInfo.hasNextPage);
 
                 return { users: [...prev.users] };
@@ -128,7 +128,7 @@ export const useMyLessonsFunctions = () => {
     useEffect(() => {
         refetch();
         setPage(1); // Reset pagination when filters change
-    }, [filter]);
+    }, [filter, refetch]);
 
     return { setFilter, filter, sortedLessonByTopic, setKeywordFilter, setSubtopicFilter, setTopicFilter, loading, hasNextPage, loadMoreLessons }
 }

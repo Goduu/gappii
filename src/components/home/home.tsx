@@ -3,7 +3,6 @@ import React from 'react'
 import { OurTopics } from './our-topics'
 import { CreateTopic } from './create-topic'
 import { HeroContent } from './hero-content'
-import { useUser } from '@clerk/nextjs'
 
 const features = [
     {
@@ -21,7 +20,6 @@ const features = [
 ]
 
 export const HomePage = () => {
-    const userData = useUser()
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-background to-background/80 flex items-center justify-center">

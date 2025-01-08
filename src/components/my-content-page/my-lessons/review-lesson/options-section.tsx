@@ -4,11 +4,13 @@ import { Input } from '@/components/ui/input'
 import { Activity } from '@/ogm-resolver/ogm-types'
 import { ListTodo } from 'lucide-react'
 import React, { FC } from 'react'
+import { LessonFormValues } from './useLessonForm'
+import { UseFormReturn } from 'react-hook-form'
 
 type OptionsSectionProps = {
     activity: Activity
     index: number
-    form: any
+    form: UseFormReturn<LessonFormValues>
 }
 
 export const OptionsSection: FC<OptionsSectionProps> = ({ activity, form, index }) => {

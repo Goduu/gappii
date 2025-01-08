@@ -12,7 +12,7 @@ interface StartLessonButtonProps {
 export const StartLessonButton = ({ lessonId }: StartLessonButtonProps) => {
     const handleStart = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.stopPropagation()
-        lessonId && redirect(routes.lesson(lessonId))
+        if(lessonId) redirect(routes.lesson(lessonId))
     }
 
     return (

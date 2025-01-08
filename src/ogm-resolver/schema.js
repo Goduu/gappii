@@ -15,9 +15,6 @@ type Lesson @node {
   hasKeywords: [Keyword!]! @relationship(type: "HAS_KEYWORD", direction: OUT)
   hasActivities: [Activity!]! @relationship(type: "HAS_ACTIVITY", direction: OUT)
   wasReacted: [User!]! @relationship(type: "REACTED", properties: "Reacted", direction: IN)
-  likeCount: Int!
-  dislikeCount: Int!
-  crownCount: Int!
 }
 
 type Keyword @node {
@@ -55,11 +52,12 @@ type User @node {
 }
 
 type HasLesson @relationshipProperties {
-  type: String! # "Like", "Dislike", "Crown"
+  type: String!
 }
 
 type Reacted @relationshipProperties {
-  type: String! # "Like", "Dislike", "Crown"
+  type: String! # "Like", "Crown"
+  reactedAt: DateTime!
 }
 `;
 

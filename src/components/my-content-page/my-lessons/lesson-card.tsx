@@ -1,11 +1,12 @@
 import React, { FC } from 'react'
 import { Card } from '../../ui/card'
-import { LessonReaction, LessonReactions } from './lesson-reactions'
+import { LessonReactions } from './lesson-reactions'
 import { Lesson } from '@/ogm-resolver/ogm-types'
 import { KeywordsBadgeDisplay } from '../../ui/keywords-display'
 import { Draggable } from '@/components/ui/dnd/draggable'
 import { ClickableFilter } from './clickable-filter'
 import { StartLessonButton } from './start-lesson-button'
+import { LessonReaction } from '../types'
 
 type LessonCardProps = {
     lesson: Lesson

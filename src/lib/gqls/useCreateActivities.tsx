@@ -95,7 +95,8 @@ export const useCreateActivities = () => {
                                                 }
                                             },
                                             edge: {
-                                                type: "CREATED"
+                                                type: "CREATED",
+                                                hasAt: new Date().toISOString()
                                             }
                                         }
                                     ]
@@ -121,7 +122,8 @@ export const useCreateActivities = () => {
                                             }
                                         },
                                         edge: {
-                                            type: "CREATED"
+                                            type: "CREATED",
+                                            hasAt: new Date().toISOString()
                                         }
                                     }
                                 ]

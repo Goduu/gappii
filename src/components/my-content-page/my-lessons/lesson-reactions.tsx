@@ -5,8 +5,8 @@ import React, { FC } from 'react'
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation"
 import { userReactToLesson } from "@/lib/mutations/userReactToLesson";
+import { LessonReaction } from "../types";
 
-export type LessonReaction = "LIKED" | "CROWNED" | undefined | null
 
 export type LessonReactionsProps = {
     lessonId: string

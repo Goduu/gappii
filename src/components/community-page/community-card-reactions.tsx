@@ -4,9 +4,9 @@ import { Button } from '../ui/button'
 import { Crown, ThumbsUp } from 'lucide-react'
 import { Lesson } from '@/ogm-resolver/ogm-types'
 import { useUser } from '@clerk/nextjs'
-import { LessonReaction } from '../my-content-page/my-lessons/lesson-reactions'
 import { userReactToLesson } from '@/lib/mutations/userReactToLesson'
 import { useRouter } from 'next/navigation'
+import { LessonReaction } from '../my-content-page/types'
 
 type CommunityCardReactionsProps = {
     lesson: Lesson

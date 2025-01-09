@@ -509,6 +509,7 @@ export type DeleteInfo = {
 export type HasLesson = {
   __typename?: "HasLesson";
   type: Scalars["String"]["output"];
+  hasAt: Scalars["DateTime"]["output"];
 };
 
 export type IdAggregateSelection = {
@@ -1106,6 +1107,7 @@ export type UserLessonHasLessonsAggregationSelection = {
 export type UserLessonHasLessonsEdgeAggregateSelection = {
   __typename?: "UserLessonHasLessonsEdgeAggregateSelection";
   type: StringAggregateSelection;
+  hasAt: DateTimeAggregateSelection;
 };
 
 export type UserLessonHasLessonsNodeAggregateSelection = {
@@ -1951,18 +1953,41 @@ export type HasLessonAggregationWhereInput = {
   type_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars["Float"]["input"]>;
   type_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   type_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  hasAt_EQUAL?: InputMaybe<Scalars["DateTime"]["input"]>;
+  hasAt_MIN_EQUAL?: InputMaybe<Scalars["DateTime"]["input"]>;
+  hasAt_MAX_EQUAL?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  hasAt_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  hasAt_MIN_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  hasAt_MAX_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  hasAt_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  hasAt_MIN_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  hasAt_MAX_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  hasAt_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  hasAt_MIN_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  hasAt_MAX_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  hasAt_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  hasAt_MIN_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  hasAt_MAX_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
 };
 
 export type HasLessonCreateInput = {
   type: Scalars["String"]["input"];
+  hasAt: Scalars["DateTime"]["input"];
 };
 
 export type HasLessonSort = {
   type?: InputMaybe<SortDirection>;
+  hasAt?: InputMaybe<SortDirection>;
 };
 
 export type HasLessonUpdateInput = {
   type?: InputMaybe<Scalars["String"]["input"]>;
+  hasAt?: InputMaybe<Scalars["DateTime"]["input"]>;
 };
 
 export type HasLessonWhere = {
@@ -1981,6 +2006,16 @@ export type HasLessonWhere = {
   type_NOT_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
   /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
   type_NOT_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  hasAt?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  hasAt_NOT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  hasAt_IN?: InputMaybe<Array<Scalars["DateTime"]["input"]>>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  hasAt_NOT_IN?: InputMaybe<Array<Scalars["DateTime"]["input"]>>;
+  hasAt_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  hasAt_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  hasAt_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  hasAt_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
   OR?: InputMaybe<Array<HasLessonWhere>>;
   AND?: InputMaybe<Array<HasLessonWhere>>;
   NOT?: InputMaybe<HasLessonWhere>;

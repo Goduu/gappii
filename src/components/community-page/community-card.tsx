@@ -1,14 +1,9 @@
-"use client"
 import React from 'react'
 import { Card, CardContent, CardFooter, CardHeader } from '../ui/card'
 import { CommunityCardReactions } from './community-card-reactions'
-import { Button } from '../ui/button'
-import { Copy, Play, Plus } from 'lucide-react'
 import { Lesson } from '@/ogm-resolver/ogm-types'
-import { toast } from '@/hooks/use-toast'
 import { KeywordsBadgeDisplay } from '../ui/keywords-display'
-import { redirect } from 'next/navigation'
-import { routes } from '@/lib/routes'
+import { CommunityCardActions } from './community-card-actions'
 
 interface CommunityCardProps {
   lesson: Lesson
@@ -16,14 +11,8 @@ interface CommunityCardProps {
 
 export const CommunityCard = ({ lesson }: CommunityCardProps) => {
 
-  const handleCopy = (lessonId: string) => {
-    // Implement copy logic
-    console.log("copying lesson", lessonId)
-    toast({
-      title: "Lesson copied",
-      description: "The lesson has been copied to your library"
-    })
-  }
+  if (!lesson.id) return
+
   return (
     <Card className="w-full">
       <CardHeader>
@@ -41,15 +30,7 @@ export const CommunityCard = ({ lesson }: CommunityCardProps) => {
         <CommunityCardReactions lesson={lesson} />
       </CardContent>
       <CardFooter className="flex flex-wrap gap-2 sm:gap-0 sm:justify-between">
-        <Button variant="ghost" size="sm" onClick={() => { if (lesson.id) redirect(routes.lesson(lesson.id)) }}>
-          <Play className="w-4 h-4 mr-2" /> Play
-        </Button>
-        <Button variant="ghost" size="sm" onClick={() => handleCopy(lesson?.id ?? "")}>
-          <Copy className="w-4 h-4 mr-2" /> Copy
-        </Button>
-        <Button variant="ghost" size="sm" onClick={() => {}}>
-          <Plus className="w-4 h-4 mr-2" /> Add
-        </Button>
+        <CommunityCardActions lesson={lesson} />
       </CardFooter>
     </Card>
   )

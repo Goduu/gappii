@@ -55,6 +55,10 @@ export const validateApiReturnObject = (response: object | null, onError: (error
         onError("Invalid response from API, missing keywords");
         return null
     }
+    if (data.activities.find(activity => !activity.description.includes("{gap}"))) {
+        onError("Invalid response from API, missing gap in activity description");
+        return null
+    }
 
     return data;
 };

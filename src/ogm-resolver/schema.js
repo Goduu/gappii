@@ -53,7 +53,8 @@ type User @node {
 }
 
 type HasLesson @relationshipProperties {
-  type: String!
+  type: String! # "CREATED", "COPIED", "ADDED"
+  hasAt: DateTime!
 }
 
 type Reacted @relationshipProperties {

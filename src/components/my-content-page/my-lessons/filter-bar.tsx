@@ -2,9 +2,9 @@
 import React, { FC } from 'react'
 import { ToggleGroup, ToggleGroupItem } from '../../ui/toggle-group';
 import { Crown, ThumbsUp, X } from "lucide-react"
-import { LessonReaction } from './lesson-reactions';
 import { Badge } from '../../ui/badge';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { LessonReaction } from '../types';
 
 
 export const FilterBar: FC = () => {

@@ -25,7 +25,7 @@ export const ClickableFilter = ({ text, filterType }: ClickableFilterProps) => {
 
     return (
         <span
-            className="text-md cursor-pointer"
+            className="text-md cursor-pointer flex-nowrap text-ellipsis overflow-hidden w-full"
             onClick={() => setFilterSearchParams(filterType, text)}
         >
             {text}

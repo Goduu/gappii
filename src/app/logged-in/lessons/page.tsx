@@ -1,12 +1,12 @@
 import { MyContentPage } from '@/components/my-content-page/my-content-page'
 import React from 'react'
 
-const Cards = async (props: {
+const MyLessons = async (props: {
     searchParams?: Promise<{
         topic?: string;
         subtopic?: string;
         reaction?: string;
-        page?: string;
+        endCursor?: string;
     }>;
 }) => {
 
@@ -15,4 +15,4 @@ const Cards = async (props: {
     )
 }
 
-export default Cards
+export default MyLessons

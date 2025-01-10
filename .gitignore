@@ -3,3 +3,4 @@
 /src/ogm-resolver/node_modules
 .next
 .env*
+.DS_Store

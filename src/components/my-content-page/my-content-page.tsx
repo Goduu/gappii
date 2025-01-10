@@ -8,7 +8,7 @@ type MyContentPageProps = {
         topic?: string, 
         subtopic?: string, 
         reaction?: string, 
-        page?: string 
+        endCursor?: string 
     }
 }
 

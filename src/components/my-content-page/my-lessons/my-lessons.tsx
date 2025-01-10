@@ -1,35 +1,34 @@
-import React, { FC } from 'react'
+"use client"
+
+import React, { FC, useState } from 'react'
 import { FilterBar } from './filter-bar'
-import { TopicSection } from './topic-section'
-import { getApolloClient } from '@/lib/getApolloClient'
-import { Lesson, User, UserHasLessonsConnectionWhere } from '@/ogm-resolver/ogm-types'
+import { LessonCard } from './lesson-card'
+import { useQuery } from '@apollo/client'
 import { GET_USER_LESSONS } from '@/lib/gqls/userGQLs'
-import { auth } from '@clerk/nextjs/server'
+import { Lesson, User, UserHasLessonsConnectionWhere } from '@/ogm-resolver/ogm-types'
+import { useUser } from '@clerk/nextjs'
+import { useInfiniteScroll } from './useInfinityScroll'
+import { LessonsSkeletons } from './lessons-skeletons'
 
 type MyLessonsProps = {
-    searchParams?: { 
-        topic?: string, 
-        subtopic?: string, 
-        reaction?: string, 
-        page?: string 
+    searchParams?: {
+        topic?: string,
+        subtopic?: string,
+        reaction?: string,
+        endCursor?: string
     }
 }
 
-export const MyLessons: FC<MyLessonsProps> = async ({ searchParams }) => {
-    const { userId } = await auth()
-    if (!userId) return null
-
-    const topic =  searchParams?.topic || '';
+export const MyLessons: FC<MyLessonsProps> = ({ searchParams }) => {
+    const userData = useUser()
+    const [isFetchingMore, setIsFetchingMore] = useState(false);
+    const topic = searchParams?.topic || '';
     const subtopic = searchParams?.subtopic || '';
     const reaction = searchParams?.reaction || '';
-    const currentPage = Number(searchParams?.page) || 1;
-
-    const client = getApolloClient();
-    const { data } = await client.query<{ users: Array<User> }>({
-        query: GET_USER_LESSONS,
+    const { data, loading, fetchMore } = useQuery<{ users: User[] }>(GET_USER_LESSONS, {
         variables: {
             where: {
-                clerkId: userId
+                clerkId: userData.user?.id
             },
             lessonWhere: {
                 node: {
@@ -41,7 +40,7 @@ export const MyLessons: FC<MyLessonsProps> = async ({ searchParams }) => {
                     } : {},
                     wasReactedConnection_SOME: reaction ? {
                         node: {
-                            clerkId: userId
+                            clerkId: userData.user?.id
                         },
                         edge: reaction ? {
                             type: reaction
@@ -49,52 +48,74 @@ export const MyLessons: FC<MyLessonsProps> = async ({ searchParams }) => {
                     } : {}
                 }
             } satisfies UserHasLessonsConnectionWhere,
-            // Add pagination parameters
-            first: 10 * currentPage, // Load cumulative lessons
-        }
+            first: 4,
+            after: searchParams?.endCursor || undefined,
+        },
     });
 
-    if (!data.users[0]?.hasLessonsConnection) return <div>No lessons found</div>
+    const hasNextPage = data?.users[0]?.hasLessonsConnection.pageInfo.hasNextPage;
+    const endCursor = data?.users[0]?.hasLessonsConnection.pageInfo.endCursor;
 
-    const groupedLessons = data.users[0]?.hasLessonsConnection.edges.reduce((acc, lessonConnection) => {
-        const lesson = lessonConnection.node;
+    const lessons: Lesson[] = data?.users[0]?.hasLessonsConnection.edges.map(
+        (edge: { node: Lesson }) => edge.node
+    ) || [];
 
-        // Skip lessons without a topic
-        if (!lesson.hasTopic) return acc;
+    const handleLoadMore = async () => {
+        if (!hasNextPage || loading || isFetchingMore) return;
 
-        // Group lessons by topic title
-        const topicTitle = lesson.hasTopic.title;
-        acc[topicTitle] ??= [];
-        acc[topicTitle].push(lesson);
+        setIsFetchingMore(true);
+        try {
+            await fetchMore({
+                variables: {
+                    after: endCursor,
+                },
+                updateQuery: (prev, { fetchMoreResult }) => {
+                    if (!fetchMoreResult) return prev;
 
-        return acc;
-    }, {} as Record<string, Lesson[]>);
+                    const prevIds = prev?.users[0].hasLessonsConnection.edges.map(e => e.node.id);
 
-    // Sort topics by number of lessons (descending)
-    const sortedLessonByTopic = Object.entries(groupedLessons)
-        .sort(([, a], [, b]) => b.length - a.length)
-        .reduce((sortedAcc, [key, value]) => {
-            sortedAcc[key] = value;
-            return sortedAcc;
-        }, {} as Record<string, Lesson[]>)
+                    const newLessons = prev ? fetchMoreResult.users[0].hasLessonsConnection.edges.filter(e => !prevIds.includes(e.node.id)) : fetchMoreResult.users[0].hasLessonsConnection.edges;
+                    return {
+                        users: [
+                            {
+                                ...prev.users[0],
+                                hasLessonsConnection: {
+                                    ...fetchMoreResult.users[0].hasLessonsConnection,
+                                    edges: [
+                                        ...prev.users[0].hasLessonsConnection.edges,
+                                        ...newLessons
+                                    ],
+                                },
+                            },
+                        ],
+                    };
+                },
+            });
+        } finally {
+            setIsFetchingMore(false);
+        }
+    };
+
+    const { setElement } = useInfiniteScroll({
+        loading: loading || isFetchingMore,
+        hasNextPage,
+        onLoadMore: handleLoadMore,
+    });
 
     return (
         <div className='flex flex-col gap-10 w-full items-start'>
             <FilterBar />
-            <div className='flex flex-wrap gap-4 justify-center'>
-                {Object.entries(sortedLessonByTopic).map(([topic, lessons]) => (
-                    <TopicSection
-                        key={topic}
-                        lessons={lessons}
-                        topic={lessons[0].hasTopic}
+            <div className='flex flex-wrap gap-4 justify-start'>
+                {lessons.map((lesson) => (
+                    <LessonCard
+                        key={lesson.id}
+                        lesson={lesson}
                     />
                 ))}
+                {(loading || isFetchingMore) && <LessonsSkeletons />}
+                {/* Loading sentinel element */}
+                <div ref={setElement} className="h-4 w-full flex flex-wrap gap-4" />
             </div>
-            {/* hasNextPage && (
-            //         <Button onClick={loadMoreLessons} variant="outline">
-            //             Load More
-            //         </Button>
-            ) */}
         </div>
     )
 }

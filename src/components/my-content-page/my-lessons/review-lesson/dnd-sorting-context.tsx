@@ -13,11 +13,11 @@ import {
     sortableKeyboardCoordinates,
     verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { Activity } from '@/ogm-resolver/ogm-types';
+import { LessonFormValues } from './useLessonForm';
 
 type DndSortingContextProps = {
     children: ReactNode
-    activities: Activity[]
+    activities: LessonFormValues['activities']
     onDragEnd: (event: DragEndEvent) => void
 }
 

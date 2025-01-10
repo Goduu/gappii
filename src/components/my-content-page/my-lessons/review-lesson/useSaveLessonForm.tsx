@@ -113,7 +113,7 @@ export const useSaveLessonForm = () => {
         lessonId: string,
         addedKeywords: Keyword[],
         deletedKeywords: Keyword[],
-        addedActivities: Activity[],
+        addedActivities: LessonFormValues['activities'],
         deletedActivities: Activity[]
     ): MutationUpdateLessonsArgs => ({
         where: { id: lessonId },

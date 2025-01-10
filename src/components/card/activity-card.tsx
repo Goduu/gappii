@@ -10,7 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Activity } from '@/ogm-resolver/ogm-types';
 import { ActivityReactions } from './activity-reactions';
 import { motion } from 'framer-motion';
-// Card Variants for Transition
+
 const cardVariants = {
     initial: (direction: 'next' | 'prev') => ({
         x: direction === 'next' ? '100%' : '-50%',
@@ -30,7 +30,7 @@ const cardVariants = {
 type ActivityCardProps = {
     activity: Activity;
     reported: boolean;
-    onNext?: () => void;
+    onNext: (isCorrect: boolean) => void;
     direction: 'next' | 'prev';
 };
 
@@ -42,6 +42,7 @@ export const ActivityCard: FC<ActivityCardProps> = ({
 }) => {
     const [selectedOption, setSelectedOption] = useState<string>('');
     const [activityDone, setActivityDone] = useState<boolean>(false);
+    const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
     const { toast } = useToast();
 
     useEffect(() => {
@@ -53,6 +54,7 @@ export const ActivityCard: FC<ActivityCardProps> = ({
         setSelectedOption(selected);
         if (selected === activity.answer) {
             setActivityDone(true);
+            if(isAnswerCorrect===null) setIsAnswerCorrect(true);
             toast({
                 title: `Nice! It's ${selected}`,
                 description: activity.comment,
@@ -60,6 +62,8 @@ export const ActivityCard: FC<ActivityCardProps> = ({
                 duration: 10000,
             });
         } else {
+            if(isAnswerCorrect===null) setIsAnswerCorrect(false);
+
             toast({
                 title: "Try again!",
                 description: "You will eventually get it right!",
@@ -106,7 +110,7 @@ export const ActivityCard: FC<ActivityCardProps> = ({
                 </CardHeader>
                 <CardFooter className="flex justify-center gap-0 w-full">
                     {activityDone ? (
-                        <Button size="lg" onClick={onNext}>Go to Next</Button>
+                        <Button size="lg" onClick={() => onNext(isAnswerCorrect ?? false)}>Go to Next</Button>
                     ) : (
                         activitySortedOptions.map(option => (
                             <Button

@@ -3,6 +3,12 @@ import { Activity } from "@/ogm-resolver/ogm-types";
 import { ActivityCard } from "../card/activity-card";
 import { AnimatePresence } from "framer-motion";
 import { useLessonContext } from "./lesson-context";
+import { LessonSummary } from './lesson-summary';
+import { SummaryActivity } from "./lesson-context";
+
+function isActivity(activity: Activity | SummaryActivity): activity is Activity {
+    return !('type' in activity);
+}
 
 type LessonActivityProps = {
     reportedActivityIds: Activity[] | undefined;
@@ -12,6 +18,10 @@ export const LessonActivity: React.FC<LessonActivityProps> = ({
     reportedActivityIds,
 }) => {
     const { currentActivity, handleNext, transitionDirection } = useLessonContext();
+
+    if (!isActivity(currentActivity)) {
+        return <LessonSummary activity={currentActivity} />;
+    }
 
     return (
         <div className="flex-1 flex items-center justify-center min-h-0">

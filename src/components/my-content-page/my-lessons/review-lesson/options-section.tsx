@@ -1,14 +1,13 @@
 import { Checkbox } from '@/components/ui/checkbox'
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Activity } from '@/ogm-resolver/ogm-types'
 import { ListTodo } from 'lucide-react'
 import React, { FC } from 'react'
 import { LessonFormValues } from './useLessonForm'
 import { UseFormReturn } from 'react-hook-form'
 
 type OptionsSectionProps = {
-    activity: Activity
+    activity: LessonFormValues['activities'][number]
     index: number
     form: UseFormReturn<LessonFormValues>
 }

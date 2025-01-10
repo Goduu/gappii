@@ -5,6 +5,8 @@ import { Star, Clock } from 'lucide-react'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { LessonSearchBar } from '../shared/lesson-searchbar'
+import { TbStar } from '../ui/customIcons/tb-star'
+import { TbStars } from '../ui/customIcons/tb-stars'
 
 export const CommunityFilters = () => {
   const searchParams = useSearchParams();
@@ -57,12 +59,31 @@ export const CommunityFilters = () => {
             <SelectValue placeholder="Level" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="1">Level 1</SelectItem>
-            <SelectItem value="2">Level 2</SelectItem>
-            <SelectItem value="3">Level 3</SelectItem>
+            <SelectItem value="1" ><StarLevel level={1} /></SelectItem>
+            <SelectItem value="2" ><StarLevel level={2} /></SelectItem>
+            <SelectItem value="3" ><StarLevel level={3} /></SelectItem>
           </SelectContent>
         </Select>
       </div>
+    </div>
+  )
+}
+
+const StarLevel = ({ level }: { level: number }) => {
+  return (
+    <div className='flex gap-2 items-center'>
+      <div className='border rounded-full w-7 aspect-square flex items-center justify-center'>
+        {level === 1
+          ? <TbStar className='w-3' /> : level === 2
+            ?
+            <div className='flex gap-0'>
+              <TbStar className='w-3' />
+              <TbStar className='w-3' />
+            </div>
+            : <TbStars className='p-[0.1rem]' />
+        }
+      </div>
+      <p>{level === 1 ? "Beginner" : level === 2 ? "Intermediate" : "Advanced"}</p>
     </div>
   )
 } 

@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { Activity } from '@/ogm-resolver/ogm-types';
 import { UseFormReturn } from 'react-hook-form';
 import { LessonFormValues } from './useLessonForm';
 import { Card, CardContent } from '@/components/ui/card';
@@ -13,7 +12,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
 export type EditActivityProps = {
-    activity: Activity;
+    activity: LessonFormValues['activities'][number];
     index: number;
     form: UseFormReturn<LessonFormValues>;
     removeActivity: () => void;

@@ -37,7 +37,7 @@ export const EditActivity: FC<EditActivityProps> = ({ activity, index, form, rem
     };
 
     return (
-        <Card className="min-w-96 md:min-w-[30rem] bg-white shadow-sm hover:shadow-md transition-shadow duration-200 relative" ref={setNodeRef} style={style} >
+        <Card className="min-w-96 md:min-w-[30rem] bg-white shadow-sm hover:shadow-md transition-shadow duration-200 relative w-full" ref={setNodeRef} style={style} >
             <Button size="icon" variant="ghost" onClick={removeActivity} className="absolute top-0 right-0">
                 <Trash />
             </Button>

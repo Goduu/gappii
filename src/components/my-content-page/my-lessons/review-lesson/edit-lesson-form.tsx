@@ -55,7 +55,7 @@ export const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-4 items-center'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-4 items-start'>
         <EditLessonKeywords form={form} />
         <DndSortingContext activities={activities} onDragEnd={handleDragEnd}>
           {activities.map((activity, index) => (

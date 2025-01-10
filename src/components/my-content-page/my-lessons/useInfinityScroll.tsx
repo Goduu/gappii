@@ -21,7 +21,6 @@ export const useInfiniteScroll = ({
 
         // Cleanup previous observer
         if (observerRef.current) {
-            console.log("disconnecting observer")
             observerRef.current.disconnect();
         }
 

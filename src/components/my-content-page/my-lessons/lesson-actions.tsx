@@ -15,9 +15,14 @@ export const LessonActions = ({ lessonId }: LessonActionsProps) => {
         if (lessonId) redirect(routes.lesson(lessonId))
     }
 
+    const handleEdit = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation()
+        if (lessonId) redirect(routes.editLesson(lessonId))
+    }
+
     return (
         <div className='flex gap-2 absolute right-4 bottom-4 z-10'>
-            <Button size="icon" variant="outline" onClick={handleStart} >
+            <Button size="icon" variant="outline" onClick={handleEdit} >
                 <Edit />
             </Button>
             <Button size="icon" onClick={handleStart}>

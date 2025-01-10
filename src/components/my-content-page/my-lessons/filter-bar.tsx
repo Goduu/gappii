@@ -40,12 +40,9 @@ export const FilterBar: FC = () => {
 
   return (
     <div className='flex gap-4 items-center'>
-      <div className='font-bold text-gray-500'>
-        Filters:
-      </div>
       <ToggleGroup type="single">
-        <ToggleGroupItem value={"LIKED"} onClick={() => handleToggle("LIKED")}><ThumbsUp /></ToggleGroupItem>
-        <ToggleGroupItem value={"CROWNED"} onClick={() => handleToggle("CROWNED")}><Crown /></ToggleGroupItem>
+        <ToggleGroupItem value={"LIKED"} onClick={() => handleToggle("LIKED")}><ThumbsUp /> Liked Lessons</ToggleGroupItem>
+        <ToggleGroupItem value={"CROWNED"} onClick={() => handleToggle("CROWNED")}><Crown /> Crowned Lessons</ToggleGroupItem>
       </ToggleGroup>
       {topic &&
         <Badge variant="outline" className='flex gap-2'>

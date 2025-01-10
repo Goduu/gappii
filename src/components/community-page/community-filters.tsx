@@ -1,11 +1,10 @@
 "use client"
 import React from 'react'
-import { Input } from '../ui/input'
 import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group'
-import { Star, Clock, Search } from 'lucide-react'
+import { Star, Clock } from 'lucide-react'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useDebouncedCallback } from 'use-debounce';
+import { LessonSearchBar } from '../shared/lesson-searchbar'
 
 export const CommunityFilters = () => {
   const searchParams = useSearchParams();
@@ -25,20 +24,6 @@ export const CommunityFilters = () => {
     replace(`${pathname}?${params.toString()}`);
   }
 
-  const onTextSearchChange = useDebouncedCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    // att to searchParams
-    const params = new URLSearchParams(searchParams);
-
-    // if the search term is empty, delete the search param
-    if (e.target.value === '') {
-      params.delete('search');
-    } else {
-      params.set('search', e.target.value);
-    }
-
-    replace(`${pathname}?${params.toString()}`);
-  }, 300)
-
   const onLevelChange = (level: string) => {
     const params = new URLSearchParams(searchParams);
     params.set('level', level);
@@ -47,14 +32,7 @@ export const CommunityFilters = () => {
 
   return (
     <div className="w-full space-y-4">
-      <div className="relative">
-        <Search className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
-        <Input
-          placeholder="Search lessons..."
-          className="pl-10"
-          onChange={onTextSearchChange}
-        />
-      </div>
+      <LessonSearchBar />
 
       <div className="flex flex-col sm:flex-row justify-between gap-4 sm:items-center">
         <ToggleGroup

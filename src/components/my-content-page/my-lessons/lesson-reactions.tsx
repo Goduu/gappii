@@ -23,7 +23,7 @@ export const LessonReactions: FC<LessonReactionsProps> = ({ lessonId, reaction }
     }
 
     return (
-        <div className='flex gap-1'>
+        <div className='flex'>
             <Button size="icon" variant="ghost" onClick={() => handleReact("LIKED")}>
                 <ThumbsUp className={`${reaction === "LIKED" ? "fill-green-500 text-green-900" : ""}`} />
             </Button>

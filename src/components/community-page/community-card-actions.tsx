@@ -39,7 +39,7 @@ export const CommunityCardActions: FC<CommunityCardActionsProps> = ({ lesson }) 
 
     const handleAdd = () => {
         startTransition(async () => {
-            if(userData.user?.id) await userHasLesson(userData.user?.id, lesson.id!, "ADDED")
+            if (userData.user?.id) await userHasLesson(userData.user?.id, lesson.id!, "ADDED")
             toast({
                 title: "Lesson added",
                 description: "The lesson has been added to your library (just reading)",
@@ -52,15 +52,15 @@ export const CommunityCardActions: FC<CommunityCardActionsProps> = ({ lesson }) 
     const isDisabled = !userData.isSignedIn
 
     return (
-        <div>
-            <Button variant="ghost" size="sm" onClick={handlePlay}>
-                <Play className="w-4 h-4 mr-2" /> Play
+        <div className='flex gap-1 absolute right-4 bottom-4 z-10'>
+            <Button disabled={isDisabled} variant="outline" size="icon" onClick={handleCopy}>
+                <Copy size="icon" />
             </Button>
-            <Button disabled={isDisabled} variant="ghost" size="sm" onClick={handleCopy}>
-                <Copy className="w-4 h-4 mr-2" /> Copy
+            <Button disabled={isDisabled} variant="outline" size="icon" onClick={handleAdd}>
+                <Plus size="icon" />
             </Button>
-            <Button disabled={isDisabled} variant="ghost" size="sm" onClick={handleAdd}>
-                <Plus className="w-4 h-4 mr-2" /> Add
+            <Button variant="outline" size="icon" onClick={handlePlay}>
+                <Play size="icon" />
             </Button>
         </div>
     )

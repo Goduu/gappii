@@ -2,42 +2,37 @@
 
 import React, { FC, useState } from 'react'
 import { FilterBar } from './filter-bar'
-import { LessonCard } from './lesson-card'
 import { useQuery } from '@apollo/client'
 import { GET_USER_LESSONS } from '@/lib/gqls/userGQLs'
 import { Lesson, User, UserHasLessonsConnectionWhere } from '@/ogm-resolver/ogm-types'
 import { useUser } from '@clerk/nextjs'
 import { useInfiniteScroll } from './useInfinityScroll'
 import { LessonsSkeletons } from './lessons-skeletons'
+import { LessonCard } from '@/components/shared/lesson-card'
+import { LessonSearchBar } from '@/components/shared/lesson-searchbar'
 
 type MyLessonsProps = {
     searchParams?: {
-        topic?: string,
-        subtopic?: string,
+        search?: string,
         reaction?: string,
-        endCursor?: string
     }
 }
 
 export const MyLessons: FC<MyLessonsProps> = ({ searchParams }) => {
     const userData = useUser()
     const [isFetchingMore, setIsFetchingMore] = useState(false);
-    const topic = searchParams?.topic || '';
-    const subtopic = searchParams?.subtopic || '';
     const reaction = searchParams?.reaction || '';
+    const search = searchParams?.search || '';
+
     const { data, loading, fetchMore } = useQuery<{ users: User[] }>(GET_USER_LESSONS, {
         variables: {
             where: {
                 clerkId: userData.user?.id
             },
+            searchTerm: search,
             lessonWhere: {
                 node: {
-                    hasTopic: topic ? {
-                        title: topic
-                    } : {},
-                    hasSubtopic: subtopic ? {
-                        title: subtopic
-                    } : {},
+                    title_CONTAINS: search,
                     wasReactedConnection_SOME: reaction ? {
                         node: {
                             clerkId: userData.user?.id
@@ -48,8 +43,7 @@ export const MyLessons: FC<MyLessonsProps> = ({ searchParams }) => {
                     } : {}
                 }
             } satisfies UserHasLessonsConnectionWhere,
-            first: 4,
-            after: searchParams?.endCursor || undefined,
+            first: 16
         },
     });
 
@@ -103,19 +97,24 @@ export const MyLessons: FC<MyLessonsProps> = ({ searchParams }) => {
     });
 
     return (
-        <div className='flex flex-col gap-10 w-full items-start'>
-            <FilterBar />
-            <div className='flex flex-wrap gap-4 justify-start'>
-                {lessons.map((lesson) => (
-                    <LessonCard
-                        key={lesson.id}
-                        lesson={lesson}
-                    />
-                ))}
-                {(loading || isFetchingMore) && <LessonsSkeletons />}
-                {/* Loading sentinel element */}
-                <div ref={setElement} className="h-4 w-full flex flex-wrap gap-4" />
+        <div className="w-full space-y-4">
+            <LessonSearchBar />
+            <div className='flex flex-col gap-10 w-full items-start'>
+                <FilterBar />
+                <div className='flex flex-wrap gap-4 justify-start'>
+                    {lessons.map((lesson) => (
+                        <LessonCard
+                            variant="my-content"
+                            key={lesson.id}
+                            lesson={lesson}
+                        />
+                    ))}
+                    {(loading || isFetchingMore) && <LessonsSkeletons />}
+                    {/* Loading sentinel element */}
+                    <div ref={setElement} className="h-4 w-full flex flex-wrap gap-4" />
+                </div>
             </div>
         </div>
+
     )
 }

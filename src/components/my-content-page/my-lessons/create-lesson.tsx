@@ -24,7 +24,6 @@ import { useMediaQuery } from "@/lib/use-media-query"
 import { Plus } from "lucide-react"
 import { LearnInput } from "@/components/learn-input/learn-input"
 import { CollectionPageMode } from "../my-groups/types"
-import { Topic } from "@/ogm-resolver/ogm-types"
 
 const texts = {
     create: "Create",
@@ -33,19 +32,18 @@ const texts = {
 }
 
 type CreateLessonProps = {
-    topic: Topic
-    mode: CollectionPageMode
+    mode?: CollectionPageMode
 }
 
-export const CreateLesson: FC<CreateLessonProps> = ({ topic, mode = "create" }) => {
+export const CreateLesson: FC<CreateLessonProps> = ({ mode = "create" }) => {
     const isDesktop = useMediaQuery("(min-width: 768px)")
 
     if (isDesktop) {
         return (
             <Dialog modal>
                 <DialogTrigger asChild>
-                    <Button variant="ghost" size="icon" className="z-30">
-                        <Plus size={24} />
+                    <Button variant="outline" className="z-30">
+                        <Plus size={24} /> Create new lesson
                     </Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[550px]">
@@ -55,7 +53,7 @@ export const CreateLesson: FC<CreateLessonProps> = ({ topic, mode = "create" }) 
                             {texts.description}
                         </DialogDescription>
                     </DialogHeader>
-                    <LearnInput initialTopic={topic} />
+                    <LearnInput />
                 </DialogContent>
             </Dialog>
         )
@@ -76,7 +74,7 @@ export const CreateLesson: FC<CreateLessonProps> = ({ topic, mode = "create" }) 
                     </DrawerDescription>
                 </DrawerHeader>
                 <div className="p-2 px-4">
-                    <LearnInput initialTopic={topic} />
+                    <LearnInput />
                 </div>
                 <DrawerFooter className="pt-2">
                     <DrawerClose asChild>

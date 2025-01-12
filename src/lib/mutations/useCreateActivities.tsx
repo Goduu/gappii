@@ -2,11 +2,11 @@ import { useMutation, useQuery } from "@apollo/client";
 import { CreateActivitiesMutationResponse, MutationCreateActivitiesArgs, MutationCreateLessonsArgs, MutationCreateUsersArgs, MutationUpdateUsersArgs } from "@/ogm-resolver/ogm-types";
 import { ApiActivityResponse } from "../validateApiReturnObject";
 import { redirect } from "next/navigation";
-import { CHECK_USER, CREATE_USER, UPDATE_USER } from "./userGQLs";
+import { CHECK_USER, CREATE_USER, UPDATE_USER } from "../gqls/userGQLs";
 import { User } from "@clerk/nextjs/server";
 import { useUser } from "@clerk/nextjs";
-import { CREATE_ACTIVITIES } from "./activityGQLs";
-import { CREATE_LESSONS } from "./lessonGQLs";
+import { CREATE_ACTIVITIES } from "../gqls/activityGQLs";
+import { CREATE_LESSONS } from "../gqls/lessonGQLs";
 import { routes } from "../routes";
 
 export const useCreateActivities = () => {

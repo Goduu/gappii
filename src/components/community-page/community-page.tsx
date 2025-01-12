@@ -18,8 +18,7 @@ export const CommunityPage = async ({ searchParams }: { searchParams?: { search?
             newestSort: searchParams?.toggle === "newest" ? "DESC" : undefined,
             topRatedSort: searchParams?.toggle === "topRated" ? "DESC" : undefined
         }
-    })
-
+    })    
 
     return (
         <div className="space-y-4 w-full">

@@ -117,21 +117,34 @@ export const UPDATE_USER = gql`
   ) {
         users {
           id
-          reactedToLessons {
-            id
-            wasReactedConnection {
-              edges {
-                node {
-                  id
-                  clerkId
-                }
-                properties{
-                  type
-                }
-          }
-        }
-      }
     }
   }
 }
 `
+
+export const GET_USER_STATISTICS = gql`
+  query GetUserStatistics($where: UserWhere) {
+    users(where: $where) {
+      streak
+      hasLessonsConnection {
+        edges{
+          properties{
+            type
+          }
+        }
+      }
+      createdLessonsInteractionsCount
+    }
+  }
+`
+
+export const GET_USER_DAILY_ACTIVITY = gql`
+    query GetUserDailyActivity($where: UserWhere) {
+        users(where: $where) {
+            dailyActivity {
+                date
+                count
+            }
+        }
+    }
+`;

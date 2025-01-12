@@ -1,5 +1,5 @@
 import { formatTime } from "@/lib/utils";
-import { SummaryActivity } from "./lesson-context";
+import { SummaryLesson } from "./lesson-context";
 import { routes } from "@/lib/routes";
 import { useRouter } from "next/navigation";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
@@ -12,7 +12,7 @@ import { useUser } from "@clerk/nextjs";
 import { MutationUpdateUsersArgs } from "@/ogm-resolver/ogm-types";
 
 interface LessonSummaryProps {
-    activity: SummaryActivity;
+    activity: SummaryLesson;
 }
 
 export const LessonSummary: React.FC<LessonSummaryProps> = ({ activity }) => {
@@ -20,40 +20,40 @@ export const LessonSummary: React.FC<LessonSummaryProps> = ({ activity }) => {
     const { user } = useUser();
 
     const [updateUser] = useMutation(UPDATE_USER);
+    // const yesterday = new Date();
+    // yesterday.setDate(yesterday.getDate() - 1);
 
     const handleUpdateUser = async () => {
         await updateUser({
             variables: {
-                where: { id: user?.id },
+                where: { clerkId: user?.id },
                 update: {
                     completedLessons: [{
-                        connect: [{
-                            where: {
-                                node: { id: activity.id }
-                            },
-                            edge: {
+                        create: [{
+                            node: {
                                 completedAt: new Date().toISOString(),
                                 score: activity.score,
                                 timeTaken: activity.totalTimeTaken,
+                                forLesson: {
+                                    connect: { where: { node: { id: activity.id } } }
+                                },
+                                attemptedActivities: {
+                                    connect: activity.attempts.map(([, attempt]) => ({
+                                        where: { node: { id: attempt.activityId } },
+                                        edge: {
+                                            attemptedAt: new Date().toISOString(),
+                                            isCorrect: attempt.isCorrect,
+                                            timeTaken: attempt.timeTaken
+                                        }
+                                    }))
+                                }
                             }
                         }]
-                    }],
-                    attemptedActivities: [{
-                        connect: activity.attempts.map(([, attempt]) => ({
-                            where: {
-                                node: { id: attempt.activityId },
-                            },
-                            edge: {
-                                attemptedAt: new Date().toISOString(),
-                                isCorrect: attempt.isCorrect,
-                                timeTaken: attempt.timeTaken,
-                            }
-                        }))
-                    }],
+                    }]
                 },
             } satisfies MutationUpdateUsersArgs,
         });
-        router.push(routes.lessons)
+        router.push(routes.dashboard)
     };
 
     return (
@@ -138,7 +138,7 @@ export const LessonSummary: React.FC<LessonSummaryProps> = ({ activity }) => {
                         size="lg"
                         onClick={handleUpdateUser}
                     >
-                        Return to Lessons
+                        Return to Dashboard
                     </Button>
                 </CardFooter>
             </Card>

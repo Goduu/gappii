@@ -1,4 +1,4 @@
-import { ReviewLesson } from '@/components/my-content-page/my-lessons/review-lesson/review-lesson'
+import { ReviewLesson } from '@/components/my-content-page/dashboard/review-lesson/review-lesson'
 import { PageTitle } from '@/components/page-title/page-title'
 import { Skeleton } from '@/components/ui/skeleton'
 import React, { FC, Suspense, use } from 'react'

@@ -18,7 +18,7 @@ export const LessonHeader: React.FC<LessonHeaderProps> = ({
             </div>
             <CircleX
                 className="h-5 w-5 cursor-pointer hover:text-destructive transition-colors"
-                onClick={() => redirect(routes.lessons)}
+                onClick={() => redirect(routes.dashboard)}
             />
         </div>
     );

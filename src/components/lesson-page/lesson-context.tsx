@@ -8,7 +8,7 @@ type AttemptData = {
     timeTaken: number;
 };
 
-export type SummaryActivity = {
+export type SummaryLesson = {
     id: string;
     type: 'summary';
     score: number;
@@ -22,7 +22,7 @@ type LessonContextType = {
     currentActivityIndex: number;
     progress: number;
     transitionDirection: 'next' | 'prev';
-    currentActivity: Activity | SummaryActivity;
+    currentActivity: Activity | SummaryLesson;
     activityStartTime: number;
     lessonStartTime: number;
     handleNext: (isCorrect?: boolean) => void;
@@ -47,7 +47,7 @@ export const LessonProvider: React.FC<LessonProviderProps> = ({ children, lesson
     const [lessonStartTime] = useState(Date.now());
     const [attempts, setAttempts] = useState<Map<number, AttemptData>>(new Map());
     const [isComplete, setIsComplete] = useState(false);
-    const [summaryActivity, setSummaryActivity] = useState<SummaryActivity | null>(null);
+    const [summaryActivity, setSummaryActivity] = useState<SummaryLesson | null>(null);
 
     const activities = lesson.hasActivities;
 
@@ -56,12 +56,12 @@ export const LessonProvider: React.FC<LessonProviderProps> = ({ children, lesson
         setActivityStartTime(Date.now());
     }, [currentActivityIndex]);
 
-    const createSummaryActivity = (
+    const createSummaryLesson = (
         totalTimeTaken: number,
         correctAnswers: number,
         score: number
-    ): SummaryActivity => ({
-        id: 'summary',
+    ): SummaryLesson => ({
+        id: lesson.id || '',
         type: 'summary',
         score: Number(score),
         totalTimeTaken,
@@ -76,7 +76,7 @@ export const LessonProvider: React.FC<LessonProviderProps> = ({ children, lesson
         // Only record the attempt if it hasn't been recorded before
         if ((isCorrect === true || isCorrect === false) && !attempts.has(currentActivityIndex)) {
             const timeTaken = Math.floor((Date.now() - activityStartTime) / 1000);
-            if(!activities[currentActivityIndex].id) {
+            if (!activities[currentActivityIndex].id) {
                 throw new Error("Activity ID is undefined");
             }
 
@@ -103,7 +103,7 @@ export const LessonProvider: React.FC<LessonProviderProps> = ({ children, lesson
             const score = ((correctAnswers / activities.length) * 100).toFixed(2);
 
             // Create and set summary activity
-            const summary = createSummaryActivity(totalTimeTaken, correctAnswers, Number(score));
+            const summary = createSummaryLesson(totalTimeTaken, correctAnswers, Number(score));
             setSummaryActivity(summary);
             setIsComplete(true);
             setProgress(100);

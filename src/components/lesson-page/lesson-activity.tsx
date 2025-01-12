@@ -4,9 +4,9 @@ import { ActivityCard } from "../card/activity-card";
 import { AnimatePresence } from "framer-motion";
 import { useLessonContext } from "./lesson-context";
 import { LessonSummary } from './lesson-summary';
-import { SummaryActivity } from "./lesson-context";
+import { SummaryLesson } from "./lesson-context";
 
-function isActivity(activity: Activity | SummaryActivity): activity is Activity {
+function isActivity(activity: Activity | SummaryLesson): activity is Activity {
     return !('type' in activity);
 }
 

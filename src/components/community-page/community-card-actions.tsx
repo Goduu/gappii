@@ -34,7 +34,7 @@ export const CommunityCardActions: FC<CommunityCardActionsProps> = ({ lesson }) 
     }
 
     const handleGoToLibrary = () => {
-        startTransition(() => redirect(routes.lessons))
+        startTransition(() => redirect(routes.dashboard))
     }
 
     const handleAdd = () => {

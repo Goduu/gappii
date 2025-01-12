@@ -163,6 +163,9 @@ export const GET_COMMUNITY_LESSONS = gql`
             type
             reactedAt
           }
+          node{
+            clerkId
+          }
         }
       }
     }

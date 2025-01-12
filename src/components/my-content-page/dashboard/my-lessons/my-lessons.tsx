@@ -1,15 +1,16 @@
 "use client"
-
-import React, { FC, useState } from 'react'
-import { FilterBar } from './filter-bar'
-import { useQuery } from '@apollo/client'
-import { GET_USER_LESSONS } from '@/lib/gqls/userGQLs'
-import { Lesson, User, UserHasLessonsConnectionWhere } from '@/ogm-resolver/ogm-types'
-import { useUser } from '@clerk/nextjs'
-import { useInfiniteScroll } from './useInfinityScroll'
-import { LessonsSkeletons } from './lessons-skeletons'
 import { LessonCard } from '@/components/shared/lesson-card'
 import { LessonSearchBar } from '@/components/shared/lesson-searchbar'
+import { FilterBar } from '../filter-bar'
+import { PageTitle } from '@/components/page-title/page-title'
+import { CreateLesson } from '../create-lesson'
+import React, { useState } from 'react'
+import { useUser } from '@clerk/nextjs'
+import { useQuery } from '@apollo/client'
+import { Lesson, User, UserHasLessonsConnectionWhere } from '@/ogm-resolver/ogm-types'
+import { GET_USER_LESSONS } from '@/lib/gqls/userGQLs'
+import { useInfiniteScroll } from '../useInfinityScroll'
+import { LessonsSkeleton } from '../lessons-skeleton'
 
 type MyLessonsProps = {
     searchParams?: {
@@ -18,7 +19,7 @@ type MyLessonsProps = {
     }
 }
 
-export const MyLessons: FC<MyLessonsProps> = ({ searchParams }) => {
+export const MyLessons = ({ searchParams }: MyLessonsProps) => {
     const userData = useUser()
     const [isFetchingMore, setIsFetchingMore] = useState(false);
     const reaction = searchParams?.reaction || '';
@@ -29,7 +30,6 @@ export const MyLessons: FC<MyLessonsProps> = ({ searchParams }) => {
             where: {
                 clerkId: userData.user?.id
             },
-            searchTerm: search,
             lessonWhere: {
                 node: {
                     title_CONTAINS: search,
@@ -68,7 +68,10 @@ export const MyLessons: FC<MyLessonsProps> = ({ searchParams }) => {
 
                     const prevIds = prev?.users[0].hasLessonsConnection.edges.map(e => e.node.id);
 
-                    const newLessons = prev ? fetchMoreResult.users[0].hasLessonsConnection.edges.filter(e => !prevIds.includes(e.node.id)) : fetchMoreResult.users[0].hasLessonsConnection.edges;
+                    const newLessons = prev
+                        ? fetchMoreResult?.users[0]?.hasLessonsConnection?.edges.filter(e => !prevIds.includes(e.node.id))
+                        : fetchMoreResult?.users[0]?.hasLessonsConnection?.edges;
+
                     return {
                         users: [
                             {
@@ -97,24 +100,29 @@ export const MyLessons: FC<MyLessonsProps> = ({ searchParams }) => {
     });
 
     return (
-        <div className="w-full space-y-4">
-            <LessonSearchBar />
-            <div className='flex flex-col gap-10 w-full items-start'>
-                <FilterBar />
-                <div className='flex flex-wrap gap-4 justify-start'>
-                    {lessons.map((lesson) => (
-                        <LessonCard
-                            variant="my-content"
-                            key={lesson.id}
-                            lesson={lesson}
-                        />
-                    ))}
-                    {(loading || isFetchingMore) && <LessonsSkeletons />}
-                    {/* Loading sentinel element */}
-                    <div ref={setElement} className="h-4 w-full flex flex-wrap gap-4" />
+        <div className='flex flex-col gap-2'>
+            <div className='flex gap-2'>
+                <PageTitle title='My Lessons' />
+                <CreateLesson />
+            </div>
+            <div className='flex flex-col gap-2'>
+                <LessonSearchBar />
+                <div className='flex flex-col gap-10 w-full items-start'>
+                    <FilterBar />
+                    <div className='flex flex-wrap gap-4 justify-start'>
+                        {lessons.map((lesson) => (
+                            <LessonCard
+                                variant="my-content"
+                                key={lesson.id}
+                                lesson={lesson}
+                            />
+                        ))}
+                        {(loading || isFetchingMore) && <LessonsSkeleton />}
+                        {/* Loading sentinel element */}
+                        <div ref={setElement} className="h-4 w-full flex flex-wrap gap-4" />
+                    </div>
                 </div>
             </div>
         </div>
-
     )
 }

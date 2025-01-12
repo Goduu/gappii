@@ -6,6 +6,7 @@ import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation"
 import { userReactToLesson } from "@/lib/mutations/userReactToLesson";
 import { LessonReaction } from "../types";
+import clsx from "clsx";
 
 
 export type LessonReactionsProps = {
@@ -25,10 +26,14 @@ export const LessonReactions: FC<LessonReactionsProps> = ({ lessonId, reaction }
     return (
         <div className='flex'>
             <Button size="icon" variant="ghost" onClick={() => handleReact("LIKED")}>
-                <ThumbsUp className={`${reaction === "LIKED" ? "fill-green-500 text-green-900" : ""}`} />
+                <ThumbsUp className={clsx({
+                    "fill-violet-500 text-violet-900": reaction === "LIKED"
+                })} />
             </Button>
             <Button size="icon" variant="ghost" onClick={() => handleReact("CROWNED")}>
-                <Crown className={`${reaction === "CROWNED" ? "fill-orange-500 text-orange-900" : ""}`} />
+                <Crown className={clsx({
+                    "fill-orange-500 text-orange-900": reaction === "CROWNED"
+                })} />
             </Button>
         </div>
     )

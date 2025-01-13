@@ -10,6 +10,8 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { Footer } from "@/components/home/footer";
 import { LoggedInMenu } from "./loggedin-menu";
 import { LoggedOutMenu } from "./loggedout-menu";
+import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/react"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -46,6 +48,8 @@ export default function RootLayout({
                   <main className="flex flex-col gap-8 row-start-2 items-center w-full">
                     <ApolloWrapper >
                       {children}
+                      <Analytics />
+                      <SpeedInsights />
                     </ApolloWrapper>
                     <div className="absolute left-4 top-4">
                       <SignedOut>

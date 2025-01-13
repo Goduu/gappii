@@ -39,6 +39,7 @@ export const useCreateActivities = () => {
                     level: data.level,
                     createdAt: new Date().toISOString(),
                     isPublic: true,
+                    language: data.language,
                     hasTopic: {
                         connect: {
                             where: {

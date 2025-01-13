@@ -125,12 +125,13 @@ export const GET_LESSON_FILTERED = gql`
 `
 // newestSort: createdAr: DESC, topRatedSort: wasReactedAggregate: {count: DESC}
 export const GET_COMMUNITY_LESSONS = gql`
-  query GetCommunityLessons($searchTerm: String, $level: Int, $newestSort: SortDirection, $topRatedSort: SortDirection) {
+  query GetCommunityLessons($searchTerm: String, $level: Int, $newestSort: SortDirection, $topRatedSort: SortDirection, $language: String) {
     lessons(
       where: {
         isPublic: true
         title_CONTAINS: $searchTerm 
         level: $level
+        language: $language
       }
       options: {
         sort: [
@@ -146,6 +147,7 @@ export const GET_COMMUNITY_LESSONS = gql`
       id
       title
       level
+      language
       createdAt
       hasKeywords {
         id

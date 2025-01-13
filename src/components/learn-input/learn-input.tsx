@@ -7,12 +7,14 @@ import { SubTopicSelector } from './subtopic-selector'
 import { LevelSelector } from './level-selector'
 import { useLearnInput } from './use-learn-input'
 import { LearnInputProps } from './types'
+import { LanguageSelector } from './language-selector'
 
-export const LearnInput: FC<LearnInputProps> = ({ initialTopic, hideLevel = false }) => {
+export const LearnInput: FC<LearnInputProps> = ({ initialTopic, hideAdvancedParams = false }) => {
     const {
         topic,
         subTopic,
         level,
+        language,
         loading,
         isPending,
         topicOptions,
@@ -22,7 +24,8 @@ export const LearnInput: FC<LearnInputProps> = ({ initialTopic, hideLevel = fals
         setLevel,
         handleCreateNewTopic,
         handleSelectTopic,
-        handleSubmit
+        handleSubmit,
+        setLanguage
     } = useLearnInput(initialTopic)
 
     const handleClickOnEmpty = () => {
@@ -35,22 +38,16 @@ export const LearnInput: FC<LearnInputProps> = ({ initialTopic, hideLevel = fals
     return (
         <div className='flex flex-col gap-2 w-full'>
             <div className='flex gap-2 w-full'>
-                <TopicSelector 
-                    topic={topic} 
-                    onRemove={() => setTopic(null)} 
-                    onClick={handleClickOnEmpty} 
+                <TopicSelector
+                    topic={topic}
+                    onRemove={() => setTopic(null)}
+                    onClick={handleClickOnEmpty}
                 />
-                <SubTopicSelector 
-                    subTopic={subTopic} 
-                    onRemove={() => setSubTopic(null)} 
-                    onClick={handleClickOnEmpty} 
+                <SubTopicSelector
+                    subTopic={subTopic}
+                    onRemove={() => setSubTopic(null)}
+                    onClick={handleClickOnEmpty}
                 />
-                {!hideLevel && (
-                    <LevelSelector 
-                        level={level} 
-                        onLevelChange={setLevel} 
-                    />
-                )}
             </div>
             <div className='flex gap-2 w-full'>
                 <AutoComplete
@@ -63,8 +60,17 @@ export const LearnInput: FC<LearnInputProps> = ({ initialTopic, hideLevel = fals
                     onValueChange={handleSelectTopic}
                 />
             </div>
-            <Button 
-                onClick={handleSubmit} 
+            {!hideAdvancedParams && (
+                <div className='flex gap-2 w-full'>
+                    <LevelSelector
+                        level={level}
+                        onLevelChange={setLevel}
+                    />
+                    <LanguageSelector language={language} onLanguageChange={setLanguage} />
+                </div>
+            )}
+            <Button
+                onClick={handleSubmit}
                 disabled={isPending || !topic || !subTopic}
             >
                 {topic && subTopic ? "Let's Learn!" :

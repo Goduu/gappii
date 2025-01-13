@@ -13,13 +13,13 @@ import React from 'react'
 
 export const LoggedInMenu = () => {
     return (
-        <div className="flex gap-2 flex-col items-center">
-            <div className="h-6 w-6">
+        <div className="flex gap-2 flex-col items-center justify-center">
+            <div className="min-h-7 min-w-7">
                 <UserButton />
             </div>
             <DropdownMenu>
                 <DropdownMenuTrigger className="rounded-full aspect-square outline outline-gray-200 p-1 hover:bg-gray-100 cursor-pointer">
-                    <Lightbulb size={18} />
+                    <Lightbulb size={22} />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                     {items.map(item => (

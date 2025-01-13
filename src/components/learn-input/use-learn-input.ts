@@ -8,6 +8,7 @@ import { useToast } from '@/hooks/use-toast'
 import { transformInputIntoData } from './processTextInput'
 import { cleanTopic } from './cleanTopic'
 import { Topic } from '@/ogm-resolver/ogm-types'
+import { SupportedLanguage } from '@/app/types'
 
 export const useLearnInput = (initialTopic?: Topic) => {
     const [topic, setTopic] = useState<Option | null>(
@@ -15,7 +16,8 @@ export const useLearnInput = (initialTopic?: Topic) => {
     )
     const [subTopic, setSubTopic] = useState<Option | null>(null)
     const [level, setLevel] = useState<string>("1")
-    
+    const [language, setLanguage] = useState<SupportedLanguage>("en-us")
+
     const createActivities = useCreateActivities()
     const { loading, data } = useQuery<{ topics: Array<{ id: string, title: string }> }>(GET_TOPIC_TITLES)
     const [createTopic] = useMutation(CREATE_TOPIC)
@@ -34,7 +36,7 @@ export const useLearnInput = (initialTopic?: Topic) => {
     const handleCreateNewTopic = (topic: string) => {
         const clearedTopic = cleanTopic(topic)
         if (!clearedTopic) return
-        
+
         createTopic({
             variables: { input: { title: topic } },
             refetchQueries: [{ query: GET_TOPIC_TITLES }]
@@ -42,14 +44,14 @@ export const useLearnInput = (initialTopic?: Topic) => {
     }
 
     const handleSelectTopic = (option: Option) => {
-        if(topic) setSubTopic(option)
+        if (topic) setSubTopic(option)
         else setTopic(option)
     }
 
     const handleSubmit = async () => {
         startTransition(async () => {
-            const apiData = topic && subTopic && 
-                await transformInputIntoData(topic.label, subTopic.label, level, handleError)
+            const apiData = topic && subTopic &&
+                await transformInputIntoData(topic.label, subTopic.label, level, language, handleError)
 
             if (apiData) {
                 await createActivities(apiData, topic.value, subTopic.value)
@@ -63,11 +65,13 @@ export const useLearnInput = (initialTopic?: Topic) => {
         level,
         loading,
         isPending,
-        topicOptions: (data?.topics || []).map<Option>(t => ({ 
-            label: t.title, 
-            value: t.id 
+        topicOptions: (data?.topics || []).map<Option>(t => ({
+            label: t.title,
+            value: t.id
         })),
         autocompleteRef,
+        language,
+        setLanguage,
         setTopic,
         setSubTopic,
         setLevel,

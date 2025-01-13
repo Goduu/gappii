@@ -1,9 +1,12 @@
+import { SupportedLanguage, supportedLanguages } from "@/app/types";
+
 export type ApiActivityResponse = {
     topic: string,
     subtopic: string,
     validTopicSubtopic: boolean,
     keywords: string[],
     level: number,
+    language: string,
     activities: {
         description: string,
         order: number,
@@ -59,8 +62,14 @@ export const validateApiReturnObject = (response: object | null, onError: (error
         onError("Invalid response from API, missing gap in activity description");
         return null
     }
+    if (!data.language) {
+        onError("Invalid response from API, missing language");
+        return null
+    } else if (!supportedLanguages.includes(data.language as SupportedLanguage)) {
+        onError("Invalid response from API, language not supported");
+        return null
+    }
 
     return data;
 };
-
 

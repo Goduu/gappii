@@ -1,6 +1,6 @@
 "use client"
 import { motion } from 'framer-motion'
-import React from 'react'
+import { ReactNode } from 'react'
 import { Logo } from '../logo'
 import { TypingText } from './typing-text'
 import { Badge } from '../ui/badge'
@@ -10,6 +10,7 @@ interface HeroContentProps {
     features: {
         title: string
         description: string
+        icon: ReactNode
     }[]
 }
 
@@ -50,6 +51,7 @@ export const HeroContent = ({ features }: HeroContentProps) => {
                             key={index}
                             index={index}
                             title={feature.title}
+                            icon={feature.icon}
                             description={feature.description}
                         />
                     ))}

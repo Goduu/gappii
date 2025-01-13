@@ -54,13 +54,13 @@ export const CommunityCardActions: FC<CommunityCardActionsProps> = ({ lesson }) 
     return (
         <div className='flex gap-1 absolute right-4 bottom-4 z-10'>
             <Button disabled={isDisabled} variant="outline" size="icon" onClick={handleCopy}>
-                <Copy size="icon" />
+                <Copy size={16} />
             </Button>
             <Button disabled={isDisabled} variant="outline" size="icon" onClick={handleAdd}>
-                <Plus size="icon" />
+                <Plus size={16} />
             </Button>
             <Button variant="outline" size="icon" onClick={handlePlay}>
-                <Play size="icon" />
+                <Play size={16} />
             </Button>
         </div>
     )

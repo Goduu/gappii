@@ -1,19 +1,24 @@
-import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group'
+import { LevelStar } from '../ui/level-star'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '../ui/select'
 import { LevelSelectorProps } from './types'
 
-export const LevelSelector = ({ level, onLevelChange }: LevelSelectorProps) => (
-    <div className='flex-col flex gap-1'>
-        <p className='text-sm'>Level:</p>
-        <ToggleGroup type="single" variant="outline" value={level} onValueChange={onLevelChange}>
-            <ToggleGroupItem value="1" aria-label="Beginner" className='text-xs h-8'>
-                Beg
-            </ToggleGroupItem>
-            <ToggleGroupItem value="2" aria-label="Intermediate" className='text-xs h-8'>
-                Mid
-            </ToggleGroupItem>
-            <ToggleGroupItem value="3" aria-label="Advanced" className='text-xs h-8'>
-                Adv
-            </ToggleGroupItem>
-        </ToggleGroup>
-    </div>
-) 
+export const LevelSelector = ({ level, onLevelChange }: LevelSelectorProps) => {
+    return (
+        <Select
+            onValueChange={(value) => onLevelChange(value || '')}
+            value={level || ''}
+        >
+            <SelectTrigger className="w-96 sm:w-32">
+                <SelectValue placeholder="Level" />
+            </SelectTrigger>
+            <SelectContent>
+                <SelectGroup>
+                    <SelectLabel>Level</SelectLabel>
+                    <SelectItem value="1"><LevelStar level={1} /></SelectItem>
+                    <SelectItem value="2"><LevelStar level={2} /></SelectItem>
+                    <SelectItem value="3"><LevelStar level={3} /></SelectItem>
+                </SelectGroup>
+            </SelectContent>
+        </Select>
+    )
+}

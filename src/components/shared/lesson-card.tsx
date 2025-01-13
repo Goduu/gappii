@@ -9,6 +9,8 @@ import { LessonReaction } from '../my-content-page/types'
 import { LessonReactions } from '../my-content-page/dashboard/lesson-reactions'
 import { CommunityCardActions } from '../community-page/community-card-actions'
 import { LessonLevel } from './lesson-level'
+import { LanguageCorner } from '../ui/language-corner'
+import { SupportedLanguage } from '@/app/types'
 
 type LessonCardProps = {
     lesson: Lesson
@@ -17,9 +19,10 @@ type LessonCardProps = {
 
 export const LessonCard: FC<LessonCardProps> = ({ lesson, variant }) => {
     const reaction = lesson.wasReactedConnection.edges[0]?.properties.type as LessonReaction
-    
+
     return (
-        <Card className="w-[22rem] md:w-96 relative">
+        <Card className="w-[22rem] md:w-96 relative overflow-hidden">
+            <LanguageCorner language={lesson.language as SupportedLanguage} />
             <div className='absolute right-1 top-1'>
                 {lesson.id && (
                     variant === 'community'

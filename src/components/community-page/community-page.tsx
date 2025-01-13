@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React, { FC, Suspense } from 'react'
 import { PageTitle } from '../page-title/page-title'
 import { Skeleton } from '../ui/skeleton'
 import { CommunityFilters } from './community-filters'
@@ -7,7 +7,14 @@ import { Lesson } from '@/ogm-resolver/ogm-types'
 import { getApolloClient } from '@/lib/getApolloClient'
 import { LessonCard } from '../shared/lesson-card'
 
-export const CommunityPage = async ({ searchParams }: { searchParams?: { search?: string; level?: string; toggle?: string } }) => {
+export type CommunitySearchParams = {
+    search?: string;
+    toggle?: string;
+    level?: string;
+    language?: string;
+}
+
+export const CommunityPage: FC<{ searchParams: CommunitySearchParams | undefined }> = async ({ searchParams }) => {
 
     const client = getApolloClient();
     const { data } = await client.query<{ lessons: Lesson[] }>({
@@ -16,9 +23,10 @@ export const CommunityPage = async ({ searchParams }: { searchParams?: { search?
             searchTerm: searchParams?.search,
             level: searchParams?.level ? parseInt(searchParams.level) : undefined,
             newestSort: searchParams?.toggle === "newest" ? "DESC" : undefined,
-            topRatedSort: searchParams?.toggle === "topRated" ? "DESC" : undefined
+            topRatedSort: searchParams?.toggle === "topRated" ? "DESC" : undefined,
+            language: searchParams?.language ? searchParams?.language : undefined
         }
-    })    
+    })
 
     return (
         <div className="space-y-4 w-full">

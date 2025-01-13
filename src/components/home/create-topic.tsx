@@ -8,7 +8,7 @@ export const CreateTopic = () => {
             <div className='text-xl sm:text-3xl'>
                 Create your custom lesson
             </div>
-            <LearnInput hideLevel={true}/>
+            <LearnInput hideAdvancedParams={true}/>
         </div>
     );
 };

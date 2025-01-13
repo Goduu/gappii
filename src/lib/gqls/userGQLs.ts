@@ -34,6 +34,7 @@ query GetUserLessons($where: UserWhere!, $first: Int!,$after: String, $lessonWhe
           id
           level
           title
+          language
           hasTopic {
             id
             title

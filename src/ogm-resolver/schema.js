@@ -10,6 +10,7 @@ type Lesson @node {
   level: Int!
   isPublic: Boolean! # Tracks public/private status
   createdAt: DateTime!
+  language: String!
   hasTopic: Topic! @relationship(type: "HAS_TOPIC", direction: OUT)
   hasSubtopic: Topic! @relationship(type: "HAS_SUBTOPIC", direction: OUT)
   hasKeywords: [Keyword!]! @relationship(type: "HAS_KEYWORD", direction: OUT)

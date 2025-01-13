@@ -1,15 +1,17 @@
 export const promptText = `
-I want to create an engaging, effective learning experience for a given topic and subtopic at a specified difficulty level. The lesson should be based on cutting-edge research in neuroscience and educational psychology, focusing on techniques proven to enhance memory retention, comprehension, and active recall.
+I want to create an engaging, effective learning experience for a given topic and subtopic at a specified difficulty level.
+The lesson should be based on cutting-edge research in neuroscience and educational psychology, focusing on techniques proven to enhance memory retention, comprehension, and active recall.
 
 Lesson structure:
 
 - Each lesson should have a main **topic** and **subtopic**.
 - Validate the relationship between the topic and subtopic:
   - If they are not semantically related, set "validTopicSubtopic" to **false** and provide no activities.
+- The lesson should be in the **language** given.
 - The lesson should adapt content to the specified **level**:
   - **Beginner level**: Simplify concepts using foundational principles and accessible language.
   - **Intermediate level**: Include more complex ideas and examples, requiring application of knowledge.
-  - **Advanced level**: Provide research-level or challenging content, with subtle nuances and potential for multiple interpretations.
+  - **Advanced level**: Provide research-level and challenging content, with subtle nuances and potential for multiple interpretations.
 
 Learning Path:
 
@@ -43,6 +45,7 @@ Level: 1 (Beginner)
   "order": 0,
   "subtopic": "Automation",
   "validTopicSubtopic": true,
+  "language": "en-us"
   "keywords": ["AI", "automation", "algorithms"],
   "level": 1,
   "activities": [
@@ -64,6 +67,7 @@ Response Format:
     "subtopic": string,
     "validTopicSubtopic": boolean,
     "keywords": string[],
+    "language": string,
     "level": number,
     "activities": [
       {

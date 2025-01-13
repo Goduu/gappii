@@ -2,7 +2,7 @@
 import { Command as CommandPrimitive } from "cmdk"
 import { useState, useCallback, type KeyboardEvent, RefObject } from "react"
 
-import { Check } from "lucide-react"
+import { Check, LoaderPinwheel } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { CommandGroup, CommandInput, CommandItem, CommandList } from "./command"
 import { Skeleton } from "./skeleton"
@@ -41,7 +41,7 @@ export const AutoComplete = ({
 
     const handleKeyDown = useCallback(
         (event: KeyboardEvent<HTMLDivElement>) => {
-            if(!inputRef) return 
+            if (!inputRef) return
             const input = inputRef.current
             if (!input) {
                 return
@@ -125,6 +125,7 @@ export const AutoComplete = ({
                             </CommandPrimitive.Loading>
                         ) : null}
                         {options.length > 0 && !isLoading ? (
+
                             <CommandGroup>
                                 {inputValue !== "" &&
                                     (options.find(option => option.label === inputRef?.current?.value) ? false : true)
@@ -165,17 +166,20 @@ export const AutoComplete = ({
                                     )
                                 })}
                             </CommandGroup>
-                        ) : null}
-                        {!isLoading && !inputRef?.current?.value ? (
-                            <CommandPrimitive.Empty className="select-none rounded-sm px-2 py-3 text-center text-sm">
-                                {emptyMessage}
-                            </CommandPrimitive.Empty>
-                        ) : !isLoading ?
-                            <CommandPrimitive.Empty className="select-none rounded-sm px-2 py-3 text-center text-sm">
-                                New topic: {inputRef?.current?.value}
-                            </CommandPrimitive.Empty>
-                            :
-                            null}
+                        ) :
+                            !isLoading && !inputRef?.current?.value ? (
+                                <CommandPrimitive.Empty className="select-none rounded-sm px-2 py-3 text-center text-sm">
+                                    {emptyMessage}
+                                </CommandPrimitive.Empty>
+                            ) : !isLoading ?
+                                <CommandPrimitive.Empty className="select-none rounded-sm px-2 py-3 text-center text-sm">
+                                    New topic: {inputRef?.current?.value}
+                                </CommandPrimitive.Empty>
+                                :
+                                <div className="flex justify-center items-center">
+                                    <LoaderPinwheel className="w-8 h-8 px-2 animate-spin" /> Loading...
+                                </div>
+                        }
                     </CommandList>
                 </div>
             </div>

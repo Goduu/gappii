@@ -1,9 +1,10 @@
 import { Topic } from '@/ogm-resolver/ogm-types'
 import { Option } from '../ui/autocomplete'
+import { SupportedLanguage } from '@/app/types'
 
 export interface LearnInputProps {
     initialTopic?: Topic
-    hideLevel?: boolean
+    hideAdvancedParams?: boolean
 }
 
 export interface TopicSelectorProps {
@@ -19,6 +20,11 @@ export interface SubTopicSelectorProps {
 }
 
 export interface LevelSelectorProps {
-    level: string
+    level?: string
     onLevelChange: (level: string) => void
+}
+
+export interface LanguageSelectorProps {
+    language?: SupportedLanguage
+    onLanguageChange: (language: SupportedLanguage) => void
 } 

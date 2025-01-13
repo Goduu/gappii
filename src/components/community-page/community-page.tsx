@@ -7,6 +7,8 @@ import { Lesson } from '@/ogm-resolver/ogm-types'
 import { getApolloClient } from '@/lib/getApolloClient'
 import { LessonCard } from '../shared/lesson-card'
 
+export const revalidate = 3600 // invalidate every hour
+
 export type CommunitySearchParams = {
     search?: string;
     toggle?: string;

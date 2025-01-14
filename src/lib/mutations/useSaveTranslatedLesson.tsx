@@ -9,7 +9,7 @@ import { CREATE_ACTIVITIES } from "../gqls/activityGQLs";
 import { CREATE_LESSONS } from "../gqls/lessonGQLs";
 import { routes } from "../routes";
 
-export const useCreateActivities = () => {
+export const useSaveTranslatedLesson = () => {
     const clerkUserData = useUser()
     const { loading, data: userData } = useQuery<{ users: Array<User> }>(CHECK_USER, {
         variables: { where: { clerkId: clerkUserData.user?.id } }
@@ -19,7 +19,8 @@ export const useCreateActivities = () => {
     const [updateUserMutation] = useMutation(UPDATE_USER)
     const [createActivitiesMutation] = useMutation<{ createActivities: CreateActivitiesMutationResponse }>(CREATE_ACTIVITIES)
 
-    const createActivitiesAndTopics = async (data: ApiActivityResponse, topicId: string, subtopicId: string) => {
+    const createActivitiesAndTopics = async (data: ApiActivityResponse) => {
+
         const activitiesData = await createActivitiesMutation({
             variables: {
                 input: data.activities.map(activity => ({
@@ -41,19 +42,29 @@ export const useCreateActivities = () => {
                     isPublic: true,
                     language: data.language,
                     hasTopic: {
-                        connect: {
+                        connectOrCreate: {
                             where: {
                                 node: {
-                                    id: topicId
+                                    title: data.topic
+                                }
+                            },
+                            onCreate: {
+                                node: {
+                                    title: data.topic
                                 }
                             }
                         }
                     },
                     hasSubtopic: {
-                        connect: {
+                        connectOrCreate: {
                             where: {
                                 node: {
-                                    id: subtopicId
+                                    title: data.subtopic
+                                }
+                            },
+                            onCreate: {
+                                node: {
+                                    title: data.subtopic
                                 }
                             }
                         }

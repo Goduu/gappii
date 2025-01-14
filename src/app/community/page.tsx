@@ -1,12 +1,12 @@
-import { CommunityPage, CommunitySearchParams } from '@/components/community-page/community-page'
+import { CommunityPage } from '@/components/community-page/community-page'
 import React from 'react'
-
+import { CommunitySearchParams } from '../types';
 
 const Community = async (props: {
     searchParams?: Promise<CommunitySearchParams>;
 }) => {
     return (
-        <CommunityPage searchParams={await props.searchParams} />
+        <CommunityPage searchParams={await props.searchParams || {}} />
     )
 }
 

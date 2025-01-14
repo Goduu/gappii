@@ -40,6 +40,8 @@ export type Query = {
   topics: Array<Topic>;
   topicsConnection: TopicsConnection;
   topicsAggregate: TopicAggregateSelection;
+  /** Query a full-text index. This query returns the query score, but does not allow for aggregations. Use the `fulltext` argument under other queries for this functionality. */
+  lessonsFulltextLessonTitle: Array<LessonFulltextResult>;
   lessons: Array<Lesson>;
   lessonsConnection: LessonsConnection;
   lessonsAggregate: LessonAggregateSelection;
@@ -79,9 +81,18 @@ export type QueryTopicsAggregateArgs = {
   where?: InputMaybe<TopicWhere>;
 };
 
+export type QueryLessonsFulltextLessonTitleArgs = {
+  phrase: Scalars["String"]["input"];
+  where?: InputMaybe<LessonFulltextWhere>;
+  sort?: InputMaybe<Array<LessonFulltextSort>>;
+  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
 export type QueryLessonsArgs = {
   where?: InputMaybe<LessonWhere>;
   options?: InputMaybe<LessonOptions>;
+  fulltext?: InputMaybe<LessonFulltext>;
 };
 
 export type QueryLessonsConnectionArgs = {
@@ -89,10 +100,12 @@ export type QueryLessonsConnectionArgs = {
   after?: InputMaybe<Scalars["String"]["input"]>;
   where?: InputMaybe<LessonWhere>;
   sort?: InputMaybe<Array<InputMaybe<LessonSort>>>;
+  fulltext?: InputMaybe<LessonFulltext>;
 };
 
 export type QueryLessonsAggregateArgs = {
   where?: InputMaybe<LessonWhere>;
+  fulltext?: InputMaybe<LessonFulltext>;
 };
 
 export type QueryKeywordsArgs = {
@@ -280,7 +293,6 @@ export type MutationUpdateCollectionsArgs = {
   disconnect?: InputMaybe<CollectionDisconnectInput>;
   create?: InputMaybe<CollectionRelationInput>;
   delete?: InputMaybe<CollectionDeleteInput>;
-  connectOrCreate?: InputMaybe<CollectionConnectOrCreateInput>;
 };
 
 export type MutationCreateActivitiesArgs = {
@@ -312,7 +324,6 @@ export type MutationUpdateUsersArgs = {
   disconnect?: InputMaybe<UserDisconnectInput>;
   create?: InputMaybe<UserRelationInput>;
   delete?: InputMaybe<UserDeleteInput>;
-  connectOrCreate?: InputMaybe<UserConnectOrCreateInput>;
 };
 
 export type MutationCreateLessonCompletionRecordsArgs = {
@@ -1050,6 +1061,13 @@ export type LessonEdge = {
   __typename?: "LessonEdge";
   cursor: Scalars["String"]["output"];
   node: Lesson;
+};
+
+/** The result of a fulltext search on an index of Lesson */
+export type LessonFulltextResult = {
+  __typename?: "LessonFulltextResult";
+  score: Scalars["Float"]["output"];
+  lesson: Lesson;
 };
 
 export type LessonHasActivitiesConnection = {
@@ -1862,10 +1880,6 @@ export type CollectionConnectInput = {
   hasLessons?: InputMaybe<Array<CollectionHasLessonsConnectFieldInput>>;
 };
 
-export type CollectionConnectOrCreateInput = {
-  hasLessons?: InputMaybe<Array<CollectionHasLessonsConnectOrCreateFieldInput>>;
-};
-
 export type CollectionConnectWhere = {
   node: CollectionWhere;
 };
@@ -1920,15 +1934,6 @@ export type CollectionHasLessonsConnectionWhere = {
   node_NOT?: InputMaybe<LessonWhere>;
 };
 
-export type CollectionHasLessonsConnectOrCreateFieldInput = {
-  where: LessonConnectOrCreateWhere;
-  onCreate: CollectionHasLessonsConnectOrCreateFieldInputOnCreate;
-};
-
-export type CollectionHasLessonsConnectOrCreateFieldInputOnCreate = {
-  node: LessonOnCreateInput;
-};
-
 export type CollectionHasLessonsCreateFieldInput = {
   node: LessonCreateInput;
 };
@@ -1944,9 +1949,6 @@ export type CollectionHasLessonsDisconnectFieldInput = {
 };
 
 export type CollectionHasLessonsFieldInput = {
-  connectOrCreate?: InputMaybe<
-    Array<CollectionHasLessonsConnectOrCreateFieldInput>
-  >;
   connect?: InputMaybe<Array<CollectionHasLessonsConnectFieldInput>>;
   create?: InputMaybe<Array<CollectionHasLessonsCreateFieldInput>>;
 };
@@ -2125,9 +2127,6 @@ export type CollectionHasLessonsUpdateConnectionInput = {
 
 export type CollectionHasLessonsUpdateFieldInput = {
   where?: InputMaybe<CollectionHasLessonsConnectionWhere>;
-  connectOrCreate?: InputMaybe<
-    Array<CollectionHasLessonsConnectOrCreateFieldInput>
-  >;
   connect?: InputMaybe<Array<CollectionHasLessonsConnectFieldInput>>;
   disconnect?: InputMaybe<Array<CollectionHasLessonsDisconnectFieldInput>>;
   create?: InputMaybe<Array<CollectionHasLessonsCreateFieldInput>>;
@@ -2550,6 +2549,12 @@ export type DailyActivityWhere = {
   OR?: InputMaybe<Array<DailyActivityWhere>>;
   AND?: InputMaybe<Array<DailyActivityWhere>>;
   NOT?: InputMaybe<DailyActivityWhere>;
+};
+
+/** The input for filtering a float */
+export type FloatWhere = {
+  min?: InputMaybe<Scalars["Float"]["input"]>;
+  max?: InputMaybe<Scalars["Float"]["input"]>;
 };
 
 export type HasLessonAggregationWhereInput = {
@@ -3284,7 +3289,6 @@ export type LessonCompletionRecordConnectInput = {
 
 export type LessonCompletionRecordConnectOrCreateInput = {
   byUser?: InputMaybe<LessonCompletionRecordByUserConnectOrCreateFieldInput>;
-  forLesson?: InputMaybe<LessonCompletionRecordForLessonConnectOrCreateFieldInput>;
 };
 
 export type LessonCompletionRecordConnectWhere = {
@@ -3348,15 +3352,6 @@ export type LessonCompletionRecordForLessonConnectionWhere = {
   node_NOT?: InputMaybe<LessonWhere>;
 };
 
-export type LessonCompletionRecordForLessonConnectOrCreateFieldInput = {
-  where: LessonConnectOrCreateWhere;
-  onCreate: LessonCompletionRecordForLessonConnectOrCreateFieldInputOnCreate;
-};
-
-export type LessonCompletionRecordForLessonConnectOrCreateFieldInputOnCreate = {
-  node: LessonOnCreateInput;
-};
-
 export type LessonCompletionRecordForLessonCreateFieldInput = {
   node: LessonCreateInput;
 };
@@ -3372,7 +3367,6 @@ export type LessonCompletionRecordForLessonDisconnectFieldInput = {
 };
 
 export type LessonCompletionRecordForLessonFieldInput = {
-  connectOrCreate?: InputMaybe<LessonCompletionRecordForLessonConnectOrCreateFieldInput>;
   connect?: InputMaybe<LessonCompletionRecordForLessonConnectFieldInput>;
   create?: InputMaybe<LessonCompletionRecordForLessonCreateFieldInput>;
 };
@@ -3555,7 +3549,6 @@ export type LessonCompletionRecordForLessonUpdateConnectionInput = {
 
 export type LessonCompletionRecordForLessonUpdateFieldInput = {
   where?: InputMaybe<LessonCompletionRecordForLessonConnectionWhere>;
-  connectOrCreate?: InputMaybe<LessonCompletionRecordForLessonConnectOrCreateFieldInput>;
   connect?: InputMaybe<LessonCompletionRecordForLessonConnectFieldInput>;
   disconnect?: InputMaybe<LessonCompletionRecordForLessonDisconnectFieldInput>;
   create?: InputMaybe<LessonCompletionRecordForLessonCreateFieldInput>;
@@ -3706,10 +3699,6 @@ export type LessonConnectOrCreateInput = {
   wasAttempted?: InputMaybe<Array<LessonWasAttemptedConnectOrCreateFieldInput>>;
 };
 
-export type LessonConnectOrCreateWhere = {
-  node: LessonUniqueWhere;
-};
-
 export type LessonConnectWhere = {
   node: LessonWhere;
 };
@@ -3744,6 +3733,22 @@ export type LessonDisconnectInput = {
   hasActivities?: InputMaybe<Array<LessonHasActivitiesDisconnectFieldInput>>;
   wasReacted?: InputMaybe<Array<LessonWasReactedDisconnectFieldInput>>;
   wasAttempted?: InputMaybe<Array<LessonWasAttemptedDisconnectFieldInput>>;
+};
+
+export type LessonFulltext = {
+  LessonTitle?: InputMaybe<LessonLessonTitleFulltext>;
+};
+
+/** The input for sorting a fulltext query on an index of Lesson */
+export type LessonFulltextSort = {
+  score?: InputMaybe<SortDirection>;
+  lesson?: InputMaybe<LessonSort>;
+};
+
+/** The input for filtering a fulltext query on an index of Lesson */
+export type LessonFulltextWhere = {
+  score?: InputMaybe<FloatWhere>;
+  lesson?: InputMaybe<LessonWhere>;
 };
 
 export type LessonHasActivitiesAggregateInput = {
@@ -4449,12 +4454,8 @@ export type LessonHasTopicUpdateFieldInput = {
   delete?: InputMaybe<LessonHasTopicDeleteFieldInput>;
 };
 
-export type LessonOnCreateInput = {
-  title: Scalars["String"]["input"];
-  level: Scalars["Int"]["input"];
-  isPublic: Scalars["Boolean"]["input"];
-  createdAt: Scalars["DateTime"]["input"];
-  language: Scalars["String"]["input"];
+export type LessonLessonTitleFulltext = {
+  phrase: Scalars["String"]["input"];
 };
 
 export type LessonOptions = {
@@ -4482,10 +4483,6 @@ export type LessonSort = {
   createdAt?: InputMaybe<SortDirection>;
   language?: InputMaybe<SortDirection>;
   wasReactedCount?: InputMaybe<SortDirection>;
-};
-
-export type LessonUniqueWhere = {
-  id?: InputMaybe<Scalars["ID"]["input"]>;
 };
 
 export type LessonUpdateInput = {
@@ -5463,13 +5460,6 @@ export type UserConnectInput = {
   completedLessons?: InputMaybe<Array<UserCompletedLessonsConnectFieldInput>>;
 };
 
-export type UserConnectOrCreateInput = {
-  hasLessons?: InputMaybe<Array<UserHasLessonsConnectOrCreateFieldInput>>;
-  reactedToLessons?: InputMaybe<
-    Array<UserReactedToLessonsConnectOrCreateFieldInput>
-  >;
-};
-
 export type UserConnectOrCreateWhere = {
   node: UserUniqueWhere;
 };
@@ -5787,16 +5777,6 @@ export type UserHasLessonsConnectionWhere = {
   edge_NOT?: InputMaybe<HasLessonWhere>;
 };
 
-export type UserHasLessonsConnectOrCreateFieldInput = {
-  where: LessonConnectOrCreateWhere;
-  onCreate: UserHasLessonsConnectOrCreateFieldInputOnCreate;
-};
-
-export type UserHasLessonsConnectOrCreateFieldInputOnCreate = {
-  node: LessonOnCreateInput;
-  edge: HasLessonCreateInput;
-};
-
 export type UserHasLessonsCreateFieldInput = {
   edge: HasLessonCreateInput;
   node: LessonCreateInput;
@@ -5813,7 +5793,6 @@ export type UserHasLessonsDisconnectFieldInput = {
 };
 
 export type UserHasLessonsFieldInput = {
-  connectOrCreate?: InputMaybe<Array<UserHasLessonsConnectOrCreateFieldInput>>;
   connect?: InputMaybe<Array<UserHasLessonsConnectFieldInput>>;
   create?: InputMaybe<Array<UserHasLessonsCreateFieldInput>>;
 };
@@ -5993,7 +5972,6 @@ export type UserHasLessonsUpdateConnectionInput = {
 
 export type UserHasLessonsUpdateFieldInput = {
   where?: InputMaybe<UserHasLessonsConnectionWhere>;
-  connectOrCreate?: InputMaybe<Array<UserHasLessonsConnectOrCreateFieldInput>>;
   connect?: InputMaybe<Array<UserHasLessonsConnectFieldInput>>;
   disconnect?: InputMaybe<Array<UserHasLessonsDisconnectFieldInput>>;
   create?: InputMaybe<Array<UserHasLessonsCreateFieldInput>>;
@@ -6051,16 +6029,6 @@ export type UserReactedToLessonsConnectionWhere = {
   edge_NOT?: InputMaybe<ReactedWhere>;
 };
 
-export type UserReactedToLessonsConnectOrCreateFieldInput = {
-  where: LessonConnectOrCreateWhere;
-  onCreate: UserReactedToLessonsConnectOrCreateFieldInputOnCreate;
-};
-
-export type UserReactedToLessonsConnectOrCreateFieldInputOnCreate = {
-  node: LessonOnCreateInput;
-  edge: ReactedCreateInput;
-};
-
 export type UserReactedToLessonsCreateFieldInput = {
   edge: ReactedCreateInput;
   node: LessonCreateInput;
@@ -6077,9 +6045,6 @@ export type UserReactedToLessonsDisconnectFieldInput = {
 };
 
 export type UserReactedToLessonsFieldInput = {
-  connectOrCreate?: InputMaybe<
-    Array<UserReactedToLessonsConnectOrCreateFieldInput>
-  >;
   connect?: InputMaybe<Array<UserReactedToLessonsConnectFieldInput>>;
   create?: InputMaybe<Array<UserReactedToLessonsCreateFieldInput>>;
 };
@@ -6259,9 +6224,6 @@ export type UserReactedToLessonsUpdateConnectionInput = {
 
 export type UserReactedToLessonsUpdateFieldInput = {
   where?: InputMaybe<UserReactedToLessonsConnectionWhere>;
-  connectOrCreate?: InputMaybe<
-    Array<UserReactedToLessonsConnectOrCreateFieldInput>
-  >;
   connect?: InputMaybe<Array<UserReactedToLessonsConnectFieldInput>>;
   disconnect?: InputMaybe<Array<UserReactedToLessonsDisconnectFieldInput>>;
   create?: InputMaybe<Array<UserReactedToLessonsCreateFieldInput>>;
@@ -6584,7 +6546,6 @@ export type UserSort = {
 };
 
 export type UserUniqueWhere = {
-  clerkId?: InputMaybe<Scalars["String"]["input"]>;
   email?: InputMaybe<Scalars["String"]["input"]>;
 };
 
@@ -6876,7 +6837,7 @@ export interface LessonAggregateSelectionInput {
 export declare class LessonModel {
   public find(args?: {
     where?: LessonWhere;
-
+    fulltext?: LessonFulltext;
     options?: LessonOptions;
     selectionSet?: string | DocumentNode | SelectionSetNode;
     args?: any;
@@ -6910,7 +6871,7 @@ export declare class LessonModel {
   }): Promise<{ nodesDeleted: number; relationshipsDeleted: number }>;
   public aggregate(args: {
     where?: LessonWhere;
-
+    fulltext?: LessonFulltext;
     aggregate: LessonAggregateSelectionInput;
     context?: any;
     rootValue?: any;
@@ -6995,7 +6956,7 @@ export declare class CollectionModel {
     connect?: CollectionConnectInput;
     disconnect?: CollectionDisconnectInput;
     create?: CollectionCreateInput;
-    connectOrCreate?: CollectionConnectOrCreateInput;
+
     selectionSet?: string | DocumentNode | SelectionSetNode;
     args?: any;
     context?: any;
@@ -7097,7 +7058,7 @@ export declare class UserModel {
     connect?: UserConnectInput;
     disconnect?: UserDisconnectInput;
     create?: UserCreateInput;
-    connectOrCreate?: UserConnectOrCreateInput;
+
     selectionSet?: string | DocumentNode | SelectionSetNode;
     args?: any;
     context?: any;

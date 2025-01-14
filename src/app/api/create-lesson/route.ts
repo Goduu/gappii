@@ -1,4 +1,4 @@
-import { promptText } from "@/lib/prompt2";
+import { createLessonPrompt } from "@/lib/prompts/createLessonPrompt";
 import { NextRequest } from "next/server";
 import OpenAI from "openai";
 
@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
     model: modelName,
     messages: [
       {
-        role: "system", content: promptText
+        role: "system", content: createLessonPrompt
       },
       {
         role: "user",

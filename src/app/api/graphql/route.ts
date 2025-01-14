@@ -11,11 +11,12 @@ const driver = neo4j.driver(process.env.NEXT_PUBLIC_NEO4J_URI || "", neo4j.auth.
 // Define GraphQL schema with Neo4j @relationship directive
 
 // Use Neo4jGraphQL to generate schema and resolvers
-const neo4jGraphQL = new Neo4jGraphQL({ typeDefs: typeDefs, driver })
+const neo4jGraphQL = await new Neo4jGraphQL({ typeDefs, driver })
 
 const schema = await neo4jGraphQL.getSchema()
 
-// await neo4jGraphQL.assertIndexesAndConstraints();
+
+await neo4jGraphQL.assertIndexesAndConstraints();
 // Create ApolloServer instance with the generated schema
 const server = new ApolloServer({
   schema,

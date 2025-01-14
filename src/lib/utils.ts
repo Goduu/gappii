@@ -17,7 +17,20 @@ export const getInitials = (name: string) => {
 }
 
 export const formatTime = (seconds: number): string => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
 };
+
+/**
+ * Escapes special characters in a string to prevent injection attacks in Lucene syntax.
+ * @param input - The input string to sanitize.
+ * @returns The sanitized string.
+ */
+export const sanitizeLuceneString = (input: string): string => {
+  // List of special characters in Lucene syntax that need to be escaped
+  const specialChars = /[+\-&|!(){}[\]^"~*?:\\]/g;
+
+  // Replace each special character with its escaped version (preceded by a backslash)
+  return input.replace(specialChars, '\\$&');
+}

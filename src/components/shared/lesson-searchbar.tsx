@@ -3,6 +3,7 @@ import React from 'react'
 import { Input } from '../ui/input'
 import { useDebouncedCallback } from 'use-debounce'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { sanitizeLuceneString } from '@/lib/utils'
 
 export const LessonSearchBar = () => {
     const searchParams = useSearchParams();
@@ -17,7 +18,8 @@ export const LessonSearchBar = () => {
         if (e.target.value === '') {
             params.delete('search');
         } else {
-            params.set('search', e.target.value);
+            const sanitizedSearchTerm = sanitizeLuceneString(e.target.value);
+            params.set('search', sanitizedSearchTerm);
         }
 
         replace(`${pathname}?${params.toString()}`);

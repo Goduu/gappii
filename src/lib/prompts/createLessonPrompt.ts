@@ -1,4 +1,4 @@
-export const promptText = `
+export const createLessonPrompt = `
 I want to create an engaging, effective learning experience for a given topic and subtopic at a specified difficulty level.
 The lesson should be based on cutting-edge research in neuroscience and educational psychology, focusing on techniques proven to enhance memory retention, comprehension, and active recall.
 

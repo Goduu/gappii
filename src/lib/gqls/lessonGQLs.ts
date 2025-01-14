@@ -125,11 +125,10 @@ export const GET_LESSON_FILTERED = gql`
 `
 // newestSort: createdAr: DESC, topRatedSort: wasReactedAggregate: {count: DESC}
 export const GET_COMMUNITY_LESSONS = gql`
-  query GetCommunityLessons($searchTerm: String, $level: Int, $newestSort: SortDirection, $topRatedSort: SortDirection, $language: String) {
+  query GetCommunityLessons($level: Int, $newestSort: SortDirection, $topRatedSort: SortDirection, $language: String) {
     lessons(
       where: {
         isPublic: true
-        title_CONTAINS: $searchTerm 
         level: $level
         language: $language
       }
@@ -173,4 +172,91 @@ export const GET_COMMUNITY_LESSONS = gql`
     }
   }
 `
+
+export const GET_LESSON_BY_ID = gql`
+  query GetLessonById($id: ID!) {
+    lessons(where: { id: $id }) {
+      title
+      level
+      language
+      createdAt
+      hasKeywords {
+        id
+        name
+      }
+      hasTopic {
+        id
+        title
+      }
+      hasSubtopic {
+        id
+        title
+      }
+      hasActivities {
+        id
+        description
+        options
+        answer
+        comment
+        order
+      }
+    }
+  }
+`
+
+export const GET_COMMUNITY_LESSONS_FULLTEXT = gql`
+  query GetCommunityLessons(
+    $phrase: String!, 
+    $level: Int, 
+    $newestSort: SortDirection, 
+    $topRatedSort: SortDirection, 
+    $language: String
+  ) {
+    lessonsFulltextLessonTitle(
+      phrase: $phrase
+      where: {
+        lesson: {
+          isPublic: true
+          level: $level
+          language: $language
+        }
+      }
+      sort: [
+        { score: ASC }
+        { lesson: { createdAt: $newestSort } }
+        { lesson: { wasReactedCount: $topRatedSort } }
+      ]
+    ) {
+      score
+      lesson {
+        id
+        title
+        level
+        language
+        createdAt
+        hasKeywords {
+          id
+          name
+        }
+        hasTopic {
+          title
+        }
+        hasSubtopic {
+          title
+        }
+        wasReactedConnection {
+          edges {
+            properties {
+              type
+              reactedAt
+            }
+            node {
+              clerkId
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 

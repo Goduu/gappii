@@ -24,7 +24,7 @@
   },
   "contributors": [],
   "scripts": {
-    "dev": "node index.js",
+    "dev": "node --env-file=../../.env.local index.js",
     "test": "",
     "generate": "GENERATE='true' ts-node ./index.ts"
   },

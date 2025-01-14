@@ -4,8 +4,9 @@ type Topic @node {
   title: String! @unique
 }
 
-type Lesson @node {
-  id: ID @id @unique
+
+type Lesson @fulltext(indexes: [{ indexName: "LessonTitle", fields: ["title"] }]) @node {
+  id: ID @id
   title: String!
   level: Int!
   isPublic: Boolean! # Tracks public/private status
@@ -46,7 +47,7 @@ type Activity @node {
 
 type User @node {
   id: ID! @id
-  clerkId: String! @unique
+  clerkId: String!
   email: String! @unique
   hasLessons: [Lesson!]! @relationship(type: "HAS_LESSON",properties: "HasLesson", direction: OUT)
   hasCollections: [Collection!]! @relationship(type: "HAS_COLLECTION", direction: OUT)
@@ -137,3 +138,8 @@ type DailyActivity {
 `;
 
 
+// constraints:
+// CREATE CONSTRAINT KeywordName FOR (k:Keyword) REQUIRE k.name IS UNIQUE
+// CREATE CONSTRAINT TopicTitle FOR (t:Topic) REQUIRE t.title IS UNIQUE
+// CREATE CONSTRAINT UserEmail FOR (u:User) REQUIRE u.email IS UNIQUE
+// CREATE FULLTEXT INDEX LessonTitle FOR (l:Lesson) ON EACH [l.title]

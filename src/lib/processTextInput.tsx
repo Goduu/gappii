@@ -1,8 +1,8 @@
 import { SupportedLanguage } from "@/app/types";
-import { validateApiReturnObject } from "@/lib/validateApiReturnObject";
+import { validateCreateLessonApiResponse } from "@/lib/validateCreateLessonApiResponse";
 
 export const transformInputIntoData = async (topic: string, subtopic: string, level: string, language: SupportedLanguage, onError: (error: string) => void) => {
-    const apiResult = await fetch("/api/openai", {
+    const apiResult = await fetch("/api/create-lesson", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -11,7 +11,7 @@ export const transformInputIntoData = async (topic: string, subtopic: string, le
     })
 
     const apiResponse = await apiResult.json();
-    const validatedResponse = validateApiReturnObject(apiResponse, onError);
+    const validatedResponse = validateCreateLessonApiResponse(apiResponse, onError);
 
     return validatedResponse;
 

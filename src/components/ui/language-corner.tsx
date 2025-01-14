@@ -19,7 +19,7 @@ export const LanguageCorner: React.FC<LanguageCornerProps> = ({
     return (
         <Tooltip >
             <TooltipTrigger className={clsx(
-                'absolute bg-gray-100 h-4 rounded-br-md shadow-sm overflow-hidden place-content-stretch',
+                'absolute bg-gray-100 h-4 w-6 rounded-br-md shadow-sm overflow-hidden place-content-stretch',
                 className
             )}>
                 <Image

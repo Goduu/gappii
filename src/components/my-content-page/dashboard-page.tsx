@@ -1,5 +1,5 @@
 import React, { FC, Suspense } from 'react'
-import { PageTitle } from '../page-title/page-title'
+import { PageTitle } from '../ui/page-title'
 import { Dashboard } from './dashboard/dashboard'
 import { DashboardSkeleton } from './dashboard/dashboard-skeleton'
 

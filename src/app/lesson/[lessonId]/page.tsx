@@ -4,7 +4,7 @@ import { GET_LESSON_ACTIVITIES } from '@/lib/gqls/lessonGQLs'
 import { Lesson, QueryLessonsArgs } from '@/ogm-resolver/ogm-types'
 import React, { FC, Suspense } from 'react'
 import { LessonSkeleton } from './lesson-skeleton'
-import { PageTitle } from '@/components/page-title/page-title'
+import { PageTitle } from '@/components/ui/page-title'
 
 type CardsProps = {
     params: Promise<{

@@ -1,20 +1,12 @@
 "use client"
 import { motion } from 'framer-motion'
-import { ReactNode } from 'react'
 import { Logo } from '../logo'
 import { TypingText } from './typing-text'
 import { Badge } from '../ui/badge'
 import { FeatureCard } from './feature-card'
+import { Blocks, ChartScatter, Users } from 'lucide-react'
 
-interface HeroContentProps {
-    features: {
-        title: string
-        description: string
-        icon: ReactNode
-    }[]
-}
-
-export const HeroContent = ({ features }: HeroContentProps) => {
+export const HeroContent = () => {
     return (
         <div className='w-full flex flex-col items-center gap-4 sm:gap-6'>
 
@@ -60,4 +52,23 @@ export const HeroContent = ({ features }: HeroContentProps) => {
         </div>
 
     )
-} 
+}
+
+
+const features = [
+    {
+        title: "Interactive Learning",
+        icon: <Blocks className='w-6 h-6' />,
+        description: "Engage with dynamic content and learn at your own pace"
+    },
+    {
+        title: "Track Progress",
+        icon: <ChartScatter className='w-6 h-6' />,
+        description: "Monitor your learning journey with detailed analytics"
+    },
+    {
+        title: "Community Driven",
+        icon: <Users className='w-6 h-6' />,
+        description: "Connect with learners and share knowledge"
+    }
+]

@@ -1,8 +1,8 @@
 import React, { FC, Suspense } from 'react'
-import { PageTitle } from '../page-title/page-title'
+import { PageTitle } from '../ui/page-title'
 import { Skeleton } from '../ui/skeleton'
 import { CommunityFilters } from './community-filters'
-import { LessonCard } from '../shared/lesson-card'
+import { LessonCard } from '../lesson-card/lesson-card'
 import { fetchLessonsData } from '@/lib/queries/getCommunityLessons'
 import { CommunitySearchParams } from '@/app/types'
 

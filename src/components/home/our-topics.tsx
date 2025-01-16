@@ -4,7 +4,7 @@ import Marquee from 'react-fast-marquee';
 import { Lesson } from '@/ogm-resolver/ogm-types';
 import { Badge } from '../ui/badge';
 import { Flame } from 'lucide-react';
-import { MdOutlineFiberNew } from './NewIcon';
+import { MdOutlineFiberNew } from '../ui/customIcons/md-outline-fiber-new';
 import { useQuery } from '@apollo/client';
 import { GET_HOT_LESSON } from '@/lib/gqls/lessonGQLs';
 import Link from 'next/link';

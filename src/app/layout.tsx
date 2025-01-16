@@ -6,7 +6,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { ClerkProvider, SignedIn, SignedOut } from '@clerk/nextjs'
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { TransitionProvider } from "@/components/loading-store";
-import { SidebarProvider } from "@/components/ui/sidebar";
 import { Footer } from "@/components/home/footer";
 import { LoggedInMenu } from "./loggedin-menu";
 import { LoggedOutMenu } from "./loggedout-menu";
@@ -27,7 +26,38 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Gappii",
-  description: "FIll the gap and learn everything!",
+  description: "Fill the gap and learn everything!",
+  openGraph: {
+    type: 'website',
+    title: 'Gappii - Learn Everything',
+    description: 'Fill the gap and learn everything! Interactive learning platform for everyone.',
+    url: 'https://gappii.vercel.app/',
+    siteName: 'Gappii',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Gappii - Interactive Learning Platform',
+      },
+    ],
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Gappii - Learn Everything',
+    description: 'Fill the gap and learn everything! Interactive learning platform for everyone.',
+    images: ['/og-image.png'],
+    creator: '@Goduu_',
+  },
+  icons: {
+    icon: '/favicon.ico',
+    // apple: '/apple-touch-icon.png',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
@@ -40,37 +70,35 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SidebarProvider>
-          <ClerkProvider
-            signUpFallbackRedirectUrl={routes.dashboard}
-          >
-            <TransitionProvider>
-              <TooltipProvider>
-                <Toaster />
-                <div className="items-center justify-items-center max-w-screen w-screen  min-h-screen md:min-w-[580px] pb-20 gap-16 sm:p-4 font-[family-name:var(--font-geist-sans)]">
-                  <main className="flex flex-col gap-8 row-start-2 items-center w-full">
-                    <ApolloWrapper >
-                      {children}
-                      <Analytics />
-                      <SpeedInsights />
-                    </ApolloWrapper>
-                    <div className="absolute left-4 top-4">
-                      <SignedOut>
-                        <LoggedOutMenu />
-                      </SignedOut>
-                      <SignedIn>
-                        <LoggedInMenu />
-                      </SignedIn>
-                    </div>
-                  </main>
-                  <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center pt-4">
-                    <Footer />
-                  </footer>
-                </div>
-              </TooltipProvider>
-            </TransitionProvider>
-          </ClerkProvider>
-        </SidebarProvider>
+        <ClerkProvider
+          signUpFallbackRedirectUrl={routes.dashboard}
+        >
+          <TransitionProvider>
+            <TooltipProvider>
+              <Toaster />
+              <div className="items-center justify-items-center max-w-screen w-screen  min-h-screen md:min-w-[580px] pb-20 gap-16 sm:p-4 font-[family-name:var(--font-geist-sans)]">
+                <main className="flex flex-col gap-8 row-start-2 items-center w-full">
+                  <ApolloWrapper >
+                    {children}
+                    <Analytics />
+                    <SpeedInsights />
+                  </ApolloWrapper>
+                  <div className="absolute left-4 top-4">
+                    <SignedOut>
+                      <LoggedOutMenu />
+                    </SignedOut>
+                    <SignedIn>
+                      <LoggedInMenu />
+                    </SignedIn>
+                  </div>
+                </main>
+                <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center pt-4">
+                  <Footer />
+                </footer>
+              </div>
+            </TooltipProvider>
+          </TransitionProvider>
+        </ClerkProvider>
       </body>
     </html>
   );

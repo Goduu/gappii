@@ -1,5 +1,5 @@
 import { EditLessonForm } from '@/components/my-content-page/dashboard/edit-lesson/edit-lesson-form'
-import { PageTitle } from '@/components/page-title/page-title'
+import { PageTitle } from '@/components/ui/page-title'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getApolloClient } from '@/lib/getApolloClient'
 import { GET_LESSON_ACTIVITIES } from '@/lib/gqls/lessonGQLs'

@@ -1,8 +1,8 @@
 "use client"
-import { LessonCard } from '@/components/shared/lesson-card'
-import { LessonSearchBar } from '@/components/shared/lesson-searchbar'
+import { LessonCard } from '@/components/lesson-card/lesson-card'
+import { LessonSearchBar } from '@/components/lesson-card/lesson-searchbar'
 import { FilterBar } from '../filter-bar'
-import { PageTitle } from '@/components/page-title/page-title'
+import { PageTitle } from '@/components/ui/page-title'
 import { CreateLesson } from '../create-lesson'
 import React, { useState } from 'react'
 import { useUser } from '@clerk/nextjs'

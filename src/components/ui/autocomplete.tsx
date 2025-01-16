@@ -1,4 +1,3 @@
-
 import { Command as CommandPrimitive } from "cmdk"
 import { useState, useCallback, type KeyboardEvent, RefObject } from "react"
 
@@ -7,15 +6,15 @@ import { cn } from "@/lib/utils"
 import { CommandGroup, CommandInput, CommandItem, CommandList } from "./command"
 import { Skeleton } from "./skeleton"
 
-export type Option = Record<"value" | "label", string> & Record<string, string>
+export type AutocompleteOption = Record<"value" | "label", string> & Record<string, string>
 
 type AutoCompleteProps = {
     inputRef?: RefObject<HTMLInputElement>
     className?: string
-    options: Option[]
+    options: AutocompleteOption[]
     emptyMessage: string
-    value?: Option
-    onValueChange?: (value: Option) => void
+    value?: AutocompleteOption
+    onValueChange?: (value: AutocompleteOption | null) => void
     onAddOption?: (value: string) => void
     isLoading?: boolean
     disabled?: boolean
@@ -36,7 +35,7 @@ export const AutoComplete = ({
 }: AutoCompleteProps) => {
 
     const [isOpen, setOpen] = useState(false)
-    const [selected, setSelected] = useState<Option>(value as Option)
+    const [selected, setSelected] = useState<AutocompleteOption | null>(value as AutocompleteOption || null)
     const [inputValue, setInputValue] = useState<string>(value?.label || "")
 
     const handleKeyDown = useCallback(
@@ -74,35 +73,47 @@ export const AutoComplete = ({
         [isOpen, options, onValueChange, inputRef, onAddOption],
     )
 
-    // const isNewValue = options.find(option => option.label === inputValue) ? false : true
-
     const handleBlur = useCallback(() => {
+        if (!selected && inputValue !== "") {
+            setInputValue("")
+        } else if (selected) {
+            setInputValue(selected.label)
+        }
         setOpen(false)
-        // setInputValue(selected?.label)
-    }, [])
+    }, [selected, inputValue])
 
     const handleSelectOption = useCallback(
-        (selectedOption: Option) => {
-            setInputValue('')
+        (selectedOption: AutocompleteOption) => {
+            if (selectedOption.value === selected?.value) {
+                setSelected(null)
+                setInputValue("")
+                onValueChange?.(null)
+            } else {
+                setSelected(selectedOption)
+                setInputValue(selectedOption.label)
+                onValueChange?.(selectedOption)
+                setOpen(false)
+            }
 
-            setSelected(selectedOption)
-            onValueChange?.(selectedOption)
-
-            // This is a hack to prevent the input from being focused after the user selects an option
-            // We can call this hack: "The next tick"
             setTimeout(() => {
                 inputRef?.current?.blur()
             }, 0)
         },
-        [inputRef, onValueChange],
+        [inputRef, onValueChange, selected],
     )
+
+    const handleInputChange = (search: string) => {
+        if (isLoading) return
+        setInputValue(search)
+        setOpen(true)
+    }
 
     return (
         <CommandPrimitive onKeyDown={handleKeyDown} className="w-full">
             <CommandInput
                 ref={inputRef}
                 value={inputValue}
-                onValueChange={isLoading ? undefined : setInputValue}
+                onValueChange={handleInputChange}
                 onBlur={handleBlur}
                 onFocus={() => setOpen(true)}
                 placeholder={placeholder}
@@ -120,32 +131,34 @@ export const AutoComplete = ({
                         {isLoading ? (
                             <CommandPrimitive.Loading>
                                 <div className="p-1">
-                                    <Skeleton className="h-8 w-full" />
+                                    <Skeleton className="h-8 w-full" >
+                                        <LoaderPinwheel className="w-8 h-8 px-2 animate-spin text-slate-400" />
+                                    </Skeleton>
                                 </div>
                             </CommandPrimitive.Loading>
                         ) : null}
+                        {inputValue !== "" &&
+                            !options.find(option => option.label === inputValue)
+                            &&
+                            <CommandItem
+                                onMouseDown={(event) => {
+                                    event.preventDefault()
+                                    event.stopPropagation()
+                                }}
+                                onSelect={() => {
+                                    onAddOption?.(inputValue)
+                                }}
+                                className="flex w-full items-center gap-2"
+                            >
+                                New Topic: {inputValue}
+                            </CommandItem>
+
+                        }
                         {options.length > 0 && !isLoading ? (
-
                             <CommandGroup>
-                                {inputValue !== "" &&
-                                    (options.find(option => option.label === inputRef?.current?.value) ? false : true)
-                                    &&
-                                    <CommandItem
-                                        onMouseDown={(event) => {
-                                            event.preventDefault()
-                                            event.stopPropagation()
-                                        }}
-                                        onSelect={() => {
-                                            onAddOption?.(inputValue)
-                                        }}
-                                        className="flex w-full items-center gap-2"
-                                    >
-                                        New Topic: {inputValue}
-                                    </CommandItem>
-
-                                }
                                 {options.map((option) => {
                                     const isSelected = selected?.value === option.value
+
                                     return (
                                         <CommandItem
                                             key={option.value}
@@ -171,14 +184,7 @@ export const AutoComplete = ({
                                 <CommandPrimitive.Empty className="select-none rounded-sm px-2 py-3 text-center text-sm">
                                     {emptyMessage}
                                 </CommandPrimitive.Empty>
-                            ) : !isLoading ?
-                                <CommandPrimitive.Empty className="select-none rounded-sm px-2 py-3 text-center text-sm">
-                                    New topic: {inputRef?.current?.value}
-                                </CommandPrimitive.Empty>
-                                :
-                                <div className="flex justify-center items-center">
-                                    <LoaderPinwheel className="w-8 h-8 px-2 animate-spin" /> Loading...
-                                </div>
+                            ) : null
                         }
                     </CommandList>
                 </div>

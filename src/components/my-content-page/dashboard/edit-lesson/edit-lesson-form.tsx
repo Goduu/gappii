@@ -13,6 +13,7 @@ import { useSaveLessonForm } from './useSaveLessonForm'
 import { DndSortingContext } from './dnd-sorting-context'
 import { arrayMove } from '@dnd-kit/sortable'
 import { useTransitionContext } from '@/components/loading-store'
+import { EditLessonFields } from './edit-lesson-fields'
 
 type EditLessonFormProps = {
   lesson: Lesson
@@ -56,6 +57,7 @@ export const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-4 items-start'>
+        <EditLessonFields form={form} />
         <EditLessonKeywords form={form} />
         <DndSortingContext activities={activities} onDragEnd={handleDragEnd}>
           {activities.map((activity, index) => (
@@ -68,7 +70,7 @@ export const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
             />
           ))}
         </DndSortingContext>
-        <AddActivityButton appendActivity={appendActivity} activitiesLen={activities.length}/>
+        <AddActivityButton appendActivity={appendActivity} activitiesLen={activities.length} />
         <Button type="submit" className='w-40 flex gap-2 items-center'>
           <Save />
           Save</Button>

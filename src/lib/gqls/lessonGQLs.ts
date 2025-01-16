@@ -15,6 +15,8 @@ export const GET_LESSON_ACTIVITIES = gql`
   query GetLessonActivities($where: LessonWhere!) {
     lessons(where: $where) {
       id
+      isPublic
+      language
       hasTopic {
         id
         title
@@ -123,55 +125,6 @@ export const GET_LESSON_FILTERED = gql`
     }
   }
 `
-// newestSort: createdAr: DESC, topRatedSort: wasReactedAggregate: {count: DESC}
-export const GET_COMMUNITY_LESSONS = gql`
-  query GetCommunityLessons($level: Int, $newestSort: SortDirection, $topRatedSort: SortDirection, $language: String) {
-    lessons(
-      where: {
-        isPublic: true
-        level: $level
-        language: $language
-      }
-      options: {
-        sort: [
-             { 
-              createdAt: $newestSort
-             }
-             { 
-              wasReactedCount: $topRatedSort
-             }
-        ]
-      }
-    ) {
-      id
-      title
-      level
-      language
-      createdAt
-      hasKeywords {
-        id
-        name
-      }
-      hasTopic {
-        title
-      }
-      hasSubtopic {
-        title
-      }
-      wasReactedConnection {
-        edges {
-          properties {
-            type
-            reactedAt
-          }
-          node{
-            clerkId
-          }
-        }
-      }
-    }
-  }
-`
 
 export const GET_LESSON_BY_ID = gql`
   query GetLessonById($id: ID!) {
@@ -204,6 +157,58 @@ export const GET_LESSON_BY_ID = gql`
   }
 `
 
+// newestSort: createdAr: DESC, topRatedSort: wasReactedAggregate: {count: DESC}
+export const GET_COMMUNITY_LESSONS = gql`
+  query GetCommunityLessons($level: Int, $newestSort: SortDirection, $topRatedSort: SortDirection, $language: String) {
+    lessons(
+      where: {
+        isPublic: true
+        level: $level
+        language: $language
+        hasActivitiesAggregate: {count_GT: 3}
+      }
+      options: {
+        sort: [
+             { 
+              createdAt: $newestSort
+             }
+             { 
+              wasReactedCount: $topRatedSort
+             }
+        ]
+        limit: 12
+      }
+    ) {
+      id
+      title
+      level
+      language
+      createdAt
+      hasKeywords {
+        id
+        name
+      }
+      hasTopic {
+        title
+      }
+      hasSubtopic {
+        title
+      }
+      wasReactedConnection {
+        edges {
+          properties {
+            type
+            reactedAt
+          }
+          node {
+            clerkId
+          }
+        }
+      }
+    }
+  }
+`
+
 export const GET_COMMUNITY_LESSONS_FULLTEXT = gql`
   query GetCommunityLessons(
     $phrase: String!, 
@@ -219,6 +224,7 @@ export const GET_COMMUNITY_LESSONS_FULLTEXT = gql`
           isPublic: true
           level: $level
           language: $language
+          hasActivitiesAggregate: {count_GT: 3}
         }
       }
       sort: [
@@ -226,6 +232,7 @@ export const GET_COMMUNITY_LESSONS_FULLTEXT = gql`
         { lesson: { createdAt: $newestSort } }
         { lesson: { wasReactedCount: $topRatedSort } }
       ]
+      limit: 12
     ) {
       score
       lesson {
@@ -259,4 +266,13 @@ export const GET_COMMUNITY_LESSONS_FULLTEXT = gql`
     }
   }
 `;
+
+export const DELETE_LESSON = gql`
+  mutation DeleteLesson($where: LessonWhere!) {
+    deleteLessons(where: $where, delete: {wasReacted: {}, hasActivities: {}}) {
+      nodesDeleted
+      relationshipsDeleted
+    }
+  }
+`
 

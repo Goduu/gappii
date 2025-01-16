@@ -1,7 +1,7 @@
 import { SupportedLanguage } from "@/app/types";
 import { validateCreateLessonApiResponse } from "@/lib/validateCreateLessonApiResponse";
 
-export const transformInputIntoData = async (topic: string, subtopic: string, level: string, language: SupportedLanguage, onError: (error: string) => void) => {
+export const transformInputIntoData = async (topic: string, subtopic: string, level: number, language: SupportedLanguage, onError: (error: string) => void) => {
     const apiResult = await fetch("/api/create-lesson", {
         method: "POST",
         headers: {

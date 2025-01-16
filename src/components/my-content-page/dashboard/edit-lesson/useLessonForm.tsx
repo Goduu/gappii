@@ -4,6 +4,16 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Lesson } from "@/ogm-resolver/ogm-types"
 
 const LessonSchema = z.object({
+    topic: z.object({
+        id: z.string(),
+        title: z.string()
+    }),
+    subtopic: z.object({
+        id: z.string(),
+        title: z.string()
+    }),
+    language: z.string(),
+    isPublic: z.boolean(),
     keywords: z.array(
         z.object({
             id: z.string(),
@@ -35,6 +45,10 @@ export const useLessonForm = (lesson?: Lesson) => {
     const form = useForm<LessonFormValues>({
         resolver: zodResolver(LessonSchema),
         defaultValues: {
+            topic: { id: lesson?.hasTopic?.id || '', title: lesson?.hasTopic?.title || '' },
+            subtopic: { id: lesson?.hasSubtopic?.id || '', title: lesson?.hasSubtopic?.title || '' },
+            language: lesson?.language || 'en-us',
+            isPublic: lesson?.isPublic || false,
             keywords: lesson?.hasKeywords.map(keyword => ({ name: keyword.name, id: keyword.id || "" })) || [],
             activities: lesson?.hasActivities.map(activity => ({
                 id: activity.id || "",

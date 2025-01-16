@@ -1,6 +1,6 @@
 "use client"
-import { LoaderCircle } from "lucide-react"
 import { createContext, useContext, useTransition, ReactNode } from "react"
+import { LoadingAnimation } from "./loading-animation"
 
 interface TransitionContextProps {
   isPending: boolean
@@ -19,7 +19,7 @@ export const TransitionProvider = ({ children }: { children: ReactNode }) => {
           className={`fixed left-0 top-0 z-50 h-screen w-screen items-center justify-center bg-white py-10 dark:bg-slate-800 bg-opacity-50 `}
         >
           <div className="flex h-full flex-col items-center justify-center gap-0">
-            <LoaderCircle className="animate-spin h-20 w-20 aspect-square" />
+            <LoadingAnimation className="w-24 h-24" />
           </div>
         </div>
       }

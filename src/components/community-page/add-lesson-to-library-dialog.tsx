@@ -70,7 +70,7 @@ export const AddLessonToLibrary: FC<AddLessonToLibraryProps> = ({ lesson, disabl
     return (
         <Drawer>
             <DrawerTrigger asChild>
-                <Button variant="ghost" size="icon" className="z-30" disabled={disabled}>
+                <Button variant="outline" size="icon" className="z-30" disabled={disabled}>
                     <Plus size={24} />
                 </Button>
             </DrawerTrigger>

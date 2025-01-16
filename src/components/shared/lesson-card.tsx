@@ -44,7 +44,7 @@ export const LessonCard: FC<LessonCardProps> = ({ lesson, variant }) => {
             <div className='h-10'>
                 <LessonLevel level={lesson.level} />
                 {variant === 'my-content'
-                    ? <LessonActions lessonId={lesson.id || ""} />
+                    ? <LessonActions lesson={lesson} />
                     : <CommunityCardActions lesson={lesson} />}
             </div>
         </Card>

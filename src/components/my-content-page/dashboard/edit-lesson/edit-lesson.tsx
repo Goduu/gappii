@@ -6,12 +6,11 @@ import { useQuery } from '@apollo/client'
 import React, { FC } from 'react'
 import { EditLessonForm } from './edit-lesson-form'
 
-
-type ReviewLessonProps = {
+type EditLessonProps = {
     lessonId: string,
 }
 
-export const ReviewLesson: FC<ReviewLessonProps> = ({ lessonId }) => {
+export const EditLesson: FC<EditLessonProps> = ({ lessonId }) => {
     const { data, loading } = useQuery<{ lessons: Lesson[] }>(GET_LESSON_ACTIVITIES, {
         variables: {
             where: {

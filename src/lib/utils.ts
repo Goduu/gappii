@@ -1,3 +1,4 @@
+import { toast } from "@/hooks/use-toast";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -33,4 +34,13 @@ export const sanitizeLuceneString = (input: string): string => {
 
   // Replace each special character with its escaped version (preceded by a backslash)
   return input.replace(specialChars, '\\$&');
+}
+
+
+export const sendErrorToast = (error: string) => {
+  toast({
+    title: "Error",
+    description: error,
+    variant: "destructive"
+  })
 }

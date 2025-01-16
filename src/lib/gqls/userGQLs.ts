@@ -47,6 +47,9 @@ query GetUserLessons($where: UserWhere!, $first: Int!,$after: String, $lessonWhe
             id
             name
           }
+          hasActivitiesAggregate{
+            count
+          }
           wasReactedConnection(where: {node: $where}) {
             edges {
                 node {

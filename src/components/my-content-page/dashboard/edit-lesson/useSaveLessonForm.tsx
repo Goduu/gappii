@@ -17,7 +17,6 @@ export const useSaveLessonForm = () => {
         formValues: LessonFormValues,
         onClose: () => void
     ) => {
-        // Calculate changes
         const {
             addedKeywords,
             deletedKeywords,
@@ -73,7 +72,6 @@ export const useSaveLessonForm = () => {
                 onClose();
             } catch (error) {
                 console.error("Error updating lesson:", error);
-                // You can handle errors here or show a notification
             }
         });
     };

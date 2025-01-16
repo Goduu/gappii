@@ -19,7 +19,7 @@ export const LessonActivity: React.FC<LessonActivityProps> = ({
 }) => {
     const { currentActivity, handleNext, transitionDirection } = useLessonContext();
 
-    if (!isActivity(currentActivity)) {
+    if (currentActivity && !isActivity(currentActivity)) {
         return <LessonSummary activity={currentActivity} />;
     }
 

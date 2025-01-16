@@ -43,7 +43,7 @@ export const GET_LESSON_ACTIVITIES = gql`
 `
 export const GET_HOT_LESSON = gql`
   query GetHotLessons {
-    hotLessons: lessons(limit: 10) {
+    hotLessons: lessons(limit: 10, where: { hasActivitiesAggregate: {count_GT: 3}}) {
       id
       hasTopic {
         id
@@ -54,7 +54,7 @@ export const GET_HOT_LESSON = gql`
         title
       }
     },
-    newLessons: lessons(limit: 10, sort: [{ createdAt: DESC }]) {
+    newLessons: lessons(limit: 10, sort: [{ createdAt: DESC }], where: { hasActivitiesAggregate: {count_GT: 3}}) {
       id
       hasTopic {
         id

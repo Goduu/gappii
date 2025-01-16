@@ -12,7 +12,7 @@ type CommentSectionProps = {
 
 export const CommentSection: FC<CommentSectionProps> = ({ form, index }) => {
     return (
-        <div className="space-y-2">
+        <div className="space-y-2 w-full">
             <div className="flex items-center gap-2 text-gray-700">
                 <MessageCircle className="w-5 h-5" />
                 <FormLabel className="text-sm font-medium">Additional Comment</FormLabel>

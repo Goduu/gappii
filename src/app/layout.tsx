@@ -12,6 +12,7 @@ import { LoggedInMenu } from "./loggedin-menu";
 import { LoggedOutMenu } from "./loggedout-menu";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/react"
+import { routes } from "@/lib/routes";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -40,7 +41,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <SidebarProvider>
-          <ClerkProvider>
+          <ClerkProvider
+            signUpFallbackRedirectUrl={routes.dashboard}
+          >
             <TransitionProvider>
               <TooltipProvider>
                 <Toaster />

@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import { CheckCircle2, XCircle } from "lucide-react";
 import { UPDATE_USER } from "@/lib/gqls/userGQLs";
 import { useMutation } from "@apollo/client";
-import { useUser } from "@clerk/nextjs";
+import { SignInButton, useUser } from "@clerk/nextjs";
 import { MutationUpdateUsersArgs } from "@/ogm-resolver/ogm-types";
 
 interface LessonSummaryProps {
@@ -133,13 +133,21 @@ export const LessonSummary: React.FC<LessonSummaryProps> = ({ activity }) => {
                 </CardContent>
 
                 <CardFooter>
-                    <Button
-                        className="w-full"
-                        size="lg"
-                        onClick={handleUpdateUser}
-                    >
-                        Return to Dashboard
-                    </Button>
+                    {user === null ?
+                        <SignInButton mode="modal">
+                            <Button className="w-full" size="lg">
+                                Create your account
+                            </Button>
+                        </SignInButton>
+                        :
+                        <Button
+                            className="w-full"
+                            size="lg"
+                            onClick={handleUpdateUser}
+                        >
+                            Return to Dashboard
+                        </Button>
+                    }
                 </CardFooter>
             </Card>
         </motion.div>

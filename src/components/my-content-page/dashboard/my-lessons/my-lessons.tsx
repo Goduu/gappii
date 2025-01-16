@@ -118,7 +118,6 @@ export const MyLessons = ({ searchParams }: MyLessonsProps) => {
                             />
                         ))}
                         {(loading || isFetchingMore) && <LessonsSkeleton />}
-                        {/* Loading sentinel element */}
                         <div ref={setElement} className="h-4 w-full flex flex-wrap gap-4" />
                     </div>
                 </div>

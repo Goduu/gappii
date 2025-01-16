@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import { TbStar } from '../ui/customIcons/tb-star'
 import { TbStars } from '../ui/customIcons/tb-stars'

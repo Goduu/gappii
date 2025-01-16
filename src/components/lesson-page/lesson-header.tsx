@@ -1,6 +1,7 @@
 import { CircleX } from "lucide-react";
 import { redirect } from "next/navigation";
 import { routes } from "@/lib/routes";
+import { useUser } from "@clerk/nextjs";
 
 type LessonHeaderProps = {
     topicTitle: string;
@@ -11,6 +12,8 @@ export const LessonHeader: React.FC<LessonHeaderProps> = ({
     topicTitle,
     subtopicTitle,
 }) => {
+    const user = useUser();
+
     return (
         <div className="px-4 sm:px-0 flex items-center justify-between">
             <div className="text-base sm:text-lg font-bold flex items-center gap-2 text-ellipsis overflow-hidden">
@@ -18,7 +21,7 @@ export const LessonHeader: React.FC<LessonHeaderProps> = ({
             </div>
             <CircleX
                 className="h-5 w-5 cursor-pointer hover:text-destructive transition-colors"
-                onClick={() => redirect(routes.dashboard)}
+                onClick={() => redirect(user?.isSignedIn ? routes.dashboard : routes.home)}
             />
         </div>
     );

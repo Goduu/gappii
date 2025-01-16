@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     type: 'website',
     title: 'Gappii - Learn Everything',
     description: 'Fill the gap and learn everything! Interactive learning platform for everyone.',
-    url: 'https://gappii.vercel.app/',
+    url: 'https://www.gappii.com/',
     siteName: 'Gappii',
     images: [
       {

@@ -11,7 +11,7 @@ import { redirect } from 'next/navigation'
 import React, { FC } from 'react'
 
 type DeleteLessonButtonProps = {
-    lessonId: string,
+    lessonId?: string,
 }
 
 export const DeleteLessonButton: FC<DeleteLessonButtonProps> = ({ lessonId }) => {
@@ -19,6 +19,7 @@ export const DeleteLessonButton: FC<DeleteLessonButtonProps> = ({ lessonId }) =>
     const { startTransition } = useTransitionContext()
 
     const handleDeleteLesson = () => {
+        if (!lessonId) return
         startTransition(async () => {
             await deleteLesson({ variables: { where: { id: lessonId } } satisfies MutationDeleteLessonCompletionRecordsArgs })
             redirect(routes.dashboard)

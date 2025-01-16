@@ -32,15 +32,20 @@ export const useSaveLessonForm = () => {
                     addedKeywords.length > 0 ||
                     deletedKeywords.length > 0 ||
                     addedActivities.length > 0 ||
-                    deletedActivities.length > 0
+                    deletedActivities.length > 0 ||
+                    lesson.language !== formValues.language ||
+                    lesson.isPublic !== formValues.isPublic ||
+                    lesson.hasTopic.id !== formValues.topic.id ||
+                    lesson.hasSubtopic.id !== formValues.subtopic.id
                 ) {
                     await updateLessons({
                         variables: buildLessonUpdateVariables(
-                            lesson.id!,
+                            lesson,
                             addedKeywords,
                             deletedKeywords,
                             addedActivities,
-                            deletedActivities
+                            deletedActivities,
+                            formValues,
                         ),
                     });
                 }
@@ -108,14 +113,21 @@ export const useSaveLessonForm = () => {
     };
 
     const buildLessonUpdateVariables = (
-        lessonId: string,
+        lesson: Lesson,
         addedKeywords: Keyword[],
         deletedKeywords: Keyword[],
         addedActivities: LessonFormValues['activities'],
-        deletedActivities: Activity[]
+        deletedActivities: Activity[],
+        formValues: LessonFormValues
     ): MutationUpdateLessonsArgs => ({
-        where: { id: lessonId },
+        where: { id: lesson.id },
         update: {
+            language: lesson.language !== formValues.language ? formValues.language : undefined,
+            isPublic: lesson.isPublic !== formValues.isPublic ? formValues.isPublic : undefined,
+            hasTopic: lesson.hasTopic.id !== formValues.topic.id ?
+                { disconnect: { where: { node: { id: lesson.hasTopic.id } } }, connect: { where: { node: { id: formValues.topic.id } } } } : undefined,
+            hasSubtopic: lesson.hasSubtopic.id !== formValues.subtopic.id ?
+                { disconnect: { where: { node: { id: lesson.hasSubtopic.id } } }, connect: { where: { node: { id: formValues.subtopic.id } } } } : undefined,
             ...(deletedKeywords.length > 0 || addedKeywords.length > 0 ? {
                 hasKeywords: [
                     {

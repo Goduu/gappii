@@ -14,7 +14,7 @@ import React from 'react'
 export const LoggedInMenu = () => {
     return (
         <div className="flex gap-2 flex-col items-center justify-center">
-            <div className="min-h-7 min-w-7">
+            <div className="min-h-9 min-w-7">
                 <UserButton />
             </div>
             <DropdownMenu>

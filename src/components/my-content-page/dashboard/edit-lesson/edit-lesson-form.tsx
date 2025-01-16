@@ -1,3 +1,4 @@
+"use client"
 import React, { FC } from 'react'
 import { EditActivity } from './edit-activity'
 import { Lesson } from '@/ogm-resolver/ogm-types'
@@ -14,6 +15,7 @@ import { DndSortingContext } from './dnd-sorting-context'
 import { arrayMove } from '@dnd-kit/sortable'
 import { useTransitionContext } from '@/components/loading-store'
 import { EditLessonFields } from './edit-lesson-fields'
+import { DeleteLessonButton } from './delete-lesson-button'
 
 type EditLessonFormProps = {
   lesson: Lesson
@@ -23,6 +25,7 @@ export const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
   const { form } = useLessonForm(lesson)
   const { handleUpdateLesson } = useSaveLessonForm()
   const { startTransition } = useTransitionContext()
+
   const { fields: activities, append: appendActivity, remove, move, update } = useFieldArray({
     control: form.control,
     name: "activities"
@@ -57,6 +60,10 @@ export const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-4 items-start'>
+        <div className='flex items-center gap-4'>
+          <p className='text-xl font-bold'>{lesson.title}</p>
+          <DeleteLessonButton lessonId={lesson.id || undefined} />
+        </div>
         <EditLessonFields form={form} />
         <EditLessonKeywords form={form} />
         <DndSortingContext activities={activities} onDragEnd={handleDragEnd}>
@@ -73,7 +80,8 @@ export const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
         <AddActivityButton appendActivity={appendActivity} activitiesLen={activities.length} />
         <Button type="submit" className='w-40 flex gap-2 items-center'>
           <Save />
-          Save</Button>
+          Save
+        </Button>
       </form>
     </Form >
   )

@@ -1,9 +1,10 @@
-import { DeleteLessonButton } from '@/components/my-content-page/dashboard/edit-lesson/delete-lesson-button'
-import { EditLesson } from '@/components/my-content-page/dashboard/edit-lesson/edit-lesson'
+import { EditLessonForm } from '@/components/my-content-page/dashboard/edit-lesson/edit-lesson-form'
 import { PageTitle } from '@/components/page-title/page-title'
 import { Skeleton } from '@/components/ui/skeleton'
-import React, { FC, Suspense, use } from 'react'
-
+import { getApolloClient } from '@/lib/getApolloClient'
+import { GET_LESSON_ACTIVITIES } from '@/lib/gqls/lessonGQLs'
+import { Lesson, QueryLessonsArgs } from '@/ogm-resolver/ogm-types'
+import React, { FC, Suspense } from 'react'
 
 type CardsProps = {
     params: Promise<{
@@ -11,20 +12,30 @@ type CardsProps = {
     }>
 }
 
-const EditLessonPage: FC<CardsProps> = ({ params }) => {
-    const { lessonId } = use(params)
+const EditLessonPage: FC<CardsProps> = async ({ params }) => {
+    const { lessonId } = await params
+
+    const client = getApolloClient();
+    const { data } = await client.query<{ lessons: Lesson[] }>({
+        query: GET_LESSON_ACTIVITIES,
+        variables: {
+            where: {
+                id: lessonId
+            }
+        } satisfies QueryLessonsArgs
+    })
+
+    const lesson = data?.lessons[0]
+
+    if (!lesson.id) return <div>Lesson not found</div>
 
     return (
-        <Suspense fallback={<Skeleton className='w-96 h-64' />}>
+        <Suspense fallback={<Skeleton className='w-80 h-64' />}>
             <div className='flex flex-col gap-4'>
-                <div className='flex items-center gap-4'>
-                    <PageTitle title="Edit Lesson" />
-                    <DeleteLessonButton lessonId={lessonId} />
-                </div>
-                <EditLesson lessonId={lessonId} />
+                <PageTitle title="Edit Lesson" />
+                <EditLessonForm lesson={lesson} />
             </div>
         </Suspense>
     )
 }
-
 export default EditLessonPage

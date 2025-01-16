@@ -1,3 +1,5 @@
+'use client'
+
 import React, { FC } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { LessonFormValues } from './useLessonForm';
@@ -30,7 +32,7 @@ export const EditLessonFields: FC<EditLessonFieldsProps> = ({ form }) => {
             <TopicSelection form={form} />
           </div>
 
-          <div className='flex justify-between gap-2'>
+          <div className='flex flex-col md:flex-row justify-between gap-2 md:gap-4'>
             <div className='flex flex-col gap-2'>
               <div className="flex items-center gap-2 text-gray-700 mb-1">
                 <Languages className="w-5 h-5" />
@@ -52,9 +54,9 @@ export const EditLessonFields: FC<EditLessonFieldsProps> = ({ form }) => {
               />
             </div>
 
-            <div className="flex justify-between items-center gap-4">
-              <div className="space-y-0.5">
-                <div className="flex items-center gap-2 text-gray-700">
+            <div className="flex justify-between items-start gap-4">
+              <div>
+                <div className="flex items-center gap-2 text-gray-700 mb-1">
                   <Users className="w-5 h-5" />
                   <FormLabel className="text-sm font-medium mb-2 block">Public Lesson</FormLabel>
                 </div>

@@ -15,6 +15,7 @@ export const GET_LESSON_ACTIVITIES = gql`
   query GetLessonActivities($where: LessonWhere!) {
     lessons(where: $where) {
       id
+      title
       isPublic
       language
       hasTopic {

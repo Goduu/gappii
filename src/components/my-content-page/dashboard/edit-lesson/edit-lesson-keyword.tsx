@@ -7,9 +7,10 @@ import { Input } from '@/components/ui/input'
 type EditLessonKeywordProps = {
     index: number
     form: UseFormReturn<LessonFormValues>
+    removeKeyword: () => void
 }
 
-export const EditLessonKeyword: FC<EditLessonKeywordProps> = ({ index, form }) => {
+export const EditLessonKeyword: FC<EditLessonKeywordProps> = ({ index, form, removeKeyword }) => {
 
     return (
         <FormField
@@ -21,6 +22,7 @@ export const EditLessonKeyword: FC<EditLessonKeywordProps> = ({ index, form }) =
                     type="text"
                     value={field.value.name || ''}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => field.onChange({ name: event.target.value, id: field.value.id })}
+                    onBlur={() => field.value.name === "" && removeKeyword()}
                 />
             )}
         />

@@ -1,25 +1,29 @@
 "use client"
 import React, { FC, useState } from 'react'
-import { useMutation } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { CREATE_TOPIC, GET_TOPIC_TITLES } from '@/lib/gqls/topicGQLs'
 import { cleanTopic } from './cleanTopic'
-import { useFetchTopicTitles } from '@/lib/queries/getTopicTitles'
-import { useDebouncedCallback } from 'use-debounce'
-import { AutoComplete, AutocompleteOption } from '../ui/autocomplete'
+import { TopicQueryResult } from '@/lib/queries/getTopicTitles'
+import { Topic } from '@/ogm-resolver/ogm-types'
+import { AutoComplete, Option } from '../ui/autocomplete'
 
 type TopicAutocompleteProps = {
-    onSelectTopic: (topic: AutocompleteOption | null) => void
+    selectedTopic: Topic | null
+    onSelectTopic: (topic: Option | null) => void
 }
 
-export const TopicAutoComplete: FC<TopicAutocompleteProps> = ({ onSelectTopic }) => {
-    const [searchPhrase, setSearchPhrase] = useState<string>("")
+export const TopicAutoComplete: FC<TopicAutocompleteProps> = ({ selectedTopic, onSelectTopic }) => {
+    const [searchPhrase, ] = useState<string>("")
 
-    const onSearchChange = useDebouncedCallback((text: string) => {
-        setSearchPhrase(text)
-    }, 200)
+    // @TODO rethink if its the right approach
+    // const onSearchChange = useDebouncedCallback((text: string) => {
+    //     setSearchPhrase(text)
+    // }, 200)
 
-    const { loading, topics } = useFetchTopicTitles(searchPhrase)
-    const topicOptions = topics.map<AutocompleteOption>(topic => ({ value: topic.id || "", label: topic.title })) || []
+    // const { loading, topics } = useFetchTopicTitles(searchPhrase)
+    const { loading, data } = useQuery<TopicQueryResult>(GET_TOPIC_TITLES, { variables: { searchPhrase } });
+
+    const topicOptions = data?.topics.map<Option>(topic => ({ value: topic.id || "", label: topic.title })) || []
     const [createTopic] = useMutation(CREATE_TOPIC)
 
     const handleCreateNewTopic = (topicTitle: string) => {
@@ -28,20 +32,20 @@ export const TopicAutoComplete: FC<TopicAutocompleteProps> = ({ onSelectTopic })
 
         createTopic({
             variables: { input: { title: topicTitle } },
-            refetchQueries: [{ query: GET_TOPIC_TITLES, variables: { search: searchPhrase || "Next" } }]
+            refetchQueries: [GET_TOPIC_TITLES]
         })
     }
 
     return (
         <AutoComplete
-            value={{ label: '', value:  '' }}
-            emptyMessage='Empty'
-            className='w-full'
             options={topicOptions}
+            emptyMessage="No results."
+            placeholder="Find something"
             isLoading={loading}
-            onAddOption={handleCreateNewTopic}
             onValueChange={onSelectTopic}
-            onSearchChange={onSearchChange}
+            onAddItem={handleCreateNewTopic}
+            value={selectedTopic?.id ? { label: selectedTopic.id, value: selectedTopic.title } : undefined}
         />
+
     )
 }

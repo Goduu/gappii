@@ -1,49 +1,48 @@
+import {
+    CommandGroup,
+    CommandItem,
+    CommandList,
+    CommandInput,
+} from "./command"
 import { Command as CommandPrimitive } from "cmdk"
-import { useState, useCallback, type KeyboardEvent, RefObject } from "react"
+import { useState, useRef, useCallback, type KeyboardEvent } from "react"
 
-import { Check, LoaderPinwheel } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { CommandGroup, CommandItem, CommandList } from "./command"
 import { Skeleton } from "./skeleton"
-import { Input } from "./input"
 
-export type AutocompleteOption = Record<"value" | "label", string> & Record<string, string>
+import { Check } from "lucide-react"
+import { cn } from "@/lib/utils"
+
+export type Option = Record<"value" | "label", string> & Record<string, string>
 
 type AutoCompleteProps = {
-    inputRef?: RefObject<HTMLInputElement>
-    className?: string
-    options: AutocompleteOption[]
+    options: Option[]
     emptyMessage: string
-    value?: AutocompleteOption
-    onValueChange?: (value: AutocompleteOption | null) => void
-    onAddOption?: (value: string) => void
-    onSearchChange?: (text: string) => void
+    value?: Option
+    onValueChange?: (value: Option) => void
     isLoading?: boolean
     disabled?: boolean
     placeholder?: string
+    onAddItem?: (value: string) => void;
 }
 
 export const AutoComplete = ({
-    inputRef,
-    className,
     options,
-    placeholder = "Search...",
+    placeholder,
     emptyMessage,
     value,
     onValueChange,
-    onAddOption,
-    onSearchChange,
     disabled,
     isLoading = false,
+    onAddItem
 }: AutoCompleteProps) => {
+    const inputRef = useRef<HTMLInputElement>(null)
 
     const [isOpen, setOpen] = useState(false)
-    const [selected, setSelected] = useState<AutocompleteOption | null>(value as AutocompleteOption || null)
+    const [selected, setSelected] = useState<Option>(value as Option)
     const [inputValue, setInputValue] = useState<string>(value?.label || "")
 
     const handleKeyDown = useCallback(
         (event: KeyboardEvent<HTMLDivElement>) => {
-            if (!inputRef) return
             const input = inputRef.current
             if (!input) {
                 return
@@ -55,77 +54,77 @@ export const AutoComplete = ({
             }
 
             // This is not a default behaviour of the <input /> field
-            if (event.key === "Enter") {
-                if (input.value !== "") {
-                    const optionToSelect = options.find(
-                        (option) => option.label === input.value,
-                    )
-                    if (optionToSelect) {
-                        setSelected(optionToSelect)
-                        onValueChange?.(optionToSelect)
-                    } else {
-                        event.preventDefault()
-                        onAddOption?.(input.value)
-                    }
+            if (event.key === "Enter" && input.value !== "") {
+                const optionToSelect = options.find(
+                    (option) => option.label === input.value,
+                )
+                if (optionToSelect) {
+                    setSelected(optionToSelect)
+                    onValueChange?.(optionToSelect)
                 }
             }
+
             if (event.key === "Escape") {
                 input.blur()
             }
         },
-        [isOpen, options, onValueChange, inputRef, onAddOption],
+        [isOpen, options, onValueChange],
     )
 
     const handleBlur = useCallback(() => {
-        if (!selected && inputValue !== "") {
-            setInputValue("")
-        } else if (selected) {
-            setInputValue(selected.label)
-        }
         setOpen(false)
-    }, [selected, inputValue])
+        setInputValue(selected?.label)
+    }, [selected])
 
     const handleSelectOption = useCallback(
-        (selectedOption: AutocompleteOption) => {
-            if (selectedOption.value === selected?.value) {
-                setSelected(null)
-                setInputValue("")
-                onValueChange?.(null)
+        (selectedOption: Option) => {
+            if (selectedOption.value.startsWith("new:")) {
+                const newValue = selectedOption.value.replace("new:", "");
+                onAddItem?.(newValue);
+                setInputValue(newValue)
             } else {
-                setSelected(selectedOption)
                 setInputValue(selectedOption.label)
-                onValueChange?.(selectedOption)
-                setOpen(false)
-            }
 
-            setTimeout(() => {
-                inputRef?.current?.blur()
-            }, 0)
+                setSelected(selectedOption)
+                onValueChange?.(selectedOption)
+
+                // This is a hack to prevent the input from being focused after the user selects an option
+                // We can call this hack: "The next tick"
+                setTimeout(() => {
+                    inputRef?.current?.blur()
+                }, 0)
+            }
         },
-        [inputRef, onValueChange, selected],
+        [onValueChange, onAddItem],
     )
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (isLoading) return
-        const text = event.target.value
-        setInputValue(text)
-        setOpen(true)
-        onSearchChange?.(text)
+    const hasExactMatch = options.some(
+        item => inputValue && item.label.toLowerCase() === inputValue.toLowerCase()
+    );
+
+    const filteredOptions = [...options];
+    if (inputValue && !hasExactMatch && onAddItem) {
+        filteredOptions.unshift({
+            value: `new:${inputValue}`,
+            label: `New Topic: ${inputValue}`
+        });
     }
 
     return (
-        <CommandPrimitive onKeyDown={handleKeyDown} className="w-full">
-            <Input
-                ref={inputRef}
-                value={inputValue}
-                onChange={handleInputChange}
-                onBlur={handleBlur}
-                onFocus={() => setOpen(true)}
-                placeholder={placeholder}
-                disabled={disabled}
-                className="text-base w-full"
-            />
-            <div className={`relative mt-1 ${className}`}>
+        <CommandPrimitive onKeyDown={handleKeyDown}>
+            <div>
+                <CommandInput
+                    ref={inputRef}
+                    value={inputValue}
+                    onValueChange={isLoading ? undefined : setInputValue}
+                    onBlur={handleBlur}
+                    onFocus={() => setOpen(true)}
+                    placeholder={placeholder}
+                    disabled={disabled}
+                    className="text-base"
+                />
+            </div>
+            <div className="relative mt-1">
                 <div
                     className={cn(
                         "animate-in fade-in-0 zoom-in-95 absolute top-0 z-10 w-full rounded-xl bg-white outline-none",
@@ -136,34 +135,14 @@ export const AutoComplete = ({
                         {isLoading ? (
                             <CommandPrimitive.Loading>
                                 <div className="p-1">
-                                    <Skeleton className="h-8 w-full" >
-                                        <LoaderPinwheel className="w-8 h-8 px-2 animate-spin text-slate-400" />
-                                    </Skeleton>
+                                    <Skeleton className="h-8 w-full" />
                                 </div>
                             </CommandPrimitive.Loading>
                         ) : null}
-                        {inputValue !== "" &&
-                            !options.find(option => option.label === inputValue)
-                            &&
-                            <CommandItem
-                                onMouseDown={(event) => {
-                                    event.preventDefault()
-                                    event.stopPropagation()
-                                }}
-                                onSelect={() => {
-                                    onAddOption?.(inputValue)
-                                }}
-                                className="flex w-full items-center gap-2"
-                            >
-                                New Topic: {inputValue}
-                            </CommandItem>
-
-                        }
-                        {options.length > 0 && !isLoading ? (
+                        {filteredOptions.length > 0 && !isLoading ? (
                             <CommandGroup>
-                                {options.map((option) => {
+                                {filteredOptions.map((option) => {
                                     const isSelected = selected?.value === option.value
-
                                     return (
                                         <CommandItem
                                             key={option.value}
@@ -184,16 +163,15 @@ export const AutoComplete = ({
                                     )
                                 })}
                             </CommandGroup>
-                        ) :
-                            !isLoading && !inputRef?.current?.value ? (
-                                <CommandPrimitive.Empty className="select-none rounded-sm px-2 py-3 text-center text-sm">
-                                    {emptyMessage}
-                                </CommandPrimitive.Empty>
-                            ) : null
-                        }
+                        ) : null}
+                        {!isLoading ? (
+                            <CommandPrimitive.Empty className="select-none rounded-sm px-2 py-3 text-center text-sm">
+                                {emptyMessage}
+                            </CommandPrimitive.Empty>
+                        ) : null}
                     </CommandList>
                 </div>
             </div>
-        </CommandPrimitive >
+        </CommandPrimitive>
     )
 }

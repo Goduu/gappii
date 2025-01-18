@@ -15,7 +15,7 @@ import { ApiActivityResponse } from '@/lib/validateCreateLessonApiResponse'
 import { BrainCircuit, FilePenLine } from 'lucide-react'
 import { SupportedLanguage } from '@/app/types'
 import { TopicAutoComplete } from './topic-autocomplete'
-import { AutocompleteOption } from '../ui/autocomplete'
+import { Option } from '../ui/autocomplete'
 
 type LearnInputProps = {
     initialLesson?: Lesson
@@ -88,7 +88,8 @@ export const LearnInput: FC<LearnInputProps> = ({
                                 <FormItem>
                                     <FormControl>
                                         <TopicAutoComplete
-                                            onSelectTopic={(topic: AutocompleteOption | null) => field.onChange({ id: topic?.value || "", title: topic?.label || "" })}
+                                            selectedTopic={field.value}
+                                            onSelectTopic={(topic: Option | null) => field.onChange({ id: topic?.value || "", title: topic?.label || "" })}
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -104,6 +105,7 @@ export const LearnInput: FC<LearnInputProps> = ({
                             render={({ field }) => (
                                 <FormItem>
                                     <TopicAutoComplete
+                                        selectedTopic={field.value}
                                         onSelectTopic={(subtopic: AutocompleteOption | null) => field.onChange({ id: subtopic?.value || "", title: subtopic?.label || "" })}
                                     />
                                     <FormMessage />

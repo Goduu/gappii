@@ -10,7 +10,7 @@ import { Switch } from '@/components/ui/switch';
 import { SupportedLanguage } from '@/app/types';
 import { FormField, FormItem, FormControl, FormLabel, FormMessage } from '@/components/ui/form';
 import { TopicAutoComplete } from '@/components/learn-input/topic-autocomplete';
-import { AutocompleteOption } from '@/components/ui/autocomplete';
+import { Option } from '@/components/ui/autocomplete';
 
 type EditLessonFieldsProps = {
   form: UseFormReturn<LessonFormValues>
@@ -39,13 +39,14 @@ export const EditLessonFields: FC<EditLessonFieldsProps> = ({ form }) => {
                     <FormItem>
                       <FormControl>
                         <TopicAutoComplete
-                          onSelectTopic={(topic: AutocompleteOption | null) => field.onChange({ id: topic?.value || "", title: topic?.label || "" })}
-                        />
+                          selectedTopic={field.value}
+                          onSelectTopic={(topic: Option | null) => field.onChange({ id: topic?.value || "", title: topic?.label || "" })}
+                          />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                  />
               </div>
               <div className='flex-col flex gap-1 w-1/2'>
                 <p className='text-sm'>Subtopic:</p>
@@ -55,7 +56,8 @@ export const EditLessonFields: FC<EditLessonFieldsProps> = ({ form }) => {
                   render={({ field }) => (
                     <FormItem>
                       <TopicAutoComplete
-                        onSelectTopic={(subtopic: AutocompleteOption | null) => field.onChange({ id: subtopic?.value || "", title: subtopic?.label || "" })}
+                      selectedTopic={field.value}
+                        onSelectTopic={(subtopic: Option | null) => field.onChange({ id: subtopic?.value || "", title: subtopic?.label || "" })}
                       />
                       <FormMessage />
                     </FormItem>

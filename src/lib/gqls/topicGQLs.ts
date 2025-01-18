@@ -14,6 +14,7 @@ export const GET_TOPIC_TITLES = gql`
     topics(
       where: { title_CONTAINS: $phrase }
       sort: [{ title: ASC }]
+      limit: 100
     ) {
       id
       title

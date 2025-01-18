@@ -10,6 +10,7 @@ import { UPDATE_USER } from "@/lib/gqls/userGQLs";
 import { useMutation } from "@apollo/client";
 import { SignInButton, useUser } from "@clerk/nextjs";
 import { MutationUpdateUsersArgs } from "@/ogm-resolver/ogm-types";
+import { useTransitionContext } from "../loading-store";
 
 interface LessonSummaryProps {
     activity: SummaryLesson;
@@ -18,42 +19,45 @@ interface LessonSummaryProps {
 export const LessonSummary: React.FC<LessonSummaryProps> = ({ activity }) => {
     const router = useRouter();
     const { user } = useUser();
+    const { startTransition } = useTransitionContext()
 
     const [updateUser] = useMutation(UPDATE_USER);
     // const yesterday = new Date();
     // yesterday.setDate(yesterday.getDate() - 1);
 
     const handleUpdateUser = async () => {
-        await updateUser({
-            variables: {
-                where: { clerkId: user?.id },
-                update: {
-                    completedLessons: [{
-                        create: [{
-                            node: {
-                                completedAt: new Date().toISOString(),
-                                score: activity.score,
-                                timeTaken: activity.totalTimeTaken,
-                                forLesson: {
-                                    connect: { where: { node: { id: activity.id } } }
-                                },
-                                attemptedActivities: {
-                                    connect: activity.attempts.map(([, attempt]) => ({
-                                        where: { node: { id: attempt.activityId } },
-                                        edge: {
-                                            attemptedAt: new Date().toISOString(),
-                                            isCorrect: attempt.isCorrect,
-                                            timeTaken: attempt.timeTaken
-                                        }
-                                    }))
+        startTransition(async () => {
+            await updateUser({
+                variables: {
+                    where: { clerkId: user?.id },
+                    update: {
+                        completedLessons: [{
+                            create: [{
+                                node: {
+                                    completedAt: new Date().toISOString(),
+                                    score: activity.score,
+                                    timeTaken: activity.totalTimeTaken,
+                                    forLesson: {
+                                        connect: { where: { node: { id: activity.id } } }
+                                    },
+                                    attemptedActivities: {
+                                        connect: activity.attempts.map(([, attempt]) => ({
+                                            where: { node: { id: attempt.activityId } },
+                                            edge: {
+                                                attemptedAt: new Date().toISOString(),
+                                                isCorrect: attempt.isCorrect,
+                                                timeTaken: attempt.timeTaken
+                                            }
+                                        }))
+                                    }
                                 }
-                            }
+                            }]
                         }]
-                    }]
-                },
-            } satisfies MutationUpdateUsersArgs,
-        });
-        router.push(routes.dashboard)
+                    },
+                } satisfies MutationUpdateUsersArgs,
+            });
+            router.push(routes.dashboard)
+        })
     };
 
     return (

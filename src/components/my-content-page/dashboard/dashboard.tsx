@@ -1,5 +1,5 @@
 import React, { FC, Suspense } from 'react'
-import { ActivityHistoryCard } from './my-activity/ativity-history-card'
+import { ActivityHistoryCard } from './my-activity/activity-history-card'
 import { StreakCard } from './my-activity/streak-card'
 import { LessonsCreatedCard } from './my-activity/lessons-created-card'
 import { ReactionsInLessonsCard } from './my-activity/reactions-in-lessons'

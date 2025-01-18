@@ -15,7 +15,7 @@ export const OurTopics = () => {
     const { data } = useQuery<{ hotLessons: Lesson[], newLessons: Lesson[] }>(GET_HOT_LESSON)
 
     return (
-        <div className='flex flex-col w-96 md:w-[30rem] lg:w-[40rem] items-center relative'>
+        <div className='flex flex-col w-80 md:w-[30rem] lg:w-[45rem] items-center relative overflow-hidden'>
             <div className='w-24 absolute -left-10 h-full bg-white z-10 blur-md '></div>
             <Marquee className='overflow-visible' speed={40}>
                 <div className='flex gap-2 overflow-visible'>

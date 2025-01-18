@@ -23,19 +23,13 @@ import {
 import { useMediaQuery } from "@/lib/use-media-query"
 import { Plus } from "lucide-react"
 import { LearnInput } from "@/components/learn-input/learn-input"
-import { CollectionPageMode } from "../my-groups/types"
 
 const texts = {
     create: "Create",
-    edit: "Edit",
     description: "Create your custom lesson"
 }
 
-type CreateLessonProps = {
-    mode?: CollectionPageMode
-}
-
-export const CreateLesson: FC<CreateLessonProps> = ({ mode = "create" }) => {
+export const CreateLesson: FC = () => {
     const isDesktop = useMediaQuery("(min-width: 768px)")
 
     if (isDesktop) {
@@ -46,14 +40,14 @@ export const CreateLesson: FC<CreateLessonProps> = ({ mode = "create" }) => {
                         <Plus size={24} /> Create new lesson
                     </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[550px]">
+                <DialogContent className="sm:max-w-[550px]" >
                     <DialogHeader>
-                        <DialogTitle>{mode === "edit" ? texts.edit : texts.create}</DialogTitle>
+                        <DialogTitle>{texts.create}</DialogTitle>
                         <DialogDescription>
                             {texts.description}
                         </DialogDescription>
+                        <LearnInput />
                     </DialogHeader>
-                    <LearnInput />
                 </DialogContent>
             </Dialog>
         )
@@ -68,7 +62,7 @@ export const CreateLesson: FC<CreateLessonProps> = ({ mode = "create" }) => {
             </DrawerTrigger>
             <DrawerContent>
                 <DrawerHeader className="text-left">
-                    <DrawerTitle>{mode === "edit" ? texts.edit : texts.create}</DrawerTitle>
+                    <DrawerTitle>{texts.create}</DrawerTitle>
                     <DrawerDescription>
                         {texts.description}
                     </DrawerDescription>

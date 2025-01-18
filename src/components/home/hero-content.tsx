@@ -8,7 +8,7 @@ import { Blocks, ChartScatter, Users } from 'lucide-react'
 
 export const HeroContent = () => {
     return (
-        <div className='w-full flex flex-col items-center gap-4 sm:gap-6'>
+        <div className='w-full flex flex-col items-center gap-4 sm:gap-6 justify-center'>
 
             <Logo className='w-24 sm:w-44 hover:scale-105 transition-transform' />
             <motion.div
@@ -37,7 +37,7 @@ export const HeroContent = () => {
                     Discover, learn, and master new topics with our interactive learning platform
                 </p>
 
-                <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-6 mt-4 sm:mt-8 place-items-center">
+                <div className="w-full flex gap-4 flex-wrap items-center justify-center ">
                     {features.map((feature, index) => (
                         <FeatureCard
                             key={index}

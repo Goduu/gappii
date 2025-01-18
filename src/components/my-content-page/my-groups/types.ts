@@ -1,1 +1,0 @@
-export type CollectionPageMode = "create" | "edit"

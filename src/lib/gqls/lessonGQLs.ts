@@ -158,7 +158,6 @@ export const GET_LESSON_BY_ID = gql`
   }
 `
 
-// newestSort: createdAr: DESC, topRatedSort: wasReactedAggregate: {count: DESC}
 export const GET_COMMUNITY_LESSONS = gql`
   query GetCommunityLessons($level: Int, $newestSort: SortDirection, $topRatedSort: SortDirection, $language: String) {
     lessons(
@@ -177,7 +176,7 @@ export const GET_COMMUNITY_LESSONS = gql`
               wasReactedCount: $topRatedSort
              }
         ]
-        limit: 12
+        limit: 16
       }
     ) {
       id

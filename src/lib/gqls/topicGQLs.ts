@@ -10,10 +10,13 @@ export const GET_TOPIC_AND_SUBTOPICS = gql`
 `
 
 export const GET_TOPIC_TITLES = gql`
-  query GetTopicsTitle {
-  topics(options: {sort: { title: ASC }}) {
-    id
-    title
+  query GetTopicsTitle($phrase: String) {
+    topics(
+      where: { title_CONTAINS: $phrase }
+      sort: [{ title: ASC }]
+    ) {
+      id
+      title
   }
 }
 `

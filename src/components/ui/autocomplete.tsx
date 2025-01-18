@@ -3,8 +3,9 @@ import { useState, useCallback, type KeyboardEvent, RefObject } from "react"
 
 import { Check, LoaderPinwheel } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { CommandGroup, CommandInput, CommandItem, CommandList } from "./command"
+import { CommandGroup, CommandItem, CommandList } from "./command"
 import { Skeleton } from "./skeleton"
+import { Input } from "./input"
 
 export type AutocompleteOption = Record<"value" | "label", string> & Record<string, string>
 
@@ -16,6 +17,7 @@ type AutoCompleteProps = {
     value?: AutocompleteOption
     onValueChange?: (value: AutocompleteOption | null) => void
     onAddOption?: (value: string) => void
+    onSearchChange?: (text: string) => void
     isLoading?: boolean
     disabled?: boolean
     placeholder?: string
@@ -25,11 +27,12 @@ export const AutoComplete = ({
     inputRef,
     className,
     options,
-    placeholder,
+    placeholder = "Search...",
     emptyMessage,
     value,
     onValueChange,
     onAddOption,
+    onSearchChange,
     disabled,
     isLoading = false,
 }: AutoCompleteProps) => {
@@ -102,18 +105,20 @@ export const AutoComplete = ({
         [inputRef, onValueChange, selected],
     )
 
-    const handleInputChange = (search: string) => {
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (isLoading) return
-        setInputValue(search)
+        const text = event.target.value
+        setInputValue(text)
         setOpen(true)
+        onSearchChange?.(text)
     }
 
     return (
         <CommandPrimitive onKeyDown={handleKeyDown} className="w-full">
-            <CommandInput
+            <Input
                 ref={inputRef}
                 value={inputValue}
-                onValueChange={handleInputChange}
+                onChange={handleInputChange}
                 onBlur={handleBlur}
                 onFocus={() => setOpen(true)}
                 placeholder={placeholder}

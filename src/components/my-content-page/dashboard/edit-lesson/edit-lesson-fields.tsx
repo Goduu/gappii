@@ -8,8 +8,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { LanguageSelector } from '@/components/learn-input/language-selector';
 import { Switch } from '@/components/ui/switch';
 import { SupportedLanguage } from '@/app/types';
-import { FormField, FormItem, FormControl, FormLabel } from '@/components/ui/form';
-import { TopicSelection } from '@/components/learn-input/topic-selection';
+import { FormField, FormItem, FormControl, FormLabel, FormMessage } from '@/components/ui/form';
+import { TopicAutoComplete } from '@/components/learn-input/topic-autocomplete';
+import { AutocompleteOption } from '@/components/ui/autocomplete';
 
 type EditLessonFieldsProps = {
   form: UseFormReturn<LessonFormValues>
@@ -28,8 +29,40 @@ export const EditLessonFields: FC<EditLessonFieldsProps> = ({ form }) => {
       <CardContent className="space-y-6">
         <div className="space-y-4">
           <div>
-            {/* @ts-expect-error @FIXIT TODO */}
-            <TopicSelection form={form} />
+            <div className='flex gap-2 w-full'>
+              <div className='flex-col flex gap-1 w-1/2'>
+                <p className='text-sm'>Topic:</p>
+                <FormField
+                  control={form.control}
+                  name="topic"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <TopicAutoComplete
+                          onSelectTopic={(topic: AutocompleteOption | null) => field.onChange({ id: topic?.value || "", title: topic?.label || "" })}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className='flex-col flex gap-1 w-1/2'>
+                <p className='text-sm'>Subtopic:</p>
+                <FormField
+                  control={form.control}
+                  name="subtopic"
+                  render={({ field }) => (
+                    <FormItem>
+                      <TopicAutoComplete
+                        onSelectTopic={(subtopic: AutocompleteOption | null) => field.onChange({ id: subtopic?.value || "", title: subtopic?.label || "" })}
+                      />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
           </div>
 
           <div className='flex flex-col md:flex-row justify-between gap-2 md:gap-4'>

@@ -11,6 +11,7 @@ import { Lesson, User, UserHasLessonsConnectionWhere } from '@/ogm-resolver/ogm-
 import { GET_USER_LESSONS } from '@/lib/gqls/userGQLs'
 import { useInfiniteScroll } from '../useInfinityScroll'
 import { LessonsSkeleton } from '../lessons-skeleton'
+import { useDebouncedCallback } from 'use-debounce'
 
 type MyLessonsProps = {
     searchParams?: {
@@ -43,7 +44,7 @@ export const MyLessons = ({ searchParams }: MyLessonsProps) => {
                     } : {}
                 }
             } satisfies UserHasLessonsConnectionWhere,
-            first: 16
+            first: 12
         },
     });
 
@@ -54,7 +55,7 @@ export const MyLessons = ({ searchParams }: MyLessonsProps) => {
         (edge: { node: Lesson }) => edge.node
     ) || [];
 
-    const handleLoadMore = async () => {
+    const handleLoadMore = useDebouncedCallback(async () => {
         if (!hasNextPage || loading || isFetchingMore) return;
 
         setIsFetchingMore(true);
@@ -65,21 +66,23 @@ export const MyLessons = ({ searchParams }: MyLessonsProps) => {
                 },
                 updateQuery: (prev, { fetchMoreResult }) => {
                     if (!fetchMoreResult) return prev;
+                    const prevUserData = prev?.users[0];
+                    const newUserData = fetchMoreResult.users[0];
 
-                    const prevIds = prev?.users[0].hasLessonsConnection.edges.map(e => e.node.id);
+                    const prevIds = prevUserData.hasLessonsConnection.edges.map(e => e.node.id);
 
                     const newLessons = prev
-                        ? fetchMoreResult?.users[0]?.hasLessonsConnection?.edges.filter(e => !prevIds.includes(e.node.id))
-                        : fetchMoreResult?.users[0]?.hasLessonsConnection?.edges;
+                        ? newUserData?.hasLessonsConnection?.edges.filter(e => !prevIds.includes(e.node.id))
+                        : newUserData?.hasLessonsConnection?.edges;
 
                     return {
                         users: [
                             {
-                                ...prev.users[0],
+                                ...prevUserData,
                                 hasLessonsConnection: {
-                                    ...fetchMoreResult.users[0].hasLessonsConnection,
+                                    ...newUserData.hasLessonsConnection,
                                     edges: [
-                                        ...prev.users[0].hasLessonsConnection.edges,
+                                        ...prevUserData.hasLessonsConnection.edges,
                                         ...newLessons
                                     ],
                                 },
@@ -91,7 +94,7 @@ export const MyLessons = ({ searchParams }: MyLessonsProps) => {
         } finally {
             setIsFetchingMore(false);
         }
-    };
+    }, 200)
 
     const { setElement } = useInfiniteScroll({
         loading: loading || isFetchingMore,

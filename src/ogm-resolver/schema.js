@@ -1,7 +1,7 @@
 export const typeDefs = `#graphql
 type Topic @node {
   id: ID @id
-  title: String! @unique
+  title: String! @unique(constraintName: "TopicTitleUnique")
 }
 
 
@@ -23,7 +23,7 @@ type Lesson @fulltext(indexes: [{ indexName: "LessonTitle", fields: ["title"] }]
 
 type Keyword @node {
   id: ID @id
-  name: String! @unique
+  name: String! @unique(constraintName: "KeywordTitleUnique")
 }
 
 type Activity @node {
@@ -39,7 +39,7 @@ type Activity @node {
 type User @node {
   id: ID! @id
   clerkId: String!
-  email: String! @unique
+  email: String! @unique(constraintName: "UserEmailUnique")
   hasLessons: [Lesson!]! @relationship(type: "HAS_LESSON",properties: "HasLesson", direction: OUT)
   reactedToLessons: [Lesson!]! @relationship(type: "REACTED", properties: "Reacted", direction: OUT)
   reportedActivities: [Activity!]! @relationship(type: "REPORTED", direction: OUT)
@@ -129,7 +129,8 @@ type DailyActivity {
 
 
 // constraints:
-// CREATE CONSTRAINT KeywordName FOR (k:Keyword) REQUIRE k.name IS UNIQUE
-// CREATE CONSTRAINT TopicTitle FOR (t:Topic) REQUIRE t.title IS UNIQUE
-// CREATE CONSTRAINT UserEmail FOR (u:User) REQUIRE u.email IS UNIQUE
-// CREATE FULLTEXT INDEX LessonTitle FOR (l:Lesson) ON EACH [l.title]
+// CREATE CONSTRAINT KeywordNameUnique FOR (k:Keyword) REQUIRE k.name IS UNIQUE;
+// CREATE CONSTRAINT TopicTitleUnique FOR (t:Topic) REQUIRE t.title IS UNIQUE;
+// CREATE CONSTRAINT UserEmailUnique FOR (u:User) REQUIRE u.email IS UNIQUE;
+// CREATE FULLTEXT INDEX LessonTitle FOR (l:Lesson) ON EACH [l.title];
+// CREATE FULLTEXT INDEX TopicTitle FOR (t:Topic) ON EACH [t.title];

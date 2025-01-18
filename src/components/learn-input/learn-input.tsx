@@ -1,11 +1,10 @@
 "use client"
 import { FC } from 'react'
 import { Button } from '../ui/button'
-import { TopicSelection } from './topic-selection'
 import { AdvancedParams } from './advanced-params'
-import { Topic } from '@/ogm-resolver/ogm-types'
+import { Lesson } from '@/ogm-resolver/ogm-types'
 import { useCreateLessonForm } from './useCreateLessonForm'
-import { Form } from '../ui/form'
+import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form'
 import { useTransitionContext } from '../loading-store'
 import { sendErrorToast } from '@/lib/utils'
 import { transformInputIntoData } from '@/lib/processTextInput'
@@ -15,21 +14,21 @@ import { routes } from '@/lib/routes'
 import { ApiActivityResponse } from '@/lib/validateCreateLessonApiResponse'
 import { BrainCircuit, FilePenLine } from 'lucide-react'
 import { SupportedLanguage } from '@/app/types'
+import { TopicAutoComplete } from './topic-autocomplete'
+import { AutocompleteOption } from '../ui/autocomplete'
 
 type LearnInputProps = {
-    initialTopic?: Topic
-    initialSubtopic?: Topic
+    initialLesson?: Lesson
     hideAdvancedParams?: boolean
     hideActions?: boolean
 }
 
 export const LearnInput: FC<LearnInputProps> = ({
-    initialTopic,
-    initialSubtopic,
+    initialLesson,
     hideAdvancedParams = false,
     hideActions = false,
 }) => {
-    const { form } = useCreateLessonForm({ hasTopic: initialTopic, hasSubtopic: initialSubtopic })
+    const { form } = useCreateLessonForm(initialLesson)
     const { startTransition } = useTransitionContext()
     const createLesson = useCreateLesson()
     const topic = form.watch("topic")
@@ -79,8 +78,40 @@ export const LearnInput: FC<LearnInputProps> = ({
                 onSubmit={(e) => e.preventDefault()}
                 className='flex flex-col gap-4 items-center'
             >
-                {/* @ts-expect-error @FIXIT TODO */}
-                <TopicSelection form={form} />
+                <div className='flex gap-2 w-full'>
+                    <div className='flex-col flex gap-1 w-1/2'>
+                        <p className='text-sm'>Topic:</p>
+                        <FormField
+                            control={form.control}
+                            name="topic"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <TopicAutoComplete
+                                            onSelectTopic={(topic: AutocompleteOption | null) => field.onChange({ id: topic?.value || "", title: topic?.label || "" })}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+                    <div className='flex-col flex gap-1 w-1/2'>
+                        <p className='text-sm'>Subtopic:</p>
+                        <FormField
+                            control={form.control}
+                            name="subtopic"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <TopicAutoComplete
+                                        onSelectTopic={(subtopic: AutocompleteOption | null) => field.onChange({ id: subtopic?.value || "", title: subtopic?.label || "" })}
+                                    />
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+                </div>
 
                 {!hideAdvancedParams && (
                     <AdvancedParams form={form} />

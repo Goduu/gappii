@@ -39,8 +39,8 @@ export const TopicAutoComplete: FC<TopicAutocompleteProps> = ({ selectedTopic, o
     return (
         <AutoComplete
             options={topicOptions}
-            emptyMessage="No results."
-            placeholder="Find something"
+            emptyMessage="No topics found"
+            placeholder="Find a topic"
             isLoading={loading}
             onValueChange={onSelectTopic}
             onAddItem={handleCreateNewTopic}

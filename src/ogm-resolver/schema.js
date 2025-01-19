@@ -55,22 +55,30 @@ type User @node {
   streak: Int! @cypher(
     statement: """
     MATCH (this)-[:COMPLETED_LESSON]->(record:LessonCompletionRecord)-[attempt:ATTEMPTED]->(:Activity)
-    WITH date(attempt.attemptedAt) as date
-    WITH DISTINCT date ORDER BY date DESC
-    WITH collect(date) as dates
-    WITH dates, 
-         reduce(streak = 0, i in range(0, size(dates)-2) |
-           CASE 
-             WHEN duration.between(dates[i+1], dates[i]).days = 1 
-             THEN streak + 1 
-             ELSE streak 
-           END
-         ) as streakCount
-    RETURN CASE
-      WHEN size(dates) = 0 THEN 0
-      WHEN size(dates) = 1 AND date(dates[0]) = date() THEN 1
-      ELSE 1 + streakCount
-    END as streak
+    WITH DISTINCT date(attempt.attemptedAt) AS activityDate
+    ORDER BY activityDate DESC
+    WITH collect(activityDate) AS dates, date() AS today
+
+    // Handle case: No activity
+    WITH dates, today
+    WHERE size(dates) > 0
+    WITH dates, today, duration.between(dates[0], today).days AS lastActivityGap
+
+    // If last activity was more than 2 days ago, streak is 0
+    WITH CASE 
+        WHEN lastActivityGap > 2 THEN {streak: 0, stopped: true}
+        ELSE
+            // Calculate streak
+            reduce(result = {streak: 1, stopped: false}, i IN range(0, size(dates) - 2) |
+                CASE
+                    // Stop streak if gap between consecutive dates is more than 1 day
+                    WHEN result.stopped THEN result
+                    WHEN duration.between(dates[i+1], dates[i]).days = 1 THEN {streak: result.streak + 1, stopped: false}
+                    ELSE {streak: result.streak, stopped: true}
+                END
+            )
+    END AS finalResult
+    RETURN finalResult.streak AS streak
     """,
     columnName: "streak"
   )

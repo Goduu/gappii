@@ -55,8 +55,13 @@ const generateEmptyData = (days: number = 168): ActivityData[] => {
     return data;
 };
 
-const RoundedSquare: ScatterProps['shape'] = (props: ScatterProps) => {
-    const { x = 0, y = 0, width = 0, height = 0, fill = '#000', radius = 2 } = props;
+interface RoundedSquareProps extends ScatterProps {
+    date?: string;
+}
+
+const RoundedSquare: ScatterProps['shape'] = (props: RoundedSquareProps) => {
+    const { x = 0, y = 0, width = 0, height = 0, fill = '#000', radius = 2, date } = props;
+    const opacity = date && new Date(date) > new Date() ? 0 : 1;
 
     return (
         <rect
@@ -67,6 +72,7 @@ const RoundedSquare: ScatterProps['shape'] = (props: ScatterProps) => {
             fill={fill}
             rx={radius}
             ry={radius}
+            opacity={opacity}
         />
     );
 };
@@ -106,13 +112,13 @@ export const ActivityHeatmap = () => {
     } satisfies ChartConfig
 
     return (
-        <ChartContainer config={chartConfig} className="h-36 w-full">
+        <ChartContainer config={chartConfig} className="h-32 w-full px-1 md:px-5">
             <ScatterChart
-                margin={{ top: 5, right: 30, bottom: 0, left: 0 }}
+                margin={{ top: 5, right: 5, bottom: 5, left: 5 }}
                 width={420}
                 height={120}
             >
-                <CartesianGrid strokeDasharray="30 30" vertical={false} />
+                <CartesianGrid strokeDasharray="30 30" vertical={false} horizontal={false}/>
                 <XAxis
                     type="number"
                     dataKey="week"
@@ -120,6 +126,7 @@ export const ActivityHeatmap = () => {
                     axisLine={false}
                     tickLine={false}
                     tick={false}
+                    hide={true}
                 />
                 <YAxis
                     type="number"
@@ -129,8 +136,11 @@ export const ActivityHeatmap = () => {
                     axisLine={false}
                     tickLine={false}
                     tick={false}
+                    hide={true}
+                    cursor="none"
                 />
                 <Tooltip
+                cursor={false}
                     content={({ payload }) => {
                         if (!payload?.[0]?.payload) return null;
                         const data = payload[0].payload as ActivityData;
@@ -148,6 +158,7 @@ export const ActivityHeatmap = () => {
                     data={data}
                     shape={<RoundedSquare />}
                     fill="#8884d8"
+
                 >
                     {data.map((entry, index) => (
                         <Cell

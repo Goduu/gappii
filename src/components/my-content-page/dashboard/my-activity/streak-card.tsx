@@ -4,12 +4,14 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Flame, Sparkles } from 'lucide-react'
 import React from 'react'
 import { motion } from 'framer-motion'
+import clsx from 'clsx'
 
 type StreakCardProps = {
   streak: number
+  completedToday: boolean
 }
 
-export const StreakCard = ({ streak }: StreakCardProps) => {
+export const StreakCard = ({ streak, completedToday }: StreakCardProps) => {
   return (
     <Card className="overflow-hidden bg-gradient-to-br from-background to-muted/20 relative">
       <motion.div
@@ -60,15 +62,21 @@ export const StreakCard = ({ streak }: StreakCardProps) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <span className="text-7xl font-bold text-orange-500">{streak}</span>
-              <motion.div
-                className="absolute -top-1 -right-1"
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.4 }}
-              >
-                <Sparkles className="h-4 w-4 text-yellow-500" />
-              </motion.div>
+              <span className={clsx(
+                "text-7xl font-bold ",
+                { "text-orange-500": completedToday },
+                { "text-neutral-500": !completedToday }
+              )}>{streak}</span>
+              {completedToday && (
+                <motion.div
+                  className="absolute -top-1 -right-1"
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.4 }}
+                >
+                  <Sparkles className="h-4 w-4 text-yellow-500" />
+                </motion.div>
+              )}
             </motion.div>
             <span className="text-sm text-muted-foreground">days</span>
           </div>

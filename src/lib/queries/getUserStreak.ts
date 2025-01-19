@@ -21,6 +21,7 @@ export const getUserStatistics = async (
 
     return {
         streak: data.users[0].streak,
+        dailyActivityCount: data.users[0].dailyActivityCount,
         lessonsCreatedCount: data.users[0].hasLessonsConnection.edges.filter((edge: { properties: { type: string; }; }) => edge.properties.type === "CREATED").length,
         createdLessonsInteractionsCount: data.users[0].createdLessonsInteractionsCount
     };

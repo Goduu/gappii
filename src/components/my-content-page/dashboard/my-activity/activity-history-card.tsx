@@ -48,7 +48,7 @@ export const ActivityHistoryCard = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 }}
                 >
-                    <div className='pt-4 pl-2'>
+                    <div className='p-5 pb-7'>
                         <ActivityHeatmap />
                     </div>
                 </motion.div>

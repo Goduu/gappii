@@ -78,7 +78,7 @@ export const LessonsCreatedCard: FC<LessonsCreatedCardProps> = ({ lessonsCreated
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
           >
-            Your contributions are making a difference!
+            You are making a difference!
           </motion.p>
         </div>
       </CardContent>

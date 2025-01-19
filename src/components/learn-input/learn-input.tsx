@@ -106,7 +106,7 @@ export const LearnInput: FC<LearnInputProps> = ({
                                 <FormItem>
                                     <TopicAutoComplete
                                         selectedTopic={field.value}
-                                        onSelectTopic={(subtopic: AutocompleteOption | null) => field.onChange({ id: subtopic?.value || "", title: subtopic?.label || "" })}
+                                        onSelectTopic={(subtopic: Option | null) => field.onChange({ id: subtopic?.value || "", title: subtopic?.label || "" })}
                                     />
                                     <FormMessage />
                                 </FormItem>

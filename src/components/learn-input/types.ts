@@ -1,14 +1,14 @@
-import { AutocompleteOption } from '../ui/autocomplete'
 import { SupportedLanguage } from '@/app/types'
+import { Option } from '../ui/autocomplete'
 
 export interface TopicSelectorProps {
-    topic: AutocompleteOption | null
+    topic: Option | null
     onRemove: () => void
     onClick: () => void
 }
 
 export interface SubTopicSelectorProps {
-    subTopic: AutocompleteOption | null
+    subTopic: Option | null
     onRemove: () => void
     onClick: () => void
 }

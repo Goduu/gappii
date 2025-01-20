@@ -8,7 +8,7 @@ export const LevelSelector = ({ level, onLevelChange }: LevelSelectorProps) => {
             onValueChange={(value) => onLevelChange(value || '')}
             value={level || ''}
         >
-            <SelectTrigger className="w-96 sm:w-32">
+            <SelectTrigger className="w-full">
                 <SelectValue placeholder="Level" />
             </SelectTrigger>
             <SelectContent>

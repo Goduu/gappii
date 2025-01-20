@@ -13,7 +13,8 @@ const CreateLessonSchema = z.object({
         title: z.string().min(1, "Subtopic is required")
     }),
     language: z.string(),
-    level: z.number().min(1).max(3)
+    level: z.number().min(1).max(3),
+    activitiesNumber: z.number().min(1).max(20)
 })
 
 // Infer the type from the Zod schema
@@ -26,9 +27,9 @@ export const useCreateLessonForm = (lesson?: Partial<Lesson>) => {
             topic: { id: lesson?.hasTopic?.id || '', title: lesson?.hasTopic?.title || '' },
             subtopic: { id: lesson?.hasSubtopic?.id || '', title: lesson?.hasSubtopic?.title || '' },
             language: lesson?.language || 'en-us',
-            level: lesson?.level || 1
+            level: lesson?.level || 1,
+            activitiesNumber: lesson?.hasActivities?.length || 7
         },
-
 
     })
 

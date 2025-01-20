@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { CreateActivitiesMutationResponse, MutationCreateActivitiesArgs, MutationCreateLessonsArgs, MutationCreateUsersArgs, MutationUpdateUsersArgs } from "@/ogm-resolver/ogm-types";
 import { ApiActivityResponse } from "../validateCreateLessonApiResponse";
 import { redirect } from "next/navigation";
-import { CHECK_USER, CREATE_USER, UPDATE_USER } from "../gqls/userGQLs";
+import { GET_USER, CREATE_USER, UPDATE_USER } from "../gqls/userGQLs";
 import { User } from "@clerk/nextjs/server";
 import { useUser } from "@clerk/nextjs";
 import { CREATE_ACTIVITIES } from "../gqls/activityGQLs";
@@ -11,7 +11,7 @@ import { routes } from "../routes";
 
 export const useSaveTranslatedLesson = () => {
     const clerkUserData = useUser()
-    const { loading, data: userData } = useQuery<{ users: Array<User> }>(CHECK_USER, {
+    const { loading, data: userData } = useQuery<{ users: Array<User> }>(GET_USER, {
         variables: { where: { clerkId: clerkUserData.user?.id } }
     })
     const [createUserMutation] = useMutation(CREATE_USER)

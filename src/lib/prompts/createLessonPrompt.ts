@@ -23,7 +23,7 @@ The lesson should use an **engaging learning path** to enhance retention:
 
 Activities:
 
-Each lesson must include **7 activities** that encourage engagement and critical thinking. Follow these requirements:
+Each lesson must include **activitiesNumber*** activities that encourage engagement and critical thinking. Follow these requirements:
 - Each activity should consist of:
   1. A **description** (max 170 characters) with one gap "{gap}" to fill.
   2. Two **options** for the gap (max 25 characters each), with the correct answer provided.

@@ -6,6 +6,7 @@ import { UseFormReturn } from 'react-hook-form'
 import { CreateLessonFormValues } from './useCreateLessonForm'
 import { FormField, FormMessage } from '../ui/form'
 import { FormItem } from '../ui/form'
+import { QuestionNumberSlider } from './question-number-slider'
 
 interface AdvancedParamsProps {
     form: UseFormReturn<CreateLessonFormValues>
@@ -16,7 +17,7 @@ export const AdvancedParams: FC<AdvancedParamsProps> = ({
 }) => {
 
     return (
-        <div className='flex gap-2 w-full'>
+        <div className='flex flex-col md:flex-row gap-2 w-full'>
             <FormField
                 control={form.control}
                 name="level"
@@ -39,6 +40,19 @@ export const AdvancedParams: FC<AdvancedParamsProps> = ({
                         <LanguageSelector
                             language={field.value as SupportedLanguage}
                             onLanguageChange={field.onChange}
+                        />
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
+            <FormField
+                control={form.control}
+                name="activitiesNumber"
+                render={({ field }) => (
+                    <FormItem>
+                        <QuestionNumberSlider
+                            activitiesNumber={field.value}
+                            onActivitiesNumberChange={field.onChange}
                         />
                         <FormMessage />
                     </FormItem>

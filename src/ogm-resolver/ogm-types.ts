@@ -880,6 +880,7 @@ export type LessonCompletionRecordUserByUserNodeAggregateSelection = {
   id: IdAggregateSelection;
   clerkId: StringAggregateSelection;
   email: StringAggregateSelection;
+  imageUrl: StringAggregateSelection;
 };
 
 export type LessonEdge = {
@@ -1001,6 +1002,7 @@ export type LessonUserWasAttemptedNodeAggregateSelection = {
   id: IdAggregateSelection;
   clerkId: StringAggregateSelection;
   email: StringAggregateSelection;
+  imageUrl: StringAggregateSelection;
 };
 
 export type LessonUserWasReactedAggregationSelection = {
@@ -1021,6 +1023,7 @@ export type LessonUserWasReactedNodeAggregateSelection = {
   id: IdAggregateSelection;
   clerkId: StringAggregateSelection;
   email: StringAggregateSelection;
+  imageUrl: StringAggregateSelection;
 };
 
 export type LessonWasAttemptedConnection = {
@@ -1160,6 +1163,7 @@ export type User = {
   id: Scalars["ID"]["output"];
   clerkId: Scalars["String"]["output"];
   email: Scalars["String"]["output"];
+  imageUrl?: Maybe<Scalars["String"]["output"]>;
   dailyActivityCount: Scalars["Int"]["output"];
   streak: Scalars["Int"]["output"];
   createdLessonsInteractionsCount: Scalars["Int"]["output"];
@@ -1276,6 +1280,7 @@ export type UserAggregateSelection = {
   id: IdAggregateSelection;
   clerkId: StringAggregateSelection;
   email: StringAggregateSelection;
+  imageUrl: StringAggregateSelection;
 };
 
 export type UserCompletedLessonsConnection = {
@@ -2413,6 +2418,61 @@ export type LessonCompletionRecordByUserNodeAggregationWhereInput = {
   email_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars["Float"]["input"]>;
   email_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   email_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  imageUrl_EQUAL?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_LONGEST_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_SHORTEST_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  imageUrl_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  imageUrl_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_LONGEST_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_SHORTEST_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_AVERAGE_LENGTH_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  imageUrl_LONGEST_LENGTH_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_SHORTEST_LENGTH_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  imageUrl_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_LONGEST_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_SHORTEST_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  imageUrl_LONGEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  imageUrl_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_LONGEST_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_SHORTEST_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_AVERAGE_LENGTH_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  imageUrl_LONGEST_LENGTH_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_SHORTEST_LENGTH_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  imageUrl_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_LONGEST_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_SHORTEST_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  imageUrl_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type LessonCompletionRecordByUserUpdateConnectionInput = {
@@ -3830,6 +3890,61 @@ export type LessonWasAttemptedNodeAggregationWhereInput = {
   email_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars["Float"]["input"]>;
   email_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   email_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  imageUrl_EQUAL?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_LONGEST_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_SHORTEST_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  imageUrl_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  imageUrl_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_LONGEST_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_SHORTEST_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_AVERAGE_LENGTH_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  imageUrl_LONGEST_LENGTH_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_SHORTEST_LENGTH_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  imageUrl_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_LONGEST_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_SHORTEST_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  imageUrl_LONGEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  imageUrl_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_LONGEST_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_SHORTEST_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_AVERAGE_LENGTH_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  imageUrl_LONGEST_LENGTH_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_SHORTEST_LENGTH_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  imageUrl_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_LONGEST_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_SHORTEST_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  imageUrl_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type LessonWasAttemptedUpdateConnectionInput = {
@@ -4035,6 +4150,61 @@ export type LessonWasReactedNodeAggregationWhereInput = {
   email_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars["Float"]["input"]>;
   email_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   email_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  imageUrl_EQUAL?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_LONGEST_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_SHORTEST_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  imageUrl_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  imageUrl_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_LONGEST_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_SHORTEST_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_AVERAGE_LENGTH_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  imageUrl_LONGEST_LENGTH_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_SHORTEST_LENGTH_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  imageUrl_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_LONGEST_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_SHORTEST_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  imageUrl_LONGEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  imageUrl_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_LONGEST_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_SHORTEST_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_AVERAGE_LENGTH_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  imageUrl_LONGEST_LENGTH_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_SHORTEST_LENGTH_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  imageUrl_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_LONGEST_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  imageUrl_SHORTEST_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  imageUrl_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  imageUrl_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type LessonWasReactedUpdateConnectionInput = {
@@ -4620,6 +4790,7 @@ export type UserConnectWhere = {
 export type UserCreateInput = {
   clerkId: Scalars["String"]["input"];
   email: Scalars["String"]["input"];
+  imageUrl?: InputMaybe<Scalars["String"]["input"]>;
   hasLessons?: InputMaybe<UserHasLessonsFieldInput>;
   reactedToLessons?: InputMaybe<UserReactedToLessonsFieldInput>;
   reportedActivities?: InputMaybe<UserReportedActivitiesFieldInput>;
@@ -4891,6 +5062,7 @@ export type UserHasLessonsUpdateFieldInput = {
 export type UserOnCreateInput = {
   clerkId: Scalars["String"]["input"];
   email: Scalars["String"]["input"];
+  imageUrl?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type UserOptions = {
@@ -5448,6 +5620,7 @@ export type UserSort = {
   id?: InputMaybe<SortDirection>;
   clerkId?: InputMaybe<SortDirection>;
   email?: InputMaybe<SortDirection>;
+  imageUrl?: InputMaybe<SortDirection>;
   dailyActivityCount?: InputMaybe<SortDirection>;
   streak?: InputMaybe<SortDirection>;
   createdLessonsInteractionsCount?: InputMaybe<SortDirection>;
@@ -5460,6 +5633,7 @@ export type UserUniqueWhere = {
 export type UserUpdateInput = {
   clerkId?: InputMaybe<Scalars["String"]["input"]>;
   email?: InputMaybe<Scalars["String"]["input"]>;
+  imageUrl?: InputMaybe<Scalars["String"]["input"]>;
   hasLessons?: InputMaybe<Array<UserHasLessonsUpdateFieldInput>>;
   reactedToLessons?: InputMaybe<Array<UserReactedToLessonsUpdateFieldInput>>;
   reportedActivities?: InputMaybe<
@@ -5514,6 +5688,21 @@ export type UserWhere = {
   email_NOT_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
   /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
   email_NOT_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  imageUrl?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  imageUrl_NOT?: InputMaybe<Scalars["String"]["input"]>;
+  imageUrl_IN?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  imageUrl_NOT_IN?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  imageUrl_CONTAINS?: InputMaybe<Scalars["String"]["input"]>;
+  imageUrl_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  imageUrl_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  imageUrl_NOT_CONTAINS?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  imageUrl_NOT_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  imageUrl_NOT_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
   dailyActivityCount?: InputMaybe<Scalars["Int"]["input"]>;
   /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
   dailyActivityCount_NOT?: InputMaybe<Scalars["Int"]["input"]>;
@@ -5863,6 +6052,7 @@ export interface UserAggregateSelectionInput {
   id?: boolean;
   clerkId?: boolean;
   email?: boolean;
+  imageUrl?: boolean;
 }
 
 export declare class UserModel {

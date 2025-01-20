@@ -19,7 +19,7 @@ export const Dashboard: FC<DashboardProps> = async ({ searchParams }) => {
     const user = await currentUser();
     if (!user) return null;
 
-    const { streak, dailyActivityCount, lessonsCreatedCount, createdLessonsInteractionsCount } = await getUserStatistics(user?.id)
+    const { streak, dailyActivityCount, lessonsCreatedCount, createdLessonsInteractionsCount } = await getUserStatistics(user.id)
 
     return (
         <div className="w-full space-y-4 flex flex-col gap-4">

@@ -14,7 +14,7 @@ export const LanguageSelector: FC<LanguageSelectorProps> = ({ language, onLangua
             onValueChange={(value) => onLanguageChange(value as SupportedLanguage)}
             value={language || ''}
         >
-            <SelectTrigger className="w-full sm:w-32">
+            <SelectTrigger className="w-full">
                 <SelectValue placeholder="Language" />
             </SelectTrigger>
             <SelectContent>
@@ -22,7 +22,7 @@ export const LanguageSelector: FC<LanguageSelectorProps> = ({ language, onLangua
                     <SelectLabel>Language</SelectLabel>
                     {supportedLanguages.map((lang) => (
                         <SelectItem key={lang} value={lang}>
-                            <div className='flex gap-2 items-center'>
+                            <div className='flex gap-2 items-center px-1'>
                                 <Image src={`/flags/${getFlag(lang)}.svg`} alt={lang} width={20} height={15} />
                                 {lang}
                             </div>

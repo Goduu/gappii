@@ -40,6 +40,7 @@ type User @node {
   id: ID! @id
   clerkId: String!
   email: String! @unique(constraintName: "UserEmailUnique")
+  imageUrl: String
   hasLessons: [Lesson!]! @relationship(type: "HAS_LESSON",properties: "HasLesson", direction: OUT)
   reactedToLessons: [Lesson!]! @relationship(type: "REACTED", properties: "Reacted", direction: OUT)
   reportedActivities: [Activity!]! @relationship(type: "REPORTED", direction: OUT)

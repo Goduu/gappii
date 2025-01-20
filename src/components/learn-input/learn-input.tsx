@@ -43,6 +43,7 @@ export const LearnInput: FC<LearnInputProps> = ({
                         formData.subtopic.title,
                         formData.level,
                         formData.language as SupportedLanguage,
+                        formData.activitiesNumber,
                         sendErrorToast)
 
                     if (apiData) {

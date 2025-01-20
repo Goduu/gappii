@@ -6,9 +6,9 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { LessonSearchBar } from '../lesson-card/lesson-searchbar'
 import { SupportedLanguage } from '@/app/types'
 import { LevelSelector } from '../learn-input/level-selector'
-import { LanguageSelector } from '../learn-input/language-selector'
 import { Button } from '../ui/button'
 import { useMediaQuery } from '@/lib/use-media-query'
+import { LanguageSelector } from '../learn-input/language-selector'
 
 export const CommunityFilters = () => {
   const searchParams = useSearchParams();

@@ -8,9 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form'
 import { useTransitionContext } from '../loading-store'
 import { sendErrorToast } from '@/lib/utils'
 import { transformInputIntoData } from '@/lib/processTextInput'
-import { redirect } from 'next/navigation'
 import { useCreateLesson } from '@/lib/mutations/useCreateLesson'
-import { routes } from '@/lib/routes'
 import { ApiActivityResponse } from '@/lib/validateCreateLessonApiResponse'
 import { BrainCircuit, FilePenLine } from 'lucide-react'
 import { SupportedLanguage } from '@/app/types'
@@ -21,12 +19,16 @@ type LearnInputProps = {
     initialLesson?: Lesson
     hideAdvancedParams?: boolean
     hideActions?: boolean
+    hideCreateYourself?: boolean
+    onCreate?: (lessonId: string) => void
 }
 
 export const LearnInput: FC<LearnInputProps> = ({
     initialLesson,
     hideAdvancedParams = false,
     hideActions = false,
+    hideCreateYourself = false,
+    onCreate
 }) => {
     const { form } = useCreateLessonForm(initialLesson)
     const { startTransition } = useTransitionContext()
@@ -49,7 +51,7 @@ export const LearnInput: FC<LearnInputProps> = ({
                     if (apiData) {
                         const lessonData = await createLesson(apiData, formData.topic.id, formData.subtopic.id)
                         if (lessonData?.id) {
-                            redirect(routes.lesson(lessonData.id))
+                            onCreate?.(lessonData.id)
                         }
 
                     }
@@ -122,15 +124,18 @@ export const LearnInput: FC<LearnInputProps> = ({
 
                 {!hideActions && (
                     <div className='flex justify-center gap-2'>
-                        <Button
-                            variant="secondary"
-                            disabled={!topic.id || !subtopic.id}
-                            onClick={() => form.handleSubmit(() => onSubmit("self"))()}
-                            className='flex items-center gap-2'
-                        >
-                            <FilePenLine className='w-4 h-4' />
-                            Create yourself
-                        </Button>
+                        {!hideCreateYourself &&
+                            (
+                                <Button
+                                    variant="secondary"
+                                    disabled={!topic.id || !subtopic.id}
+                                    onClick={() => form.handleSubmit(() => onSubmit("self"))()}
+                                    className='flex items-center gap-2'
+                                >
+                                    <FilePenLine className='w-4 h-4' />
+                                    Create yourself
+                                </Button>
+                            )}
                         <Button
                             disabled={!topic.id || !subtopic.id}
                             onClick={() => form.handleSubmit(() => onSubmit("AI"))()}

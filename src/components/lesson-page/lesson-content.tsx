@@ -7,12 +7,12 @@ import { LessonActivity } from "./lesson-activity";
 
 type LessonContentProps = {
     lesson: Lesson;
-    reportedActivityIds: Activity[] | undefined;
+    reportedActivityIds?: Activity[] | undefined;
 };
 
 export const LessonContent: React.FC<LessonContentProps> = ({
     lesson,
-    reportedActivityIds,
+    reportedActivityIds = [],
 }) => {
     const { currentActivityIndex, progress, handleBack, handleNext } = useLessonContext();
     const topic = lesson.hasTopic;

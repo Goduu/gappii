@@ -1,5 +1,7 @@
 import React from 'react';
 import { LearnInput } from '../learn-input/learn-input';
+import { redirect } from 'next/navigation';
+import { routes } from '@/lib/routes';
 
 export const CreateTopic = () => {
 
@@ -8,7 +10,7 @@ export const CreateTopic = () => {
             <div className='text-xl sm:text-3xl'>
                 Create your custom lesson
             </div>
-            <LearnInput hideAdvancedParams={true}/>
+            <LearnInput hideAdvancedParams={true} onCreate={(lessonId) => redirect(routes.lesson(lessonId))} />
         </div>
     );
 };

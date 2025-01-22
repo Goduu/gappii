@@ -23,6 +23,8 @@ import {
 import { useMediaQuery } from "@/lib/use-media-query"
 import { Plus } from "lucide-react"
 import { LearnInput } from "@/components/learn-input/learn-input"
+import { routes } from "@/lib/routes"
+import { redirect } from "next/navigation"
 
 const texts = {
     create: "Create",
@@ -46,7 +48,7 @@ export const CreateLesson: FC = () => {
                         <DialogDescription>
                             {texts.description}
                         </DialogDescription>
-                        <LearnInput />
+                        <LearnInput onCreate={(lessonId) => redirect(routes.lesson(lessonId))} />
                     </DialogHeader>
                 </DialogContent>
             </Dialog>
@@ -68,7 +70,7 @@ export const CreateLesson: FC = () => {
                     </DrawerDescription>
                 </DrawerHeader>
                 <div className="p-2 px-4">
-                    <LearnInput />
+                    <LearnInput onCreate={(lessonId) => redirect(routes.lesson(lessonId))} />
                 </div>
                 <DrawerFooter className="pt-2">
                     <DrawerClose asChild>

@@ -11,16 +11,18 @@ function isActivity(activity: Activity | SummaryLesson): activity is Activity {
 }
 
 type LessonActivityProps = {
-    reportedActivityIds: Activity[] | undefined;
+    reportedActivityIds?: Activity[] | undefined;
+    isOnboarding?: boolean;
 };
 
 export const LessonActivity: React.FC<LessonActivityProps> = ({
-    reportedActivityIds,
+    reportedActivityIds = [],
+    isOnboarding = false,
 }) => {
     const { currentActivity, handleNext, transitionDirection } = useLessonContext();
 
     if (currentActivity && !isActivity(currentActivity)) {
-        return <LessonSummary activity={currentActivity} />;
+        return <LessonSummary activity={currentActivity} isOnboarding={isOnboarding} />;
     }
 
     return (

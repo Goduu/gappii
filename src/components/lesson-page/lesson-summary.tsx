@@ -11,12 +11,14 @@ import { useMutation } from "@apollo/client";
 import { SignInButton, useUser } from "@clerk/nextjs";
 import { MutationUpdateUsersArgs } from "@/ogm-resolver/ogm-types";
 import { useTransitionContext } from "../loading-store";
+import { completeOnboarding } from "@/app/onboarding/actions";
 
 interface LessonSummaryProps {
     activity: SummaryLesson;
+    isOnboarding?: boolean;
 }
 
-export const LessonSummary: React.FC<LessonSummaryProps> = ({ activity }) => {
+export const LessonSummary: React.FC<LessonSummaryProps> = ({ activity, isOnboarding = false }) => {
     const router = useRouter();
     const { user } = useUser();
     const { startTransition } = useTransitionContext()
@@ -56,7 +58,17 @@ export const LessonSummary: React.FC<LessonSummaryProps> = ({ activity }) => {
                     },
                 } satisfies MutationUpdateUsersArgs,
             });
-            router.push(routes.dashboard)
+
+            if (isOnboarding) {
+                const res = await completeOnboarding()
+                if (res?.message) {
+                    // Reloads the user's data from the Clerk API
+                    await user?.reload()
+                    router.push(routes.dashboard)
+                }
+            } else {
+                router.push(routes.dashboard);
+            }
         })
     };
 
@@ -137,21 +149,21 @@ export const LessonSummary: React.FC<LessonSummaryProps> = ({ activity }) => {
                 </CardContent>
 
                 <CardFooter>
-                    {user === null ?
+                    {user === null ? (
                         <SignInButton mode="modal">
                             <Button className="w-full" size="lg">
                                 Create your account
                             </Button>
                         </SignInButton>
-                        :
+                    ) : (
                         <Button
                             className="w-full"
                             size="lg"
                             onClick={handleUpdateUser}
                         >
-                            Return to Dashboard
+                            {isOnboarding ? 'Complete Onboarding' : 'Return to Dashboard'}
                         </Button>
-                    }
+                    )}
                 </CardFooter>
             </Card>
         </motion.div>

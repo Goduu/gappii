@@ -5,7 +5,7 @@ import { LessonContent } from "./lesson-content";
 
 type LessonProgressManagerProps = {
     lesson: Lesson;
-    reportedActivityIds: Activity[] | undefined;
+    reportedActivityIds?: Activity[] | undefined;
 };
 
 export const LessonProgressManager: React.FC<LessonProgressManagerProps> = (props) => {

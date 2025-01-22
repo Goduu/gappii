@@ -21,7 +21,7 @@ export const LessonCard: FC<LessonCardProps> = ({ lesson, variant }) => {
     const reaction = lesson.wasReactedConnection.edges[0]?.properties.type as LessonReaction
 
     return (
-        <Card className="w-[22rem] md:w-96 relative overflow-hidden">
+        <Card className="w-full md:w-96 relative overflow-hidden">
             <LanguageCorner language={lesson.language as SupportedLanguage} />
             <div className='absolute right-1 top-1'>
                 {lesson.id && (

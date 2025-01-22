@@ -112,9 +112,9 @@ export const ActivityHeatmap = () => {
     } satisfies ChartConfig
 
     return (
-        <ChartContainer config={chartConfig} className="h-32 w-full px-1 md:px-5">
+        <ChartContainer config={chartConfig} className="h-32 w-full px-0 md:px-5">
             <ScatterChart
-                margin={{ top: 5, right: 5, bottom: 5, left: 5 }}
+                margin={{ top: 5, right: 0, bottom: 5, left: 5 }}
                 width={420}
                 height={120}
             >

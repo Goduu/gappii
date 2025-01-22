@@ -23,6 +23,7 @@ type AutoCompleteProps = {
     disabled?: boolean
     placeholder?: string
     onAddItem?: (value: string) => void;
+    className?: string;
 }
 
 export const AutoComplete = ({
@@ -33,7 +34,8 @@ export const AutoComplete = ({
     onValueChange,
     disabled,
     isLoading = false,
-    onAddItem
+    onAddItem,
+    className
 }: AutoCompleteProps) => {
     const inputRef = useRef<HTMLInputElement>(null)
 
@@ -111,7 +113,7 @@ export const AutoComplete = ({
     }
 
     return (
-        <CommandPrimitive onKeyDown={handleKeyDown}>
+        <CommandPrimitive onKeyDown={handleKeyDown} className={className}>
             <div>
                 <CommandInput
                     ref={inputRef}

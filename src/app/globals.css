@@ -46,6 +46,9 @@ body {
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    --viewport-fit: cover;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
   .dark {
     --background: 222.2 84% 4.9%;
@@ -94,5 +97,9 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+  }
+  input, select, textarea {
+    font-size: 16px;
+    @apply touch-manipulation;
   }
 }

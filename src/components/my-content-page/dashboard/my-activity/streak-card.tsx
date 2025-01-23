@@ -5,8 +5,7 @@ import { Flame, Sparkles } from 'lucide-react'
 import React from 'react'
 import { motion } from 'framer-motion'
 import clsx from 'clsx'
-import { GappiiHands } from '@/components/gappii-hands'
-import { GappiiBody } from '@/components/gappii-body'
+import { GappiiBehindElement } from '@/components/ui/gappii-behind-element'
 
 type StreakCardProps = {
   streak: number
@@ -15,15 +14,7 @@ type StreakCardProps = {
 
 export const StreakCard = ({ streak, completedToday }: StreakCardProps) => {
   return (
-    <div className='relative h-full'>
-      <div className="absolute top-[-2.27rem] right-2 w-10 h-10 group">
-        <div className="absolute w-full h-full top-5 group-hover:top-1 ease-in-out duration-700" style={{ zIndex: 0 }}>
-          <GappiiBody />
-        </div>
-        <div className="absolute w-full h-full" style={{ zIndex: 2 }}>
-          <GappiiHands />
-        </div>
-      </div>
+    <GappiiBehindElement>
       <Card className="overflow-hidden bg-gradient-to-br from-background to-muted/20 relative h-full">
         <motion.div
           className="absolute -top-10 -right-10 w-32 h-32 bg-orange-500/10 rounded-full blur-3xl"
@@ -102,7 +93,7 @@ export const StreakCard = ({ streak, completedToday }: StreakCardProps) => {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </GappiiBehindElement>
   )
 }
 

@@ -22,24 +22,26 @@ export const LessonActivity: React.FC<LessonActivityProps> = ({
     const { currentActivity, handleNext, transitionDirection } = useLessonContext();
 
     if (currentActivity && !isActivity(currentActivity)) {
-        return <LessonSummary activity={currentActivity} isOnboarding={isOnboarding} />;
+        return (
+            <div className="w-96">
+                <LessonSummary activity={currentActivity} isOnboarding={isOnboarding} />
+            </div>
+        );
     }
 
     return (
-        <div className="flex-1 flex items-center justify-center min-h-0">
-            <div className="w-full max-w-md">
-                <AnimatePresence initial={false} mode="wait">
-                    <ActivityCard
-                        key={currentActivity.id}
-                        activity={currentActivity}
-                        reported={reportedActivityIds?.some(
-                            (activity) => activity.id === currentActivity.id
-                        ) ?? false}
-                        onNext={handleNext}
-                        direction={transitionDirection}
-                    />
-                </AnimatePresence>
-            </div>
+        <div className="w-96">
+            <AnimatePresence initial={false} mode="wait">
+                <ActivityCard
+                    key={currentActivity.id}
+                    activity={currentActivity}
+                    reported={reportedActivityIds?.some(
+                        (activity) => activity.id === currentActivity.id
+                    ) ?? false}
+                    onNext={handleNext}
+                    direction={transitionDirection}
+                />
+            </AnimatePresence>
         </div>
     );
 }; 

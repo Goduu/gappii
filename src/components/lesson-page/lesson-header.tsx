@@ -1,28 +1,84 @@
+"use client";
+
 import { CircleX } from "lucide-react";
 import { redirect } from "next/navigation";
 import { routes } from "@/lib/routes";
 import { useUser } from "@clerk/nextjs";
+import { Card } from "../ui/card";
+import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 type LessonHeaderProps = {
     topicTitle: string;
     subtopicTitle: string;
+    currentIndex: number;
+    total: number;
+    progress: number;
 };
 
 export const LessonHeader: React.FC<LessonHeaderProps> = ({
     topicTitle,
     subtopicTitle,
+    currentIndex,
+    total,
+    progress
 }) => {
     const user = useUser();
 
     return (
-        <div className="px-4 sm:px-0 flex items-center justify-between">
-            <div className="text-base sm:text-lg font-bold flex items-center gap-2 text-ellipsis overflow-hidden">
-                {topicTitle} <span className="text-muted-foreground">/</span> {subtopicTitle}
+        <Card className="relative overflow-hidden p-4 bg-gradient-to-br from-background to-muted/20 w-full">
+            <div className="flex items-center justify-between gap-4">
+                <div className="flex-1">
+                    <motion.div 
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="flex flex-col gap-1"
+                    >
+                        <div className="text-sm text-muted-foreground">
+                            {topicTitle}
+                        </div>
+                        <div className="text-xl font-bold">
+                            {subtopicTitle}
+                        </div>
+                    </motion.div>
+                </div>
+
+                <div className="flex items-center gap-4">
+                    <motion.div 
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="text-center hidden sm:block"
+                    >
+                        <div className="text-2xl font-bold">
+                            {currentIndex + 1}
+                            <span className="text-muted-foreground text-sm">/{total}</span>
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                            Questions
+                        </div>
+                    </motion.div>
+
+                    <CircleX
+                        className="h-6 w-6 cursor-pointer text-muted-foreground hover:text-destructive transition-colors"
+                        onClick={() => redirect(user?.isSignedIn ? routes.dashboard : routes.home)}
+                    />
+                </div>
             </div>
-            <CircleX
-                className="h-5 w-5 cursor-pointer hover:text-destructive transition-colors"
-                onClick={() => redirect(user?.isSignedIn ? routes.dashboard : routes.home)}
-            />
-        </div>
+
+            {/* Progress bar */}
+            <div className="absolute bottom-0 left-0 right-0">
+                <div className="relative h-1 w-full bg-muted/50">
+                    <motion.div
+                        className={cn(
+                            "absolute left-0 top-0 h-full",
+                            progress >= 100 ? "bg-green-500" : "bg-blue-500"
+                        )}
+                        initial={{ width: "0%" }}
+                        animate={{ width: `${progress}%` }}
+                        transition={{ duration: 0.3 }}
+                    />
+                </div>
+            </div>
+        </Card>
     );
 }; 

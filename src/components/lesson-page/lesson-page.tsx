@@ -8,7 +8,7 @@ type LessonPageProps = {
 
 export const LessonPage: FC<LessonPageProps> = ({ lesson }) => {
     return (
-        <div className="flex flex-col items-center justify-center p-4 w-full">
+        <div className="w-full">
             <LessonProgressManager
                 lesson={lesson}
                 reportedActivityIds={[]}

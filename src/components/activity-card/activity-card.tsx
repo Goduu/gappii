@@ -1,15 +1,15 @@
 "use client"
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useState, useRef } from 'react'
 import { Button } from "@/components/ui/button";
 import {
     Card, CardHeader, CardTitle,
     CardFooter
 } from "@/components/ui/card";
 import { GapInput } from './gap-input';
-import { useToast } from '@/hooks/use-toast';
 import { Activity } from '@/ogm-resolver/ogm-types';
 import { ActivityReactions } from './activity-reactions';
 import { motion } from 'framer-motion';
+import { GappiiBehindElement } from '../ui/gappii-behind-element';
 
 const cardVariants = {
     initial: (direction: 'next' | 'prev') => ({
@@ -43,34 +43,42 @@ export const ActivityCard: FC<ActivityCardProps> = ({
     const [selectedOption, setSelectedOption] = useState<string>('');
     const [activityDone, setActivityDone] = useState<boolean>(false);
     const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
-    const { toast } = useToast();
+    const [message, setMessage] = useState<string>('');
+    const messageTimeoutRef = useRef<NodeJS.Timeout>();
 
     useEffect(() => {
         setSelectedOption('');
         setActivityDone(false);
+        // Clear any existing timeout when component unmounts or activity changes
+        return () => {
+            if (messageTimeoutRef.current) {
+                clearTimeout(messageTimeoutRef.current);
+            }
+        };
     }, [activity]);
 
     const handleSelect = (selected: string) => {
         setSelectedOption(selected);
+        
+        // Clear any existing timeout
+        if (messageTimeoutRef.current) {
+            clearTimeout(messageTimeoutRef.current);
+        }
+
         if (selected === activity.answer) {
             setActivityDone(true);
-            if(isAnswerCorrect===null) setIsAnswerCorrect(true);
-            toast({
-                title: `Nice! It's ${selected}`,
-                description: activity.comment,
-                variant: "default",
-                duration: 10000,
-            });
-        } else {
-            if(isAnswerCorrect===null) setIsAnswerCorrect(false);
+            if (isAnswerCorrect === null) setIsAnswerCorrect(true);
+            setMessage(activity.comment);
 
-            toast({
-                title: "Try again!",
-                description: "You will eventually get it right!",
-                variant: "destructive"
-            });
+            messageTimeoutRef.current = setTimeout(() => setMessage(''), 50000);
+        } else {
+            if (isAnswerCorrect === null) setIsAnswerCorrect(false);
+            setMessage("Try again! You will eventually get it right!");
+            messageTimeoutRef.current = setTimeout(() => setMessage(''), 3000);
         }
     };
+
+    const showComment = message !== "";
 
     const activitySortedOptions = activity.options
         ? [...activity.options].sort((a: string, b: string) => (a < b ? -1 : 1))
@@ -90,42 +98,47 @@ export const ActivityCard: FC<ActivityCardProps> = ({
             }}
             className=" w-full"
         >
-            <Card className="w-96 relative">
-                <CardHeader>
-                    <div className='absolute right-1 top-1'>
-                        {activity.id && (
-                            <ActivityReactions
-                                activityId={activity.id}
-                                reported={reported}
+            <GappiiBehindElement
+                message={message}
+                showMessage={showComment}
+            >
+                <Card className="w-96 relative">
+                    <CardHeader>
+                        <div className='absolute right-1 top-1'>
+                            {activity.id && (
+                                <ActivityReactions
+                                    activityId={activity.id}
+                                    reported={reported}
+                                />
+                            )}
+                        </div>
+                        <CardTitle className="flex justify-center items-baseline">
+                            <GapInput
+                                text={activity.description}
+                                value={selectedOption}
+                                options={activity.options}
                             />
+                        </CardTitle>
+                    </CardHeader>
+                    <CardFooter className="flex justify-center gap-0 w-full">
+                        {activityDone ? (
+                            <Button size="lg" onClick={() => onNext(isAnswerCorrect ?? false)}>Go to Next</Button>
+                        ) : (
+                            activitySortedOptions.map(option => (
+                                <Button
+                                    key={option}
+                                    size="lg"
+                                    variant="outline"
+                                    className='w-1/2'
+                                    onClick={() => handleSelect(option)}
+                                >
+                                    {option}
+                                </Button>
+                            ))
                         )}
-                    </div>
-                    <CardTitle className="flex justify-end items-baseline">
-                        <GapInput
-                            text={activity.description}
-                            value={selectedOption}
-                            options={activity.options}
-                        />
-                    </CardTitle>
-                </CardHeader>
-                <CardFooter className="flex justify-center gap-0 w-full">
-                    {activityDone ? (
-                        <Button size="lg" onClick={() => onNext(isAnswerCorrect ?? false)}>Go to Next</Button>
-                    ) : (
-                        activitySortedOptions.map(option => (
-                            <Button
-                                key={option}
-                                size="lg"
-                                variant="outline"
-                                className='w-1/2'
-                                onClick={() => handleSelect(option)}
-                            >
-                                {option}
-                            </Button>
-                        ))
-                    )}
-                </CardFooter>
-            </Card>
+                    </CardFooter>
+                </Card>
+            </GappiiBehindElement>
         </motion.div>
     );
 };

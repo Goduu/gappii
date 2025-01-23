@@ -16,13 +16,14 @@ export const CommunityPage: FC<{ searchParams: CommunitySearchParams }> = async 
             <PageTitle title='Community' />
             <CommunityFilters />
             <Suspense
-                fallback={<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {[...Array(6)].map((_, i) => (
-                        <Skeleton key={i} className="h-56 w-full" />
-                    ))}
-                </div>
+                fallback={
+                    <div className="flex flex-wrap gap-4 items-center justify-center">
+                        {[...Array(6)].map((_, i) => (
+                            <Skeleton key={i} className="h-56 w-full" />
+                        ))}
+                    </div>
                 }>
-                <div className="flex flex-wrap gap-4 items-center justify-center lg:justify-start">
+                <div className="flex flex-wrap gap-4 items-center justify-center">
                     {lessons.map((lesson) => (
                         <LessonCard key={lesson.id} lesson={lesson} variant="community" />
                     ))}

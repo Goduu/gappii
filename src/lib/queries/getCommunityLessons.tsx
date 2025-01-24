@@ -22,17 +22,22 @@ export const fetchLessonsData = async (
 
     const variables = buildQueryVariables(searchParams);
 
-    if (isFullTextSearch) {
-        const { data: fullTextData } = await client.query<FullTextQueryResult>({
-            query: GET_COMMUNITY_LESSONS_FULLTEXT,
+    try {
+        if (isFullTextSearch) {
+            const { data: fullTextData } = await client.query<FullTextQueryResult>({
+                query: GET_COMMUNITY_LESSONS_FULLTEXT,
             variables
         });
         return fullTextData?.lessonsFulltextLessonTitle.map(item => item.lesson);
     } else {
         const { data: lessonsData } = await client.query<LessonQueryResult>({
             query: GET_COMMUNITY_LESSONS,
-            variables
-        });
-        return lessonsData?.lessons;
+                variables
+            });
+            return lessonsData?.lessons;
+        }
+    } catch (error) {
+        console.dir(error, { depth: null });
+        return [];
     }
 };

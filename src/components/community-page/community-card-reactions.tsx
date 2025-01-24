@@ -4,7 +4,7 @@ import { Button } from '../ui/button'
 import { Crown, ThumbsUp } from 'lucide-react'
 import { Lesson } from '@/ogm-resolver/ogm-types'
 import { useUser } from '@clerk/nextjs'
-import { userReactToLesson } from '@/lib/mutations/userReactToLesson'
+import { userReactToLessonSRC } from '@/lib/mutations/userReactToLessonSRC'
 import { useRouter } from 'next/navigation'
 import { LessonReaction } from '../my-content-page/types'
 import clsx from 'clsx'
@@ -20,7 +20,7 @@ export const CommunityCardReactions: FC<CommunityCardReactionsProps> = ({ lesson
     const reaction = lesson.wasReactedConnection.edges.find(edge => edge.node.clerkId === userData.user?.id)?.properties.type as LessonReaction
 
     const handleReact = async (type: NonNullable<LessonReaction>) => {
-        if (userData.user && lesson.id) await userReactToLesson(userData.user.id, lesson.id, reaction, type)
+        if (userData.user && lesson.id) await userReactToLessonSRC(userData.user.id, lesson.id, reaction, type)
         router.refresh()
     }
 

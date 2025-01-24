@@ -19,6 +19,7 @@ export const CREATE_USER = gql`
 }
 `
 
+
 export const GET_USER_LESSONS = gql`
 query GetUserLessons($where: UserWhere!, $first: Int!,$after: String, $lessonWhere: UserHasLessonsConnectionWhere) {
   users(where: $where) {
@@ -30,72 +31,25 @@ query GetUserLessons($where: UserWhere!, $first: Int!,$after: String, $lessonWhe
       where: $lessonWhere
     ) {
       edges{
-        node{
-          id
-          level
-          title
-          language
-          hasTopic {
-            id
-            title
-          }
-          hasSubtopic {
-            id
-            title
-          }
-          hasKeywords {
-            id
-            name
-          }
-          hasActivitiesAggregate{
-            count
-          }
-          wasReactedConnection(where: {node: $where}) {
-            edges {
+          node{
+            ...LessonFragment,
+            wasReactedConnection(where: {node: $where}) {
+              edges {
                 node {
-                    id
-                    clerkId
+                  id
+                  clerkId
                 }
                 properties{
-                    type
+                  type
                 }
+              }
             }
-          }
         }
       }
       totalCount
       pageInfo{
         hasNextPage
         endCursor
-      }
-    }
-  }
-}`
-
-export const GET_USER_COLLECTIONS = gql`
-  query GetUserCollections($where: UserWhere!) {
-  users(where: $where) {
-    id
-      hasCollections {
-      id
-      title
-      icon
-      color
-        hasLessons {
-        id
-        title
-          hasTopic {
-          id
-          title
-        }
-          hasSubtopic {
-          id
-          title
-        }
-          hasKeywords {
-          id
-          name
-        }
       }
     }
   }

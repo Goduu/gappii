@@ -1,6 +1,30 @@
 import { gql } from "@apollo/client";
 
 
+export const LESSON_FRAGMENT = gql`
+  fragment LessonFragment on Lesson {
+    id
+    level
+    title
+    language
+    hasTopic {
+      id
+      title
+    }
+    hasSubtopic {
+      id
+      title
+    }
+    hasKeywords {
+      id
+      name
+    }
+    hasActivitiesAggregate{
+      count
+    }
+  }
+`;
+
 export const CREATE_LESSONS = gql`
   mutation CreateLessons($input: [LessonCreateInput!]!) {
   createLessons(input: $input) {
@@ -14,25 +38,9 @@ export const CREATE_LESSONS = gql`
 export const GET_LESSON_ACTIVITIES = gql`
   query GetLessonActivities($where: LessonWhere!) {
     lessons(where: $where) {
-      id
-      title
-      isPublic
-      language
-      hasTopic {
-        id
-        title
-      }
-      hasSubtopic {
-        id
-        title
-      }
+      ...LessonFragment
       hasActivities(sort: [{order: ASC}]) {
-        id
-        description
-        options
-        answer
-        comment
-        order
+        ...ActivityFragment
       }
       hasKeywords {
         id
@@ -41,6 +49,7 @@ export const GET_LESSON_ACTIVITIES = gql`
     }
   }
 `
+
 export const GET_HOT_LESSON = gql`
   query GetHotLessons {
     hotLessons: lessons(limit: 10, where: { hasActivitiesAggregate: {count_GT: 3}}) {
@@ -98,31 +107,7 @@ export const UPDATE_LESSON = gql`
 export const GET_LESSON_FILTERED = gql`
   query GetLessonActivities($where: LessonWhere!, $limit: Int!) {
     lessons(where: $where, limit: $limit, sort:[{title: ASC}]) {
-      id
-      level
-      hasTopic {
-        id
-        title
-      }
-      hasSubtopic {
-        id
-        title
-      }
-      hasKeywords {
-        id
-        name
-      }
-      wasReactedConnection {
-        edges {
-            node {
-                id
-                clerkId
-            }
-            properties{
-                type
-            }
-        }
-      }
+      ...LessonFragment
     }
   }
 `
@@ -130,36 +115,18 @@ export const GET_LESSON_FILTERED = gql`
 export const GET_LESSON_BY_ID = gql`
   query GetLessonById($id: ID!) {
     lessons(where: { id: $id }) {
-      title
-      level
-      language
-      createdAt
-      hasKeywords {
-        id
-        name
-      }
-      hasTopic {
-        id
-        title
-      }
-      hasSubtopic {
-        id
-        title
-      }
-      hasActivities {
-        id
-        description
-        options
-        answer
-        comment
-        order
-      }
+      ...LessonFragment
     }
   }
 `
 
 export const GET_COMMUNITY_LESSONS = gql`
-  query GetCommunityLessons($level: Int, $newestSort: SortDirection, $topRatedSort: SortDirection, $language: String) {
+  query GetCommunityLessons(
+    $level: Int, 
+    $newestSort: SortDirection, 
+    $topRatedSort: SortDirection, 
+    $language: String,
+  ) {
     lessons(
       where: {
         isPublic: true
@@ -179,35 +146,21 @@ export const GET_COMMUNITY_LESSONS = gql`
         limit: 16
       }
     ) {
-      id
-      title
-      level
-      language
-      createdAt
-      hasKeywords {
-        id
-        name
-      }
-      hasTopic {
-        title
-      }
-      hasSubtopic {
-        title
-      }
+      ...LessonFragment,
       wasReactedConnection {
         edges {
-          properties {
-            type
-            reactedAt
-          }
           node {
+            id
             clerkId
+          }
+          properties{
+            type
           }
         }
       }
     }
   }
-`
+`;
 
 export const GET_COMMUNITY_LESSONS_FULLTEXT = gql`
   query GetCommunityLessons(
@@ -236,32 +189,7 @@ export const GET_COMMUNITY_LESSONS_FULLTEXT = gql`
     ) {
       score
       lesson {
-        id
-        title
-        level
-        language
-        createdAt
-        hasKeywords {
-          id
-          name
-        }
-        hasTopic {
-          title
-        }
-        hasSubtopic {
-          title
-        }
-        wasReactedConnection {
-          edges {
-            properties {
-              type
-              reactedAt
-            }
-            node {
-              clerkId
-            }
-          }
-        }
+        ...LessonFragment
       }
     }
   }

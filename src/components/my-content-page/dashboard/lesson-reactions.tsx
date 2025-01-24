@@ -3,10 +3,9 @@ import { Crown, ThumbsUp } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import React, { FC } from 'react'
 import { useUser } from "@clerk/nextjs";
-import { useRouter } from "next/navigation"
-import { userReactToLesson } from "@/lib/mutations/userReactToLesson";
 import { LessonReaction } from "../types";
 import clsx from "clsx";
+import { useReactToLesson } from "@/lib/mutations/userReactToLesson";
 
 
 export type LessonReactionsProps = {
@@ -15,12 +14,11 @@ export type LessonReactionsProps = {
 }
 
 export const LessonReactions: FC<LessonReactionsProps> = ({ lessonId, reaction }) => {
-    const router = useRouter()
     const userData = useUser()
+    const reactToLesson = useReactToLesson(userData.user?.id || "", lessonId)
 
     const handleReact = async (type: NonNullable<LessonReaction>) => {
-        if (userData.user) await userReactToLesson(userData.user.id, lessonId, reaction, type)
-        router.refresh()
+        if (userData.user) await reactToLesson(reaction, type)
     }
 
     return (

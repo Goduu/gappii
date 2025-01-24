@@ -1,13 +1,21 @@
 import { gql } from "@apollo/client"
 
+export const ACTIVITY_FRAGMENT = gql`
+  fragment ActivityFragment on Activity {
+    id
+    order
+    description
+    options
+    answer
+    comment
+    reportCount
+  }
+`
+
 export const GET_ACTIVITIES = gql`
   query GetActivities($topicId: ID!, $subtopicId: ID!) {
     activities(where: { topic: { id: $topicId }, subtopic: { id: $subtopicId } }) {
-      id
-      description
-      options
-      answer
-      comment
+      ...ActivityFragment
     }
   }
 `

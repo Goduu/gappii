@@ -70,7 +70,7 @@ export const ActivityCard: FC<ActivityCardProps> = ({
             if (isAnswerCorrect === null) setIsAnswerCorrect(true);
             setMessage(activity.comment);
 
-            messageTimeoutRef.current = setTimeout(() => setMessage(''), 50000);
+            messageTimeoutRef.current = setTimeout(() => setMessage(''), 6000);
         } else {
             if (isAnswerCorrect === null) setIsAnswerCorrect(false);
             setMessage("Try again! You will eventually get it right!");

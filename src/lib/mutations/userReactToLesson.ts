@@ -1,22 +1,19 @@
-"use server"
 
 import { LessonReaction } from '@/components/my-content-page/types';
-import { getApolloClient } from '../getApolloClient';
-import { UPDATE_USER } from '../gqls/userGQLs';
-import { MutationUpdateUsersArgs } from '@/ogm-resolver/ogm-types';
+import { GET_USER_LESSONS, UPDATE_USER } from '../gqls/userGQLs';
+import { MutationUpdateUsersArgs, UserHasLessonsConnectionWhere, UserWhere } from '@/ogm-resolver/ogm-types';
+import { useMutation } from '@apollo/client';
 
-export const userReactToLesson = async (
+export const useReactToLesson = (
     userId: string,
     lessonId: string,
-    currentReaction: LessonReaction | null,
-    newReaction: LessonReaction,
 ) => {
+    const [reactToLesson] = useMutation(UPDATE_USER)
 
-    const client = getApolloClient();
-    // use optimistic return
-    
-    await client.mutate({
-        mutation: UPDATE_USER,
+    return (
+        currentReaction: LessonReaction | null,
+        newReaction: LessonReaction,
+    ) => reactToLesson({
         variables: {
             where: {
                 clerkId: userId
@@ -37,5 +34,19 @@ export const userReactToLesson = async (
                 }]
             },
         } satisfies MutationUpdateUsersArgs,
+        refetchQueries: [{
+            query: GET_USER_LESSONS,
+            variables: {
+                where: {
+                    clerkId: userId
+                } satisfies UserWhere,
+                lessonWhere: {
+                    node: {
+                        id: lessonId
+                    }
+                } satisfies UserHasLessonsConnectionWhere,
+                first: 1
+            }
+        }]
     })
 }

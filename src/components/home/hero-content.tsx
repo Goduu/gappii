@@ -1,16 +1,16 @@
 "use client"
 import { motion } from 'framer-motion'
-import { Logo } from '../logo'
 import { TypingText } from './typing-text'
 import { Badge } from '../ui/badge'
 import { FeatureCard } from './feature-card'
 import { Blocks, ChartScatter, Users } from 'lucide-react'
+import Image from 'next/image'
 
 export const HeroContent = () => {
     return (
         <div className='w-full flex flex-col items-center gap-4 sm:gap-6 justify-center'>
 
-            <Logo className='w-24 sm:w-44 hover:scale-105 transition-transform' />
+            <Image src={'/logo.svg'} alt='logo' width={2386} height={2386} className='w-44 sm:w-80 hover:scale-105 transition-transform' />
             <motion.div
                 className='w-full flex flex-col items-center gap-4 sm:gap-6'
                 initial={{ opacity: 0, y: 20 }}

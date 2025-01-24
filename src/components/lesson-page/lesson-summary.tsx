@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { SignInButton, useUser } from "@clerk/nextjs";
 import { completeOnboarding } from "@/app/onboarding/actions";
-import { useEffect, useTransition } from "react";
+import { useEffect, useTransition, useRef } from "react";
 import { MiniActivityCard } from "./mini-activity-card";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { LessonSummaryResultCard } from "./lesson-summary-result-card";
@@ -21,25 +21,34 @@ interface LessonSummaryProps {
 export const LessonSummary: React.FC<LessonSummaryProps> = ({ summary, isOnboarding = false }) => {
     const router = useRouter();
     const { user } = useUser();
-    const [isPending, startTransition] = useTransition()
+    const [isPending, startTransition] = useTransition();
+    const hasCompletedRef = useRef(false);
 
     const completeLesson = useCompleteLesson();
     // const yesterday = new Date();
     // yesterday.setDate(yesterday.getDate() - 1);
 
     useEffect(() => {
+        if (isPending || hasCompletedRef.current || !user) return;
+        
         startTransition(async () => {
-            await completeLesson(summary)
+            try {
+                hasCompletedRef.current = true;
+                await completeLesson(summary);
 
-            if (isOnboarding) {
-                const res = await completeOnboarding()
-                if (res?.message) {
-                    // Reloads the user's data from the Clerk API
-                    await user?.reload()
+                if (isOnboarding) {
+                    const res = await completeOnboarding();
+                    if (res?.message) {
+                        await user?.reload();
+                    }
                 }
+            } catch (error) {
+                // Reset the flag if there's an error so it can try again
+                hasCompletedRef.current = false;
+                console.error('Error completing lesson:', error);
             }
-        })
-    })
+        });
+    }, [completeLesson, isOnboarding, isPending, summary, user]);
 
     const handleFinish = () => {
         router.push(routes.dashboard);

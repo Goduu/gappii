@@ -63,11 +63,11 @@ export const GappiiBehindElement: FC<GappiiBehindElementProps> = ({
                         transform: `scale(${gappiiPosition.scale})`,
                         width: '2.5rem',
                         height: '2.5rem',
-                        zIndex: 50
+                        zIndex: 2
                     }}
                 >
                     <GappiiHands />
-                    <div className="absolute w-full h-full" style={{ zIndex: 51 }}>
+                    <div className="absolute w-full h-full" >
                         <GappiiSpeechBubble
                             message={message}
                             show={showMessage}

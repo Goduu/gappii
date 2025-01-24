@@ -2,11 +2,14 @@
 import { Activity, Lesson } from "@/ogm-resolver/ogm-types";
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
-type AttemptData = {
+export interface ActivityAttempt {
     activityId: string;
     isCorrect: boolean;
     timeTaken: number;
-};
+    activityContent: string;
+    wrongAnswer: string;
+    correctAnswer: string;
+}
 
 export type SummaryLesson = {
     id: string;
@@ -15,7 +18,7 @@ export type SummaryLesson = {
     totalTimeTaken: number;
     correctAnswers: number;
     totalQuestions: number;
-    attempts: Array<[number, AttemptData]>;
+    attempts: Array<[number, ActivityAttempt]>;
 };
 
 type LessonContextType = {
@@ -27,7 +30,7 @@ type LessonContextType = {
     lessonStartTime: number;
     handleNext: (isCorrect?: boolean) => void;
     handleBack: () => void;
-    attempts: Map<number, AttemptData>;
+    attempts: Map<number, ActivityAttempt>;
     isComplete: boolean;
 };
 
@@ -45,7 +48,7 @@ export const LessonProvider: React.FC<LessonProviderProps> = ({ children, lesson
     const [transitionDirection, setTransitionDirection] = useState<'next' | 'prev'>('next');
     const [activityStartTime, setActivityStartTime] = useState(Date.now());
     const [lessonStartTime] = useState(Date.now());
-    const [attempts, setAttempts] = useState<Map<number, AttemptData>>(new Map());
+    const [attempts, setAttempts] = useState<Map<number, ActivityAttempt>>(new Map());
     const [isComplete, setIsComplete] = useState(false);
     const [summaryActivity, setSummaryActivity] = useState<SummaryLesson | null>(null);
 
@@ -80,10 +83,16 @@ export const LessonProvider: React.FC<LessonProviderProps> = ({ children, lesson
                 throw new Error("Activity ID is undefined");
             }
 
+            const currentActivity = activities[currentActivityIndex];
+            if (!currentActivity.id) return
+
             setAttempts(new Map(attempts.set(currentActivityIndex, {
-                activityId: activities[currentActivityIndex].id,
+                activityId: currentActivity.id,
                 isCorrect,
-                timeTaken
+                timeTaken,
+                activityContent: currentActivity.description,
+                wrongAnswer: currentActivity.options.find(o => o !== currentActivity.answer) || "",
+                correctAnswer: currentActivity.answer
             })));
         }
 
@@ -98,7 +107,7 @@ export const LessonProvider: React.FC<LessonProviderProps> = ({ children, lesson
             return;
         } else {
             // Calculate lesson completion data
-            const totalTimeTaken = Array.from(attempts.values()).reduce((acc: number, curr: AttemptData) => acc + curr.timeTaken, 0);
+            const totalTimeTaken = Array.from(attempts.values()).reduce((acc: number, curr: ActivityAttempt) => acc + curr.timeTaken, 0);
             const correctAnswers = Array.from(attempts.values()).filter(a => a.isCorrect).length;
             const score = ((correctAnswers / activities.length) * 100).toFixed(2);
 

@@ -5,72 +5,45 @@ import { useRouter } from "next/navigation";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { CheckCircle2, XCircle } from "lucide-react";
-import { UPDATE_USER } from "@/lib/gqls/userGQLs";
-import { useMutation } from "@apollo/client";
 import { SignInButton, useUser } from "@clerk/nextjs";
-import { MutationUpdateUsersArgs } from "@/ogm-resolver/ogm-types";
-import { useTransitionContext } from "../loading-store";
 import { completeOnboarding } from "@/app/onboarding/actions";
+import { useEffect, useTransition } from "react";
+import { MiniActivityCard } from "./mini-activity-card";
+import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { LessonSummaryResultCard } from "./lesson-summary-result-card";
+import { useCompleteLesson } from "./useCompleteLesson";
 
 interface LessonSummaryProps {
-    activity: SummaryLesson;
+    summary: SummaryLesson;
     isOnboarding?: boolean;
 }
 
-export const LessonSummary: React.FC<LessonSummaryProps> = ({ activity, isOnboarding = false }) => {
+export const LessonSummary: React.FC<LessonSummaryProps> = ({ summary, isOnboarding = false }) => {
     const router = useRouter();
     const { user } = useUser();
-    const { startTransition } = useTransitionContext()
+    const [isPending, startTransition] = useTransition()
 
-    const [updateUser] = useMutation(UPDATE_USER);
+    const completeLesson = useCompleteLesson();
     // const yesterday = new Date();
     // yesterday.setDate(yesterday.getDate() - 1);
 
-    const handleUpdateUser = async () => {
+    useEffect(() => {
         startTransition(async () => {
-            await updateUser({
-                variables: {
-                    where: { clerkId: user?.id },
-                    update: {
-                        completedLessons: [{
-                            create: [{
-                                node: {
-                                    completedAt: new Date().toISOString(),
-                                    score: activity.score,
-                                    timeTaken: activity.totalTimeTaken,
-                                    forLesson: {
-                                        connect: { where: { node: { id: activity.id } } }
-                                    },
-                                    attemptedActivities: {
-                                        connect: activity.attempts.map(([, attempt]) => ({
-                                            where: { node: { id: attempt.activityId } },
-                                            edge: {
-                                                attemptedAt: new Date().toISOString(),
-                                                isCorrect: attempt.isCorrect,
-                                                timeTaken: attempt.timeTaken
-                                            }
-                                        }))
-                                    }
-                                }
-                            }]
-                        }]
-                    },
-                } satisfies MutationUpdateUsersArgs,
-            });
+            await completeLesson(summary)
 
             if (isOnboarding) {
                 const res = await completeOnboarding()
                 if (res?.message) {
                     // Reloads the user's data from the Clerk API
                     await user?.reload()
-                    router.push(routes.dashboard)
                 }
-            } else {
-                router.push(routes.dashboard);
             }
         })
-    };
+    })
+
+    const handleFinish = () => {
+        router.push(routes.dashboard);
+    }
 
     return (
         <motion.div
@@ -82,16 +55,15 @@ export const LessonSummary: React.FC<LessonSummaryProps> = ({ activity, isOnboar
                 <CardHeader className="text-center space-y-2">
                     <h2 className="text-2xl font-bold">Lesson Complete! 🎉</h2>
                 </CardHeader>
-
                 <CardContent className="space-y-6">
                     <div className="grid grid-cols-2 gap-4">
                         <Card className="p-4">
                             <p className="text-sm font-medium text-muted-foreground">Score</p>
-                            <p className="text-2xl font-bold">{activity.score}%</p>
+                            <p className="text-2xl font-bold">{summary.score}%</p>
                         </Card>
                         <Card className="p-4">
                             <p className="text-sm font-medium text-muted-foreground">Time</p>
-                            <p className="text-2xl font-bold">{formatTime(activity.totalTimeTaken)}</p>
+                            <p className="text-2xl font-bold">{formatTime(summary.totalTimeTaken)}</p>
                         </Card>
                     </div>
 
@@ -102,47 +74,29 @@ export const LessonSummary: React.FC<LessonSummaryProps> = ({ activity, isOnboar
                                     Question Breakdown
                                 </p>
                                 <p className="text-sm font-medium">
-                                    {activity.correctAnswers} of {activity.totalQuestions} correct
+                                    {summary.correctAnswers} of {summary.totalQuestions} correct
                                 </p>
                             </div>
 
-                            <div className="space-y-4">
-                                {activity.attempts.map(([index, data]) => (
-                                    <div
-                                        key={index}
-                                        className={`
-                                            relative p-1 rounded-lg border
-                                            ${data.isCorrect ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}
-                                        `}
-                                    >
-                                        <div className="flex items-center justify-between">
-                                            <div className="flex items-center gap-3">
-                                                {data.isCorrect ? (
-                                                    <CheckCircle2 className="w-5 h-5 text-green-500" />
-                                                ) : (
-                                                    <XCircle className="w-5 h-5 text-red-500" />
-                                                )}
-                                                <span className="font-medium">
-                                                    Question {index + 1}
-                                                </span>
-                                            </div>
-                                            <div className="flex items-center">
-                                                <span className="text-sm text-muted-foreground">
-                                                    {formatTime(data.timeTaken)}
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div
-                                            className={`
-                                                absolute bottom-0 left-0 h-1 rounded-b-lg
-                                                ${data.isCorrect ? 'bg-green-500' : 'bg-red-500'}
-                                            `}
-                                            style={{
-                                                width: `${(data.timeTaken / activity.totalTimeTaken) * 100}%`
-                                            }}
-                                        />
-                                    </div>
-                                ))}
+                            <div className="flex flex-col gap-2">
+                                {summary.attempts.map(([index, data]) => (
+                                    <Dialog key={index}>
+                                        <DialogTrigger asChild>
+                                            <LessonSummaryResultCard activityAttempt={data} index={index} totalTimeTaken={summary.totalTimeTaken} />
+                                        </DialogTrigger>
+                                        <DialogContent className="w-[95%]">
+                                            <DialogTitle >Question {index + 1}</DialogTitle>
+                                            <DialogDescription hidden title="Mini-card shown the answer for question {index + 1}" />
+                                            <MiniActivityCard
+                                                attempt={data}
+                                                activityContent={data.activityContent}
+                                                wrongAnswer={data.wrongAnswer}
+                                                correctAnswer={data.correctAnswer}
+                                            />
+                                        </DialogContent>
+                                    </Dialog>
+                                )
+                                )}
                             </div>
                         </div>
                     </Card>
@@ -159,9 +113,15 @@ export const LessonSummary: React.FC<LessonSummaryProps> = ({ activity, isOnboar
                         <Button
                             className="w-full"
                             size="lg"
-                            onClick={handleUpdateUser}
+                            onClick={handleFinish}
+                            disabled={isPending}
                         >
-                            {isOnboarding ? 'Complete Onboarding' : 'Return to Dashboard'}
+                            {
+                                isPending ?
+                                    "Saving your data..." :
+                                    isOnboarding ?
+                                        'Complete Onboarding' :
+                                        'Return to Dashboard'}
                         </Button>
                     )}
                 </CardFooter>

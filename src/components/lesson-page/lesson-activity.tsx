@@ -24,7 +24,7 @@ export const LessonActivity: React.FC<LessonActivityProps> = ({
     if (currentActivity && !isActivity(currentActivity)) {
         return (
             <div className="w-96">
-                <LessonSummary activity={currentActivity} isOnboarding={isOnboarding} />
+                <LessonSummary summary={currentActivity} isOnboarding={isOnboarding} />
             </div>
         );
     }

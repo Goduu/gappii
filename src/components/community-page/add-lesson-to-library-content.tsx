@@ -10,7 +10,7 @@ import { routes } from "@/lib/routes"
 import { userHasLesson } from "@/lib/mutations/userHasLesson"
 import { toast } from "@/hooks/use-toast"
 import { ToastAction } from "../ui/toast"
-import { Lesson } from "@/ogm-resolver/ogm-types"
+import { Lesson } from "../../ogm-types"
 import { SupportedLanguage } from "@/app/types"
 import { translateLesson } from "@/lib/translateLesson"
 import { getLessonByIdToTranslate } from '@/lib/queries/getLessonByIdToTranslate'

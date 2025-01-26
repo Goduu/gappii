@@ -1,5 +1,5 @@
 "use client"
-import { Activity } from "@/ogm-resolver/ogm-types";
+import { Activity } from "../../ogm-types";
 import { ActivityCard } from "../activity-card/activity-card";
 import { AnimatePresence } from "framer-motion";
 import { useLessonContext } from "./lesson-context";

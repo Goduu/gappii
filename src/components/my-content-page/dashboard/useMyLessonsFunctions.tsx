@@ -1,7 +1,7 @@
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import { useFilter } from "./filter-hooks";
-import { Lesson, User, UserHasLessonsConnectionWhere } from "@/ogm-resolver/ogm-types";
+import { Lesson, User, UserHasLessonsConnectionWhere } from "../../../ogm-types";
 import { useQuery } from "@apollo/client";
 import { GET_USER_LESSONS } from "@/lib/gqls/userGQLs";
 

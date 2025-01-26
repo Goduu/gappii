@@ -7,7 +7,7 @@ import { routes } from '@/lib/routes'
 import { Play } from 'lucide-react'
 import { useTransitionContext } from '../loading-store'
 import { useUser } from '@clerk/nextjs'
-import { Lesson } from '@/ogm-resolver/ogm-types'
+import { Lesson } from '@/ogm-types'
 import { AddLessonToLibrary } from './add-lesson-to-library-dialog'
 
 type CommunityCardActionsProps = {

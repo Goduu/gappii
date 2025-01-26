@@ -1,5 +1,5 @@
 "use client"
-import { Activity, Lesson } from "@/ogm-resolver/ogm-types";
+import { Activity, Lesson } from "../../ogm-types";
 import { LessonProvider } from "./lesson-context";
 import { LessonContent } from "./lesson-content";
 

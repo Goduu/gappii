@@ -1,6 +1,6 @@
 "use server"
 
-import { MutationCreateUsersArgs, User } from "@/ogm-resolver/ogm-types";
+import { MutationCreateUsersArgs, User } from "../../ogm-types";
 import { CREATE_USER, GET_USER } from "../gqls/userGQLs";
 import { getApolloClient } from "../getApolloClient";
 export const checkAndCreateUser = async (userId: string, email: string, imageUrl: string) => {

@@ -1,5 +1,5 @@
 import { UPDATE_USER } from "@/lib/gqls/userGQLs";
-import { MutationUpdateUsersArgs } from "@/ogm-resolver/ogm-types";
+import { MutationUpdateUsersArgs } from "../../ogm-types";
 import { useMutation } from "@apollo/client";
 import { useUser } from "@clerk/nextjs";
 import { SummaryLesson } from "./lesson-context";

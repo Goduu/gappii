@@ -1,7 +1,7 @@
 
 import { LessonReaction } from '@/components/my-content-page/types';
 import { GET_USER_LESSONS, UPDATE_USER } from '../gqls/userGQLs';
-import { MutationUpdateUsersArgs, UserHasLessonsConnectionWhere, UserWhere } from '@/ogm-resolver/ogm-types';
+import { MutationUpdateUsersArgs, UserHasLessonsConnectionWhere, UserWhere } from '@/ogm-types';
 import { useMutation } from '@apollo/client';
 
 export const useReactToLesson = (

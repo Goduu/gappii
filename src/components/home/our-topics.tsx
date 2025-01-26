@@ -1,7 +1,7 @@
 "use client"
 import React from 'react';
 import Marquee from 'react-fast-marquee';
-import { Lesson } from '@/ogm-resolver/ogm-types';
+import { Lesson } from '@/ogm-types';
 import { Badge } from '../ui/badge';
 import { Flame } from 'lucide-react';
 import { MdOutlineFiberNew } from '../ui/customIcons/md-outline-fiber-new';

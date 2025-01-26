@@ -1,4 +1,4 @@
-import { Lesson } from '@/ogm-resolver/ogm-types'
+import { Lesson } from '@/ogm-types'
 import React, { FC } from 'react'
 import { LessonProgressManager } from './lesson-progress-manager'
 

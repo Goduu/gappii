@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Lesson } from "@/ogm-resolver/ogm-types"
+import { Lesson } from "../../../../ogm-types"
 
 const LessonSchema = z.object({
     topic: z.object({

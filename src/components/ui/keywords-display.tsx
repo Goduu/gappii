@@ -1,6 +1,6 @@
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
-import { Keyword } from '@/ogm-resolver/ogm-types';
+import { Keyword } from '@/ogm-types';
 import Marquee from 'react-fast-marquee';
 
 

@@ -1,5 +1,5 @@
 "use server"
-import { Lesson, QueryLessonsArgs } from "@/ogm-resolver/ogm-types";
+import { Lesson, QueryLessonsArgs } from "../../ogm-types";
 import { getApolloClient } from "../getApolloClient";
 import { GET_LESSON_ACTIVITIES } from "../gqls/lessonGQLs";
 

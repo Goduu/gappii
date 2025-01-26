@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { LearnInput } from '@/components/learn-input/learn-input';
 import { getLesson } from '@/lib/queries/getLesson';
-import { Lesson } from '@/ogm-resolver/ogm-types';
+import { Lesson } from '@/ogm-types';
 import { TermsCard } from './terms-card';
 import { LoadingAnimation } from '@/components/loading-animation';
 import { OnboardingLesson } from './onboarding-lesson';

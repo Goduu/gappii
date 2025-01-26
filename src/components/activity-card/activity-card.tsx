@@ -6,7 +6,7 @@ import {
     CardFooter
 } from "@/components/ui/card";
 import { GapInput } from './gap-input';
-import { Activity } from '@/ogm-resolver/ogm-types';
+import { Activity } from '@/ogm-types';
 import { ActivityReactions } from './activity-reactions';
 import { motion } from 'framer-motion';
 import { GappiiBehindElement } from '../ui/gappii-behind-element';

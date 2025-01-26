@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Keyword, Topic } from '@/ogm-resolver/ogm-types'
+import { Keyword, Topic } from '@/ogm-types'
 import { LessonReaction } from '../types'
 
 export type LessonFilter = {

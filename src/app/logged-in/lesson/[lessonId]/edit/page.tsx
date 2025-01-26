@@ -3,7 +3,7 @@ import { PageTitle } from '@/components/ui/page-title'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getApolloClient } from '@/lib/getApolloClient'
 import { GET_LESSON_ACTIVITIES } from '@/lib/gqls/lessonGQLs'
-import { Lesson, QueryLessonsArgs } from '@/ogm-resolver/ogm-types'
+import { Lesson, QueryLessonsArgs } from '@/ogm-types'
 import React, { FC, Suspense } from 'react'
 
 type CardsProps = {

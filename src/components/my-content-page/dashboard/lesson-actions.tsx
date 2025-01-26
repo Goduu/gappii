@@ -5,7 +5,7 @@ import { Construction, Edit, Play } from 'lucide-react'
 import React, { FC } from 'react'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import Link from 'next/link'
-import { Lesson } from '@/ogm-resolver/ogm-types'
+import { Lesson } from '@/ogm-types'
 import { useSearchParams } from 'next/navigation'
 import { HardModeWrapper } from '@/components/lesson-card/hard-mode-wrapper'
 import { LessonMode } from '@/components/lesson-page/type'
@@ -18,7 +18,7 @@ export const LessonActions: FC<LessonActionsProps> = ({ lesson }) => {
     const searchParams = useSearchParams();
     
     if (!lesson.id) return null
-    
+
     const isPlayDisabled = lesson.hasActivitiesAggregate?.count === 0
     const mode = searchParams.get('mode');
     const isHardMode = mode === 'hard';

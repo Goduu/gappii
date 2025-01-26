@@ -1,7 +1,7 @@
 import { LessonActivity } from '@/components/lesson-page/lesson-activity';
 import { useLessonContext } from '@/components/lesson-page/lesson-context'
 import { LessonHeader } from '@/components/lesson-page/lesson-header';
-import { Lesson } from '@/ogm-resolver/ogm-types';
+import { Lesson } from '@/ogm-types';
 import React, { FC } from 'react'
 
 type OnboardingLessonProps = {

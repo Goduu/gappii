@@ -24,7 +24,7 @@ import { useMediaQuery } from "@/lib/use-media-query"
 import { Plus } from "lucide-react"
 import { AddLessonToLibraryContent } from "./add-lesson-to-library-content"
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
-import { Lesson } from "@/ogm-resolver/ogm-types"
+import { Lesson } from "../../ogm-types"
 
 const texts = {
     addToLibrary: "Add to library",

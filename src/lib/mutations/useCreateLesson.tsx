@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { CreateActivitiesMutationResponse, CreateLessonsMutationResponse, MutationCreateActivitiesArgs, MutationCreateLessonsArgs, MutationCreateUsersArgs, MutationUpdateUsersArgs } from "@/ogm-resolver/ogm-types";
+import { CreateActivitiesMutationResponse, CreateLessonsMutationResponse, MutationCreateActivitiesArgs, MutationCreateLessonsArgs, MutationCreateUsersArgs, MutationUpdateUsersArgs } from "../../ogm-types";
 import { ApiActivityResponse } from "../validateCreateLessonApiResponse";
 import { GET_USER, CREATE_USER, UPDATE_USER } from "../gqls/userGQLs";
 import { User } from "@clerk/nextjs/server";

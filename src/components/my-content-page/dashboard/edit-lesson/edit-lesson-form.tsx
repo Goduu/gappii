@@ -1,7 +1,7 @@
 "use client"
 import React, { FC } from 'react'
 import { EditActivity } from './edit-activity'
-import { Lesson } from '@/ogm-resolver/ogm-types'
+import { Lesson } from '@/ogm-types'
 import { DragEndEvent } from '@dnd-kit/core'
 import { LessonFormValues, useLessonForm } from './useLessonForm'
 import { Form } from '@/components/ui/form'

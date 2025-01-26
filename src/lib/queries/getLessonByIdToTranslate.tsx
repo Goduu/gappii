@@ -2,7 +2,7 @@
 
 import { GET_LESSON_BY_ID } from "@/lib/gqls/lessonGQLs";
 import { getApolloClient } from "../getApolloClient";
-import { Lesson } from "@/ogm-resolver/ogm-types";
+import { Lesson } from "../../ogm-types";
 
 export const getLessonByIdToTranslate = async (id: string) => {
     const apolloClient = getApolloClient()

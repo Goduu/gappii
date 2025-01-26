@@ -1,7 +1,7 @@
 "use client"
 import React, { FC } from 'react'
 import { Card } from '../ui/card'
-import { Lesson } from '@/ogm-resolver/ogm-types'
+import { Lesson } from '@/ogm-types'
 import { KeywordsBadgeDisplay } from '../ui/keywords-display'
 import { CommunityCardReactions } from '../community-page/community-card-reactions'
 import { LessonActions } from '../my-content-page/dashboard/lesson-actions'

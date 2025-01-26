@@ -1,5 +1,5 @@
-import { Lesson } from "@/ogm-resolver/ogm-types";
-import { Activity } from "@/ogm-resolver/ogm-types";
+import { Lesson } from "../../ogm-types";
+import { Activity } from "../../ogm-types";
 import { useLessonContext } from "./lesson-context";
 import { LessonHeader } from "./lesson-header";
 import { LessonActivity } from "./lesson-activity";

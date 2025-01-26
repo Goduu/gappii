@@ -2,7 +2,7 @@
 import { FC } from 'react'
 import { Button } from '../ui/button'
 import { AdvancedParams } from './advanced-params'
-import { Lesson } from '@/ogm-resolver/ogm-types'
+import { Lesson } from '@/ogm-types'
 import { useCreateLessonForm } from './useCreateLessonForm'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form'
 import { useTransitionContext } from '../loading-store'

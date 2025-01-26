@@ -1,4 +1,4 @@
-import { Topic } from "@/ogm-resolver/ogm-types";
+import { Topic } from "../../ogm-types";
 import { GET_TOPIC_TITLES } from "../gqls/topicGQLs";
 import { useQuery } from "@apollo/client";
 

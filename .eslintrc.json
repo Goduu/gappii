@@ -4,6 +4,6 @@
     "next/typescript"
   ],
   "ignorePatterns": [
-    "src/ogm-resolver/ogm-types.ts"
+    "src/ogm-types.ts"
   ]
 }

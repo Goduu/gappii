@@ -3,7 +3,7 @@ import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, Cell } fro
 import { useQuery } from '@apollo/client';
 import { GET_USER_DAILY_ACTIVITY } from '@/lib/gqls/userGQLs';
 import { useUser } from '@clerk/nextjs';
-import { QueryUsersArgs } from '@/ogm-resolver/ogm-types';
+import { QueryUsersArgs } from '@/ogm-types';
 import { ChartConfig, ChartContainer } from "@/components/ui/chart"
 import { Props as ScatterProps } from 'recharts/types/cartesian/Scatter';
 

@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { CreateActivitiesMutationResponse, MutationCreateActivitiesArgs, MutationCreateLessonsArgs, MutationCreateUsersArgs, MutationUpdateUsersArgs } from "@/ogm-resolver/ogm-types";
+import { CreateActivitiesMutationResponse, MutationCreateActivitiesArgs, MutationCreateLessonsArgs, MutationCreateUsersArgs, MutationUpdateUsersArgs } from "../../ogm-types";
 import { ApiActivityResponse } from "../validateCreateLessonApiResponse";
 import { redirect } from "next/navigation";
 import { GET_USER, CREATE_USER, UPDATE_USER } from "../gqls/userGQLs";

@@ -2,7 +2,7 @@
 import { ShieldAlert } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import React, { FC } from 'react'
-import { MutationUpdateUsersArgs } from "@/ogm-resolver/ogm-types";
+import { MutationUpdateUsersArgs } from "../../ogm-types";
 import { useMutation } from "@apollo/client";
 import { GET_USER_REPORTED_ACTIVITIES, UPDATE_USER } from "@/lib/gqls/userGQLs";
 import { useUser } from "@clerk/nextjs";

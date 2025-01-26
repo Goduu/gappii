@@ -3,7 +3,7 @@ import { GET_LESSON_ACTIVITIES, UPDATE_LESSON } from "@/lib/gqls/lessonGQLs";
 import { DELETE_ACTIVITY, UPDATE_ACTIVITY } from "@/lib/gqls/activityGQLs";
 import { LessonFormValues } from "./useLessonForm";
 import { startTransition } from "react";
-import { Activity, Keyword, Lesson, MutationUpdateLessonsArgs } from "@/ogm-resolver/ogm-types";
+import { Activity, Keyword, Lesson, MutationUpdateLessonsArgs } from "../../../../ogm-types";
 
 export const useSaveLessonForm = () => {
     const [updateLessons] = useMutation(UPDATE_LESSON);

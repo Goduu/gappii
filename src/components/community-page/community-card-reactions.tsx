@@ -2,7 +2,7 @@
 import React, { FC } from 'react'
 import { Button } from '../ui/button'
 import { Crown, ThumbsUp } from 'lucide-react'
-import { Lesson } from '@/ogm-resolver/ogm-types'
+import { Lesson } from '@/ogm-types'
 import { useUser } from '@clerk/nextjs'
 import { userReactToLessonSRC } from '@/lib/mutations/userReactToLessonSRC'
 import { useRouter } from 'next/navigation'

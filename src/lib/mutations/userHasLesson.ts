@@ -3,7 +3,7 @@
 import { LessonPossession } from '@/components/my-content-page/types';
 import { getApolloClient } from '../getApolloClient';
 import { UPDATE_USER } from '../gqls/userGQLs';
-import { MutationUpdateUsersArgs } from '@/ogm-resolver/ogm-types';
+import { MutationUpdateUsersArgs } from '@/ogm-types';
 
 export const userHasLesson = async (
     userId: string,

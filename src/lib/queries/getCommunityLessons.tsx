@@ -1,4 +1,4 @@
-import { Lesson, LessonFulltextResult } from "@/ogm-resolver/ogm-types";
+import { Lesson, LessonFulltextResult } from "../../ogm-types";
 import { GET_COMMUNITY_LESSONS, GET_COMMUNITY_LESSONS_FULLTEXT } from "../gqls/lessonGQLs";
 import { getApolloClient } from "../getApolloClient";
 import { CommunitySearchParams } from "@/app/types";

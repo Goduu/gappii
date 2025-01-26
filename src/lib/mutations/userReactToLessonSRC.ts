@@ -2,7 +2,7 @@
 
 import { LessonReaction } from '@/components/my-content-page/types';
 import { getApolloClient } from '../getApolloClient';
-import { MutationUpdateUsersArgs } from '@/ogm-resolver/ogm-types';
+import { MutationUpdateUsersArgs } from '@/ogm-types';
 import { UPDATE_USER } from '../gqls/userGQLs';
 
 export const userReactToLessonSRC = async (

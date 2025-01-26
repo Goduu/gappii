@@ -7,7 +7,7 @@ import { CreateLesson } from '../create-lesson'
 import React, { useState } from 'react'
 import { useUser } from '@clerk/nextjs'
 import { useQuery } from '@apollo/client'
-import { Lesson, User, UserHasLessonsConnectionWhere } from '@/ogm-resolver/ogm-types'
+import { Lesson, User, UserHasLessonsConnectionWhere } from '@/ogm-types'
 import { GET_USER_LESSONS } from '@/lib/gqls/userGQLs'
 import { useInfiniteScroll } from '../useInfinityScroll'
 import { LessonsSkeleton } from '../lessons-skeleton'
@@ -108,7 +108,7 @@ export const MyLessons = ({ searchParams }: MyLessonsProps) => {
             <div className='flex gap-2'>
                 <PageTitle title='My Lessons' />
                 <CreateLesson />
-                <HardModeSwitch lessonId='' />
+                <HardModeSwitch />
             </div>
             <div className='flex flex-col gap-2'>
                 <LessonSearchBar />

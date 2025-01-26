@@ -4,7 +4,7 @@ import { useMutation, useQuery } from '@apollo/client'
 import { CREATE_TOPIC, GET_TOPIC_TITLES } from '@/lib/gqls/topicGQLs'
 import { cleanTopic } from './cleanTopic'
 import { TopicQueryResult } from '@/lib/queries/getTopicTitles'
-import { Topic } from '@/ogm-resolver/ogm-types'
+import { Topic } from '@/ogm-types'
 import { AutoComplete, Option } from '../ui/autocomplete'
 
 type TopicAutocompleteProps = {

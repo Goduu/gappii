@@ -2,7 +2,7 @@
 
 import { getApolloClient } from '../getApolloClient';
 import { GET_USER_STATISTICS } from '../gqls/userGQLs';
-import { QueryUsersArgs } from '@/ogm-resolver/ogm-types';
+import { QueryUsersArgs } from '@/ogm-types';
 
 export const getUserStatistics = async (
     userId: string,

@@ -1,5 +1,5 @@
 "use client"
-import { Activity, Lesson } from "@/ogm-resolver/ogm-types";
+import { Activity, Lesson } from "../../ogm-types";
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { LessonMode } from "./type";
 import { useSearchParams } from "next/navigation";

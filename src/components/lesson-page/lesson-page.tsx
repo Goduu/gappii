@@ -7,6 +7,7 @@ type LessonPageProps = {
 }
 
 export const LessonPage: FC<LessonPageProps> = ({ lesson }) => {
+
     return (
         <div className="w-full">
             <LessonProgressManager

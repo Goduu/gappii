@@ -30,7 +30,7 @@ export const LessonSummary: React.FC<LessonSummaryProps> = ({ summary, isOnboard
 
     useEffect(() => {
         if (isPending || hasCompletedRef.current || !user) return;
-        
+
         startTransition(async () => {
             try {
                 hasCompletedRef.current = true;
@@ -90,7 +90,7 @@ export const LessonSummary: React.FC<LessonSummaryProps> = ({ summary, isOnboard
                             <div className="flex flex-col gap-2">
                                 {summary.attempts.map(([index, data]) => (
                                     <Dialog key={index}>
-                                        <DialogTrigger asChild>
+                                        <DialogTrigger>
                                             <LessonSummaryResultCard activityAttempt={data} index={index} totalTimeTaken={summary.totalTimeTaken} />
                                         </DialogTrigger>
                                         <DialogContent className="w-[95%]">

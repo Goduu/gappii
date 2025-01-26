@@ -5,6 +5,7 @@ import { AnimatePresence } from "framer-motion";
 import { useLessonContext } from "./lesson-context";
 import { LessonSummary } from './lesson-summary';
 import { SummaryLesson } from "./lesson-context";
+import { LessonMode } from "./type";
 
 function isActivity(activity: Activity | SummaryLesson): activity is Activity {
     return !('type' in activity);
@@ -13,11 +14,13 @@ function isActivity(activity: Activity | SummaryLesson): activity is Activity {
 type LessonActivityProps = {
     reportedActivityIds?: Activity[] | undefined;
     isOnboarding?: boolean;
+    mode?: LessonMode
 };
 
 export const LessonActivity: React.FC<LessonActivityProps> = ({
     reportedActivityIds = [],
     isOnboarding = false,
+    mode = 'normal'
 }) => {
     const { currentActivity, handleNext, transitionDirection } = useLessonContext();
 
@@ -40,6 +43,7 @@ export const LessonActivity: React.FC<LessonActivityProps> = ({
                     ) ?? false}
                     onNext={handleNext}
                     direction={transitionDirection}
+                    mode={mode}
                 />
             </AnimatePresence>
         </div>

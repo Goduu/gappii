@@ -4,7 +4,6 @@ import { OurTopics } from './our-topics'
 import { CreateTopic } from './create-topic'
 import { HeroContent } from './hero-content'
 
-
 export const HomePage = () => {
 
     return (

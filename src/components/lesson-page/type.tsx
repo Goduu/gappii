@@ -1,0 +1,1 @@
+export type LessonMode = "normal" | "hard"

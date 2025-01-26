@@ -14,6 +14,7 @@ export const MiniActivityCard: React.FC<MiniActivityCardProps> = ({
     wrongAnswer,
     correctAnswer
 }) => {
+
     return (
         <div className="space-y-2">
             <div className="text-sm font-medium break-words">

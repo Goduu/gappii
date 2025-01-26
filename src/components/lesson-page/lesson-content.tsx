@@ -3,6 +3,8 @@ import { Activity } from "@/ogm-resolver/ogm-types";
 import { useLessonContext } from "./lesson-context";
 import { LessonHeader } from "./lesson-header";
 import { LessonActivity } from "./lesson-activity";
+import { LessonMode } from "./type";
+import { useSearchParams } from "next/navigation";
 
 type LessonContentProps = {
     lesson: Lesson;
@@ -14,6 +16,8 @@ export const LessonContent: React.FC<LessonContentProps> = ({
     reportedActivityIds = [],
 }) => {
     const { currentActivityIndex, progress } = useLessonContext();
+    const searchParams = useSearchParams();
+    const mode = (searchParams.get('mode') || "normal") as LessonMode
     const topic = lesson.hasTopic;
     const subtopic = lesson.hasSubtopic;
     const activities = lesson.hasActivities;
@@ -33,6 +37,7 @@ export const LessonContent: React.FC<LessonContentProps> = ({
                 <div className="flex items-center justify-center">
                     <LessonActivity
                         reportedActivityIds={reportedActivityIds}
+                        mode={mode}
                     />
                 </div>
             </div>

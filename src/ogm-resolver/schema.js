@@ -109,6 +109,7 @@ type LessonCompletionRecord @node {
   completedAt: DateTime!
   score: Float
   timeTaken: Int
+  mode: String! # "normal", "hard"
   byUser: User! @relationship(type: "COMPLETED_LESSON", direction: IN)
   forLesson: Lesson! @relationship(type: "FOR_LESSON", direction: OUT)
   attemptedActivities: [Activity!]! @relationship(type: "ATTEMPTED",properties: "AttemptActivity", direction: OUT)

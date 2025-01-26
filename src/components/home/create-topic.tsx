@@ -10,7 +10,7 @@ export const CreateTopic = () => {
             <div className='text-xl sm:text-3xl'>
                 Create your custom lesson
             </div>
-            <LearnInput hideAdvancedParams={true} onCreate={(lessonId) => redirect(routes.lesson(lessonId))} />
+            <LearnInput hideAdvancedParams={true} onCreate={(lessonId) => redirect(routes.testLesson(lessonId))} />
         </div>
     );
 };

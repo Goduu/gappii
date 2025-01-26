@@ -21,7 +21,7 @@ export const OurTopics = () => {
                 <div className='flex gap-2 overflow-visible'>
                     {data?.hotLessons.map(({ hasTopic, hasSubtopic, id }, i) => (
                         <div className=' p-5' key={i}>
-                            <Link href={routes.lesson(id || "")}>
+                            <Link href={routes.testLesson(id || "")}>
                                 <Badge className='relative flex overflow-visible text-xs sm:text-sm' variant="outline">
                                     <span className='absolute -top-3 -right-4 text-xs z-20'>
                                         <Flame className='w-10 animate-ping absolute text-red-500 fill-red-500 opacity-50' />
@@ -38,7 +38,7 @@ export const OurTopics = () => {
                 <div className='flex gap-4 overflow-visible'>
                     {data?.newLessons.map(({ hasTopic, hasSubtopic, id }, i) => (
                         <div className='p-5' key={i}>
-                            <Link href={routes.lesson(id || "")}>
+                            <Link href={routes.testLesson(id || "")}>
                                 <Badge className='relative flex overflow-visible text-sm sm:text-md' variant="outline">
                                     <span className='absolute -top-5 -right-4 text-xs z-20'>
                                         <MdOutlineFiberNew className='h-10 w-10 animate-ping absolute text-green-500 fill-green-500 opacity-50' />

@@ -19,6 +19,7 @@ export const useCompleteLesson = () => {
                                 completedAt: new Date().toISOString(),
                                 score: summary.score,
                                 timeTaken: summary.totalTimeTaken,
+                                mode: summary.mode,
                                 forLesson: {
                                     connect: { where: { node: { id: summary.id } } }
                                 },

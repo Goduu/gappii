@@ -1,6 +1,8 @@
 "use client"
 import { Activity, Lesson } from "@/ogm-resolver/ogm-types";
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import { LessonMode } from "./type";
+import { useSearchParams } from "next/navigation";
 
 export interface ActivityAttempt {
     activityId: string;
@@ -15,6 +17,7 @@ export type SummaryLesson = {
     id: string;
     type: 'summary';
     score: number;
+    mode: LessonMode;
     totalTimeTaken: number;
     correctAnswers: number;
     totalQuestions: number;
@@ -50,6 +53,9 @@ export const LessonProvider: React.FC<LessonProviderProps> = ({ children, lesson
     const [lessonStartTime] = useState(Date.now());
     const [attempts, setAttempts] = useState<Map<number, ActivityAttempt>>(new Map());
     const [isComplete, setIsComplete] = useState(false);
+    const searchParams = useSearchParams();
+    const params = new URLSearchParams(searchParams);
+    const mode = params.get('mode') as LessonMode
     const [summaryActivity, setSummaryActivity] = useState<SummaryLesson | null>(null);
 
     const activities = lesson.hasActivities;
@@ -67,6 +73,7 @@ export const LessonProvider: React.FC<LessonProviderProps> = ({ children, lesson
         id: lesson.id || '',
         type: 'summary',
         score: Number(score),
+        mode,
         totalTimeTaken,
         correctAnswers,
         totalQuestions: activities.length,

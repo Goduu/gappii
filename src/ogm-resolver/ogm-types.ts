@@ -696,6 +696,7 @@ export type LessonCompletionRecord = {
   completedAt: Scalars["DateTime"]["output"];
   score?: Maybe<Scalars["Float"]["output"]>;
   timeTaken?: Maybe<Scalars["Int"]["output"]>;
+  mode: Scalars["String"]["output"];
   byUserAggregate?: Maybe<LessonCompletionRecordUserByUserAggregationSelection>;
   byUser: User;
   byUserConnection: LessonCompletionRecordByUserConnection;
@@ -799,6 +800,7 @@ export type LessonCompletionRecordAggregateSelection = {
   completedAt: DateTimeAggregateSelection;
   score: FloatAggregateSelection;
   timeTaken: IntAggregateSelection;
+  mode: StringAggregateSelection;
 };
 
 export type LessonCompletionRecordAttemptedActivitiesConnection = {
@@ -1328,6 +1330,7 @@ export type UserLessonCompletionRecordCompletedLessonsNodeAggregateSelection = {
   completedAt: DateTimeAggregateSelection;
   score: FloatAggregateSelection;
   timeTaken: IntAggregateSelection;
+  mode: StringAggregateSelection;
 };
 
 export type UserLessonHasLessonsAggregationSelection = {
@@ -2509,6 +2512,7 @@ export type LessonCompletionRecordCreateInput = {
   completedAt: Scalars["DateTime"]["input"];
   score?: InputMaybe<Scalars["Float"]["input"]>;
   timeTaken?: InputMaybe<Scalars["Int"]["input"]>;
+  mode: Scalars["String"]["input"];
   byUser?: InputMaybe<LessonCompletionRecordByUserFieldInput>;
   forLesson?: InputMaybe<LessonCompletionRecordForLessonFieldInput>;
   attemptedActivities?: InputMaybe<LessonCompletionRecordAttemptedActivitiesFieldInput>;
@@ -2787,6 +2791,7 @@ export type LessonCompletionRecordSort = {
   completedAt?: InputMaybe<SortDirection>;
   score?: InputMaybe<SortDirection>;
   timeTaken?: InputMaybe<SortDirection>;
+  mode?: InputMaybe<SortDirection>;
 };
 
 export type LessonCompletionRecordUpdateInput = {
@@ -2799,6 +2804,7 @@ export type LessonCompletionRecordUpdateInput = {
   timeTaken?: InputMaybe<Scalars["Int"]["input"]>;
   timeTaken_INCREMENT?: InputMaybe<Scalars["Int"]["input"]>;
   timeTaken_DECREMENT?: InputMaybe<Scalars["Int"]["input"]>;
+  mode?: InputMaybe<Scalars["String"]["input"]>;
   byUser?: InputMaybe<LessonCompletionRecordByUserUpdateFieldInput>;
   forLesson?: InputMaybe<LessonCompletionRecordForLessonUpdateFieldInput>;
   attemptedActivities?: InputMaybe<
@@ -2852,6 +2858,21 @@ export type LessonCompletionRecordWhere = {
   timeTaken_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   timeTaken_GT?: InputMaybe<Scalars["Int"]["input"]>;
   timeTaken_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  mode?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  mode_NOT?: InputMaybe<Scalars["String"]["input"]>;
+  mode_IN?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  mode_NOT_IN?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  mode_CONTAINS?: InputMaybe<Scalars["String"]["input"]>;
+  mode_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  mode_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  mode_NOT_CONTAINS?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  mode_NOT_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  mode_NOT_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
   OR?: InputMaybe<Array<LessonCompletionRecordWhere>>;
   AND?: InputMaybe<Array<LessonCompletionRecordWhere>>;
   NOT?: InputMaybe<LessonCompletionRecordWhere>;
@@ -4755,6 +4776,61 @@ export type UserCompletedLessonsNodeAggregationWhereInput = {
   timeTaken_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   timeTaken_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   timeTaken_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  mode_EQUAL?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mode_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mode_LONGEST_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mode_SHORTEST_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  mode_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  mode_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  mode_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  mode_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mode_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mode_LONGEST_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mode_SHORTEST_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  mode_AVERAGE_LENGTH_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  mode_LONGEST_LENGTH_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  mode_SHORTEST_LENGTH_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  mode_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mode_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mode_LONGEST_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mode_SHORTEST_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  mode_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  mode_LONGEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  mode_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  mode_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mode_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mode_LONGEST_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mode_SHORTEST_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  mode_AVERAGE_LENGTH_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  mode_LONGEST_LENGTH_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  mode_SHORTEST_LENGTH_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  mode_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mode_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mode_LONGEST_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mode_SHORTEST_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  mode_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  mode_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  mode_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type UserCompletedLessonsUpdateConnectionInput = {
@@ -6105,6 +6181,7 @@ export interface LessonCompletionRecordAggregateSelectionInput {
   completedAt?: boolean;
   score?: boolean;
   timeTaken?: boolean;
+  mode?: boolean;
 }
 
 export declare class LessonCompletionRecordModel {

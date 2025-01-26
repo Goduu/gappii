@@ -12,6 +12,7 @@ import { GET_USER_LESSONS } from '@/lib/gqls/userGQLs'
 import { useInfiniteScroll } from '../useInfinityScroll'
 import { LessonsSkeleton } from '../lessons-skeleton'
 import { useDebouncedCallback } from 'use-debounce'
+import { HardModeSwitch } from '@/components/lesson-card/hard-mode-switch'
 
 type MyLessonsProps = {
     searchParams?: {
@@ -107,6 +108,7 @@ export const MyLessons = ({ searchParams }: MyLessonsProps) => {
             <div className='flex gap-2'>
                 <PageTitle title='My Lessons' />
                 <CreateLesson />
+                <HardModeSwitch lessonId='' />
             </div>
             <div className='flex flex-col gap-2'>
                 <LessonSearchBar />

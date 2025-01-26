@@ -23,11 +23,14 @@ export const LessonCard: FC<LessonCardProps> = ({ lesson, variant }) => {
     return (
         <Card className="w-full md:w-auto min-w-[22rem] relative overflow-hidden">
             <LanguageCorner language={lesson.language as SupportedLanguage} />
-            <div className='absolute right-1 top-1'>
+            <div className='absolute right-1 top-1 flex gap-1'>
                 {lesson.id && (
-                    variant === 'community'
-                        ? <CommunityCardReactions lesson={lesson} />
-                        : <LessonReactions lessonId={lesson.id} reaction={reaction} />
+                    <>
+                        {variant === 'community'
+                            ? <CommunityCardReactions lesson={lesson} />
+                            : <LessonReactions lessonId={lesson.id} reaction={reaction} />
+                        }
+                    </>
                 )}
             </div>
             <div className="flex gap-2 p-6 items-center">

@@ -19,7 +19,7 @@ export const CommunityCardActions: FC<CommunityCardActionsProps> = ({ lesson }) 
     const userData = useUser()
 
     const handlePlay = () => {
-        startTransition(() => { if (lesson.id) redirect(routes.lesson(lesson.id)) })
+        startTransition(() => { if (lesson.id) redirect(routes.testLesson(lesson.id)) })
     }
 
     const isDisabled = !userData.isSignedIn

@@ -1,15 +1,24 @@
+import clsx from "clsx";
+import Fuse from "fuse.js";
 import React from "react";
 
 interface GapInputProps {
     text: string; // Text containing {gap:N} placeholders
     value?: string | null; // Optional value to pre-fill the gap
     options: string[]
+    answer: string
 }
 
-export const GapInput: React.FC<GapInputProps> = ({ text, value, options }) => {
+export const GapInput: React.FC<GapInputProps> = ({ text, value, options, answer }) => {
     const replaceGaps = (inputText: string): (string | JSX.Element)[] => {
         const parts = inputText.split(/({gap})/);
 
+        const fuse = new Fuse<string>([ answer ], {
+            includeScore: true,
+        })
+        const result = fuse.search(value || "")
+        const isExactMatch = result[0] && result[0].score === 0
+        const isAnswerRight = result[0] && result[0].score || 10 < 0.1
         let valueIndex = 0; // Track position in the value string if provided
 
         return parts.map((part, index) => {
@@ -25,7 +34,12 @@ export const GapInput: React.FC<GapInputProps> = ({ text, value, options }) => {
                 return (
                     <span
                         key={`gap-${index}`}
-                        className={`inline-block border-b-2 border-dashed border-gray-400 mx-1 text-center ${!value ? "text-opacity-0 text-red-50" : "text-green-500"}`}
+                        className={clsx(`inline-block border-b-2 border-dashed border-gray-400 mx-1 text-center`, {
+                            "text-opacity-0 text-red-50": !value,
+                            "text-amber-500": isAnswerRight && !isExactMatch,
+                            "text-green-500": isExactMatch,
+                            "text-red-500": !isAnswerRight && !isExactMatch,
+                        })}
                         style={{ width }}
                     >
                         {prefillValue || "."} {/* Default gap if no value */}

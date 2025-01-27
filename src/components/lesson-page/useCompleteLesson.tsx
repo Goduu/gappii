@@ -3,6 +3,8 @@ import { MutationUpdateUsersArgs } from "../../ogm-types";
 import { useMutation } from "@apollo/client";
 import { useUser } from "@clerk/nextjs";
 import { SummaryLesson } from "./lesson-context";
+import { isToday, isYesterday } from "@/lib/utils";
+
 
 export const useCompleteLesson = () => {
     const { user } = useUser();
@@ -34,8 +36,44 @@ export const useCompleteLesson = () => {
                                     }))
                                 }
                             }
-                        }]
-                    }]
+                        }],
+                    }],
+                    hasStreak: [
+                        summary.userStreak ?
+                            {
+                                where: {
+                                    node: {
+                                        id: summary.userStreak.id
+                                    }
+                                },
+                                update: {
+                                    node: isYesterday(summary.userStreak.lastActivityDate) ?
+                                        {
+                                            streakCount_INCREMENT: 1,
+                                            lastActivityDate: new Date().toISOString()
+                                        } :
+                                        isToday(summary.userStreak.lastActivityDate) ?
+                                            {
+                                                lastActivityDate: new Date().toISOString()
+                                            } :
+                                            {
+                                                streakCount: 1,
+                                                lastActivityDate: new Date().toISOString()
+                                            }
+                                }
+                            }
+                            :
+                            {
+                                create: [{
+                                    node: {
+                                        streakCount: 1,
+                                        lastActivityDate: new Date().toISOString()
+                                    }
+                                }]
+                            }
+
+                    ]
+
                 },
             } satisfies MutationUpdateUsersArgs,
         });

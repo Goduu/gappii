@@ -51,6 +51,9 @@ export type Query = {
   activities: Array<Activity>;
   activitiesConnection: ActivitiesConnection;
   activitiesAggregate: ActivityAggregateSelection;
+  streaks: Array<Streak>;
+  streaksConnection: StreaksConnection;
+  streaksAggregate: StreakAggregateSelection;
   users: Array<User>;
   usersConnection: UsersConnection;
   usersAggregate: UserAggregateSelection;
@@ -137,6 +140,22 @@ export type QueryActivitiesAggregateArgs = {
   where?: InputMaybe<ActivityWhere>;
 };
 
+export type QueryStreaksArgs = {
+  where?: InputMaybe<StreakWhere>;
+  options?: InputMaybe<StreakOptions>;
+};
+
+export type QueryStreaksConnectionArgs = {
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  where?: InputMaybe<StreakWhere>;
+  sort?: InputMaybe<Array<InputMaybe<StreakSort>>>;
+};
+
+export type QueryStreaksAggregateArgs = {
+  where?: InputMaybe<StreakWhere>;
+};
+
 export type QueryUsersArgs = {
   where?: InputMaybe<UserWhere>;
   options?: InputMaybe<UserOptions>;
@@ -199,6 +218,9 @@ export type Mutation = {
   createActivities: CreateActivitiesMutationResponse;
   deleteActivities: DeleteInfo;
   updateActivities: UpdateActivitiesMutationResponse;
+  createStreaks: CreateStreaksMutationResponse;
+  deleteStreaks: DeleteInfo;
+  updateStreaks: UpdateStreaksMutationResponse;
   createUsers: CreateUsersMutationResponse;
   deleteUsers: DeleteInfo;
   updateUsers: UpdateUsersMutationResponse;
@@ -266,6 +288,19 @@ export type MutationDeleteActivitiesArgs = {
 export type MutationUpdateActivitiesArgs = {
   where?: InputMaybe<ActivityWhere>;
   update?: InputMaybe<ActivityUpdateInput>;
+};
+
+export type MutationCreateStreaksArgs = {
+  input: Array<StreakCreateInput>;
+};
+
+export type MutationDeleteStreaksArgs = {
+  where?: InputMaybe<StreakWhere>;
+};
+
+export type MutationUpdateStreaksArgs = {
+  where?: InputMaybe<StreakWhere>;
+  update?: InputMaybe<StreakUpdateInput>;
 };
 
 export type MutationCreateUsersArgs = {
@@ -409,6 +444,12 @@ export type CreateLessonsMutationResponse = {
   __typename?: "CreateLessonsMutationResponse";
   info: CreateInfo;
   lessons: Array<Lesson>;
+};
+
+export type CreateStreaksMutationResponse = {
+  __typename?: "CreateStreaksMutationResponse";
+  info: CreateInfo;
+  streaks: Array<Streak>;
 };
 
 export type CreateTopicsMutationResponse = {
@@ -1075,6 +1116,34 @@ export type Reacted = {
   reactedAt: Scalars["DateTime"]["output"];
 };
 
+export type Streak = {
+  __typename?: "Streak";
+  id: Scalars["ID"]["output"];
+  streakCount: Scalars["Int"]["output"];
+  lastActivityDate: Scalars["DateTime"]["output"];
+};
+
+export type StreakAggregateSelection = {
+  __typename?: "StreakAggregateSelection";
+  count: Scalars["Int"]["output"];
+  id: IdAggregateSelection;
+  streakCount: IntAggregateSelection;
+  lastActivityDate: DateTimeAggregateSelection;
+};
+
+export type StreakEdge = {
+  __typename?: "StreakEdge";
+  cursor: Scalars["String"]["output"];
+  node: Streak;
+};
+
+export type StreaksConnection = {
+  __typename?: "StreaksConnection";
+  totalCount: Scalars["Int"]["output"];
+  pageInfo: PageInfo;
+  edges: Array<StreakEdge>;
+};
+
 export type StringAggregateSelection = {
   __typename?: "StringAggregateSelection";
   shortest?: Maybe<Scalars["String"]["output"]>;
@@ -1148,6 +1217,12 @@ export type UpdateLessonsMutationResponse = {
   lessons: Array<Lesson>;
 };
 
+export type UpdateStreaksMutationResponse = {
+  __typename?: "UpdateStreaksMutationResponse";
+  info: UpdateInfo;
+  streaks: Array<Streak>;
+};
+
 export type UpdateTopicsMutationResponse = {
   __typename?: "UpdateTopicsMutationResponse";
   info: UpdateInfo;
@@ -1166,8 +1241,6 @@ export type User = {
   clerkId: Scalars["String"]["output"];
   email: Scalars["String"]["output"];
   imageUrl?: Maybe<Scalars["String"]["output"]>;
-  dailyActivityCount: Scalars["Int"]["output"];
-  streak: Scalars["Int"]["output"];
   createdLessonsInteractionsCount: Scalars["Int"]["output"];
   dailyActivity: Array<DailyActivity>;
   hasLessonsAggregate?: Maybe<UserLessonHasLessonsAggregationSelection>;
@@ -1182,6 +1255,9 @@ export type User = {
   completedLessonsAggregate?: Maybe<UserLessonCompletionRecordCompletedLessonsAggregationSelection>;
   completedLessons: Array<LessonCompletionRecord>;
   completedLessonsConnection: UserCompletedLessonsConnection;
+  hasStreakAggregate?: Maybe<UserStreakHasStreakAggregationSelection>;
+  hasStreak: Array<Streak>;
+  hasStreakConnection: UserHasStreakConnection;
 };
 
 export type UserHasLessonsAggregateArgs = {
@@ -1260,6 +1336,25 @@ export type UserCompletedLessonsConnectionArgs = {
   sort?: InputMaybe<Array<UserCompletedLessonsConnectionSort>>;
 };
 
+export type UserHasStreakAggregateArgs = {
+  where?: InputMaybe<StreakWhere>;
+  directed?: InputMaybe<Scalars["Boolean"]["input"]>;
+};
+
+export type UserHasStreakArgs = {
+  where?: InputMaybe<StreakWhere>;
+  options?: InputMaybe<StreakOptions>;
+  directed?: InputMaybe<Scalars["Boolean"]["input"]>;
+};
+
+export type UserHasStreakConnectionArgs = {
+  where?: InputMaybe<UserHasStreakConnectionWhere>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  directed?: InputMaybe<Scalars["Boolean"]["input"]>;
+  sort?: InputMaybe<Array<UserHasStreakConnectionSort>>;
+};
+
 export type UserActivityReportedActivitiesAggregationSelection = {
   __typename?: "UserActivityReportedActivitiesAggregationSelection";
   count: Scalars["Int"]["output"];
@@ -1316,6 +1411,19 @@ export type UserHasLessonsRelationship = {
   cursor: Scalars["String"]["output"];
   node: Lesson;
   properties: HasLesson;
+};
+
+export type UserHasStreakConnection = {
+  __typename?: "UserHasStreakConnection";
+  edges: Array<UserHasStreakRelationship>;
+  totalCount: Scalars["Int"]["output"];
+  pageInfo: PageInfo;
+};
+
+export type UserHasStreakRelationship = {
+  __typename?: "UserHasStreakRelationship";
+  cursor: Scalars["String"]["output"];
+  node: Streak;
 };
 
 export type UserLessonCompletionRecordCompletedLessonsAggregationSelection = {
@@ -1409,6 +1517,19 @@ export type UsersConnection = {
   totalCount: Scalars["Int"]["output"];
   pageInfo: PageInfo;
   edges: Array<UserEdge>;
+};
+
+export type UserStreakHasStreakAggregationSelection = {
+  __typename?: "UserStreakHasStreakAggregationSelection";
+  count: Scalars["Int"]["output"];
+  node?: Maybe<UserStreakHasStreakNodeAggregateSelection>;
+};
+
+export type UserStreakHasStreakNodeAggregateSelection = {
+  __typename?: "UserStreakHasStreakNodeAggregateSelection";
+  id: IdAggregateSelection;
+  streakCount: IntAggregateSelection;
+  lastActivityDate: DateTimeAggregateSelection;
 };
 
 export type ActivityConnectWhere = {
@@ -4566,6 +4687,77 @@ export type ReactedWhere = {
   NOT?: InputMaybe<ReactedWhere>;
 };
 
+export type StreakConnectWhere = {
+  node: StreakWhere;
+};
+
+export type StreakCreateInput = {
+  streakCount: Scalars["Int"]["input"];
+  lastActivityDate: Scalars["DateTime"]["input"];
+};
+
+export type StreakOptions = {
+  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  /** Specify one or more StreakSort objects to sort Streaks by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: InputMaybe<Array<StreakSort>>;
+};
+
+/** Fields to sort Streaks by. The order in which sorts are applied is not guaranteed when specifying many fields in one StreakSort object. */
+export type StreakSort = {
+  id?: InputMaybe<SortDirection>;
+  streakCount?: InputMaybe<SortDirection>;
+  lastActivityDate?: InputMaybe<SortDirection>;
+};
+
+export type StreakUpdateInput = {
+  streakCount?: InputMaybe<Scalars["Int"]["input"]>;
+  streakCount_INCREMENT?: InputMaybe<Scalars["Int"]["input"]>;
+  streakCount_DECREMENT?: InputMaybe<Scalars["Int"]["input"]>;
+  lastActivityDate?: InputMaybe<Scalars["DateTime"]["input"]>;
+};
+
+export type StreakWhere = {
+  id?: InputMaybe<Scalars["ID"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  id_NOT?: InputMaybe<Scalars["ID"]["input"]>;
+  id_IN?: InputMaybe<Array<Scalars["ID"]["input"]>>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  id_NOT_IN?: InputMaybe<Array<Scalars["ID"]["input"]>>;
+  id_CONTAINS?: InputMaybe<Scalars["ID"]["input"]>;
+  id_STARTS_WITH?: InputMaybe<Scalars["ID"]["input"]>;
+  id_ENDS_WITH?: InputMaybe<Scalars["ID"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  id_NOT_CONTAINS?: InputMaybe<Scalars["ID"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  id_NOT_STARTS_WITH?: InputMaybe<Scalars["ID"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  id_NOT_ENDS_WITH?: InputMaybe<Scalars["ID"]["input"]>;
+  streakCount?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  streakCount_NOT?: InputMaybe<Scalars["Int"]["input"]>;
+  streakCount_IN?: InputMaybe<Array<Scalars["Int"]["input"]>>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  streakCount_NOT_IN?: InputMaybe<Array<Scalars["Int"]["input"]>>;
+  streakCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  streakCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  streakCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  streakCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  lastActivityDate?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  lastActivityDate_NOT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  lastActivityDate_IN?: InputMaybe<Array<Scalars["DateTime"]["input"]>>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  lastActivityDate_NOT_IN?: InputMaybe<Array<Scalars["DateTime"]["input"]>>;
+  lastActivityDate_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  lastActivityDate_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  lastActivityDate_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  lastActivityDate_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  OR?: InputMaybe<Array<StreakWhere>>;
+  AND?: InputMaybe<Array<StreakWhere>>;
+  NOT?: InputMaybe<StreakWhere>;
+};
+
 export type TopicConnectOrCreateWhere = {
   node: TopicUniqueWhere;
 };
@@ -4853,6 +5045,7 @@ export type UserConnectInput = {
     Array<UserReportedActivitiesConnectFieldInput>
   >;
   completedLessons?: InputMaybe<Array<UserCompletedLessonsConnectFieldInput>>;
+  hasStreak?: InputMaybe<Array<UserHasStreakConnectFieldInput>>;
 };
 
 export type UserConnectOrCreateWhere = {
@@ -4871,6 +5064,7 @@ export type UserCreateInput = {
   reactedToLessons?: InputMaybe<UserReactedToLessonsFieldInput>;
   reportedActivities?: InputMaybe<UserReportedActivitiesFieldInput>;
   completedLessons?: InputMaybe<UserCompletedLessonsFieldInput>;
+  hasStreak?: InputMaybe<UserHasStreakFieldInput>;
 };
 
 export type UserDeleteInput = {
@@ -4880,6 +5074,7 @@ export type UserDeleteInput = {
     Array<UserReportedActivitiesDeleteFieldInput>
   >;
   completedLessons?: InputMaybe<Array<UserCompletedLessonsDeleteFieldInput>>;
+  hasStreak?: InputMaybe<Array<UserHasStreakDeleteFieldInput>>;
 };
 
 export type UserDisconnectInput = {
@@ -4893,6 +5088,7 @@ export type UserDisconnectInput = {
   completedLessons?: InputMaybe<
     Array<UserCompletedLessonsDisconnectFieldInput>
   >;
+  hasStreak?: InputMaybe<Array<UserHasStreakDisconnectFieldInput>>;
 };
 
 export type UserHasLessonsAggregateInput = {
@@ -5133,6 +5329,125 @@ export type UserHasLessonsUpdateFieldInput = {
   create?: InputMaybe<Array<UserHasLessonsCreateFieldInput>>;
   update?: InputMaybe<UserHasLessonsUpdateConnectionInput>;
   delete?: InputMaybe<Array<UserHasLessonsDeleteFieldInput>>;
+};
+
+export type UserHasStreakAggregateInput = {
+  count?: InputMaybe<Scalars["Int"]["input"]>;
+  count_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  count_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  count_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  count_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  AND?: InputMaybe<Array<UserHasStreakAggregateInput>>;
+  OR?: InputMaybe<Array<UserHasStreakAggregateInput>>;
+  NOT?: InputMaybe<UserHasStreakAggregateInput>;
+  node?: InputMaybe<UserHasStreakNodeAggregationWhereInput>;
+};
+
+export type UserHasStreakConnectFieldInput = {
+  where?: InputMaybe<StreakConnectWhere>;
+  /** Whether or not to overwrite any matching relationship with the new properties. */
+  overwrite?: Scalars["Boolean"]["input"];
+};
+
+export type UserHasStreakConnectionSort = {
+  node?: InputMaybe<StreakSort>;
+};
+
+export type UserHasStreakConnectionWhere = {
+  AND?: InputMaybe<Array<UserHasStreakConnectionWhere>>;
+  OR?: InputMaybe<Array<UserHasStreakConnectionWhere>>;
+  NOT?: InputMaybe<UserHasStreakConnectionWhere>;
+  node?: InputMaybe<StreakWhere>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  node_NOT?: InputMaybe<StreakWhere>;
+};
+
+export type UserHasStreakCreateFieldInput = {
+  node: StreakCreateInput;
+};
+
+export type UserHasStreakDeleteFieldInput = {
+  where?: InputMaybe<UserHasStreakConnectionWhere>;
+};
+
+export type UserHasStreakDisconnectFieldInput = {
+  where?: InputMaybe<UserHasStreakConnectionWhere>;
+};
+
+export type UserHasStreakFieldInput = {
+  connect?: InputMaybe<Array<UserHasStreakConnectFieldInput>>;
+  create?: InputMaybe<Array<UserHasStreakCreateFieldInput>>;
+};
+
+export type UserHasStreakNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<UserHasStreakNodeAggregationWhereInput>>;
+  OR?: InputMaybe<Array<UserHasStreakNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<UserHasStreakNodeAggregationWhereInput>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  id_EQUAL?: InputMaybe<Scalars["ID"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  streakCount_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  streakCount_MIN_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  streakCount_MAX_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  streakCount_SUM_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  streakCount_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  streakCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  streakCount_MIN_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  streakCount_MAX_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  streakCount_SUM_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  streakCount_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  streakCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  streakCount_MIN_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  streakCount_MAX_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  streakCount_SUM_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  streakCount_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  streakCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  streakCount_MIN_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  streakCount_MAX_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  streakCount_SUM_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  streakCount_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  streakCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  streakCount_MIN_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  streakCount_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  streakCount_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  streakCount_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  lastActivityDate_EQUAL?: InputMaybe<Scalars["DateTime"]["input"]>;
+  lastActivityDate_MIN_EQUAL?: InputMaybe<Scalars["DateTime"]["input"]>;
+  lastActivityDate_MAX_EQUAL?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  lastActivityDate_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  lastActivityDate_MIN_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  lastActivityDate_MAX_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  lastActivityDate_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  lastActivityDate_MIN_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  lastActivityDate_MAX_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  lastActivityDate_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  lastActivityDate_MIN_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  lastActivityDate_MAX_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  lastActivityDate_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  lastActivityDate_MIN_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  lastActivityDate_MAX_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+};
+
+export type UserHasStreakUpdateConnectionInput = {
+  node?: InputMaybe<StreakUpdateInput>;
+};
+
+export type UserHasStreakUpdateFieldInput = {
+  where?: InputMaybe<UserHasStreakConnectionWhere>;
+  connect?: InputMaybe<Array<UserHasStreakConnectFieldInput>>;
+  disconnect?: InputMaybe<Array<UserHasStreakDisconnectFieldInput>>;
+  create?: InputMaybe<Array<UserHasStreakCreateFieldInput>>;
+  update?: InputMaybe<UserHasStreakUpdateConnectionInput>;
+  delete?: InputMaybe<Array<UserHasStreakDeleteFieldInput>>;
 };
 
 export type UserOnCreateInput = {
@@ -5395,6 +5710,7 @@ export type UserRelationInput = {
     Array<UserReportedActivitiesCreateFieldInput>
   >;
   completedLessons?: InputMaybe<Array<UserCompletedLessonsCreateFieldInput>>;
+  hasStreak?: InputMaybe<Array<UserHasStreakCreateFieldInput>>;
 };
 
 export type UserReportedActivitiesAggregateInput = {
@@ -5697,8 +6013,6 @@ export type UserSort = {
   clerkId?: InputMaybe<SortDirection>;
   email?: InputMaybe<SortDirection>;
   imageUrl?: InputMaybe<SortDirection>;
-  dailyActivityCount?: InputMaybe<SortDirection>;
-  streak?: InputMaybe<SortDirection>;
   createdLessonsInteractionsCount?: InputMaybe<SortDirection>;
 };
 
@@ -5716,6 +6030,7 @@ export type UserUpdateInput = {
     Array<UserReportedActivitiesUpdateFieldInput>
   >;
   completedLessons?: InputMaybe<Array<UserCompletedLessonsUpdateFieldInput>>;
+  hasStreak?: InputMaybe<Array<UserHasStreakUpdateFieldInput>>;
 };
 
 export type UserWhere = {
@@ -5779,26 +6094,6 @@ export type UserWhere = {
   imageUrl_NOT_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
   /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
   imageUrl_NOT_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
-  dailyActivityCount?: InputMaybe<Scalars["Int"]["input"]>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  dailyActivityCount_NOT?: InputMaybe<Scalars["Int"]["input"]>;
-  dailyActivityCount_IN?: InputMaybe<Array<Scalars["Int"]["input"]>>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  dailyActivityCount_NOT_IN?: InputMaybe<Array<Scalars["Int"]["input"]>>;
-  dailyActivityCount_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  dailyActivityCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  dailyActivityCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  dailyActivityCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  streak?: InputMaybe<Scalars["Int"]["input"]>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  streak_NOT?: InputMaybe<Scalars["Int"]["input"]>;
-  streak_IN?: InputMaybe<Array<Scalars["Int"]["input"]>>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  streak_NOT_IN?: InputMaybe<Array<Scalars["Int"]["input"]>>;
-  streak_LT?: InputMaybe<Scalars["Int"]["input"]>;
-  streak_LTE?: InputMaybe<Scalars["Int"]["input"]>;
-  streak_GT?: InputMaybe<Scalars["Int"]["input"]>;
-  streak_GTE?: InputMaybe<Scalars["Int"]["input"]>;
   createdLessonsInteractionsCount?: InputMaybe<Scalars["Int"]["input"]>;
   /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
   createdLessonsInteractionsCount_NOT?: InputMaybe<Scalars["Int"]["input"]>;
@@ -5923,6 +6218,31 @@ export type UserWhere = {
   /** Return Users where some of the related UserCompletedLessonsConnections match this filter */
   completedLessonsConnection_SOME?: InputMaybe<UserCompletedLessonsConnectionWhere>;
   completedLessonsAggregate?: InputMaybe<UserCompletedLessonsAggregateInput>;
+  /** @deprecated Use `hasStreak_SOME` instead. */
+  hasStreak?: InputMaybe<StreakWhere>;
+  /** @deprecated Use `hasStreak_NONE` instead. */
+  hasStreak_NOT?: InputMaybe<StreakWhere>;
+  /** Return Users where all of the related Streaks match this filter */
+  hasStreak_ALL?: InputMaybe<StreakWhere>;
+  /** Return Users where none of the related Streaks match this filter */
+  hasStreak_NONE?: InputMaybe<StreakWhere>;
+  /** Return Users where one of the related Streaks match this filter */
+  hasStreak_SINGLE?: InputMaybe<StreakWhere>;
+  /** Return Users where some of the related Streaks match this filter */
+  hasStreak_SOME?: InputMaybe<StreakWhere>;
+  /** @deprecated Use `hasStreakConnection_SOME` instead. */
+  hasStreakConnection?: InputMaybe<UserHasStreakConnectionWhere>;
+  /** @deprecated Use `hasStreakConnection_NONE` instead. */
+  hasStreakConnection_NOT?: InputMaybe<UserHasStreakConnectionWhere>;
+  /** Return Users where all of the related UserHasStreakConnections match this filter */
+  hasStreakConnection_ALL?: InputMaybe<UserHasStreakConnectionWhere>;
+  /** Return Users where none of the related UserHasStreakConnections match this filter */
+  hasStreakConnection_NONE?: InputMaybe<UserHasStreakConnectionWhere>;
+  /** Return Users where one of the related UserHasStreakConnections match this filter */
+  hasStreakConnection_SINGLE?: InputMaybe<UserHasStreakConnectionWhere>;
+  /** Return Users where some of the related UserHasStreakConnections match this filter */
+  hasStreakConnection_SOME?: InputMaybe<UserHasStreakConnectionWhere>;
+  hasStreakAggregate?: InputMaybe<UserHasStreakAggregateInput>;
 };
 
 export interface TopicAggregateSelectionInput {
@@ -6123,6 +6443,54 @@ export declare class ActivityModel {
   }): Promise<ActivityAggregateSelection>;
 }
 
+export interface StreakAggregateSelectionInput {
+  count?: boolean;
+  id?: boolean;
+  streakCount?: boolean;
+  lastActivityDate?: boolean;
+}
+
+export declare class StreakModel {
+  public find(args?: {
+    where?: StreakWhere;
+
+    options?: StreakOptions;
+    selectionSet?: string | DocumentNode | SelectionSetNode;
+    args?: any;
+    context?: any;
+    rootValue?: any;
+  }): Promise<Streak[]>;
+  public create(args: {
+    input: StreakCreateInput[];
+    selectionSet?: string | DocumentNode | SelectionSetNode;
+    args?: any;
+    context?: any;
+    rootValue?: any;
+  }): Promise<CreateStreaksMutationResponse>;
+  public update(args: {
+    where?: StreakWhere;
+    update?: StreakUpdateInput;
+
+    selectionSet?: string | DocumentNode | SelectionSetNode;
+    args?: any;
+    context?: any;
+    rootValue?: any;
+  }): Promise<UpdateStreaksMutationResponse>;
+  public delete(args: {
+    where?: StreakWhere;
+
+    context?: any;
+    rootValue?: any;
+  }): Promise<{ nodesDeleted: number; relationshipsDeleted: number }>;
+  public aggregate(args: {
+    where?: StreakWhere;
+
+    aggregate: StreakAggregateSelectionInput;
+    context?: any;
+    rootValue?: any;
+  }): Promise<StreakAggregateSelection>;
+}
+
 export interface UserAggregateSelectionInput {
   count?: boolean;
   id?: boolean;
@@ -6279,6 +6647,7 @@ export interface ModelMap {
   Lesson: LessonModel;
   Keyword: KeywordModel;
   Activity: ActivityModel;
+  Streak: StreakModel;
   User: UserModel;
   LessonCompletionRecord: LessonCompletionRecordModel;
   DailyActivity: DailyActivityModel;

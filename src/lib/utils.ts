@@ -44,3 +44,62 @@ export const sendErrorToast = (error: string) => {
     variant: "destructive"
   })
 }
+
+export const isToday = (isoDateString: string): boolean => {
+  try {
+    // Parse the input string into a Date object
+    const inputDate = new Date(isoDateString);
+
+    // Check if the input is a valid date
+    if (isNaN(inputDate.getTime())) {
+      return false;
+    }
+
+    // Get the current date in local time
+    const now = new Date();
+
+    // Set the time to midnight (start of the day) for today and tomorrow
+    const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const tomorrowMidnight = new Date(todayMidnight);
+    tomorrowMidnight.setDate(todayMidnight.getDate() + 1);
+
+    // Check if the input date falls on "today"
+    return (
+      inputDate >= todayMidnight &&
+      inputDate < tomorrowMidnight
+    );
+  } catch (error) {
+    console.error("Error processing date string:", error);
+    return false;
+  }
+}
+
+
+export const isYesterday = (isoDateString: string): boolean => {
+  try {
+    // Parse the input string into a Date object
+    const inputDate = new Date(isoDateString);
+
+    // Check if the input is a valid date
+    if (isNaN(inputDate.getTime())) {
+      return false;
+    }
+
+    // Get the current date in local time
+    const now = new Date();
+
+    // Set the time to midnight (start of the day) for both dates
+    const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const yesterdayMidnight = new Date(todayMidnight);
+    yesterdayMidnight.setDate(todayMidnight.getDate() - 1);
+
+    // Check if the input date falls on "yesterday"
+    return (
+      inputDate >= yesterdayMidnight &&
+      inputDate < todayMidnight
+    );
+  } catch (error) {
+    console.error("Error processing date string:", error);
+    return false;
+  }
+}

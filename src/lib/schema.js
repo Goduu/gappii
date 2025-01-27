@@ -1,4 +1,5 @@
-export const typeDefs = `#graphql
+
+const typeDefs = `#graphql
 type Topic @node {
   id: ID @id
   title: String! @unique(constraintName: "TopicTitleUnique")
@@ -36,6 +37,12 @@ type Activity @node {
   reportCount: Int # Tracks the number of reports
 }
 
+type Streak @node {
+  id: ID! @id
+  streakCount: Int!
+  lastActivityDate: DateTime!
+}
+
 type User @node {
   id: ID! @id
   clerkId: String!
@@ -45,44 +52,7 @@ type User @node {
   reactedToLessons: [Lesson!]! @relationship(type: "REACTED", properties: "Reacted", direction: OUT)
   reportedActivities: [Activity!]! @relationship(type: "REPORTED", direction: OUT)
   completedLessons: [LessonCompletionRecord!]! @relationship(type: "COMPLETED_LESSON", direction: OUT)
-  dailyActivityCount: Int! @cypher(
-    statement: """
-    MATCH (this)-[:COMPLETED_LESSON]->(record:LessonCompletionRecord)-[attempt:ATTEMPTED]->(:Activity)
-    WHERE date(attempt.attemptedAt) = date()
-    RETURN COUNT(attempt) AS dailyActivityCount
-    """,
-    columnName: "dailyActivityCount"
-  )
-  streak: Int! @cypher(
-    statement: """
-    MATCH (this)-[:COMPLETED_LESSON]->(record:LessonCompletionRecord)-[attempt:ATTEMPTED]->(:Activity)
-    WITH DISTINCT date(attempt.attemptedAt) AS activityDate
-    ORDER BY activityDate DESC
-    WITH collect(activityDate) AS dates, date() AS today
-
-    // Handle case: No activity
-    WITH dates, today
-    WHERE size(dates) > 0
-    WITH dates, today, duration.between(dates[0], today).days AS lastActivityGap
-
-    // If last activity was more than 2 days ago, streak is 0
-    WITH CASE 
-        WHEN lastActivityGap > 2 THEN {streak: 0, stopped: true}
-        ELSE
-            // Calculate streak
-            reduce(result = {streak: 1, stopped: false}, i IN range(0, size(dates) - 2) |
-                CASE
-                    // Stop streak if gap between consecutive dates is more than 1 day
-                    WHEN result.stopped THEN result
-                    WHEN duration.between(dates[i+1], dates[i]).days = 1 THEN {streak: result.streak + 1, stopped: false}
-                    ELSE {streak: result.streak, stopped: true}
-                END
-            )
-    END AS finalResult
-    RETURN finalResult.streak AS streak
-    """,
-    columnName: "streak"
-  )
+  hasStreak: [Streak!]! @relationship(type: "HAS_STREAK", direction: OUT)
   # return the number of interactions with this users created lessons
   createdLessonsInteractionsCount: Int! @cypher(
     statement: """
@@ -144,3 +114,6 @@ type DailyActivity {
 // CREATE CONSTRAINT UserEmailUnique FOR (u:User) REQUIRE u.email IS UNIQUE;
 // CREATE FULLTEXT INDEX LessonTitle FOR (l:Lesson) ON EACH [l.title];
 // CREATE FULLTEXT INDEX TopicTitle FOR (t:Topic) ON EACH [t.title];
+
+
+module.exports = { typeDefs }

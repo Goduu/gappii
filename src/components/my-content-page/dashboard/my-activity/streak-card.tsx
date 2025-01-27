@@ -6,13 +6,20 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import clsx from 'clsx'
 import { GappiiBehindElement } from '@/components/ui/gappii-behind-element'
+import { Streak } from '@/ogm-types'
+import { isToday, isYesterday } from '@/lib/utils'
 
 type StreakCardProps = {
-  streak: number
-  completedToday: boolean
+  streak?: Streak
 }
 
-export const StreakCard = ({ streak, completedToday }: StreakCardProps) => {
+export const StreakCard = ({ streak }: StreakCardProps) => {
+
+  const completedToday = streak?.lastActivityDate ? isToday(streak.lastActivityDate) : false
+  const completedYesterday = streak?.lastActivityDate ? isYesterday(streak.lastActivityDate) : false
+
+  const currentStreak = !completedYesterday && !completedToday ? 0 : streak?.streakCount || 0
+
   return (
     <GappiiBehindElement>
       <Card className="overflow-hidden bg-gradient-to-br from-background to-muted/20 relative h-full">
@@ -68,7 +75,7 @@ export const StreakCard = ({ streak, completedToday }: StreakCardProps) => {
                   "text-7xl font-bold ",
                   { "text-orange-500": completedToday },
                   { "text-neutral-500": !completedToday }
-                )}>{streak}</span>
+                )}>{currentStreak}</span>
                 {completedToday && (
                   <motion.div
                     className="absolute -top-1 -right-1"
@@ -88,7 +95,7 @@ export const StreakCard = ({ streak, completedToday }: StreakCardProps) => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
             >
-              {getSentence(streak)}
+              {getSentence(currentStreak)}
             </motion.p>
           </div>
         </CardContent>

@@ -19,14 +19,14 @@ export const Dashboard: FC<DashboardProps> = async ({ searchParams }) => {
     const user = await currentUser();
     if (!user) return null;
 
-    const { streak, dailyActivityCount, lessonsCreatedCount, createdLessonsInteractionsCount } = await getUserStatistics(user.id)
+    const { streak, lessonsCreatedCount, createdLessonsInteractionsCount } = await getUserStatistics(user.id)
 
     return (
         <div className="w-full space-y-4 flex flex-col gap-4">
             <div className='flex flex-col md:flex-row gap-4 flex-wrap'>
                 <ActivityHistoryCard />
                 <Suspense fallback={<Skeleton className='w-full h-full' />}>
-                    <StreakCard streak={streak || 0} completedToday={dailyActivityCount > 0} />
+                    <StreakCard streak={streak} />
                 </Suspense>
                 <LessonsCreatedCard lessonsCreatedCount={lessonsCreatedCount || 0} />
                 <ReactionsInLessonsCard createdLessonsInteractionsCount={createdLessonsInteractionsCount || 0} />

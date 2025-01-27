@@ -1,5 +1,5 @@
 "use client"
-import { Activity, Lesson } from "../../ogm-types";
+import { Activity, Lesson, Streak } from "../../ogm-types";
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { LessonMode } from "./type";
 import { useSearchParams } from "next/navigation";
@@ -22,6 +22,7 @@ export type SummaryLesson = {
     correctAnswers: number;
     totalQuestions: number;
     attempts: Array<[number, ActivityAttempt]>;
+    userStreak?: Streak
 };
 
 type LessonContextType = {
@@ -40,11 +41,12 @@ type LessonContextType = {
 type LessonProviderProps = {
     children: ReactNode;
     lesson: Lesson;
+    userStreak?: Streak
 };
 
 const LessonContext = createContext<LessonContextType | undefined>(undefined);
 
-export const LessonProvider: React.FC<LessonProviderProps> = ({ children, lesson }) => {
+export const LessonProvider: React.FC<LessonProviderProps> = ({ children, lesson, userStreak }) => {
     const [currentActivityIndex, setCurrentActivityIndex] = useState(0);
     const [completedActivities, setCompletedActivities] = useState<number[]>([]);
     const [progress, setProgress] = useState(0);
@@ -78,6 +80,7 @@ export const LessonProvider: React.FC<LessonProviderProps> = ({ children, lesson
         correctAnswers,
         totalQuestions: activities.length,
         attempts: Array.from(attempts.entries()),
+        userStreak
     });
 
     const handleNext = (isCorrect?: boolean) => {

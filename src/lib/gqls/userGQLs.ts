@@ -84,7 +84,11 @@ export const GET_USER_STATISTICS = gql`
   query GetUserStatistics($where: UserWhere) {
     users(where: $where) {
       streak
-      dailyActivityCount
+      hasStreak {
+        id
+        streakCount
+        lastActivityDate
+      }
       hasLessonsConnection {
         edges{
           properties{

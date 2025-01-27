@@ -7,6 +7,7 @@ import { currentUser } from '@clerk/nextjs/server'
 import { Skeleton } from '@/components/ui/skeleton'
 import { MyLessons } from './my-lessons/my-lessons'
 import { getUserStatistics } from '@/lib/queries/getUserStreak'
+import { Separator } from '@/components/ui/separator'
 
 type DashboardProps = {
     searchParams?: {
@@ -31,6 +32,7 @@ export const Dashboard: FC<DashboardProps> = async ({ searchParams }) => {
                 <LessonsCreatedCard lessonsCreatedCount={lessonsCreatedCount || 0} />
                 <ReactionsInLessonsCard createdLessonsInteractionsCount={createdLessonsInteractionsCount || 0} />
             </div>
+            <Separator />
             <MyLessons searchParams={searchParams} />
         </div>
 

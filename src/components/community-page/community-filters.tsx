@@ -12,15 +12,15 @@ import { LanguageSelector } from '../learn-input/language-selector'
 
 export const CommunityFilters = () => {
   const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams);
   const pathname = usePathname();
   const { replace } = useRouter();
-  const urlReaction = searchParams.get('reaction');
   const isDesktop = useMediaQuery("(min-width: 768px)")
 
   const handleToggle = (toggle: "topRated" | "newest") => {
-    const params = new URLSearchParams(searchParams);
+    const urlToggle = searchParams.get('toggle');
 
-    if (toggle && toggle !== urlReaction) {
+    if (toggle && toggle !== urlToggle) {
       params.set('toggle', toggle);
     } else {
       params.delete('toggle');
@@ -30,8 +30,9 @@ export const CommunityFilters = () => {
   }
 
   const onLevelChange = (level: string | undefined) => {
-    const params = new URLSearchParams(searchParams);
-    if (level) {
+    const currentLevel = params.get('level');
+
+    if (level && level !== currentLevel) {
       params.set('level', level);
     } else {
       params.delete('level');
@@ -40,8 +41,9 @@ export const CommunityFilters = () => {
   }
 
   const onLanguageChange = (language: SupportedLanguage | undefined) => {
-    const params = new URLSearchParams(searchParams);
-    if (language) {
+    const currentLanguage = params.get('language');
+    console.log(currentLanguage)
+    if (language && language !== currentLanguage) {
       params.set('language', language);
     } else {
       params.delete('language');

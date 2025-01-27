@@ -18,7 +18,7 @@ type LessonCardProps = {
 }
 
 export const LessonCard: FC<LessonCardProps> = ({ lesson, variant }) => {
-    const reaction = lesson.wasReactedConnection.edges[0]?.properties.type as LessonReaction
+    const reaction = lesson.wasReactedConnection?.edges?.[0]?.properties.type as LessonReaction
 
     return (
         <Card className="w-full md:w-auto min-w-[22rem] relative overflow-hidden">

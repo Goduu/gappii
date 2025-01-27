@@ -24,7 +24,8 @@ export const getUserStatistics = async (
 
         return {
             streak: data.users[0].hasStreak[0],
-            lessonsCreatedCount: data.users[0].hasLessonsConnection.edges.filter((edge: { properties: { type: string; }; }) => edge.properties.type === "CREATED").length,
+            lessonsCreatedCount: data.users[0].hasLessonsConnection.edges
+                .filter((edge: { properties: { type: string; }; }) => edge.properties.type === "CREATED").length,
             createdLessonsInteractionsCount: data.users[0].createdLessonsInteractionsCount
         };
     } catch (error) {

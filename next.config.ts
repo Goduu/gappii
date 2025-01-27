@@ -4,6 +4,9 @@ import type { NextConfig } from "next";
 const nextConfig = {
   reactStrictMode: true,
   serverExternalPackages: ["graphql"],
+  experimental: {
+    reactCompiler: true,
+  },
 }
 
 export default nextConfig;

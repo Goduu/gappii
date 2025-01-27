@@ -24,7 +24,7 @@ export const FilterBar: FC = () => {
       params.delete('reaction');
     }
 
-    replace(`${pathname}?${params.toString()}`);
+    replace(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
   const removeTopic = () => {

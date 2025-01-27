@@ -83,7 +83,6 @@ export const UPDATE_USER = gql`
 export const GET_USER_STATISTICS = gql`
   query GetUserStatistics($where: UserWhere) {
     users(where: $where) {
-      streak
       hasStreak {
         id
         streakCount

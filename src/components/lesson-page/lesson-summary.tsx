@@ -1,7 +1,7 @@
 import { formatTime } from "@/lib/utils";
 import { SummaryLesson } from "./lesson-context";
 import { routes } from "@/lib/routes";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
@@ -23,6 +23,8 @@ export const LessonSummary: React.FC<LessonSummaryProps> = ({ summary, isOnboard
     const { user } = useUser();
     const [isPending, startTransition] = useTransition();
     const hasCompletedRef = useRef(false);
+    const searchParams = useSearchParams();
+    const mode = searchParams.get("mode");
 
     const completeLesson = useCompleteLesson();
     // const yesterday = new Date();
@@ -51,7 +53,11 @@ export const LessonSummary: React.FC<LessonSummaryProps> = ({ summary, isOnboard
     }, [completeLesson, isOnboarding, isPending, summary, user]);
 
     const handleFinish = () => {
-        router.push(routes.dashboard);
+        if(mode === "hard") {
+            router.push(routes.dashboard(mode));
+        } else {
+            router.push(routes.dashboard());
+        }
     }
 
     return (
@@ -98,6 +104,7 @@ export const LessonSummary: React.FC<LessonSummaryProps> = ({ summary, isOnboard
                                             <DialogDescription hidden title="Mini-card shown the answer for question {index + 1}" />
                                             <MiniActivityCard
                                                 attempt={data}
+                                                mode={mode === "hard" ? "hard" : "normal"}
                                                 activityContent={data.activityContent}
                                                 wrongAnswer={data.wrongAnswer}
                                                 correctAnswer={data.correctAnswer}

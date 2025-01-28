@@ -30,6 +30,9 @@ export const LearnInput: FC<LearnInputProps> = ({
     hideCreateYourself = false,
     onCreate
 }) => {
+    "use no memo"
+    // use no memo tells react compiler to not memoize the form so that we can 
+    // watch the form state successfully
     const { form } = useCreateLessonForm(initialLesson)
     const { startTransition } = useTransitionContext()
     const createLesson = useCreateLesson()
@@ -121,7 +124,7 @@ export const LearnInput: FC<LearnInputProps> = ({
                 {!hideAdvancedParams && (
                     <AdvancedParams form={form} />
                 )}
-
+                
                 {!hideActions && (
                     <div className='flex justify-center gap-2'>
                         {!hideCreateYourself &&

@@ -83,7 +83,7 @@ export const LessonProvider: React.FC<LessonProviderProps> = ({ children, lesson
         userStreak
     });
 
-    const handleNext = (isCorrect?: boolean) => {
+    const handleNext = (isCorrect?: boolean, answer?: string) => {
         setTransitionDirection('next');
 
         // Only record the attempt if it hasn't been recorded before
@@ -101,8 +101,8 @@ export const LessonProvider: React.FC<LessonProviderProps> = ({ children, lesson
                 isCorrect,
                 timeTaken,
                 activityContent: currentActivity.description,
-                wrongAnswer: currentActivity.options.find(o => o !== currentActivity.answer) || "",
-                correctAnswer: currentActivity.answer
+                wrongAnswer: (mode === "hard" && !isCorrect) ? answer || "" : currentActivity.options.find(o => o !== currentActivity.answer) || "",
+                correctAnswer: (mode === "hard" && isCorrect) ? answer || "" : currentActivity.answer
             })));
         }
 

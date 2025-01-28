@@ -1,9 +1,11 @@
 import { ActivityAttempt } from "./lesson-context";
 import { CheckCircle2, XCircle } from "lucide-react";
+import { LessonMode } from "./type";
 
 interface MiniActivityCardProps {
     attempt: ActivityAttempt;
     activityContent: string;
+    mode: LessonMode;
     wrongAnswer: string;
     correctAnswer: string;
 }
@@ -11,9 +13,11 @@ interface MiniActivityCardProps {
 export const MiniActivityCard: React.FC<MiniActivityCardProps> = ({
     attempt,
     activityContent,
+    mode,
     wrongAnswer,
     correctAnswer
 }) => {
+    const isHardMode = mode === "hard";
 
     return (
         <div className="space-y-2">
@@ -36,17 +40,19 @@ export const MiniActivityCard: React.FC<MiniActivityCardProps> = ({
                     </div>
                 </div>
 
-                <div className="text-sm p-1.5 rounded-md bg-slate-50/50 flex items-start gap-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-slate-400 mt-0.5 flex-shrink-0" />
-                    <div className="flex-1">
-                        <span className="text-xs text-muted-foreground block mb-0.5">
-                            {attempt.isCorrect ? 'Alternative answer' : 'Correct answer'}
-                        </span>
-                        <span className="text-slate-600 text-sm break-words">
-                            {!attempt.isCorrect ? correctAnswer : wrongAnswer}
-                        </span>
+                {!isHardMode || !attempt.isCorrect && (
+                    <div className="text-sm p-1.5 rounded-md bg-slate-50/50 flex items-start gap-2">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-slate-400 mt-0.5 flex-shrink-0" />
+                        <div className="flex-1">
+                            <span className="text-xs text-muted-foreground block mb-0.5">
+                                {attempt.isCorrect ? 'Alternative answer' : 'Correct answer'}
+                            </span>
+                            <span className="text-slate-600 text-sm break-words">
+                                {!attempt.isCorrect ? correctAnswer : wrongAnswer}
+                            </span>
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
         </div>
     );

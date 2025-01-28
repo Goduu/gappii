@@ -22,7 +22,7 @@ export const DeleteLessonButton: FC<DeleteLessonButtonProps> = ({ lessonId }) =>
         if (!lessonId) return
         startTransition(async () => {
             await deleteLesson({ variables: { where: { id: lessonId } } satisfies MutationDeleteLessonCompletionRecordsArgs })
-            redirect(routes.dashboard)
+            redirect(routes.dashboard())
         })
     }
 

@@ -42,7 +42,7 @@ export const CommunityFilters = () => {
 
   const onLanguageChange = (language: SupportedLanguage | undefined) => {
     const currentLanguage = params.get('language');
-    console.log(currentLanguage)
+
     if (language && language !== currentLanguage) {
       params.set('language', language);
     } else {

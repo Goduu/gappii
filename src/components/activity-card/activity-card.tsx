@@ -34,7 +34,7 @@ const cardVariants = {
 type ActivityCardProps = {
     activity: Activity;
     reported: boolean;
-    onNext: (isCorrect: boolean) => void;
+    onNext: (isCorrect: boolean, answer?: string) => void;
     direction: 'next' | 'prev';
     mode?: LessonMode
 };
@@ -54,7 +54,7 @@ export const ActivityCard: FC<ActivityCardProps> = ({
 
     const handleKeyPress = useCallback((event: KeyboardEvent) => {
         if (event.key === 'Enter' && activityDone) {
-            onNext(isAnswerCorrect ?? false);
+            onNext(isAnswerCorrect ?? false, selectedOption);
         }
     }, [activityDone, isAnswerCorrect, onNext]);
 
@@ -176,7 +176,7 @@ export const ActivityCard: FC<ActivityCardProps> = ({
                                     className="flex-1"
                                     autoFocus
                                 />
-                                <Button onClick={() => onNext(false)} type="submit" className='flex items-center gap-1'>Skip <ArrowRightIcon /></Button>
+                                <Button onClick={() => onNext(false, selectedOption)} type="submit" className='flex items-center gap-1'>Skip <ArrowRightIcon /></Button>
                             </>
                         ) : (
                             activitySortedOptions.map(option => (

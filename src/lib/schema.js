@@ -81,7 +81,7 @@ type LessonCompletionRecord @node {
   timeTaken: Int
   mode: String! # "normal", "hard"
   byUser: User! @relationship(type: "COMPLETED_LESSON", direction: IN)
-  forLesson: Lesson! @relationship(type: "FOR_LESSON", direction: OUT)
+  forLesson: Lesson @relationship(type: "FOR_LESSON", direction: OUT)
   attemptedActivities: [Activity!]! @relationship(type: "ATTEMPTED",properties: "AttemptActivity", direction: OUT)
 }
 
@@ -89,6 +89,7 @@ type AttemptActivity @relationshipProperties {
   attemptedAt: DateTime!
   isCorrect: Boolean!
   timeTaken: Int
+  correctedAt: DateTime
 }
 
 type HasLesson @relationshipProperties {

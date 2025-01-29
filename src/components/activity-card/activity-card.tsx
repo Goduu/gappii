@@ -56,7 +56,7 @@ export const ActivityCard: FC<ActivityCardProps> = ({
         if (event.key === 'Enter' && activityDone) {
             onNext(isAnswerCorrect ?? false, selectedOption);
         }
-    }, [activityDone, isAnswerCorrect, onNext]);
+    }, [activityDone, isAnswerCorrect, onNext, selectedOption]);
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeyPress);

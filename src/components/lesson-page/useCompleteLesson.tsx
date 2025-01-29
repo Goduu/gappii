@@ -15,12 +15,12 @@ export const useCompleteLesson = () => {
     const { user } = useUser();
     const [updateUser] = useMutation(UPDATE_USER);
 
-    const getStreakUpdate = (lastActivityDate: string): StreakUpdate => {
+    const getStreakUpdate = (lastActivityDate: string, score: number): StreakUpdate => {
         const currentDate = new Date().toISOString();
 
         if (isYesterday(lastActivityDate)) {
             return {
-                streakCount_INCREMENT: 1,
+                streakCount_INCREMENT: score > 0 ? 1 : 0,
                 lastActivityDate: currentDate
             };
         }
@@ -52,7 +52,8 @@ export const useCompleteLesson = () => {
                     edge: {
                         attemptedAt: new Date().toISOString(),
                         isCorrect: attempt.isCorrect,
-                        timeTaken: attempt.timeTaken
+                        timeTaken: attempt.timeTaken,
+                        correctedAt: new Date().toISOString()
                     }
                 }))
             }
@@ -64,7 +65,7 @@ export const useCompleteLesson = () => {
             return {
                 where: { node: { id: summary.userStreak.id } },
                 update: {
-                    node: getStreakUpdate(summary.userStreak.lastActivityDate)
+                    node: getStreakUpdate(summary.userStreak.lastActivityDate, summary.score)
                 }
             };
         }

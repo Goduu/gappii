@@ -9,6 +9,7 @@ import { useSearchParams } from "next/navigation";
 type LessonContentProps = {
     lesson: Lesson;
     reportedActivityIds?: Activity[] | undefined;
+    onActivityComplete?: (activityIndex: number) => void;
 };
 
 export const LessonContent: React.FC<LessonContentProps> = ({

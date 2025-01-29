@@ -742,7 +742,7 @@ export type LessonCompletionRecord = {
   byUser: User;
   byUserConnection: LessonCompletionRecordByUserConnection;
   forLessonAggregate?: Maybe<LessonCompletionRecordLessonForLessonAggregationSelection>;
-  forLesson: Lesson;
+  forLesson?: Maybe<Lesson>;
   forLessonConnection: LessonCompletionRecordForLessonConnection;
   attemptedActivitiesAggregate?: Maybe<LessonCompletionRecordActivityAttemptedActivitiesAggregationSelection>;
   attemptedActivities: Array<Activity>;

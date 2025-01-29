@@ -80,6 +80,35 @@ export const UPDATE_USER = gql`
 }
 `
 
+export const GET_USER_MISTAKES = gql`
+  query GetUserMistakes($where: UserWhere) {
+    users(where: $where) {
+      id
+      completedLessons {
+        id
+        forLesson {
+          id
+          title
+        }
+        attemptedActivitiesConnection(where: {edge: {isCorrect: false}}) {
+          edges {
+            node {
+              id
+              description
+              options
+              answer
+              comment
+            }
+            properties{ 
+              isCorrect
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
 export const GET_USER_STATISTICS = gql`
   query GetUserStatistics($where: UserWhere) {
     users(where: $where) {

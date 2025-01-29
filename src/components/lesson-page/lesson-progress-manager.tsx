@@ -9,6 +9,7 @@ import { GET_USER_STATISTICS } from "@/lib/gqls/userGQLs";
 type LessonProgressManagerProps = {
     lesson: Lesson;
     reportedActivityIds?: Activity[] | undefined;
+    isMistakeCorrection?: boolean;
 };
 
 export const LessonProgressManager: React.FC<LessonProgressManagerProps> = (props) => {

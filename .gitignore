@@ -1,7 +1,6 @@
 /node_modules
-.evn.local
-/src/ogm-resolver/node_modules
-.next
 /ogm-resolver/node_modules
+.evn.local
+.next
 .env*
 .DS_Store

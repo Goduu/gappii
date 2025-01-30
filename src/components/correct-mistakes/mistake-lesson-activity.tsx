@@ -41,6 +41,7 @@ export const MistakeLessonActivity: React.FC<MistakeLessonActivityProps> = ({
                     onNext={handleNext}
                     direction={transitionDirection}
                     mode={mode}
+                    isCorrectingMistakes
                 />
             </AnimatePresence>
         </div>

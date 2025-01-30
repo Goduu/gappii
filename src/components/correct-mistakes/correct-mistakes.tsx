@@ -44,7 +44,7 @@ export const CorrectMistakes = () => {
     }
 
     return (
-        <div className="w-full bg-violet-900">
+        <div className="w-full">
             <MistakeLessonProgressManager
                 mistakeLessons={mistakeLessons}
             />

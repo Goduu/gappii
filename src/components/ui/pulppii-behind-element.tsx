@@ -24,12 +24,12 @@ export const PulppiiBehindElement: FC<PulppiiBehindElementProps> = ({
     showMessage = false,
     pulppiiPosition = {
         top: '-1.4rem',
-        right: '-0.6rem',
+        right: '-0.8rem',
         scale: 1
     }
 }) => {
     return (
-        <div className={cn('relative h-full', className)}>
+        <div className={cn('relative h-full overflow-x-hidden', className)}>
             {/* Gappii Container with Group */}
             <div className="absolute inset-0 group">
                 {/* Body - Behind Card */}
@@ -44,11 +44,7 @@ export const PulppiiBehindElement: FC<PulppiiBehindElementProps> = ({
                         zIndex: 0
                     }}
                 >
-                    <div
-                        className={clsx(
-                            "absolute w-full h-full ease-in-out duration-700",
-                        )}
-                    >
+                    <div className="absolute w-full h-full ease-in-out duration-700">
                         <PulppiiBody />
                     </div>
                 </div>
@@ -66,7 +62,7 @@ export const PulppiiBehindElement: FC<PulppiiBehindElementProps> = ({
                     }}
                 >
                     <PulppiiHands />
-                    <div className="absolute w-full h-full" >
+                    <div className="absolute w-full h-full top-[1.70rem]" >
                         <GappiiSpeechBubble
                             message={message}
                             show={showMessage}

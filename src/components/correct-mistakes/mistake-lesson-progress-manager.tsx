@@ -26,7 +26,7 @@ export const MistakeLessonProgressManager: FC<MistakeLessonProgressManagerProps>
 
     return (
         <MistakeLessonProvider mistakeLessons={mistakeLessons} userStreak={streak}>
-            <MistakeLessonContent mistakeLessons={mistakeLessons} />
+            <MistakeLessonContent />
         </MistakeLessonProvider>
     );
 };

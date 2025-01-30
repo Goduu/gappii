@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { LessonMode } from '../lesson-page/type';
 import { useDebouncedCallback } from 'use-debounce';
 import { ArrowRightIcon } from 'lucide-react';
+import { PulppiiBehindElement } from '../ui/pulppii-behind-element';
 
 const cardVariants = {
     initial: (direction: 'next' | 'prev') => ({
@@ -36,6 +37,7 @@ type ActivityCardProps = {
     reported: boolean;
     onNext: (isCorrect: boolean, answer?: string) => void;
     direction: 'next' | 'prev';
+    isCorrectingMistakes?: boolean;
     mode?: LessonMode
 };
 
@@ -44,6 +46,7 @@ export const ActivityCard: FC<ActivityCardProps> = ({
     reported,
     onNext,
     direction,
+    isCorrectingMistakes = false,
     mode = 'normal'
 }) => {
     const [selectedOption, setSelectedOption] = useState<string>('');
@@ -60,7 +63,7 @@ export const ActivityCard: FC<ActivityCardProps> = ({
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeyPress);
-        
+
         return () => {
             window.removeEventListener('keydown', handleKeyPress);
             if (messageTimeoutRef.current) {
@@ -106,7 +109,7 @@ export const ActivityCard: FC<ActivityCardProps> = ({
         ? [...activity.options].sort((a: string, b: string) => (a < b ? -1 : 1))
         : [];
 
-        
+    const BehindElement = isCorrectingMistakes ? PulppiiBehindElement : GappiiBehindElement;
 
     const onUserAnswerChange = useDebouncedCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const userAnswer = e.target.value.toLocaleLowerCase()
@@ -131,9 +134,9 @@ export const ActivityCard: FC<ActivityCardProps> = ({
                 type: 'tween',
                 duration: 0.25
             }}
-            className=" w-full"
+            className="w-full"
         >
-            <GappiiBehindElement
+            <BehindElement
                 message={message}
                 showMessage={showComment}
             >
@@ -158,7 +161,7 @@ export const ActivityCard: FC<ActivityCardProps> = ({
                     </CardHeader>
                     <CardFooter className="flex justify-center gap-2 w-full">
                         {activityDone ? (
-                            <Button 
+                            <Button
                                 size="lg"
                                 onClick={() => onNext(isAnswerCorrect ?? false)}
                                 className="relative group"
@@ -193,7 +196,7 @@ export const ActivityCard: FC<ActivityCardProps> = ({
                         )}
                     </CardFooter>
                 </Card>
-            </GappiiBehindElement>
+            </BehindElement>
         </motion.div>
     );
 };

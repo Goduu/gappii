@@ -2,5 +2,6 @@
 .evn.local
 /src/ogm-resolver/node_modules
 .next
+/ogm-resolver/node_modules
 .env*
 .DS_Store

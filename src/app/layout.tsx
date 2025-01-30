@@ -73,7 +73,7 @@ export default function RootLayout({
         <script src="https://unpkg.com/react-scan/dist/auto.global.js" async /> */}
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col flex-1`}
       >
         <ClerkProvider
           signUpFallbackRedirectUrl={routes.dashboard()}
@@ -81,7 +81,7 @@ export default function RootLayout({
           <TransitionProvider>
             <TooltipProvider>
               <Toaster />
-              <div className="items-center justify-items-center max-w-screen w-screen bg-gradient-to-b from-slate-50 to-white p-4 md:p-8  min-h-screen md:min-w-[580px] pb-20 gap-16  font-[family-name:var(--font-geist-sans)]">
+              <div className="items-center justify-items-center max-w-screen w-screen bg-gradient-to-b from-slate-50 to-white p-4 md:p-8 md:min-w-[580px] pb-20 gap-16  font-[family-name:var(--font-geist-sans)]">
                 <main className="flex flex-col gap-8 row-start-2 items-center w-full">
                   <ApolloWrapper >
                     {children}
@@ -97,13 +97,13 @@ export default function RootLayout({
                     </SignedIn>
                   </div>
                 </main>
-                <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center pt-4">
-                  <Footer />
-                </footer>
               </div>
             </TooltipProvider>
           </TransitionProvider>
         </ClerkProvider>
+        <footer className="flex items-center justify-center mt-auto pb-4">
+          <Footer />
+        </footer>
       </body>
     </html>
   );

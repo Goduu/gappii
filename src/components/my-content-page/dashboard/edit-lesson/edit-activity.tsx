@@ -10,6 +10,10 @@ import { QuestionSection } from './question-section';
 import { CommentSection } from './comment-section';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { ActivityImage } from '@/components/activity-card/activity-image';
+import { FormControl } from '@/components/ui/form';
+import { FormItem } from '@/components/ui/form';
+import { FormField } from '@/components/ui/form';
 
 export type EditActivityProps = {
     activity: LessonFormValues['activities'][number];
@@ -50,7 +54,17 @@ export const EditActivity: FC<EditActivityProps> = ({ activity, index, form, rem
 
                     <div className="flex-1 space-y-6">
                         <QuestionSection index={index} form={form} />
-
+                        <FormField
+                            control={form.control}
+                            name={`activities.${index}.mermaid`}
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <ActivityImage diagram={activity.mermaid} isEditingMode onDiagramChange={field.onChange} />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
                         <div className='flex flex-col md:flex-row gap-4'>
 
                             <OptionsSection activity={activity} index={index} form={form} />

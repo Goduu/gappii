@@ -1,7 +1,6 @@
 import React, { FC } from 'react'
 import { cn } from '@/lib/utils'
 import { GappiiSpeechBubble } from './gappii-speech-bubble'
-import clsx from 'clsx'
 import { PulppiiHands } from '../pulppii-hands'
 import { PulppiiBody } from '../pulppii-body'
 

@@ -22,7 +22,7 @@ export const MistakeLessonSummary: React.FC<LessonSummaryProps> = ({ summary, is
     const mode = searchParams.get("mode");
 
     // @TODO complete this component
-    const completeLesson = () => { }
+    // const completeLesson = () => { }
     // const yesterday = new Date();
     // yesterday.setDate(yesterday.getDate() - 1);
 
@@ -40,7 +40,7 @@ export const MistakeLessonSummary: React.FC<LessonSummaryProps> = ({ summary, is
                 console.error('Error completing lesson:', error);
             }
         });
-    }, [completeLesson, isOnboarding, isPending, summary, user]);
+    }, [ isOnboarding, isPending, summary, user]);
 
     const handleFinish = () => {
         if (mode === "hard") {

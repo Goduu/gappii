@@ -10,7 +10,6 @@ import { HardModeSwitch } from '@/components/lesson-card/hard-mode-switch'
 import { useGetUserLessons } from './useGetUserLessons'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
-import { PulppiiBehindElement } from '@/components/ui/pulppii-behind-element'
 import { SearchCheck } from 'lucide-react'
 
 type MyLessonsProps = {
@@ -30,13 +29,15 @@ export const MyLessons = ({ searchParams }: MyLessonsProps) => {
                 <PageTitle title='My Lessons' />
                 <CreateLesson />
                 <HardModeSwitch />
-                <PulppiiBehindElement >
-                    <Button
-                        className=" relative ml-auto flex items-center gap-2"
-                        onClick={() => router.push('/logged-in/correct-mistakes')}>
-                        <SearchCheck /> Correct my mistakes
-                    </Button>
-                </PulppiiBehindElement>
+                {/* <PulppiiBehindElement > */}
+                <Button
+                    disabled
+                    title="Coming soon"
+                    className=" relative ml-auto flex items-center gap-2"
+                    onClick={() => router.push('/logged-in/correct-mistakes')}>
+                    <SearchCheck /> Correct my mistakes
+                </Button>
+                {/* </PulppiiBehindElement> */}
             </div>
             <div className='flex flex-col gap-2'>
                 <LessonSearchBar />

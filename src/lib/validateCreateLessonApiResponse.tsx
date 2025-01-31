@@ -12,7 +12,8 @@ export type ApiActivityResponse = {
         order: number,
         options: string[],
         answer: string,
-        comment: string
+        comment: string,
+        mermaid: string | undefined
     }[]
 }
 

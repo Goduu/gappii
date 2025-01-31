@@ -28,6 +28,7 @@ export const useSaveTranslatedLesson = () => {
                     order: activity.order,
                     options: activity.options,
                     answer: activity.answer,
+                    mermaid: activity.mermaid,
                     comment: activity.comment,
                 }))
             } satisfies MutationCreateActivitiesArgs

@@ -26,6 +26,7 @@ export const useCreateLesson = () => {
                     options: activity.options,
                     answer: activity.answer,
                     comment: activity.comment,
+                    mermaid: activity.mermaid
                 }))
             } satisfies MutationCreateActivitiesArgs
         }) : { data: { createActivities: { activities: [] } } }

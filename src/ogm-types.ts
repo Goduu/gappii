@@ -376,6 +376,7 @@ export type Activity = {
   options: Array<Scalars["String"]["output"]>;
   answer: Scalars["String"]["output"];
   comment: Scalars["String"]["output"];
+  mermaid?: Maybe<Scalars["String"]["output"]>;
   reportCount?: Maybe<Scalars["Int"]["output"]>;
 };
 
@@ -387,6 +388,7 @@ export type ActivityAggregateSelection = {
   description: StringAggregateSelection;
   answer: StringAggregateSelection;
   comment: StringAggregateSelection;
+  mermaid: StringAggregateSelection;
   reportCount: IntAggregateSelection;
 };
 
@@ -405,6 +407,7 @@ export type AttemptActivity = {
   attemptedAt: Scalars["DateTime"]["output"];
   isCorrect: Scalars["Boolean"]["output"];
   timeTaken?: Maybe<Scalars["Int"]["output"]>;
+  correctedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type CreateActivitiesMutationResponse = {
@@ -718,6 +721,7 @@ export type LessonActivityHasActivitiesNodeAggregateSelection = {
   description: StringAggregateSelection;
   answer: StringAggregateSelection;
   comment: StringAggregateSelection;
+  mermaid: StringAggregateSelection;
   reportCount: IntAggregateSelection;
 };
 
@@ -821,6 +825,7 @@ export type LessonCompletionRecordActivityAttemptedActivitiesEdgeAggregateSelect
     __typename?: "LessonCompletionRecordActivityAttemptedActivitiesEdgeAggregateSelection";
     attemptedAt: DateTimeAggregateSelection;
     timeTaken: IntAggregateSelection;
+    correctedAt: DateTimeAggregateSelection;
   };
 
 export type LessonCompletionRecordActivityAttemptedActivitiesNodeAggregateSelection =
@@ -831,6 +836,7 @@ export type LessonCompletionRecordActivityAttemptedActivitiesNodeAggregateSelect
     description: StringAggregateSelection;
     answer: StringAggregateSelection;
     comment: StringAggregateSelection;
+    mermaid: StringAggregateSelection;
     reportCount: IntAggregateSelection;
   };
 
@@ -1368,6 +1374,7 @@ export type UserActivityReportedActivitiesNodeAggregateSelection = {
   description: StringAggregateSelection;
   answer: StringAggregateSelection;
   comment: StringAggregateSelection;
+  mermaid: StringAggregateSelection;
   reportCount: IntAggregateSelection;
 };
 
@@ -1542,6 +1549,7 @@ export type ActivityCreateInput = {
   options: Array<Scalars["String"]["input"]>;
   answer: Scalars["String"]["input"];
   comment: Scalars["String"]["input"];
+  mermaid?: InputMaybe<Scalars["String"]["input"]>;
   reportCount?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
@@ -1559,6 +1567,7 @@ export type ActivitySort = {
   description?: InputMaybe<SortDirection>;
   answer?: InputMaybe<SortDirection>;
   comment?: InputMaybe<SortDirection>;
+  mermaid?: InputMaybe<SortDirection>;
   reportCount?: InputMaybe<SortDirection>;
 };
 
@@ -1572,6 +1581,7 @@ export type ActivityUpdateInput = {
   options_PUSH?: InputMaybe<Array<Scalars["String"]["input"]>>;
   answer?: InputMaybe<Scalars["String"]["input"]>;
   comment?: InputMaybe<Scalars["String"]["input"]>;
+  mermaid?: InputMaybe<Scalars["String"]["input"]>;
   reportCount?: InputMaybe<Scalars["Int"]["input"]>;
   reportCount_INCREMENT?: InputMaybe<Scalars["Int"]["input"]>;
   reportCount_DECREMENT?: InputMaybe<Scalars["Int"]["input"]>;
@@ -1654,6 +1664,21 @@ export type ActivityWhere = {
   comment_NOT_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
   /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
   comment_NOT_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  mermaid?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  mermaid_NOT?: InputMaybe<Scalars["String"]["input"]>;
+  mermaid_IN?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  mermaid_NOT_IN?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  mermaid_CONTAINS?: InputMaybe<Scalars["String"]["input"]>;
+  mermaid_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  mermaid_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  mermaid_NOT_CONTAINS?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  mermaid_NOT_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  mermaid_NOT_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
   reportCount?: InputMaybe<Scalars["Int"]["input"]>;
   /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
   reportCount_NOT?: InputMaybe<Scalars["Int"]["input"]>;
@@ -1723,18 +1748,40 @@ export type AttemptActivityAggregationWhereInput = {
   timeTaken_MAX_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   timeTaken_SUM_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   timeTaken_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  correctedAt_EQUAL?: InputMaybe<Scalars["DateTime"]["input"]>;
+  correctedAt_MIN_EQUAL?: InputMaybe<Scalars["DateTime"]["input"]>;
+  correctedAt_MAX_EQUAL?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  correctedAt_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  correctedAt_MIN_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  correctedAt_MAX_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  correctedAt_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  correctedAt_MIN_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  correctedAt_MAX_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  correctedAt_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  correctedAt_MIN_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  correctedAt_MAX_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  correctedAt_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  correctedAt_MIN_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  correctedAt_MAX_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
 };
 
 export type AttemptActivityCreateInput = {
   attemptedAt: Scalars["DateTime"]["input"];
   isCorrect: Scalars["Boolean"]["input"];
   timeTaken?: InputMaybe<Scalars["Int"]["input"]>;
+  correctedAt?: InputMaybe<Scalars["DateTime"]["input"]>;
 };
 
 export type AttemptActivitySort = {
   attemptedAt?: InputMaybe<SortDirection>;
   isCorrect?: InputMaybe<SortDirection>;
   timeTaken?: InputMaybe<SortDirection>;
+  correctedAt?: InputMaybe<SortDirection>;
 };
 
 export type AttemptActivityUpdateInput = {
@@ -1743,6 +1790,7 @@ export type AttemptActivityUpdateInput = {
   timeTaken?: InputMaybe<Scalars["Int"]["input"]>;
   timeTaken_INCREMENT?: InputMaybe<Scalars["Int"]["input"]>;
   timeTaken_DECREMENT?: InputMaybe<Scalars["Int"]["input"]>;
+  correctedAt?: InputMaybe<Scalars["DateTime"]["input"]>;
 };
 
 export type AttemptActivityWhere = {
@@ -1769,6 +1817,18 @@ export type AttemptActivityWhere = {
   timeTaken_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   timeTaken_GT?: InputMaybe<Scalars["Int"]["input"]>;
   timeTaken_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  correctedAt?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  correctedAt_NOT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  correctedAt_IN?: InputMaybe<Array<InputMaybe<Scalars["DateTime"]["input"]>>>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  correctedAt_NOT_IN?: InputMaybe<
+    Array<InputMaybe<Scalars["DateTime"]["input"]>>
+  >;
+  correctedAt_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  correctedAt_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  correctedAt_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  correctedAt_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
   OR?: InputMaybe<Array<AttemptActivityWhere>>;
   AND?: InputMaybe<Array<AttemptActivityWhere>>;
   NOT?: InputMaybe<AttemptActivityWhere>;
@@ -2309,6 +2369,61 @@ export type LessonCompletionRecordAttemptedActivitiesNodeAggregationWhereInput =
     comment_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars["Float"]["input"]>;
     comment_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
     comment_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+    /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+    mermaid_EQUAL?: InputMaybe<Scalars["String"]["input"]>;
+    /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+    mermaid_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+    /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+    mermaid_LONGEST_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+    /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+    mermaid_SHORTEST_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+    mermaid_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+    mermaid_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+    mermaid_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+    /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+    mermaid_GT?: InputMaybe<Scalars["Int"]["input"]>;
+    /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+    mermaid_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+    /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+    mermaid_LONGEST_GT?: InputMaybe<Scalars["Int"]["input"]>;
+    /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+    mermaid_SHORTEST_GT?: InputMaybe<Scalars["Int"]["input"]>;
+    mermaid_AVERAGE_LENGTH_GT?: InputMaybe<Scalars["Float"]["input"]>;
+    mermaid_LONGEST_LENGTH_GT?: InputMaybe<Scalars["Int"]["input"]>;
+    mermaid_SHORTEST_LENGTH_GT?: InputMaybe<Scalars["Int"]["input"]>;
+    /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+    mermaid_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+    /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+    mermaid_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+    /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+    mermaid_LONGEST_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+    /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+    mermaid_SHORTEST_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+    mermaid_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+    mermaid_LONGEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+    mermaid_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+    /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+    mermaid_LT?: InputMaybe<Scalars["Int"]["input"]>;
+    /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+    mermaid_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+    /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+    mermaid_LONGEST_LT?: InputMaybe<Scalars["Int"]["input"]>;
+    /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+    mermaid_SHORTEST_LT?: InputMaybe<Scalars["Int"]["input"]>;
+    mermaid_AVERAGE_LENGTH_LT?: InputMaybe<Scalars["Float"]["input"]>;
+    mermaid_LONGEST_LENGTH_LT?: InputMaybe<Scalars["Int"]["input"]>;
+    mermaid_SHORTEST_LENGTH_LT?: InputMaybe<Scalars["Int"]["input"]>;
+    /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+    mermaid_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+    /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+    mermaid_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+    /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+    mermaid_LONGEST_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+    /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+    mermaid_SHORTEST_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+    mermaid_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+    mermaid_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+    mermaid_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
     /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
     reportCount_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
     reportCount_MIN_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
@@ -3352,6 +3467,61 @@ export type LessonHasActivitiesNodeAggregationWhereInput = {
   comment_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars["Float"]["input"]>;
   comment_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   comment_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  mermaid_EQUAL?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_LONGEST_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_SHORTEST_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  mermaid_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  mermaid_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  mermaid_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  mermaid_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_LONGEST_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_SHORTEST_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  mermaid_AVERAGE_LENGTH_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  mermaid_LONGEST_LENGTH_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  mermaid_SHORTEST_LENGTH_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  mermaid_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_LONGEST_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_SHORTEST_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  mermaid_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  mermaid_LONGEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  mermaid_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  mermaid_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_LONGEST_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_SHORTEST_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  mermaid_AVERAGE_LENGTH_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  mermaid_LONGEST_LENGTH_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  mermaid_SHORTEST_LENGTH_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  mermaid_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_LONGEST_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_SHORTEST_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  mermaid_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  mermaid_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  mermaid_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
   reportCount_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
   reportCount_MIN_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
@@ -5963,6 +6133,61 @@ export type UserReportedActivitiesNodeAggregationWhereInput = {
   comment_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   comment_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  mermaid_EQUAL?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_LONGEST_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_SHORTEST_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  mermaid_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
+  mermaid_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  mermaid_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  mermaid_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_AVERAGE_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_LONGEST_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_SHORTEST_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  mermaid_AVERAGE_LENGTH_GT?: InputMaybe<Scalars["Float"]["input"]>;
+  mermaid_LONGEST_LENGTH_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  mermaid_SHORTEST_LENGTH_GT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  mermaid_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_AVERAGE_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_LONGEST_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_SHORTEST_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  mermaid_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars["Float"]["input"]>;
+  mermaid_LONGEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  mermaid_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  mermaid_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_AVERAGE_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_LONGEST_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_SHORTEST_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  mermaid_AVERAGE_LENGTH_LT?: InputMaybe<Scalars["Float"]["input"]>;
+  mermaid_LONGEST_LENGTH_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  mermaid_SHORTEST_LENGTH_LT?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  mermaid_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_AVERAGE_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_LONGEST_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  mermaid_SHORTEST_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  mermaid_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars["Float"]["input"]>;
+  mermaid_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  mermaid_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
   reportCount_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
   reportCount_MIN_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
   reportCount_MAX_EQUAL?: InputMaybe<Scalars["Int"]["input"]>;
@@ -6108,13 +6333,6 @@ export type UserWhere = {
   createdLessonsInteractionsCount_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   createdLessonsInteractionsCount_GT?: InputMaybe<Scalars["Int"]["input"]>;
   createdLessonsInteractionsCount_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  dailyActivity?: InputMaybe<DailyActivityWhere>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  dailyActivity_NOT?: InputMaybe<DailyActivityWhere>;
-  dailyActivity_ALL?: InputMaybe<DailyActivityWhere>;
-  dailyActivity_NONE?: InputMaybe<DailyActivityWhere>;
-  dailyActivity_SINGLE?: InputMaybe<DailyActivityWhere>;
-  dailyActivity_SOME?: InputMaybe<DailyActivityWhere>;
   OR?: InputMaybe<Array<UserWhere>>;
   AND?: InputMaybe<Array<UserWhere>>;
   NOT?: InputMaybe<UserWhere>;
@@ -6399,6 +6617,7 @@ export interface ActivityAggregateSelectionInput {
   description?: boolean;
   answer?: boolean;
   comment?: boolean;
+  mermaid?: boolean;
   reportCount?: boolean;
 }
 

@@ -33,6 +33,7 @@ const LessonSchema = z.object({
             options: z.array(z.string().min(1, "Option is required")),
             answer: z.string().min(1, "Answer is required"),
             comment: z.string().min(1, "Comment is required"),
+            mermaid: z.string().optional(),
             order: z.number()
         })
     )
@@ -56,6 +57,7 @@ export const useLessonForm = (lesson?: Lesson) => {
                 options: activity.options,
                 answer: activity.answer,
                 comment: activity.comment,
+                mermaid: activity.mermaid || undefined,
                 order: activity.order
             })).sort((a, b) => a.order - b.order) || []
         },

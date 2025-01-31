@@ -21,7 +21,7 @@ export const useGetUserLessons = (searchParams?: SearchParams) => {
     const reaction = searchParams?.reaction || '';
     const search = searchParams?.search || '';
     const { data: mistakes } = useQuery(GET_USER_MISTAKES, { variables: { where: { clerkId: user?.id } } })
-    console.log("mistakes paha", mistakes)
+    console.info("mistakes", mistakes)
 
     const getReactionFilter = (reaction: string) => {
         if (!reaction) return {};

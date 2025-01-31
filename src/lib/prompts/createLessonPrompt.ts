@@ -28,12 +28,15 @@ Each lesson must include **activitiesNumber*** activities that encourage engagem
   1. A **description** (max 170 characters) with one gap "{gap}" to fill.
   2. Two **options** for the gap (max 25 characters each), with the correct answer provided.
   3. A brief **comment** (max 170 characters) explaining the answer, using engaging or relatable phrasing.
-- Ensure that:
+  4. A **mermaid diagram** is optional and can be of any type if applicable to the activity description (graph TD, gitGraph,sequenceDiagram,classDiagram,journey,pie,gantt,timeline etc.) It should illustrate the activity as in a workbook style.
+  - Ensure that:
   - The correct answer is one of the options.
   - The order property is set to reflect the activity sequence.
   - The wrong option is plausible but incorrect.
   - The answer is not directly stated elsewhere in the description or comment.
-
+  - That you just add a mermaid diagram if it is very logical and applicable to the activity description.
+  - The mermaid diagram does not contain the answer.
+  
 Example Lesson:
 
 Topic: Artificial Intelligence  
@@ -53,7 +56,7 @@ Level: 1 (Beginner)
       "description": "Automation in AI relies heavily on {gap}.",
       "options": ["algorithms", "guesswork"],
       "answer": "algorithms",
-      "comment": "Guesswork? No way! AI isn't reading tea leaves for automation!"
+      "comment": "Guesswork? No way! AI isn't reading tea leaves for automation!",
     }
   ]
 }
@@ -75,7 +78,8 @@ Response Format:
         "order": number,
         "options": string[],
         "answer": string,
-        "comment": string
+        "comment": string,
+        "mermaid": string,
       }
     ]
   }
@@ -85,4 +89,5 @@ Ensure:
 - Descriptions are clear and engaging, with a gap to fill.
 - Information is accurate and relevant.
 - Activities adapt to the given level and reflect progressive learning principles.
+- Mermaid diagrams are valid, render correctly, are not complex and don't contain the direct answer.
 `

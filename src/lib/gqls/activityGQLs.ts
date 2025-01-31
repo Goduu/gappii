@@ -8,6 +8,7 @@ export const ACTIVITY_FRAGMENT = gql`
     options
     answer
     comment
+    mermaid
     reportCount
   }
 `

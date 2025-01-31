@@ -15,6 +15,7 @@ import { LessonMode } from '../lesson-page/type';
 import { useDebouncedCallback } from 'use-debounce';
 import { ArrowRightIcon } from 'lucide-react';
 import { PulppiiBehindElement } from '../ui/pulppii-behind-element';
+import { ActivityImage } from './activity-image';
 
 const cardVariants = {
     initial: (direction: 'next' | 'prev') => ({
@@ -142,7 +143,8 @@ export const ActivityCard: FC<ActivityCardProps> = ({
             >
                 <Card className="w-96 relative">
                     <CardHeader>
-                        <div className='absolute right-1 top-1'>
+                        <ActivityImage diagram={activity.mermaid ?? undefined} />
+                        <div className='absolute right-1 top-1 z-10'>
                             {activity.id && (
                                 <ActivityReactions
                                     activityId={activity.id}
@@ -150,7 +152,7 @@ export const ActivityCard: FC<ActivityCardProps> = ({
                                 />
                             )}
                         </div>
-                        <CardTitle className="flex justify-center items-baseline">
+                        <CardTitle className="pl-4 flex justify-center items-baseline">
                             <GapInput
                                 text={activity.description}
                                 value={selectedOption}

@@ -34,6 +34,7 @@ type Activity @node {
   options: [String!]!
   answer: String!
   comment: String!
+  mermaid: String
   reportCount: Int # Tracks the number of reports
 }
 

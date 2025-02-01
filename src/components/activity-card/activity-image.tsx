@@ -11,7 +11,7 @@ type ActivityImageProps = {
 }
 
 export const ActivityImage: FC<ActivityImageProps> = ({ diagram, isEditingMode = false, onDiagramChange }) => {
-    if (!diagram) return null
+    if (!diagram && !isEditingMode) return null
 
     return (
         <Dialog>
@@ -37,7 +37,7 @@ export const ActivityImage: FC<ActivityImageProps> = ({ diagram, isEditingMode =
                     </DialogTitle>
                     <DialogDescription className='flex items-center justify-center'>
                     </DialogDescription>
-                    <MermaidRenderer diagram={diagram} isEditingMode={isEditingMode} onDiagramChange={onDiagramChange} />
+                    <MermaidRenderer diagram={diagram || ""} isEditingMode={isEditingMode} onDiagramChange={onDiagramChange} />
                 </DialogHeader>
             </DialogContent>
         </Dialog>

@@ -30,12 +30,12 @@ const EditLessonPage: FC<CardsProps> = async ({ params }) => {
     if (!lesson.id) return <div>Lesson not found</div>
 
     return (
-        <Suspense fallback={<Skeleton className='w-80 h-64' />}>
-            <div className='flex flex-col gap-4'>
-                <PageTitle title="Edit Lesson" />
+        <div className='flex flex-col gap-4 w-full'>
+            <PageTitle title="Edit Lesson" />
+            <Suspense fallback={<Skeleton className='w-80 h-64' />}>
                 <EditLessonForm lesson={lesson} />
-            </div>
-        </Suspense>
+            </Suspense>
+        </div>
     )
 }
 export default EditLessonPage

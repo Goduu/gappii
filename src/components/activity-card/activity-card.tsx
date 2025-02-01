@@ -16,6 +16,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import { ArrowRightIcon } from 'lucide-react';
 import { PulppiiBehindElement } from '../ui/pulppii-behind-element';
 import { ActivityImage } from './activity-image';
+import clsx from 'clsx';
 
 const cardVariants = {
     initial: (direction: 'next' | 'prev') => ({
@@ -56,23 +57,6 @@ export const ActivityCard: FC<ActivityCardProps> = ({
     const [message, setMessage] = useState<string>('');
     const messageTimeoutRef = useRef<NodeJS.Timeout>();
 
-    const handleKeyPress = useCallback((event: KeyboardEvent) => {
-        if (event.key === 'Enter' && activityDone) {
-            onNext(isAnswerCorrect ?? false, selectedOption);
-        }
-    }, [activityDone, isAnswerCorrect, onNext, selectedOption]);
-
-    useEffect(() => {
-        window.addEventListener('keydown', handleKeyPress);
-
-        return () => {
-            window.removeEventListener('keydown', handleKeyPress);
-            if (messageTimeoutRef.current) {
-                clearTimeout(messageTimeoutRef.current);
-            }
-        };
-    }, [handleKeyPress]);
-
     useEffect(() => {
         setSelectedOption('');
         setActivityDone(false);
@@ -103,6 +87,32 @@ export const ActivityCard: FC<ActivityCardProps> = ({
             messageTimeoutRef.current = setTimeout(() => setMessage(''), 3000);
         }
     };
+
+
+    const handleKeyPress = useCallback((event: KeyboardEvent) => {
+        if (event.key === 'Enter' && activityDone) {
+            onNext(isAnswerCorrect ?? false, selectedOption);
+        }
+        if (!isAnswerCorrect) {
+            if (event.key === 'ArrowLeft') {
+                handleSelect(activitySortedOptions[0]);
+            }
+            if (event.key === 'ArrowRight') {
+                handleSelect(activitySortedOptions[1]);
+            }
+        }
+    }, [activityDone, isAnswerCorrect, onNext, handleSelect, selectedOption]);
+
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyPress);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyPress);
+            if (messageTimeoutRef.current) {
+                clearTimeout(messageTimeoutRef.current);
+            }
+        };
+    }, [handleKeyPress]);
 
     const showComment = message !== "";
 
@@ -152,7 +162,7 @@ export const ActivityCard: FC<ActivityCardProps> = ({
                                 />
                             )}
                         </div>
-                        <CardTitle className="pl-4 flex justify-center items-baseline">
+                        <CardTitle className="pt-3 flex justify-center items-baseline">
                             <GapInput
                                 text={activity.description}
                                 value={selectedOption}
@@ -189,10 +199,17 @@ export const ActivityCard: FC<ActivityCardProps> = ({
                                     key={option}
                                     size="lg"
                                     variant="outline"
-                                    className='w-1/2'
+                                    className='w-1/2 relative'
                                     onClick={() => handleSelect(option)}
                                 >
                                     {option}
+                                    <span className={clsx(
+                                        "absolute top-1 text-xs text-muted-foreground group-hover:opacity-100 transition-opacity",
+                                        option === activitySortedOptions[0] && 'left-1',
+                                        option === activitySortedOptions[1] && 'right-1'
+                                    )} >
+                                        {option === activitySortedOptions[0] ? '←' : '→'}
+                                    </span>
                                 </Button>
                             ))
                         )}

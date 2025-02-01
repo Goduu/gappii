@@ -56,7 +56,7 @@ export const useGetUserLessons = (searchParams?: SearchParams) => {
 
         const prevUserData = prev.users[0];
         const newUserData = fetchMoreResult.users[0];
-        const prevIds = prevUserData.hasLessonsConnection.edges.map(e => e.node.id);
+        const prevIds = prevUserData.hasLessonsConnection?.edges.map(e => e.node.id);
 
         const newLessons = prev
             ? newUserData?.hasLessonsConnection?.edges.filter(e => !prevIds.includes(e.node.id))
@@ -67,7 +67,7 @@ export const useGetUserLessons = (searchParams?: SearchParams) => {
                 ...prevUserData,
                 hasLessonsConnection: {
                     ...newUserData.hasLessonsConnection,
-                    edges: [...prevUserData.hasLessonsConnection.edges, ...newLessons],
+                    edges: [...prevUserData.hasLessonsConnection?.edges, ...newLessons],
                 },
             }],
         };

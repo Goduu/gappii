@@ -54,7 +54,6 @@ export const HeroContent = () => {
     )
 }
 
-
 const features = [
     {
         title: "Interactive Learning",

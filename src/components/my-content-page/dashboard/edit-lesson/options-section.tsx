@@ -14,12 +14,12 @@ type OptionsSectionProps = {
 
 export const OptionsSection: FC<OptionsSectionProps> = ({ activity, form, index }) => {
     return (
-        <div className="space-y-3">
+        <div className="space-y-3 w-full">
             <div className="flex items-center gap-2 text-gray-700">
                 <ListTodo className="w-5 h-5" />
                 <FormLabel className="text-sm font-medium">Answer Options</FormLabel>
             </div>
-            <div className="space-y-3 pl-7">
+            <div className="space-y-3 pl-4">
                 {activity.options.map((option, optionIndex) => (
                     <div key={`${option}-${optionIndex}`}
                         className="flex items-center gap-3 group">
@@ -31,8 +31,8 @@ export const OptionsSection: FC<OptionsSectionProps> = ({ activity, form, index 
                                     <FormControl>
                                         <Checkbox
                                             className="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                                            checked={option === field.value}
-                                            onCheckedChange={() => field.onChange(option)}
+                                            checked={option === field.value && field.value !== ''}
+                                            onCheckedChange={() => { console.log(option); field.onChange(option) }}
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -43,7 +43,7 @@ export const OptionsSection: FC<OptionsSectionProps> = ({ activity, form, index 
                             control={form.control}
                             name={`activities.${index}.options.${optionIndex}`}
                             render={({ field }) => (
-                                <FormItem className="flex-1">
+                                <FormItem className="w-full">
                                     <FormControl>
                                         <Input
                                             className="text-xs md:text-sm sm:text-base border-gray-200 focus:border-blue-400 focus:ring-blue-400"

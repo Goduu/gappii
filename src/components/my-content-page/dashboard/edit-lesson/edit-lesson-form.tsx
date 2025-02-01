@@ -57,6 +57,19 @@ export const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
     }
   };
 
+  const handleMoveActivity = (currentIndex: number, direction: 'up' | 'down') => {
+    const newIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
+    const activities = form.getValues('activities');
+
+    if (newIndex >= 0 && newIndex < activities.length) {
+      const newActivities = [...activities];
+      [newActivities[currentIndex], newActivities[newIndex]] =
+        [newActivities[newIndex], newActivities[currentIndex]];
+
+      form.setValue('activities', newActivities);
+    }
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-4 items-start'>
@@ -72,8 +85,12 @@ export const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
               key={activity.id}
               activity={activity}
               index={index}
-              removeActivity={() => remove(index)}
               form={form}
+              removeActivity={() => remove(index)}
+              onMoveUp={() => handleMoveActivity(index, 'up')}
+              onMoveDown={() => handleMoveActivity(index, 'down')}
+              isFirst={index === 0}
+              isLast={index === activities.length - 1}
             />
           ))}
         </DndSortingContext>

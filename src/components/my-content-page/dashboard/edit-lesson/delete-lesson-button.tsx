@@ -30,10 +30,13 @@ export const DeleteLessonButton: FC<DeleteLessonButtonProps> = ({ lessonId }) =>
         <Dialog>
             <DialogTrigger asChild>
                 <Button variant='outline' className='flex gap-2'>
-                    <Trash className='w-4 h-4' /> Delete Lesson
+                    <Trash className='w-4 h-4' />
+                    <div className='hidden md:block'>
+                        Delete Lesson
+                    </div>
                 </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className='w-full'>
                 <DialogHeader>
                     <DialogTitle className='flex gap-2'>
                         <Trash className='w-4 h-4' />

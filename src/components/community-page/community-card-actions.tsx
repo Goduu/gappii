@@ -25,7 +25,7 @@ export const CommunityCardActions: FC<CommunityCardActionsProps> = ({ lesson }) 
     const isDisabled = !userData.isSignedIn
 
     return (
-        <div className='flex gap-1 absolute right-4 bottom-4 z-10'>
+        <div className='flex gap-2 absolute right-4 bottom-4 z-10'>
             <AddLessonToLibrary lesson={lesson} disabled={isDisabled} />
             <Button variant="outline" size="icon" onClick={handlePlay}>
                 <Play size={16} />

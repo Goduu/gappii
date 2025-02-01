@@ -27,7 +27,6 @@ export const CommunityCardReactions: FC<CommunityCardReactionsProps> = ({ lesson
 
     return (
         <div className='flex gap-0'>
-
             <Button size="icon" variant="ghost" disabled={!userData.user?.id} onClick={() => handleReact("LIKED")} className='flex flex-col gap-0 justify-center'>
                 <ThumbsUp className={clsx({
                     "fill-violet-500 text-violet-900": reaction === "LIKED"

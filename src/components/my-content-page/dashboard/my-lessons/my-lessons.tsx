@@ -24,26 +24,30 @@ export const MyLessons = ({ searchParams }: MyLessonsProps) => {
     const router = useRouter();
 
     return (
-        <div className='flex flex-col gap-2'>
-            <div className='flex gap-2'>
-                <PageTitle title='My Lessons' />
-                <CreateLesson />
-                <HardModeSwitch />
-                {/* <PulppiiBehindElement > */}
-                <Button
-                    disabled
-                    title="Coming soon"
-                    className=" relative ml-auto flex items-center gap-2"
-                    onClick={() => router.push('/logged-in/correct-mistakes')}>
-                    <SearchCheck /> Correct my mistakes
-                </Button>
+        <div className='flex flex-col gap-2 w-full'>
+            <div className='flex flex-col md:flex-row gap-2'>
+                <div className='flex gap-2'>
+                    <PageTitle title='My Lessons' />
+                    <HardModeSwitch />
+                </div>
+                <div className='flex flex-col md:flex-row gap-2 md:ml-auto'>
+                    <CreateLesson />
+                    {/* <PulppiiBehindElement > */}
+                    <Button
+                        disabled
+                        title="Coming soon"
+                        className=" relative md:ml-auto flex items-center gap-2"
+                        onClick={() => router.push('/logged-in/correct-mistakes')}>
+                        <SearchCheck /> Correct my mistakes
+                    </Button>
+                </div>
                 {/* </PulppiiBehindElement> */}
             </div>
-            <div className='flex flex-col gap-2'>
+            <div className='flex flex-col gap-2 w-full'>
                 <LessonSearchBar />
                 <div className='flex flex-col gap-10 w-full items-start'>
                     <FilterBar />
-                    <div className='flex flex-wrap gap-4 justify-start'>
+                    <div className="flex flex-wrap gap-4 items-center justify-center w-full">
                         {lessons.map((lesson) => (
                             <LessonCard
                                 variant="my-content"

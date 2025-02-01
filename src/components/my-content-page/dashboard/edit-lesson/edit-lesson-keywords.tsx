@@ -17,7 +17,7 @@ export const EditLessonKeywords: FC<EditLessonKeyWordsProps> = ({ form }) => {
   });
 
   return (
-    <Card className="w-full bg-white shadow-sm hover:shadow-md transition-shadow duration-200">
+    <Card className="w-full bg-white shadow-xs hover:shadow-md transition-shadow duration-200">
       <CardHeader className="pb-3">
         <CardTitle className="text-lg font-medium flex items-center gap-2 text-gray-700">
           <KeyRound className="w-5 h-5" />
@@ -25,7 +25,7 @@ export const EditLessonKeywords: FC<EditLessonKeyWordsProps> = ({ form }) => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-wrap gap-2 items-center max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl">
+        <div className="flex flex-wrap gap-2 items-center max-w-(--breakpoint-sm) md:max-w-(--breakpoint-md) lg:max-w-(--breakpoint-lg) xl:max-w-(--breakpoint-xl)">
           {keywords.map((keyword, index) => (
             <EditLessonKeyword
               key={keyword.id}

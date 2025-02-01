@@ -12,7 +12,7 @@ type ReactionsInLessonsCardProps = {
 export const ReactionsInLessonsCard: FC<ReactionsInLessonsCardProps> = ({ createdLessonsInteractionsCount }) => {
   return (
     <div>
-      <Card className="overflow-hidden bg-gradient-to-br from-background to-muted/20 relative">
+      <Card className="overflow-hidden bg-linear-to-br from-background to-muted/20 relative">
         <motion.div
           className="absolute -top-10 -right-10 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl"
           animate={{
@@ -47,7 +47,7 @@ export const ReactionsInLessonsCard: FC<ReactionsInLessonsCardProps> = ({ create
                 <Sparkles className="h-3 w-3 text-yellow-500" />
               </motion.div>
             </motion.div>
-            <span className="bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
               Interactions
             </span>
           </CardTitle>

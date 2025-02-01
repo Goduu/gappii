@@ -35,10 +35,10 @@ export const GapInput: React.FC<GapInputProps> = ({ text, value, options, answer
                     <span
                         key={`gap-${index}`}
                         className={clsx(`inline-block border-b-2 border-dashed border-gray-400 mx-1 text-center`, {
-                            "text-opacity-0 text-red-50": !value,
                             "text-amber-500": isAnswerRight && !isExactMatch,
                             "text-green-500": isExactMatch,
-                            "text-red-500": !isAnswerRight && !isExactMatch,
+                            "text-red-500": !isAnswerRight && !isExactMatch  && prefillValue,
+                            "text-red-50/0": !prefillValue,
                         })}
                         style={{ width }}
                     >

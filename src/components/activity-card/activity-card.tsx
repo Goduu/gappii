@@ -199,12 +199,12 @@ export const ActivityCard: FC<ActivityCardProps> = ({
                                     key={option}
                                     size="lg"
                                     variant="outline"
-                                    className='w-1/2 relative'
+                                    className='w-1/2 relative group'
                                     onClick={() => handleSelect(option)}
                                 >
                                     {option}
                                     <span className={clsx(
-                                        "absolute top-1 text-xs text-muted-foreground group-hover:opacity-100 transition-opacity",
+                                        "absolute top-1 text-xs text-muted-foreground/30 group-hover:text-muted-foreground/100 transition-colors",
                                         option === activitySortedOptions[0] && 'left-1',
                                         option === activitySortedOptions[1] && 'right-1'
                                     )} >

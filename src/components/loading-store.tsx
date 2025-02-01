@@ -16,7 +16,7 @@ export const TransitionProvider = ({ children }: { children: ReactNode }) => {
     <TransitionContext.Provider value={{ isPending, startTransition }}>
       {isPending &&
         <div
-          className={`fixed left-0 top-0 z-50 h-screen w-screen items-center justify-center bg-white py-10 dark:bg-slate-800 bg-opacity-50 `}
+          className={`fixed left-0 top-0 z-50 h-screen w-screen items-center justify-center bg-white/50 py-10 dark:bg-slate-800/50`}
         >
           <div className="flex h-full flex-col items-center justify-center gap-0">
             <LoadingAnimation className="w-24 h-24" />

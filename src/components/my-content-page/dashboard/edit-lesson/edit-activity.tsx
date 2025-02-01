@@ -50,7 +50,7 @@ export const EditActivity: FC<EditActivityProps> = ({
 
     return (
         <Card
-            className="w-full mx-auto bg-white shadow-sm hover:shadow-md transition-shadow duration-200 relative"
+            className="w-full mx-auto bg-white shadow-xs hover:shadow-md transition-shadow duration-200 relative"
             ref={setNodeRef}
             style={style}
         >

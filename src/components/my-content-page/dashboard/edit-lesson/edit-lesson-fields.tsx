@@ -19,7 +19,7 @@ type EditLessonFieldsProps = {
 export const EditLessonFields: FC<EditLessonFieldsProps> = ({ form }) => {
 
   return (
-    <Card className="w-full bg-white shadow-sm hover:shadow-md transition-shadow duration-200">
+    <Card className="w-full bg-white shadow-xs hover:shadow-md transition-shadow duration-200">
       <CardHeader className="pb-3">
         <CardTitle className="text-lg font-medium flex items-center gap-2 text-gray-700">
           <List className="w-5 h-5" />

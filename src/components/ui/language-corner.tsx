@@ -1,7 +1,5 @@
 import React from 'react';
 import Image from 'next/image';
-import { Tooltip } from './tooltip';
-import { TooltipContent, TooltipTrigger } from '@radix-ui/react-tooltip';
 import { SupportedLanguage } from '@/app/types';
 import clsx from 'clsx';
 
@@ -17,27 +15,22 @@ export const LanguageCorner: React.FC<LanguageCornerProps> = ({
     }
 
     return (
-        <Tooltip >
-            <TooltipTrigger className={clsx(
-                'absolute bg-gray-100 h-4 w-6 rounded-br-md shadow-sm overflow-hidden place-content-stretch',
+        <div
+            title={languageToText[language]}
+            className={clsx(
+                'absolute bg-gray-100 h-4 w-6 rounded-br-md shadow-xs overflow-hidden place-content-stretch',
                 className
             )}>
-                <Image
-                    src={`/flags/${countryCode}.svg`}
-                    alt={`${language} flag`}
-                    width={16}
-                    height={12}
-                    className="h-full w-full object-cover"
-                />
-            </TooltipTrigger>
-            <TooltipContent>
-                {languageToText[language]}
-            </TooltipContent>
-        </Tooltip>
+            <Image
+                src={`/flags/${countryCode}.svg`}
+                alt={`${language} flag`}
+                width={16}
+                height={12}
+                className="h-full w-full object-cover"
+            />
+        </div>
     );
 };
-
-// types.ts
 
 export interface LanguageCornerProps {
     language: SupportedLanguage;

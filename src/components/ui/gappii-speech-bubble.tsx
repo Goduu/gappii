@@ -21,7 +21,7 @@ export const GappiiSpeechBubble: FC<GappiiSpeechBubbleProps> = ({
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.8, y: 10 }}
                     className={cn(
-                        "absolute right-full -top-16 mr-2 p-2 bg-white rounded-lg shadow",
+                        "absolute right-full -top-16 mr-2 p-2 bg-white rounded-lg shadow-sm",
                         "w-80 text-xs h-14",
                         "before:content-[''] before:absolute before:right-[-8px]",
                         "before:bottom-1 before:border-8 before:border-transparent",

@@ -18,7 +18,7 @@ export const KeywordsBadgeDisplay: React.FC<KeywordsBadgeDisplayProps> = ({
 
     return (
         <div className='flex flex-col items-center relative h-6 w-full'>
-            <div className='w-10 absolute -left-5 h-10 -top-2 bg-white z-10 blur-sm '></div>
+            <div className='w-10 absolute -left-5 h-10 -top-2 bg-white z-10 blur-xs '></div>
             <Marquee className='overflow-visible' speed={20} pauseOnHover={true}>
                 <div className={`flex gap-2 overflow-hidden`}>
                     <Badge variant="default" className='text-xs'>
@@ -31,7 +31,7 @@ export const KeywordsBadgeDisplay: React.FC<KeywordsBadgeDisplayProps> = ({
                     ))}
                 </div>
             </Marquee>
-            <div className='w-10 absolute -right-5 h-10 -top-2 bg-white z-10 blur-sm '></div>
+            <div className='w-10 absolute -right-5 h-10 -top-2 bg-white z-10 blur-xs '></div>
         </div>
     );
 };

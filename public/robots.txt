@@ -2,5 +2,8 @@
 User-agent: *
 Allow: /
 
+# Host
+Host: https://www.gappii.com
+
 # Sitemaps
 Sitemap: https://www.gappii.com/sitemap.xml

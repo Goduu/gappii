@@ -9,7 +9,7 @@ import { motion } from 'framer-motion'
 export const ActivityHistoryCard = () => {
 
     return (
-        <Card className='w-full max-w-[28rem] overflow-hidden bg-gradient-to-br from-background to-muted/20'>
+        <Card className='w-full max-w-[28rem] overflow-hidden bg-linear-to-br from-background to-muted/20'>
             <CardHeader className='pb-2 space-y-1'>
                 <motion.div
                     className='flex items-center gap-2'
@@ -28,7 +28,7 @@ export const ActivityHistoryCard = () => {
                             <Sparkles className="h-3 w-3 text-yellow-500" />
                         </motion.div>
                     </div>
-                    <CardTitle className='text-lg font-medium bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent'>
+                    <CardTitle className='text-lg font-medium bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent'>
                         Activity History
                     </CardTitle>
                 </motion.div>

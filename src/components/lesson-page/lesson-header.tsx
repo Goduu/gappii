@@ -26,7 +26,7 @@ export const LessonHeader: React.FC<LessonHeaderProps> = ({
     const user = useUser();
 
     return (
-        <Card className="relative overflow-hidden p-4 bg-gradient-to-br from-background to-muted/20 w-full">
+        <Card className="relative overflow-hidden p-4 bg-linear-to-br from-background to-muted/20 w-full">
             <div className="flex items-center justify-between gap-4">
                 <div className="flex-1">
                     <motion.div 

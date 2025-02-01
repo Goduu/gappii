@@ -21,15 +21,15 @@ export const HeroContent = () => {
                 <div className='flex flex-wrap gap-1 sm:gap-2 md:gap-0 flex-col md:flex-row items-center'>
                     <TypingText
                         text={'Fill your knowledge'}
-                        className='text-2xl sm:text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80'
+                        className='text-2xl sm:text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-linear-to-r from-primary to-primary/80'
                     />
                     <Badge className='ml-2 p-2 text-2xl sm:text-3xl md:text-5xl select-none group relative w-fit 
-                    bg-gradient-to-r from-primary/20 to-primary/30 hover:from-primary/30 hover:to-primary/40
+                    bg-linear-to-r from-primary/90 to-primary/80 hover:from-primary/80 hover:to-primary/90
                     transition-all duration-300'>
-                        <span className='md:text-opacity-0 text-gray-50 hover:text-opacity-100 
+                        <div className='sm:text-gray-50/0 md:text-gray-50/100 hover:text-gray-50/100 
                         transition-all duration-1000 group-hover:scale-110 inline-block'>
                             gaps
-                        </span>
+                        </div>
                     </Badge>
                 </div>
 

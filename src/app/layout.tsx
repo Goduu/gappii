@@ -81,7 +81,7 @@ export default function RootLayout({
           <TransitionProvider>
             <TooltipProvider>
               <Toaster />
-              <div className="items-center justify-items-center max-w-screen w-screen bg-gradient-to-b from-slate-50 to-white p-4 md:p-8 md:min-w-[580px] pb-20 gap-16  font-[family-name:var(--font-geist-sans)]">
+              <div className="items-center justify-items-center max-w-screen w-screen bg-linear-to-b from-slate-50 to-white p-4 md:p-8 md:min-w-[580px] pb-20 gap-16  font-[family-name:var(--font-geist-sans)]">
                 <main className="flex flex-col gap-8 row-start-2 items-center w-full">
                   <ApolloWrapper >
                     {children}

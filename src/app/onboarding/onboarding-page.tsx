@@ -89,7 +89,7 @@ const OnboardingFlow = () => {
                                 </div>
                                 {step < 3 && (
                                     <div
-                                        className={`w-16 h-1 rounded-md shadow ${step < currentStep ? 'bg-green-500' : 'bg-gray-500'}`}
+                                        className={`w-16 h-1 rounded-md shadow-sm ${step < currentStep ? 'bg-green-500' : 'bg-gray-500'}`}
                                     />
                                 )}
                             </React.Fragment>

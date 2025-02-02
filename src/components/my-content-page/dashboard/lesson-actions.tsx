@@ -6,22 +6,15 @@ import React, { FC } from 'react'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import Link from 'next/link'
 import { Lesson } from '@/ogm-types'
-import { useSearchParams } from 'next/navigation'
-import { HardModeWrapper } from '@/components/lesson-card/hard-mode-wrapper'
-import { LessonMode } from '@/components/lesson-page/type'
 
 interface LessonActionsProps {
     lesson: Lesson
 }
 
 export const LessonActions: FC<LessonActionsProps> = ({ lesson }) => {
-    const searchParams = useSearchParams();
-    
     if (!lesson.id) return null
 
     const isPlayDisabled = lesson.hasActivitiesAggregate?.count === 0
-    const mode = searchParams.get('mode');
-    const isHardMode = mode === 'hard';
 
     return (
         <div className='flex gap-2 absolute right-4 bottom-4 z-10'>
@@ -44,17 +37,15 @@ export const LessonActions: FC<LessonActionsProps> = ({ lesson }) => {
                             </Button>
                         </span>
                         :
-                        <Link href={routes.lesson(lesson.id, mode as LessonMode ?? "normal")}>
+                        <Link href={routes.lesson(lesson.id)}>
                             <Button size="icon">
-                                <HardModeWrapper isHardMode={isHardMode}>
-                                    <Play />
-                                </HardModeWrapper>
+                                <Play />
                             </Button>
                         </Link>
                     }
                 </TooltipTrigger>
                 <TooltipContent>
-                    {isPlayDisabled ? "Lesson is under construction" : isHardMode ? "Start Lesson (Hard Mode)" : "Start Lesson"}
+                    {isPlayDisabled ? "Lesson is under construction" : "Start Lesson"}
                 </TooltipContent>
             </Tooltip>
         </div >

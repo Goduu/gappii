@@ -6,7 +6,6 @@ import { PageTitle } from '@/components/ui/page-title'
 import { CreateLesson } from '../create-lesson'
 import React from 'react'
 import { LessonsSkeleton } from '../lessons-skeleton'
-import { HardModeSwitch } from '@/components/lesson-card/hard-mode-switch'
 import { useGetUserLessons } from './useGetUserLessons'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
@@ -26,10 +25,7 @@ export const MyLessons = ({ searchParams }: MyLessonsProps) => {
     return (
         <div className='flex flex-col gap-2 w-full'>
             <div className='flex flex-col md:flex-row gap-2'>
-                <div className='flex gap-2'>
-                    <PageTitle title='My Lessons' />
-                    <HardModeSwitch />
-                </div>
+                <PageTitle title='My Lessons' />
                 <div className='flex flex-col md:flex-row gap-2 md:ml-auto'>
                     <CreateLesson />
                     {/* <PulppiiBehindElement > */}

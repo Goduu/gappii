@@ -1,7 +1,7 @@
 "use client"
 import { Activity, Lesson, Streak } from "../../ogm-types";
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
-import { LessonMode } from "./type";
+import { LessonMode, LessonModes } from "./type";
 import { useSearchParams } from "next/navigation";
 
 export interface ActivityAttempt {
@@ -101,8 +101,8 @@ export const LessonProvider: React.FC<LessonProviderProps> = ({ children, lesson
                 isCorrect,
                 timeTaken,
                 activityContent: currentActivity.description,
-                wrongAnswer: (mode === "hard" && !isCorrect) ? answer || "" : currentActivity.options.find(o => o !== currentActivity.answer) || "",
-                correctAnswer: (mode === "hard" && isCorrect) ? answer || "" : currentActivity.answer
+                wrongAnswer: (mode === LessonModes.TypeIn && !isCorrect) ? answer || "" : currentActivity.options.find(o => o !== currentActivity.answer) || "",
+                correctAnswer: (mode === LessonModes.TypeIn && isCorrect) ? answer || "" : currentActivity.answer
             })));
         }
 

@@ -1,6 +1,6 @@
 import { formatTime } from "@/lib/utils";
 import { routes } from "@/lib/routes";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
@@ -18,8 +18,6 @@ export const MistakeLessonSummary: React.FC<LessonSummaryProps> = ({ summary, is
     const { user } = useUser();
     const [isPending, startTransition] = useTransition();
     const hasCompletedRef = useRef(false);
-    const searchParams = useSearchParams();
-    const mode = searchParams.get("mode");
 
     // @TODO complete this component
     // const completeLesson = () => { }
@@ -43,11 +41,7 @@ export const MistakeLessonSummary: React.FC<LessonSummaryProps> = ({ summary, is
     }, [ isOnboarding, isPending, summary, user]);
 
     const handleFinish = () => {
-        if (mode === "hard") {
-            router.push(routes.dashboard(mode));
-        } else {
-            router.push(routes.dashboard());
-        }
+        router.push(routes.dashboard);
     }
 
     return (

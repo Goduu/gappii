@@ -1,10 +1,12 @@
+"use client"
 import { Lesson } from "../../ogm-types";
 import { Activity } from "../../ogm-types";
 import { useLessonContext } from "./lesson-context";
 import { LessonHeader } from "./lesson-header";
 import { LessonActivity } from "./lesson-activity";
-import { LessonMode } from "./type";
-import { useSearchParams } from "next/navigation";
+import { LessonMode, LessonModes } from "./type";
+import { useState } from "react";
+import { ModeSelection } from "./mode-selection";
 
 type LessonContentProps = {
     lesson: Lesson;
@@ -16,12 +18,23 @@ export const LessonContent: React.FC<LessonContentProps> = ({
     lesson,
     reportedActivityIds = [],
 }) => {
+    const [mode, setMode] = useState<LessonMode | null>(null);
     const { currentActivityIndex, progress } = useLessonContext();
-    const searchParams = useSearchParams();
-    const mode = (searchParams.get('mode') || "normal") as LessonMode
+    const [showModeSelection, setShowModeSelection] = useState(true);
+
+
     const topic = lesson.hasTopic;
     const subtopic = lesson.hasSubtopic;
     const activities = lesson.hasActivities;
+
+    const handleModeSelect = (selectedMode: LessonMode) => {
+        setMode(selectedMode);
+        setShowModeSelection(false);
+    };
+
+    if (showModeSelection && !mode) {
+        return <ModeSelection onModeSelect={handleModeSelect} />;
+    }
 
     return (
         <div className="flex flex-col w-full items-center h-full">
@@ -38,7 +51,7 @@ export const LessonContent: React.FC<LessonContentProps> = ({
                 <div className="flex items-center justify-center">
                     <LessonActivity
                         reportedActivityIds={reportedActivityIds}
-                        mode={mode}
+                        mode={mode || LessonModes.EitherOr}
                     />
                 </div>
             </div>

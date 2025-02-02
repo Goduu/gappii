@@ -76,7 +76,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col flex-1`}
       >
         <ClerkProvider
-          signUpFallbackRedirectUrl={routes.dashboard()}
+          signUpFallbackRedirectUrl={routes.dashboard}
         >
           <TransitionProvider>
             <TooltipProvider>

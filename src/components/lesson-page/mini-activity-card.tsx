@@ -1,6 +1,6 @@
 import { ActivityAttempt } from "./lesson-context";
 import { CheckCircle2, XCircle } from "lucide-react";
-import { LessonMode } from "./type";
+import { LessonMode, LessonModes } from "./type";
 
 interface MiniActivityCardProps {
     attempt: ActivityAttempt;
@@ -17,7 +17,7 @@ export const MiniActivityCard: React.FC<MiniActivityCardProps> = ({
     wrongAnswer,
     correctAnswer
 }) => {
-    const isHardMode = mode === "hard";
+    const isPickNMatchMode = mode === LessonModes.PickNMatch;
 
     return (
         <div className="space-y-2">
@@ -40,7 +40,7 @@ export const MiniActivityCard: React.FC<MiniActivityCardProps> = ({
                     </div>
                 </div>
 
-                {!isHardMode || !attempt.isCorrect && (
+                {!isPickNMatchMode || !attempt.isCorrect && (
                     <div className="text-sm p-1.5 rounded-md bg-slate-50/50 flex items-start gap-2">
                         <CheckCircle2 className="w-3.5 h-3.5 text-slate-400 mt-0.5 shrink-0" />
                         <div className="flex-1">

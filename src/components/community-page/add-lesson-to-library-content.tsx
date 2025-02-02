@@ -28,7 +28,7 @@ export const AddLessonToLibraryContent: FC<AddLessonToLibraryContentProps> = ({ 
     const { startTransition } = useTransitionContext()
 
     const handleGoToLibrary = () => {
-        startTransition(() => redirect(routes.dashboard()))
+        startTransition(() => redirect(routes.dashboard))
     }
 
     const handleAdd = () => {

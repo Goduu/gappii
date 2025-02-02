@@ -1,7 +1,7 @@
 import { formatTime } from "@/lib/utils";
 import { SummaryLesson } from "./lesson-context";
 import { routes } from "@/lib/routes";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
@@ -12,19 +12,19 @@ import { MiniActivityCard } from "./mini-activity-card";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { LessonSummaryResultCard } from "./lesson-summary-result-card";
 import { useCompleteLesson } from "./useCompleteLesson";
+import { LessonMode } from "./type";
 
 interface LessonSummaryProps {
     summary: SummaryLesson;
     isOnboarding?: boolean;
+    mode: LessonMode;
 }
 
-export const LessonSummary: React.FC<LessonSummaryProps> = ({ summary, isOnboarding = false }) => {
+export const LessonSummary: React.FC<LessonSummaryProps> = ({ summary, isOnboarding = false, mode }) => {
     const router = useRouter();
     const { user } = useUser();
     const [isPending, startTransition] = useTransition();
     const hasCompletedRef = useRef(false);
-    const searchParams = useSearchParams();
-    const mode = searchParams.get("mode");
 
     const completeLesson = useCompleteLesson();
     // const yesterday = new Date();
@@ -53,11 +53,7 @@ export const LessonSummary: React.FC<LessonSummaryProps> = ({ summary, isOnboard
     }, [completeLesson, isOnboarding, isPending, summary, user]);
 
     const handleFinish = () => {
-        if(mode === "hard") {
-            router.push(routes.dashboard(mode));
-        } else {
-            router.push(routes.dashboard());
-        }
+        router.push(routes.dashboard);
     }
 
     return (
@@ -104,7 +100,7 @@ export const LessonSummary: React.FC<LessonSummaryProps> = ({ summary, isOnboard
                                             <DialogDescription hidden title="Mini-card shown the answer for question {index + 1}" />
                                             <MiniActivityCard
                                                 attempt={data}
-                                                mode={mode === "hard" ? "hard" : "normal"}
+                                                mode={mode}
                                                 activityContent={data.activityContent}
                                                 wrongAnswer={data.wrongAnswer}
                                                 correctAnswer={data.correctAnswer}

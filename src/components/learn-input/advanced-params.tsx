@@ -17,7 +17,7 @@ export const AdvancedParams: FC<AdvancedParamsProps> = ({
 }) => {
 
     return (
-        <div className='flex flex-col md:flex-row gap-2 w-full'>
+        <div id="ob-advanced-params" className='flex flex-col md:flex-row gap-2 w-full'>
             <FormField
                 control={form.control}
                 name="level"

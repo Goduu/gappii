@@ -85,7 +85,7 @@ export const LearnInput: FC<LearnInputProps> = ({
                 className='flex flex-col gap-4 items-center'
             >
                 <div className='flex gap-2 w-full'>
-                    <div className='flex-col flex gap-1 w-1/2'>
+                    <div id="ob-topic-autocomplete" className='flex-col flex gap-1 w-1/2'>
                         <p className='text-sm'>Topic:</p>
                         <FormField
                             control={form.control}
@@ -103,7 +103,7 @@ export const LearnInput: FC<LearnInputProps> = ({
                             )}
                         />
                     </div>
-                    <div className='flex-col flex gap-1 w-1/2'>
+                    <div id="ob-subtopic-autocomplete" className='flex-col flex gap-1 w-1/2'>
                         <p className='text-sm'>Subtopic:</p>
                         <FormField
                             control={form.control}
@@ -130,6 +130,7 @@ export const LearnInput: FC<LearnInputProps> = ({
                         {!hideCreateYourself &&
                             (
                                 <Button
+                                    id="ob-create-yourself-button"
                                     variant="secondary"
                                     disabled={!topic.id || !subtopic.id}
                                     onClick={() => form.handleSubmit(() => onSubmit("self"))()}
@@ -140,6 +141,7 @@ export const LearnInput: FC<LearnInputProps> = ({
                                 </Button>
                             )}
                         <Button
+                            id="ob-create-with-ai-button"
                             disabled={!topic.id || !subtopic.id}
                             onClick={() => form.handleSubmit(() => onSubmit("AI"))()}
                             className='flex items-center gap-2'

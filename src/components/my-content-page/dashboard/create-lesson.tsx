@@ -24,7 +24,7 @@ export const CreateLesson: FC = () => {
     return (
         <Dialog modal>
             <DialogTrigger asChild>
-                <Button variant="outline" className="z-30">
+                <Button id="ob-create-lesson-button" variant="outline" className="z-30">
                     <Plus size={24} /> Create new lesson
                 </Button>
             </DialogTrigger>

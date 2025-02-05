@@ -1,18 +1,28 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { TermsOfUseDialog } from './terms-of-use'
+import { completeOnboarding } from './actions'
+import { useUser } from '@clerk/nextjs'
+import { routes } from '@/lib/routes'
+import { redirect } from 'next/navigation'
 
-type TermsCardProps = {
-    acceptedTerms: boolean;
-    setAcceptedTerms: (accepted: boolean) => void;
-    handleNextStep: () => void;
-}
+export const TermsCard: FC = () => {
+    const [acceptedTerms, setAcceptedTerms] = useState(false);
+    const { user } = useUser();
 
-export const TermsCard: FC<TermsCardProps> = ({ acceptedTerms, setAcceptedTerms, handleNextStep }) => {
+    const handleContinue = async () => {
+        const res = await completeOnboarding();
+
+        if (res?.message) {
+            await user?.reload();
+            redirect(routes.dashboard);
+        }
+    }
+
     return (
-        <Card className="w-full max-w-lg mx-auto">
+        <Card className="w-full max-w-lg mx-auto ob-terms-of-use">
             <CardHeader>
                 <CardTitle>Welcome to Gappi!</CardTitle>
                 <CardDescription>
@@ -32,9 +42,9 @@ export const TermsCard: FC<TermsCardProps> = ({ acceptedTerms, setAcceptedTerms,
                     </label>
                 </div>
                 <Button
-                    onClick={handleNextStep}
+                    onClick={handleContinue}
                     disabled={!acceptedTerms}
-                    className="w-full mt-4"
+                    className="w-full mt-4 ob-button"
                 >
                     Continue
                 </Button>

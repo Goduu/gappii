@@ -23,7 +23,7 @@ export const MyLessons = ({ searchParams }: MyLessonsProps) => {
     const router = useRouter();
 
     return (
-        <div className='flex flex-col gap-2 w-full'>
+        <div id="ob-my-lessons" className='flex flex-col gap-2 w-full'>
             <div className='flex flex-col md:flex-row gap-2'>
                 <PageTitle title='My Lessons' />
                 <div className='flex flex-col md:flex-row gap-2 md:ml-auto'>

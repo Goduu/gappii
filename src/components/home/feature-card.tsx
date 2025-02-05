@@ -1,4 +1,5 @@
 "use client"
+import { cn } from '@/lib/utils'
 import { motion } from 'framer-motion'
 import React, { ReactNode } from 'react'
 
@@ -16,10 +17,10 @@ export const FeatureCard = ({ title, description, index, icon }: FeatureCardProp
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.5 }}
-            className="p-4 sm:p-6 rounded-lg bg-card/50 backdrop-blur-xs 
-                border border-border/50 hover:border-primary/50 
-                transition-all duration-300
-                w-full max-w-sm"
+            className={cn("p-4 sm:p-6 rounded-lg bg-card/50 backdrop-blur-xs ",
+                "border border-border/50 hover:border-primary/50 ",
+                "transition-all duration-300",
+                "w-full max-w-sm")}
         >
             <div className='flex items-center gap-2'>
                 {icon}

@@ -24,7 +24,7 @@ export const Dashboard: FC<DashboardProps> = async ({ searchParams }) => {
 
     return (
         <div className="w-full space-y-4 flex flex-col gap-4">
-            <div className='flex flex-col md:flex-row gap-4 flex-wrap'>
+            <div id="ob-statistics" className='flex flex-col md:flex-row gap-4 flex-wrap'>
                 <ActivityHistoryCard />
                 <Suspense fallback={<Skeleton className='w-full h-full' />}>
                     <StreakCard streak={streak} />

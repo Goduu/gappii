@@ -1,27 +1,10 @@
 "use client"
 import { ChartConfig, ChartContainer } from '@/components/ui/chart';
-import { Flower2 } from 'lucide-react';
-import React, { PureComponent, SVGProps, useState } from 'react';
-import { PieChart, Pie, Sector, ResponsiveContainer, Cell } from 'recharts';
+import { Lesson } from '@/ogm-types';
+import React, { useState } from 'react';
+import { PieChart, Pie, Sector, Cell } from 'recharts';
 import { PieSectorDataItem } from 'recharts/types/polar/Pie';
 import { ActiveShape } from 'recharts/types/util/types';
-
-const data = [
-    { name: 'Group A', value: 400 },
-    { name: 'Group A', value: 400 },
-    { name: 'Group A', value: 400 },
-    { name: 'Group A', value: 400 },
-    { name: 'Group A', value: 400 },
-    { name: 'Group A', value: 400 },
-    { name: 'Group B', value: 300 },
-    { name: 'Group C', value: 300 },
-    { name: 'Group D', value: 200 },
-    { name: 'Group E', value: 200 },
-    { name: 'Group E', value: 200 },
-    { name: 'Group E', value: 200 },
-    { name: 'Group E', value: 200 },
-    { name: 'Group E', value: 200 },
-];
 
 const chartConfig = {
     desktop: {
@@ -29,23 +12,10 @@ const chartConfig = {
     },
 } satisfies ChartConfig
 
-type RenderActiveShapeProps = PieSectorDataItem & {
-    cx: number;
-    cy: number;
-    midAngle: number;
-    innerRadius: number;
-    outerRadius: number;
-    startAngle: number;
-    endAngle: number;
-    fill: string;
-    payload: { name: string };
-    percent: number;
-    value: number;
-};
-
 const renderActiveShape: ActiveShape<PieSectorDataItem> = (props: PieSectorDataItem) => {
     const RADIAN = Math.PI / 180;
     const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, fill, payload, percent, value } = props;
+
     if (!cx || !cy || !outerRadius || !percent) return <g></g>
     const sin = Math.sin(-RADIAN * (midAngle || 1));
     const cos = Math.cos(-RADIAN * (midAngle || 1));
@@ -84,9 +54,9 @@ const renderActiveShape: ActiveShape<PieSectorDataItem> = (props: PieSectorDataI
             />
             <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={fill} fill="none" />
             <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
-            <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill="#333">{`PV ${value}`}</text>
+            <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill="#333">{payload.name}</text>
             <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} dy={18} textAnchor={textAnchor} fill="#999">
-                {`(Rate ${(percent * 100).toFixed(2)}%)`}
+                {`${value} activities`}
             </text>
         </g>
     );
@@ -95,10 +65,10 @@ const renderActiveShape: ActiveShape<PieSectorDataItem> = (props: PieSectorDataI
 type SubtopicsPieProps = {
     innerRadius?: number
     outerRadius?: number
-    data?: { name: string, value: number }[]
+    lessons: Lesson[]
 }
 
-export const SubtopicsPie = ({ innerRadius = 44, outerRadius = 63 }: SubtopicsPieProps) => {
+export const SubtopicsPie = ({ innerRadius = 44, outerRadius = 63, lessons }: SubtopicsPieProps) => {
     const [activeIndex, setActiveIndex] = useState(0);
 
     const onPieEnter = (index: number) => {
@@ -111,7 +81,7 @@ export const SubtopicsPie = ({ innerRadius = 44, outerRadius = 63 }: SubtopicsPi
                 <Pie
                     activeIndex={activeIndex}
                     activeShape={renderActiveShape}
-                    data={data}
+                    data={lessons.map(lesson => ({ name: lesson.title, value: lesson.hasActivities.length }))}
                     cx="50%"
                     cy="50%"
                     paddingAngle={5}
@@ -121,7 +91,7 @@ export const SubtopicsPie = ({ innerRadius = 44, outerRadius = 63 }: SubtopicsPi
                     dataKey="value"
                     onMouseEnter={(_, index) => onPieEnter(index)}
                 >
-                    {data.map((entry, index) => (
+                    {lessons.map((lesson, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                 </Pie>

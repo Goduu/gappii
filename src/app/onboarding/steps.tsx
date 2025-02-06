@@ -46,13 +46,13 @@ export const onboardingSteps: PageSteps = {
     }, {
         selector: '#ob-my-lessons',
         instructionContent: "Here you can see the lessons you created.",
-        autoPassIfNextSelectorFound: true
     }, {
         selector: '#ob-create-lesson-button',
-        instructionContent: "You can create a custom new lesson."
+        instructionContent: "You can create a custom new lesson.",
+        autoPassIfNextSelectorFound: true
     }, {
         selector: '#ob-create-yourself-button',
-        instructionContent: "You can create a custom new lesson."
+        instructionContent: "You can create the lesson yourself."
     }, {
         selector: '#ob-create-with-ai-button',
         instructionContent: "You can create a lesson with AI."

@@ -156,7 +156,7 @@ export const Spotlight: React.FC<SpotlightProps> = ({
     }, [step?.instructionContent])
 
     useEffect(() => {
-        if (!active || !steps[pathname] || !steps[pathname][currentStep + 1]) return
+        if (!active || !steps[pathname] || !step?.autoPassIfNextSelectorFound || !steps[pathname][currentStep + 1]) return
         console.log('tik', new Date().toISOString())
 
         const nextStep = steps[pathname][currentStep + 1]

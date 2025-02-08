@@ -3,6 +3,7 @@ import { Lesson } from "@/ogm-types"
 import { cn } from "@/lib/utils"
 import { CalendarCheck, MessageCircleQuestion, Target } from "lucide-react"
 import { motion } from "framer-motion"
+import { AdvancementBarCard } from "@/components/ui/advancementbar"
 
 type PathLessonStatisticsProps = {
     lesson: Lesson
@@ -12,8 +13,9 @@ export const PathLessonStatistics = ({ lesson }: PathLessonStatisticsProps) => {
     const progress = Math.min(10 + lesson.title.length * 3, 100)
 
     return (
-        <div
-            key={'details' + lesson.id}
+        <AdvancementBarCard
+            variant="status"
+            progress={progress}
             className="relative flex flex-col border p-4 w-full rounded-lg hover:bg-slate-50 cursor-pointer"
         >
             <div className='flex flex-col gap-2'>
@@ -35,21 +37,6 @@ export const PathLessonStatistics = ({ lesson }: PathLessonStatisticsProps) => {
                     </Badge>
                 </div>
             </div>
-            <div className="absolute bottom-0 left-0 right-0">
-                <div className="relative h-1 w-full bg-muted/50">
-                    <motion.div
-                        className={cn(
-                            "absolute left-0 top-0 h-full",
-                            progress < 50 && "bg-red-500",
-                            progress >= 50 && "bg-yellow-500",
-                            progress >= 80 && "bg-green-500",
-                        )}
-                        initial={{ width: "0%" }}
-                        animate={{ width: `${progress}%` }}
-                        transition={{ duration: 0.3 }}
-                    />
-                </div>
-            </div>
-        </div>
+        </AdvancementBarCard>
     )
 }

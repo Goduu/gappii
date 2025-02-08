@@ -2,11 +2,10 @@ import { cn } from "@/lib/utils"
 import { PathStone } from "./types"
 import { Flower2 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { SubtopicsPie } from "./circular-chart"
 
 export const PathCircle = ({ path, isSelected }: { path: PathStone, isSelected: boolean }) => {
     return (
-        <div key={path.id} className='flex relative flex-col items-center justify-center w-full gap-2 group h-72'>
+        <div key={path.id} className='flex relative flex-col items-center justify-center w-44 gap-2 group'>
             <div
                 className={cn('flex flex-col items-center justify-center w-20 mt-[30px]',
                     'bg-green-500 rounded-full aspect-square text-white',
@@ -22,7 +21,6 @@ export const PathCircle = ({ path, isSelected }: { path: PathStone, isSelected: 
                 'transition-all duration-1000 ease-in-out')}>
                 {path.title}
             </Badge>
-            {isSelected && <SubtopicsPie lessons={path.lessons} />}
         </div>
     )
 }

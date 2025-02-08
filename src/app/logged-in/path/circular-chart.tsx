@@ -10,6 +10,9 @@ const chartConfig = {
     desktop: {
         label: "Desktop",
     },
+    mobile: {
+        label: "Mobile",
+    }
 } satisfies ChartConfig
 
 const renderActiveShape: ActiveShape<PieSectorDataItem> = (props: PieSectorDataItem) => {
@@ -29,9 +32,6 @@ const renderActiveShape: ActiveShape<PieSectorDataItem> = (props: PieSectorDataI
 
     return (
         <g>
-            <text x={cx} y={cy} dy={8} textAnchor='middle' fill={fill}>
-                {/* {payload.name} */}
-            </text>
             <Sector
                 cx={cx}
                 cy={cy}
@@ -76,14 +76,12 @@ export const SubtopicsPie = ({ innerRadius = 44, outerRadius = 63, lessons }: Su
     };
 
     return (
-        <ChartContainer config={chartConfig} className="h-full w-full absolute overflow-visible -top-4">
-            <PieChart width={400} height={400}>
+        <ChartContainer config={chartConfig} className="w-full overflow-visible h-64 -mt-4">
+            <PieChart >
                 <Pie
                     activeIndex={activeIndex}
                     activeShape={renderActiveShape}
                     data={lessons.map(lesson => ({ name: lesson.title, value: lesson.hasActivities.length }))}
-                    cx="50%"
-                    cy="50%"
                     paddingAngle={5}
                     innerRadius={innerRadius}
                     outerRadius={outerRadius}

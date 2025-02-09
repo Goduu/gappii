@@ -1,20 +1,18 @@
 'use client'
 
 import { useRef } from "react"
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { BoxSelectIcon, LucideIcon } from "lucide-react"
-import { iconMetadata } from "./icon-list"
+import { iconMetadata, IconMetadata } from "./icon-list"
 import { useState } from "react"
-import { useVirtualizer } from "@tanstack/react-virtual"
+import { cn } from "@/lib/utils"
 
 type IconPickerProps = {
-    onSelect: (icon: LucideIcon) => void
+    selectedIcon: IconMetadata | null
+    onSelect: (icon: IconMetadata) => void
 }
 
-export function IconPicker({ onSelect }: IconPickerProps) {
+export function IconPicker({ selectedIcon, onSelect }: IconPickerProps) {
     const [search, setSearch] = useState<string>("")
     const parentRef = useRef<HTMLDivElement>(null)
 
@@ -23,39 +21,32 @@ export function IconPicker({ onSelect }: IconPickerProps) {
     })
 
     return (
-        <Card className="shadow-none">
-            <CardHeader hidden className="border-b">
-                <CardTitle>Icon Picker</CardTitle>
-            </CardHeader>
-            <CardContent className="p-6">
-                <Input
-                    id="search"
-                    onChange={(e) => setSearch(e.target.value)}
-                    placeholder="Search icons..."
-                    className="mb-4 h-8"
-                />
-                <div
-                    ref={parentRef}
-                    className="h-20 overflow-auto"
-                >
-                    <div
-                        className="flex flex-wrap gap-2"
-                    >
-                        {filteredIcons.map(({ icon, label }, index) => {
-                            return (
-                                <Button
-                                    key={label}
-                                    variant="outline"
-                                    size="icon"
-                                    className="w-8 h-8"
-                                >
-                                    {icon}
-                                </Button>
-                            )
-                        })}
-                    </div>
+        <div className="p-4 flex flex-col gap-4">
+            <Input
+                id="search"
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search icons..."
+            />
+            <div ref={parentRef} className="h-20 overflow-auto">
+                <div className="flex flex-wrap gap-2 items-center justify-center">
+                    {filteredIcons.map((iconMetadata, index) => {
+                        return (
+                            <Button
+                                key={iconMetadata.label}
+                                variant="outline"
+                                size="icon"
+                                className={cn(
+                                    "w-8 h-8",
+                                    selectedIcon?.label === iconMetadata.label && "shadow-md bg-accent"
+                                )}
+                                onClick={() => onSelect(iconMetadata)}
+                            >
+                                {iconMetadata.icon}
+                            </Button>
+                        )
+                    })}
                 </div>
-            </CardContent>
-        </Card>
+            </div>
+        </div>
     )
 }

@@ -8,6 +8,8 @@ import { Carousel, CarouselApi, CarouselContent, CarouselItem, CarouselNext, Car
 import { CardContent } from '@/components/ui/card'
 import { AdvancementBarCard } from '@/components/ui/advancementbar'
 import { Separator } from '@/components/ui/separator'
+import { PageTitle } from '@/components/ui/page-title'
+import { PathCreationDialog } from './path-creation.dialog'
 
 const activity: Activity = {
     order: 1,
@@ -24,55 +26,6 @@ const paths: PathStone[] = [
         lessons: [
             { id: 'lesson14', title: 'Lesson about something nice', level: 1, isPublic: true, createdAt: new Date(), language: 'en', hasActivities: [activity, activity, activity, activity, activity] },
             { id: 'lesson21', title: 'Lesson that I need', level: 1, isPublic: true, createdAt: new Date(), language: 'en', hasActivities: [activity, activity, activity, activity] },
-        ],
-    },
-    {
-        id: 'topic2',
-        title: 'Topic 2',
-        lessons: [
-            { id: 'lesson98', title: 'Geography from the world / Oceans and Beaches', level: 1, isPublic: true, createdAt: new Date(), language: 'en', hasActivities: [activity, activity, activity, activity, activity, activity, activity] },
-            { id: 'lesson xongas eita 233', title: 'Lesson xongas eita 2', level: 1, isPublic: true, createdAt: new Date(), language: 'en', hasActivities: [activity, activity, activity, activity, activity] },
-            { id: 'lesson22', title: 'Lesson 22 para paha paha ver', level: 1, isPublic: true, createdAt: new Date(), language: 'en', hasActivities: [activity, activity, activity, activity, activity, activity, activity] },
-            { id: 'lesson24', title: 'paracentamol 22 para paha paha ver', level: 1, isPublic: true, createdAt: new Date(), language: 'en', hasActivities: [activity, activity, activity, activity, activity, activity, activity] },
-        ],
-    },
-    {
-        id: 'topic3',
-        title: 'Topic 33423',
-        lessons: [
-            { id: 'lesson98', title: 'Geography from the world / Oceans and Beaches', level: 1, isPublic: true, createdAt: new Date(), language: 'en', hasActivities: [activity, activity, activity, activity, activity, activity, activity] },
-            { id: 'lessa paha n233', title: ' wow xongeira Lesson 2', level: 1, isPublic: true, createdAt: new Date(), language: 'en', hasActivities: [activity, activity, activity, activity, activity] },
-            { id: 'lesson22', title: 'Lesson 22 para ver', level: 1, isPublic: true, createdAt: new Date(), language: 'en', hasActivities: [activity, activity, activity, activity, activity, activity, activity] },
-        ],
-    },
-    {
-        id: 'topic9',
-        title: 'Topic 9 from another',
-        lessons: [
-            { id: 'lesson98', title: 'Geography from the world / Oceans and Beaches', level: 1, isPublic: true, createdAt: new Date(), language: 'en', hasActivities: [activity, activity, activity, activity, activity, activity, activity] },
-            { id: 'lesson233', title: 'Bleble da bahia  2', level: 1, isPublic: true, createdAt: new Date(), language: 'en', hasActivities: [activity, activity, activity, activity, activity] },
-            { id: 'lesson2353', title: 'Lesson da bahia  2', level: 1, isPublic: true, createdAt: new Date(), language: 'en', hasActivities: [activity, activity, activity, activity, activity] },
-            { id: 'lesson23a3', title: 'Lesson da bahia nao  2', level: 1, isPublic: true, createdAt: new Date(), language: 'en', hasActivities: [activity, activity, activity, activity, activity] },
-            { id: 'lesson22', title: 'Lesson 22 descerr', level: 1, isPublic: true, createdAt: new Date(), language: 'en', hasActivities: [activity, activity, activity, activity, activity, activity, activity] },
-            { id: 'lesson22d', title: 'nao sei o que 22 descerr', level: 1, isPublic: true, createdAt: new Date(), language: 'en', hasActivities: [activity, activity, activity, activity, activity, activity, activity] },
-        ],
-    },
-    {
-        id: 'topic5',
-        title: 'Topic 5',
-        lessons: [
-            { id: 'lesson98', title: 'Geography from the world / Oceans and Beaches', level: 1, isPublic: true, createdAt: new Date(), language: 'en', hasActivities: [activity, activity, activity, activity, activity, activity, activity] },
-            { id: 'lesson233', title: 'Lesson 2', level: 1, isPublic: true, createdAt: new Date(), language: 'en', hasActivities: [activity, activity, activity, activity, activity] },
-            { id: 'lesson22', title: 'Lesson 22 para ver', level: 1, isPublic: true, createdAt: new Date(), language: 'en', hasActivities: [activity, activity, activity, activity, activity, activity, activity] },
-        ],
-    },
-    {
-        id: 'topic30',
-        title: 'Topic 30',
-        lessons: [
-            { id: 'lesson98', title: 'Geography from the world / Oceans and Beaches', level: 1, isPublic: true, createdAt: new Date(), language: 'en', hasActivities: [activity, activity, activity, activity, activity, activity, activity] },
-            { id: 'lesson233', title: 'Lesson 2', level: 1, isPublic: true, createdAt: new Date(), language: 'en', hasActivities: [activity, activity, activity, activity, activity] },
-            { id: 'lesson22', title: 'Lesson 22 para ver', level: 1, isPublic: true, createdAt: new Date(), language: 'en', hasActivities: [activity, activity, activity, activity, activity, activity, activity] },
         ],
     }
 ]
@@ -97,13 +50,12 @@ const Cards: FC = () => {
         })
     }, [api])
 
-    const handleClose = () => {
-        setClicked(null)
-        setSelected(null)
-    }
-
     return (
-        <div className='w-full px-6 md:px-10 lg:px-20 xl:px-40 '>
+        <div className='w-full px-6 md:px-10 lg:px-20 xl:px-40 flex flex-col gap-4'>
+            <div className='flex items-center gap-4'>
+                <PageTitle title="Paths" />
+                <PathCreationDialog />
+            </div>
             <div className='w-full items-center justify-center flex flex-col gap-10 overflow-visible'>
                 <Carousel
                     setApi={setApi}
@@ -118,7 +70,7 @@ const Cards: FC = () => {
                                 <div className="p-1 w-full justify-center items-center flex">
                                     <AdvancementBarCard progress={path.title.length * 4} variant="status" size="medium" className='w-56 h-60'>
                                         <CardContent className="relative flex aspect-square items-center justify-center p-2">
-                                            <div onMouseOver={() => setSelected(path.id)}>
+                                            <div onMouseOver={() => setSelected(path.id)} onClick={() => setSelected(path.id)}>
                                                 <PathCircle path={path} isSelected={selected === path.id} />
                                             </div>
                                         </CardContent>

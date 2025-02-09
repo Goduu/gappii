@@ -20,10 +20,11 @@ import {
     Timer, Trash, TreeDeciduous, TreePalm, TreePine, Trophy, Tv, Type, Upload, User, UserCheck,
     Users, Video, Volleyball, Volume2, Wand2, Wrench, XCircle, ZoomIn
 } from "lucide-react";
+import { ReactElement } from "react";
 
-type IconMetadata = {
+export type IconMetadata = {
     label: string;
-    icon: React.ReactNode;
+    icon: ReactElement;
     relatedTerms: string[];
 }
 

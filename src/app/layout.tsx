@@ -12,8 +12,6 @@ import { LoggedOutMenu } from "./loggedout-menu";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/react"
 import { routes } from "@/lib/routes";
-import { Spotlight } from "@/components/ui/spotlight";
-import { onboardingSteps } from "./onboarding/steps";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -86,11 +84,7 @@ export default function RootLayout({
               <div className="items-center justify-items-center max-w-screen w-screen bg-linear-to-b from-slate-50 to-white p-4 md:p-8 md:min-w-[580px] pb-20 gap-16  font-[family-name:var(--font-geist-sans)]">
                 <main className="flex flex-col gap-8 row-start-2 items-center w-full">
                   <ApolloWrapper >
-                    <Spotlight
-                      steps={onboardingSteps}
-                    >
-                      {children}
-                    </Spotlight>
+                    {children}
                     <Analytics />
                     <SpeedInsights />
                   </ApolloWrapper>
@@ -111,6 +105,6 @@ export default function RootLayout({
           <Footer />
         </footer>
       </body>
-    </html >
+    </html>
   );
 }

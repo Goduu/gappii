@@ -22,7 +22,7 @@ const texts = {
 export const CreateLesson: FC = () => {
 
     return (
-        <Dialog modal>
+        <Dialog>
             <DialogTrigger asChild>
                 <Button variant="outline" className="z-30">
                     <Plus size={24} /> Create new lesson

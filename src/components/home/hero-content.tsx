@@ -33,6 +33,7 @@ export const HeroContent = () => {
                             'sm:text-gray-50/0 md:text-gray-50/100 hover:text-gray-50/100',
                             'transition-all duration-1000 group-hover:scale-110 inline-block'
                         )} >
+
                             gaps
                         </div>
                     </Badge>

@@ -2,7 +2,6 @@
 import { Activity, Lesson, Streak } from "../../ogm-types";
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { LessonMode, LessonModes } from "./type";
-import { useSearchParams } from "next/navigation";
 
 export interface ActivityAttempt {
     activityId: string;
@@ -42,11 +41,12 @@ type LessonProviderProps = {
     children: ReactNode;
     lesson: Lesson;
     userStreak?: Streak
+    mode: LessonMode;
 };
 
 const LessonContext = createContext<LessonContextType | undefined>(undefined);
 
-export const LessonProvider: React.FC<LessonProviderProps> = ({ children, lesson, userStreak }) => {
+export const LessonProvider: React.FC<LessonProviderProps> = ({ children, lesson, userStreak, mode }) => {
     const [currentActivityIndex, setCurrentActivityIndex] = useState(0);
     const [completedActivities, setCompletedActivities] = useState<number[]>([]);
     const [progress, setProgress] = useState(0);
@@ -55,9 +55,6 @@ export const LessonProvider: React.FC<LessonProviderProps> = ({ children, lesson
     const [lessonStartTime] = useState(Date.now());
     const [attempts, setAttempts] = useState<Map<number, ActivityAttempt>>(new Map());
     const [isComplete, setIsComplete] = useState(false);
-    const searchParams = useSearchParams();
-    const params = new URLSearchParams(searchParams);
-    const mode = params.get('mode') as LessonMode
     const [summaryActivity, setSummaryActivity] = useState<SummaryLesson | null>(null);
 
     const activities = lesson.hasActivities;

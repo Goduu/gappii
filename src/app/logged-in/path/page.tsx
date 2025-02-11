@@ -1,148 +1,94 @@
 "use client"
 import React, { FC, useState } from 'react'
-import { Flower2, X } from 'lucide-react'
-import { Badge } from '@/components/ui/badge'
-import { SubtopicsPie } from './circular-chart'
-import { Lesson, Topic } from '@/ogm-types'
-import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
-import { motion, AnimatePresence } from 'framer-motion'
+import { Activity } from '@/ogm-types'
+import { PathCircle } from './path-circle'
+import { PathStone } from './types'
+import { PathDetails } from './path-details'
+import { Carousel, CarouselApi, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
+import { CardContent } from '@/components/ui/card'
+import { AdvancementBarCard } from '@/components/ui/advancementbar'
+import { Separator } from '@/components/ui/separator'
+import { PageTitle } from '@/components/ui/page-title'
+import { PathCreationDialog } from './path-creation.dialog'
 
-type PathStone = {
-    id: string
-    title: string
-    lessons: Partial<Lesson>[]
+const activity: Activity = {
+    order: 1,
+    description: 'What is the sum of the first 10 natural numbers?',
+    options: ['10', '20', '30', '40'],
+    answer: '10',
+    comment: 'This is a comment',
 }
 
-const topics: PathStone[] = [
+const paths: PathStone[] = [
     {
-        id: 'topic1',
-        title: 'Topic 1',
+        id: 'Path1',
+        title: 'Mathematic A1 Calculus',
         lessons: [
-            { id: 'lesson1', title: 'Lesson 1', level: 1, isPublic: true, createdAt: new Date(), language: 'en', },
-            { id: 'lesson2', title: 'Lesson 2', level: 1, isPublic: true, createdAt: new Date(), language: 'en', },
+            { id: 'lesson14', title: 'Lesson about something nice', level: 1, isPublic: true, createdAt: new Date(), language: 'en', hasActivities: [activity, activity, activity, activity, activity] },
+            { id: 'lesson21', title: 'Lesson that I need', level: 1, isPublic: true, createdAt: new Date(), language: 'en', hasActivities: [activity, activity, activity, activity] },
         ],
-    },
-    {
-        id: 'topic2',
-        title: 'Topic 2',
-        lessons: [
-            { id: 'lesson2', title: 'Lesson 1', level: 1, isPublic: true, createdAt: new Date(), language: 'en', },
-            { id: 'lesson2', title: 'Lesson 2', level: 1, isPublic: true, createdAt: new Date(), language: 'en', },
-        ],
-    },
+    }
 ]
 
 const Cards: FC = () => {
     const [selected, setSelected] = useState<string | null>(null)
     const [clicked, setClicked] = useState<string | null>(null)
+    const [api, setApi] = React.useState<CarouselApi>()
+    const [current, setCurrent] = React.useState(0)
+    const [count, setCount] = React.useState(0)
 
-    const handleClose = () => {
-        setClicked(null)
-        setSelected(null)
-    }
+    React.useEffect(() => {
+        if (!api) {
+            return
+        }
+
+        setCount(api.scrollSnapList().length)
+        setCurrent(api.selectedScrollSnap() + 1)
+
+        api.on("select", () => {
+            setCurrent(api.selectedScrollSnap() + 1)
+        })
+    }, [api])
 
     return (
-        <>
-            <div className='w-full items-center justify-center flex flex-col gap-10 h-full overflow-visible'>
-                {topics.map((topic) => (
-                    <div
-                        onMouseOver={() => setSelected(topic.id)}
-                        key={topic.id} className='flex relative flex-col items-center justify-center w-full gap-2 group h-72'>
-                        <div
-
-                            onClick={() => setClicked(topic.id)}
-                            className={cn('flex flex-col items-center justify-center w-20 mt-8',
-                                'bg-green-500 rounded-full aspect-square text-white',
-                                'border-b-8 border-green-600 cursor-pointer',
-                                'transition-all duration-1000 ease-in-out z-20',
-                                selected === topic.id && 'border-green-600 scale-105 border-b-2'
-                            )}
-                        >
-                            <Flower2 size={40} />
-                        </div>
-                        <Badge variant="outline" className={cn(
-                            selected === topic.id && 'mt-8',
-                            'transition-all duration-1000 ease-in-out')}>
-                            {topic.title}
-                        </Badge>
-                        {selected === topic.id && !clicked && <SubtopicsPie />}
-                    </div>
-                ))}
+        <div className='w-full px-6 md:px-10 lg:px-20 xl:px-40 flex flex-col gap-4'>
+            <div className='flex items-center gap-4'>
+                <PageTitle title="Paths" />
+                <PathCreationDialog />
             </div>
-
-            <AnimatePresence>
-                {clicked && (
-                    <>
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"
-                            onClick={handleClose}
-                        />
-
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.9 }}
-                            className={cn(
-                                "fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50",
-                                "bg-white rounded-xl shadow-lg",
-                                "w-screen md:w-[80vw] md:max-w-4xl",
-                                "p-2 md:p-6",
-                                "flex flex-col items-center"
-                            )}
-                        >
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                className="absolute top-2 right-2 z-10"
-                                onClick={handleClose}
-                            >
-                                <X className="h-4 w-4" />
-                            </Button>
-
-                            <div className="flex flex-col items-center w-full">
-                                <div className="relative w-full aspect-square md:max-w-2xl">
-                                    <div className="absolute inset-0 mt-8">
-                                        <SubtopicsPie outerRadius={90} innerRadius={67} />
-                                    </div>
-                                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                                        <div className={cn(
-                                            "bg-green-500 rounded-full flex items-center justify-center",
-                                            "w-20 h-20 md:w-32 md:h-32",
-                                            "border-b-8 border-green-600"
-                                        )}>
-                                            <Flower2 className="text-white w-10 h-10 md:w-16 md:h-16" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <h2 className="text-xl md:text-2xl font-bold mt-4">
-                                    {topics.find(t => t.id === clicked)?.title}
-                                </h2>
-
-                                <div className="w-full space-y-4 mt-6">
-                                    <h3 className="text-lg font-semibold px-4">Available Lessons</h3>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 px-4">
-                                        {topics.find(t => t.id === clicked)?.lessons.map((lesson) => (
-                                            <div
-                                                key={'details' + lesson.id}
-                                                className="p-3 md:p-4 border rounded-lg hover:bg-slate-50 cursor-pointer"
-                                            >
-                                                {lesson.title}
+            <div className='w-full items-center justify-center flex flex-col gap-10 overflow-visible'>
+                <Carousel
+                    setApi={setApi}
+                    opts={{
+                        align: "center",
+                    }}
+                    className='w-full'
+                >
+                    <CarouselContent className='-ml-1'>
+                        {paths.map((path) => (
+                            <CarouselItem key={path.id} className="pl-2 md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
+                                <div className="p-1 w-full justify-center items-center flex">
+                                    <AdvancementBarCard progress={path.title.length * 4} variant="status" size="medium" className='w-56 h-60'>
+                                        <CardContent className="relative flex aspect-square items-center justify-center p-2">
+                                            <div onMouseOver={() => setSelected(path.id)} onClick={() => setSelected(path.id)}>
+                                                <PathCircle path={path} isSelected={selected === path.id} />
                                             </div>
-                                        ))}
-                                    </div>
+                                        </CardContent>
+                                    </AdvancementBarCard>
                                 </div>
-                            </div>
-                        </motion.div>
-                    </>
-                )}
-            </AnimatePresence>
-        </>
+                            </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                    <CarouselPrevious />
+                    <CarouselNext />
+                </Carousel>
+                <Separator />
+
+            </div>
+            <PathDetails path={selected && paths.find((path) => path.id === selected)} />
+        </div>
     )
 }
 
 export default Cards
+

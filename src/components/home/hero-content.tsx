@@ -24,11 +24,16 @@ export const HeroContent = () => {
                         text={'Fill your knowledge'}
                         className='text-2xl sm:text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-linear-to-r from-primary to-primary/80'
                     />
-                    <Badge className={cn('ml-2 p-2 text-2xl sm:text-3xl md:text-5xl select-none group relative w-fit',
-                    'bg-linear-to-r from-primary/90 to-primary/80 hover:from-primary/80 hover:to-primary/90',
-                    'transition-all duration-300')}>
-                        <div className={cn('sm:text-gray-50/0 md:text-gray-50/100 hover:text-gray-50/100',
-                                            'transition-all duration-1000 group-hover:scale-110 inline-block')}>
+                    <Badge className={cn(
+                        'ml-2 p-2 text-2xl sm:text-3xl md:text-5xl select-none group relative w-fit',
+                        'bg-linear-to-r from-primary/90 to-primary/80 hover:from-primary/80 hover:to-primary/90',
+                        'transition-all duration-300'
+                    )}>
+                        <div className={cn(
+                            'sm:text-gray-50/0 md:text-gray-50/100 hover:text-gray-50/100',
+                            'transition-all duration-1000 group-hover:scale-110 inline-block'
+                        )} >
+
                             gaps
                         </div>
                     </Badge>

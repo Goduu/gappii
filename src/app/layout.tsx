@@ -71,6 +71,7 @@ export default function RootLayout({
         {/* 
         // Allows to check rerendering of components
         <script src="https://unpkg.com/react-scan/dist/auto.global.js" async /> */}
+
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col flex-1`}

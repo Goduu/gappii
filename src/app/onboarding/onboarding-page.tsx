@@ -14,10 +14,11 @@ import { TermsCard } from './terms-card';
 import { LoadingAnimation } from '@/components/loading-animation';
 import { OnboardingLesson } from './onboarding-lesson';
 import { LessonProvider } from '@/components/lesson-page/lesson-context';
+import { LessonModes } from '@/components/lesson-page/type';
 
 const OnboardingFlow = () => {
     const [currentStep, setCurrentStep] = useState(1);
-    const [acceptedTerms, setAcceptedTerms] = useState(false);
+    const [, setAcceptedTerms] = useState(false);
     const [lesson, setLesson] = useState<Lesson | null>(null);
 
     const handleNextStep = () => {
@@ -35,10 +36,7 @@ const OnboardingFlow = () => {
         switch (currentStep) {
             case 1:
                 return (
-                    <TermsCard
-                        acceptedTerms={acceptedTerms}
-                        setAcceptedTerms={setAcceptedTerms}
-                        handleNextStep={handleNextStep} />
+                    <TermsCard handleNextStep={handleNextStep} />
                 );
 
             case 2:
@@ -58,7 +56,7 @@ const OnboardingFlow = () => {
 
             case 3:
                 return lesson ? (
-                    <LessonProvider lesson={lesson}>
+                    <LessonProvider lesson={lesson} mode={LessonModes.EitherOr}>
                         <OnboardingLesson
                             lesson={lesson}
                         />

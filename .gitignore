@@ -4,3 +4,6 @@
 .next
 .env*
 .DS_Store
+
+.clerk
+

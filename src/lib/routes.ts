@@ -1,6 +1,7 @@
 
 export const routes = {
     home: '/',
+    onboarding: '/onboarding',
     testLesson: (lessonId: string) => `/lesson/${lessonId}`,
     lesson: (lessonId: string) => `/lesson/${lessonId}`,
     editLesson: (lessonId: string) => `/logged-in/lesson/${lessonId}/edit`,

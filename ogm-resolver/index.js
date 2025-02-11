@@ -40,18 +40,18 @@ async function main() {
   }
   await ogm.init()
 
-  const server = new ApolloServer({
-    schema: await neoSchema.getSchema(),
-  })
+  // const server = new ApolloServer({
+  //   schema: await neoSchema.getSchema(),
+  // })
 
-  const { url } = await startStandaloneServer(server, {
-    listen: { port: 4000 },
-    context: async ({ req }) => ({
-      token: req.headers.authorization,
-    }),
-  })
+  // const { url } = await startStandaloneServer(server, {
+  //   listen: { port: 4000 },
+  //   context: async ({ req }) => ({
+  //     token: req.headers.authorization,
+  //   }),
+  // })
 
-  console.log(`🚀 Server ready at ${url}`)
+  // console.log(`🚀 Server ready at ${url}`)
 }
 
 main()

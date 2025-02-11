@@ -54,6 +54,7 @@ type User @node {
   reportedActivities: [Activity!]! @relationship(type: "REPORTED", direction: OUT)
   completedLessons: [LessonCompletionRecord!]! @relationship(type: "COMPLETED_LESSON", direction: OUT)
   hasStreak: [Streak!]! @relationship(type: "HAS_STREAK", direction: OUT)
+  hasPaths: [Path!]! @relationship(type: "HAS_PATH", direction: OUT)
   # return the number of interactions with this users created lessons
   createdLessonsInteractionsCount: Int! @cypher(
     statement: """
@@ -107,6 +108,24 @@ type DailyActivity {
     date: String!
     count: Int!
 }
+
+type Path @node {
+  id: ID! @id
+  title: String
+  color: String
+  icon: String
+  lessons: [Lesson!]! @relationship(type: "WITH_LESSON", direction: OUT)
+}
+
+type WithLesson @relationshipProperties {
+  hasAt: DateTime!
+}
+
+type HasPath @relationshipProperties {
+  type: String! # "CREATED", "COPIED", "ADDED"
+  hasAt: DateTime!
+}
+
 `;
 
 

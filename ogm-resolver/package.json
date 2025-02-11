@@ -24,9 +24,8 @@
   },
   "contributors": [],
   "scripts": {
-    "dev": "node --env-file=../.env.local index.js",
-    "test": "",
-    "generate": "GENERATE='true' ts-node ./index.ts"
+    "gen": "node --env-file=../.env.local index.js",
+    "test": ""
   },
   "dependencies": {
     "@apollo/server": "^4.11.2",

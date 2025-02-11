@@ -8,18 +8,13 @@ import { useUser } from '@clerk/nextjs'
 import { routes } from '@/lib/routes'
 import { redirect } from 'next/navigation'
 
-export const TermsCard: FC = () => {
+type TermsCardProps = {
+    handleNextStep: () => void;
+}
+
+export const TermsCard: FC<TermsCardProps> = ({ handleNextStep }) => {    
     const [acceptedTerms, setAcceptedTerms] = useState(false);
     const { user } = useUser();
-
-    const handleContinue = async () => {
-        const res = await completeOnboarding();
-
-        if (res?.message) {
-            await user?.reload();
-            redirect(routes.dashboard);
-        }
-    }
 
     return (
         <Card className="w-full max-w-lg mx-auto ob-terms-of-use">
@@ -42,7 +37,7 @@ export const TermsCard: FC = () => {
                     </label>
                 </div>
                 <Button
-                    onClick={handleContinue}
+                    onClick={handleNextStep}
                     disabled={!acceptedTerms}
                     className="w-full mt-4 ob-button"
                 >

@@ -83,7 +83,7 @@ export const MermaidRenderer: React.FC<MermaidRendererProps> = ({
     };
 
     initAndRender();
-  }, [diagram]); // Run only once on mount
+  }, [diagram,renderDiagram]); // Run only once on mount
 
   // Handle diagram prop changes
   useEffect(() => {
@@ -100,7 +100,7 @@ export const MermaidRenderer: React.FC<MermaidRendererProps> = ({
     if (displayedDiagram !== diagram) {
       renderDiagram(displayedDiagram);
     }
-  }, [displayedDiagram]);
+  }, [displayedDiagram, renderDiagram]);
 
 
 

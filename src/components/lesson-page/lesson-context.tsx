@@ -33,6 +33,8 @@ type LessonContextType = {
     lessonStartTime: number;
     handleNext: (isCorrect?: boolean) => void;
     handleBack: () => void;
+    setMode: (mode: LessonMode) => void;
+    mode: LessonMode;
     attempts: Map<number, ActivityAttempt>;
     isComplete: boolean;
 };
@@ -67,7 +69,8 @@ export const LessonProvider: React.FC<LessonProviderProps> = ({ children, lesson
     const createSummaryLesson = (
         totalTimeTaken: number,
         correctAnswers: number,
-        score: number
+        score: number,
+        mode: LessonMode
     ): SummaryLesson => ({
         id: lesson.id || '',
         type: 'summary',
@@ -119,7 +122,7 @@ export const LessonProvider: React.FC<LessonProviderProps> = ({ children, lesson
             const score = ((correctAnswers / activities.length) * 100).toFixed(2);
 
             // Create and set summary activity
-            const summary = createSummaryLesson(totalTimeTaken, correctAnswers, Number(score));
+            const summary = createSummaryLesson(totalTimeTaken, correctAnswers, Number(score), mode);
             setSummaryActivity(summary);
             setIsComplete(true);
             setProgress(100);
@@ -139,6 +142,10 @@ export const LessonProvider: React.FC<LessonProviderProps> = ({ children, lesson
         }
     };
 
+    const setMode = (mode: LessonMode) => {
+        setMode(mode);
+    };
+
     const value = {
         currentActivityIndex,
         progress,
@@ -148,6 +155,8 @@ export const LessonProvider: React.FC<LessonProviderProps> = ({ children, lesson
         lessonStartTime,
         handleNext,
         handleBack,
+        setMode,
+        mode,
         attempts,
         isComplete,
     };

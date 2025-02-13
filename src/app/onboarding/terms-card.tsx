@@ -3,10 +3,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Checkbox } from '@/components/ui/checkbox'
 import React, { FC, useState } from 'react'
 import { TermsOfUseDialog } from './terms-of-use'
-import { completeOnboarding } from './actions'
-import { useUser } from '@clerk/nextjs'
-import { routes } from '@/lib/routes'
-import { redirect } from 'next/navigation'
 
 type TermsCardProps = {
     handleNextStep: () => void;
@@ -14,7 +10,6 @@ type TermsCardProps = {
 
 export const TermsCard: FC<TermsCardProps> = ({ handleNextStep }) => {    
     const [acceptedTerms, setAcceptedTerms] = useState(false);
-    const { user } = useUser();
 
     return (
         <Card className="w-full max-w-lg mx-auto ob-terms-of-use">

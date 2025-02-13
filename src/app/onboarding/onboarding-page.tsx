@@ -18,7 +18,6 @@ import { LessonModes } from '@/components/lesson-page/type';
 
 const OnboardingFlow = () => {
     const [currentStep, setCurrentStep] = useState(1);
-    const [, setAcceptedTerms] = useState(false);
     const [lesson, setLesson] = useState<Lesson | null>(null);
 
     const handleNextStep = () => {

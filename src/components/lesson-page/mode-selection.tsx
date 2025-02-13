@@ -37,11 +37,11 @@ export const ModeSelection = ({ onModeSelect }: ModeSelectionProps) => {
     return (
         <div className="flex flex-col items-center gap-8 w-full max-w-2xl mx-auto">
             <h2 className="text-2xl font-bold text-center">Choose Your Learning Mode</h2>
-            <div className="flex items-center justify-center gap-4 w-full">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4 w-full">
                 {modes.map((mode) => (
                     <div
                         key={mode.id}
-                        className="hover:scale-105 transition-all duration-300"
+                        className="hover:scale-105 transition-all duration-300 w-full"
                     >
                         <Button
                             variant="outline"

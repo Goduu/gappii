@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "vitest",
-    "postbuild": "next-sitemap"
+    "test": "vitest"
   },
   "dependencies": {
     "@apollo/client": "^3.11.10",
@@ -55,7 +54,6 @@
     "mermaid": "^11.4.1",
     "neo4j-driver": "^5.26.0",
     "next": "15.0.3",
-    "next-sitemap": "^4.2.3",
     "obscenity": "^0.4.0",
     "openai": "^4.73.0",
     "react": "^18.3.1",

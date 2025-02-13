@@ -60,7 +60,7 @@ export const LessonHeader: React.FC<LessonHeaderProps> = ({
 
                     <CircleX
                         className="h-6 w-6 cursor-pointer text-muted-foreground hover:text-destructive transition-colors"
-                        onClick={() => redirect(user?.isSignedIn ? routes.dashboard() : routes.home)}
+                        onClick={() => redirect(user?.isSignedIn ? routes.dashboard : routes.home)}
                     />
                 </div>
             </div>

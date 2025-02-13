@@ -147,7 +147,7 @@ export const Spotlight: React.FC<SpotlightProps> = ({
             window.removeEventListener('resize', updatePosition)
             observer.disconnect()
         }
-    }, [step?.selector, active, contentHeight, pathname])
+    }, [step?.selector, active, contentHeight, pathname, steps])
 
     useEffect(() => {
         if (contentRef.current) {
@@ -193,7 +193,7 @@ export const Spotlight: React.FC<SpotlightProps> = ({
             observer.disconnect()
             window.removeEventListener('scroll', checkNextSelector, true)
         }
-    }, [active, currentStep, pathname, steps])
+    }, [active, currentStep, pathname, steps, step?.autoPassIfNextSelectorFound])
 
     const showSpotlight = elementPosition && active && step && isPositioned
 

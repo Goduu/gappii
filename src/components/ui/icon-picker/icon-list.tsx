@@ -8,7 +8,7 @@ import {
     Database, Dna, Download, Eye, FileCode, FileText,
     Filter, Flag, FlaskConical, Folder, FolderOpen, Gift,
     Globe, GraduationCap, Grid, Hand, Headphones, Heart, HelpCircle, History,
-    Image, Key, Keyboard, Lamp, LampDesk, Layers,
+    ImageIcon, Key, Keyboard, Lamp, LampDesk, Layers,
     Layout, Library, Lightbulb, Link, List, Lock, Map, MapPin, Medal,
     MessageSquare, Microscope, Monitor, Moon, Music, Network,
     Newspaper, NotebookPen, Palette, Paperclip, Pencil, PenTool,
@@ -52,7 +52,7 @@ export const iconMetadata: IconMetadata[] = [
     {
         label: "Target",
         icon: <Target />,
-        relatedTerms: ["target","goal", "objective", "aim", "focus", "purpose", "achievement"],
+        relatedTerms: ["target", "goal", "objective", "aim", "focus", "purpose", "achievement"],
     },
     {
         label: "Clock",
@@ -62,7 +62,7 @@ export const iconMetadata: IconMetadata[] = [
     {
         label: "Compass",
         icon: <Compass />,
-        relatedTerms: ["compass","direction", "guidance", "navigation", "exploration", "discovery", "path"],
+        relatedTerms: ["compass", "direction", "guidance", "navigation", "exploration", "discovery", "path"],
     },
     {
         label: "Notebook",
@@ -87,7 +87,7 @@ export const iconMetadata: IconMetadata[] = [
     {
         label: "Medal",
         icon: <Medal />,
-        relatedTerms: ["medal","achievement", "recognition", "award", "accomplishment", "success", "excellence"],
+        relatedTerms: ["medal", "achievement", "recognition", "award", "accomplishment", "success", "excellence"],
     },
     {
         label: "Calculator",
@@ -97,7 +97,7 @@ export const iconMetadata: IconMetadata[] = [
     {
         label: "Globe",
         icon: <Globe />,
-        relatedTerms: ["globe","global", "world", "international", "geography", "culture", "languages"],
+        relatedTerms: ["globe", "global", "world", "international", "geography", "culture", "languages"],
     },
     {
         label: "Microscope",
@@ -112,7 +112,7 @@ export const iconMetadata: IconMetadata[] = [
     {
         label: "Code",
         icon: <Code />,
-        relatedTerms: ["code","programming", "coding", "development", "technology", "software", "computing"],
+        relatedTerms: ["code", "programming", "coding", "development", "technology", "software", "computing"],
     },
     {
         label: "Library",
@@ -337,7 +337,7 @@ export const iconMetadata: IconMetadata[] = [
     {
         label: "Terminal",
         icon: <Terminal />,
-        relatedTerms: ["terminal","command line", "programming", "interface", "development", "coding", "system"],
+        relatedTerms: ["terminal", "command line", "programming", "interface", "development", "coding", "system"],
     },
     {
         label: "Keyboard",
@@ -371,13 +371,13 @@ export const iconMetadata: IconMetadata[] = [
     },
     {
         label: "Image",
-        icon: <Image />,
+        icon: <ImageIcon />,
         relatedTerms: ["image", "picture", "graphic", "illustration", "media", "representation"],
     },
     {
         label: "Camera",
         icon: <Camera />,
-        relatedTerms: ["camera","photography", "visual", "capture", "media", "documentation", "recording"],
+        relatedTerms: ["camera", "photography", "visual", "capture", "media", "documentation", "recording"],
     },
     {
         label: "Play",
@@ -412,7 +412,7 @@ export const iconMetadata: IconMetadata[] = [
     {
         label: "Type",
         icon: <Type />,
-        relatedTerms: ["type","text", "typography", "writing", "font", "style", "formatting"],
+        relatedTerms: ["type", "text", "typography", "writing", "font", "style", "formatting"],
     },
     {
         label: "List",
@@ -437,7 +437,7 @@ export const iconMetadata: IconMetadata[] = [
     {
         label: "Eye",
         icon: <Eye />,
-        relatedTerms: ["eye","view", "sight", "observation", "visibility", "attention", "focus"],
+        relatedTerms: ["eye", "view", "sight", "observation", "visibility", "attention", "focus"],
     },
     {
         label: "Sparkles",
@@ -527,7 +527,7 @@ export const iconMetadata: IconMetadata[] = [
     {
         label: "Map Pin",
         icon: <MapPin />,
-        relatedTerms: ["mappin","location", "place", "position", "geography", "destination", "point"],
+        relatedTerms: ["mappin", "location", "place", "position", "geography", "destination", "point"],
     },
     {
         label: "Map",
@@ -636,3 +636,11 @@ export const iconMetadata: IconMetadata[] = [
     },
 ]
 
+export const getIconMetadataFromLabel = (label: string | null) => {
+    return iconMetadata.find((icon) => icon.label === label)
+}
+
+export const getIconFromLabel = (label: string) => {
+    const iconData = getIconMetadataFromLabel(label);
+    return iconData?.icon;
+}

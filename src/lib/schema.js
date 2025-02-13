@@ -114,7 +114,7 @@ type Path @node {
   title: String
   color: String
   icon: String
-  lessons: [Lesson!]! @relationship(type: "WITH_LESSON", direction: OUT)
+  withLessons: [Lesson!]! @relationship(type: "WITH_LESSON", direction: OUT)
 }
 
 type WithLesson @relationshipProperties {

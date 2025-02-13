@@ -3,7 +3,7 @@ import { Activity } from "../../ogm-types";
 import { ActivityCard } from "../activity-card/activity-card";
 import { AnimatePresence } from "framer-motion";
 import { MistakeLessonSummaryData, useMistakeLessonContext } from "./mistakes-lesson-context";
-import { LessonMode } from "../lesson-page/type";
+import { LessonMode, LessonModes } from "../lesson-page/type";
 import { MistakeLessonSummary } from "./mistake-lesson-summary";
 
 function isActivity(activity: Activity | MistakeLessonSummaryData): activity is Activity {
@@ -17,7 +17,7 @@ type MistakeLessonActivityProps = {
 
 export const MistakeLessonActivity: React.FC<MistakeLessonActivityProps> = ({
     reportedActivityIds = [],
-    mode = 'normal'
+    mode = LessonModes.EitherOr
 }) => {
     const { currentActivity, handleNext, transitionDirection } = useMistakeLessonContext();
 

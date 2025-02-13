@@ -18,8 +18,7 @@ export const LessonContent: React.FC<LessonContentProps> = ({
     lesson,
     reportedActivityIds = [],
 }) => {
-    const [mode, setMode] = useState<LessonMode | null>(null);
-    const { currentActivityIndex, progress } = useLessonContext();
+    const { currentActivityIndex, progress, setMode, mode} = useLessonContext();
     const [showModeSelection, setShowModeSelection] = useState(true);
 
 

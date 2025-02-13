@@ -139,3 +139,31 @@ export const GET_USER_DAILY_ACTIVITY = gql`
         }
     }
 `;
+
+export const GET_USER_PATHS_AND_LESSONS = gql`
+  query GetUserPathsAndLessons($where: UserWhere) {
+    users(where: $where) {
+      id
+      hasLessons {
+        id
+        title
+        hasActivities {
+          id
+        }
+      }
+      hasPaths {
+        id
+        title
+        color
+        icon
+        withLessons {
+          id
+          title
+          hasActivitiesAggregate {
+            count
+          }
+        }
+      }
+    }
+  }
+`;

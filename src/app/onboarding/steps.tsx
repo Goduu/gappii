@@ -35,7 +35,7 @@ export const onboardingSteps: PageSteps = {
                 <h3 className="font-semibold text-lg">Create Your First Lesson</h3>
                 <p>Click here to start creating your first interactive lesson.</p>
                 <p className="text-sm text-muted-foreground">
-                    You'll be able to add activities, exercises, and more!
+                    You&apos;ll be able to add activities, exercises, and more!
                 </p>
             </div >
         ),

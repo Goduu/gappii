@@ -1163,28 +1163,28 @@ export type Path = {
   title?: Maybe<Scalars["String"]["output"]>;
   color?: Maybe<Scalars["String"]["output"]>;
   icon?: Maybe<Scalars["String"]["output"]>;
-  lessonsAggregate?: Maybe<PathLessonLessonsAggregationSelection>;
-  lessons: Array<Lesson>;
-  lessonsConnection: PathLessonsConnection;
+  withLessonsAggregate?: Maybe<PathLessonWithLessonsAggregationSelection>;
+  withLessons: Array<Lesson>;
+  withLessonsConnection: PathWithLessonsConnection;
 };
 
-export type PathLessonsAggregateArgs = {
+export type PathWithLessonsAggregateArgs = {
   where?: InputMaybe<LessonWhere>;
   directed?: InputMaybe<Scalars["Boolean"]["input"]>;
 };
 
-export type PathLessonsArgs = {
+export type PathWithLessonsArgs = {
   where?: InputMaybe<LessonWhere>;
   options?: InputMaybe<LessonOptions>;
   directed?: InputMaybe<Scalars["Boolean"]["input"]>;
 };
 
-export type PathLessonsConnectionArgs = {
-  where?: InputMaybe<PathLessonsConnectionWhere>;
+export type PathWithLessonsConnectionArgs = {
+  where?: InputMaybe<PathWithLessonsConnectionWhere>;
   first?: InputMaybe<Scalars["Int"]["input"]>;
   after?: InputMaybe<Scalars["String"]["input"]>;
   directed?: InputMaybe<Scalars["Boolean"]["input"]>;
-  sort?: InputMaybe<Array<PathLessonsConnectionSort>>;
+  sort?: InputMaybe<Array<PathWithLessonsConnectionSort>>;
 };
 
 export type PathAggregateSelection = {
@@ -1202,14 +1202,14 @@ export type PathEdge = {
   node: Path;
 };
 
-export type PathLessonLessonsAggregationSelection = {
-  __typename?: "PathLessonLessonsAggregationSelection";
+export type PathLessonWithLessonsAggregationSelection = {
+  __typename?: "PathLessonWithLessonsAggregationSelection";
   count: Scalars["Int"]["output"];
-  node?: Maybe<PathLessonLessonsNodeAggregateSelection>;
+  node?: Maybe<PathLessonWithLessonsNodeAggregateSelection>;
 };
 
-export type PathLessonLessonsNodeAggregateSelection = {
-  __typename?: "PathLessonLessonsNodeAggregateSelection";
+export type PathLessonWithLessonsNodeAggregateSelection = {
+  __typename?: "PathLessonWithLessonsNodeAggregateSelection";
   id: IdAggregateSelection;
   title: StringAggregateSelection;
   level: IntAggregateSelection;
@@ -1217,24 +1217,24 @@ export type PathLessonLessonsNodeAggregateSelection = {
   language: StringAggregateSelection;
 };
 
-export type PathLessonsConnection = {
-  __typename?: "PathLessonsConnection";
-  edges: Array<PathLessonsRelationship>;
-  totalCount: Scalars["Int"]["output"];
-  pageInfo: PageInfo;
-};
-
-export type PathLessonsRelationship = {
-  __typename?: "PathLessonsRelationship";
-  cursor: Scalars["String"]["output"];
-  node: Lesson;
-};
-
 export type PathsConnection = {
   __typename?: "PathsConnection";
   totalCount: Scalars["Int"]["output"];
   pageInfo: PageInfo;
   edges: Array<PathEdge>;
+};
+
+export type PathWithLessonsConnection = {
+  __typename?: "PathWithLessonsConnection";
+  edges: Array<PathWithLessonsRelationship>;
+  totalCount: Scalars["Int"]["output"];
+  pageInfo: PageInfo;
+};
+
+export type PathWithLessonsRelationship = {
+  __typename?: "PathWithLessonsRelationship";
+  cursor: Scalars["String"]["output"];
+  node: Lesson;
 };
 
 /**
@@ -4912,7 +4912,7 @@ export type LessonWhere = {
 };
 
 export type PathConnectInput = {
-  lessons?: InputMaybe<Array<PathLessonsConnectFieldInput>>;
+  withLessons?: InputMaybe<Array<PathWithLessonsConnectFieldInput>>;
 };
 
 export type PathConnectWhere = {
@@ -4923,72 +4923,189 @@ export type PathCreateInput = {
   title?: InputMaybe<Scalars["String"]["input"]>;
   color?: InputMaybe<Scalars["String"]["input"]>;
   icon?: InputMaybe<Scalars["String"]["input"]>;
-  lessons?: InputMaybe<PathLessonsFieldInput>;
+  withLessons?: InputMaybe<PathWithLessonsFieldInput>;
 };
 
 export type PathDeleteInput = {
-  lessons?: InputMaybe<Array<PathLessonsDeleteFieldInput>>;
+  withLessons?: InputMaybe<Array<PathWithLessonsDeleteFieldInput>>;
 };
 
 export type PathDisconnectInput = {
-  lessons?: InputMaybe<Array<PathLessonsDisconnectFieldInput>>;
+  withLessons?: InputMaybe<Array<PathWithLessonsDisconnectFieldInput>>;
 };
 
-export type PathLessonsAggregateInput = {
+export type PathOptions = {
+  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  /** Specify one or more PathSort objects to sort Paths by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: InputMaybe<Array<PathSort>>;
+};
+
+export type PathRelationInput = {
+  withLessons?: InputMaybe<Array<PathWithLessonsCreateFieldInput>>;
+};
+
+/** Fields to sort Paths by. The order in which sorts are applied is not guaranteed when specifying many fields in one PathSort object. */
+export type PathSort = {
+  id?: InputMaybe<SortDirection>;
+  title?: InputMaybe<SortDirection>;
+  color?: InputMaybe<SortDirection>;
+  icon?: InputMaybe<SortDirection>;
+};
+
+export type PathUpdateInput = {
+  title?: InputMaybe<Scalars["String"]["input"]>;
+  color?: InputMaybe<Scalars["String"]["input"]>;
+  icon?: InputMaybe<Scalars["String"]["input"]>;
+  withLessons?: InputMaybe<Array<PathWithLessonsUpdateFieldInput>>;
+};
+
+export type PathWhere = {
+  id?: InputMaybe<Scalars["ID"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  id_NOT?: InputMaybe<Scalars["ID"]["input"]>;
+  id_IN?: InputMaybe<Array<Scalars["ID"]["input"]>>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  id_NOT_IN?: InputMaybe<Array<Scalars["ID"]["input"]>>;
+  id_CONTAINS?: InputMaybe<Scalars["ID"]["input"]>;
+  id_STARTS_WITH?: InputMaybe<Scalars["ID"]["input"]>;
+  id_ENDS_WITH?: InputMaybe<Scalars["ID"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  id_NOT_CONTAINS?: InputMaybe<Scalars["ID"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  id_NOT_STARTS_WITH?: InputMaybe<Scalars["ID"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  id_NOT_ENDS_WITH?: InputMaybe<Scalars["ID"]["input"]>;
+  title?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  title_NOT?: InputMaybe<Scalars["String"]["input"]>;
+  title_IN?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  title_NOT_IN?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  title_CONTAINS?: InputMaybe<Scalars["String"]["input"]>;
+  title_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  title_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  title_NOT_CONTAINS?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  title_NOT_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  title_NOT_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  color?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  color_NOT?: InputMaybe<Scalars["String"]["input"]>;
+  color_IN?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  color_NOT_IN?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  color_CONTAINS?: InputMaybe<Scalars["String"]["input"]>;
+  color_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  color_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  color_NOT_CONTAINS?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  color_NOT_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  color_NOT_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  icon?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  icon_NOT?: InputMaybe<Scalars["String"]["input"]>;
+  icon_IN?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  icon_NOT_IN?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  icon_CONTAINS?: InputMaybe<Scalars["String"]["input"]>;
+  icon_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  icon_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  icon_NOT_CONTAINS?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  icon_NOT_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  icon_NOT_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
+  OR?: InputMaybe<Array<PathWhere>>;
+  AND?: InputMaybe<Array<PathWhere>>;
+  NOT?: InputMaybe<PathWhere>;
+  /** @deprecated Use `withLessons_SOME` instead. */
+  withLessons?: InputMaybe<LessonWhere>;
+  /** @deprecated Use `withLessons_NONE` instead. */
+  withLessons_NOT?: InputMaybe<LessonWhere>;
+  /** Return Paths where all of the related Lessons match this filter */
+  withLessons_ALL?: InputMaybe<LessonWhere>;
+  /** Return Paths where none of the related Lessons match this filter */
+  withLessons_NONE?: InputMaybe<LessonWhere>;
+  /** Return Paths where one of the related Lessons match this filter */
+  withLessons_SINGLE?: InputMaybe<LessonWhere>;
+  /** Return Paths where some of the related Lessons match this filter */
+  withLessons_SOME?: InputMaybe<LessonWhere>;
+  /** @deprecated Use `withLessonsConnection_SOME` instead. */
+  withLessonsConnection?: InputMaybe<PathWithLessonsConnectionWhere>;
+  /** @deprecated Use `withLessonsConnection_NONE` instead. */
+  withLessonsConnection_NOT?: InputMaybe<PathWithLessonsConnectionWhere>;
+  /** Return Paths where all of the related PathWithLessonsConnections match this filter */
+  withLessonsConnection_ALL?: InputMaybe<PathWithLessonsConnectionWhere>;
+  /** Return Paths where none of the related PathWithLessonsConnections match this filter */
+  withLessonsConnection_NONE?: InputMaybe<PathWithLessonsConnectionWhere>;
+  /** Return Paths where one of the related PathWithLessonsConnections match this filter */
+  withLessonsConnection_SINGLE?: InputMaybe<PathWithLessonsConnectionWhere>;
+  /** Return Paths where some of the related PathWithLessonsConnections match this filter */
+  withLessonsConnection_SOME?: InputMaybe<PathWithLessonsConnectionWhere>;
+  withLessonsAggregate?: InputMaybe<PathWithLessonsAggregateInput>;
+};
+
+export type PathWithLessonsAggregateInput = {
   count?: InputMaybe<Scalars["Int"]["input"]>;
   count_LT?: InputMaybe<Scalars["Int"]["input"]>;
   count_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   count_GT?: InputMaybe<Scalars["Int"]["input"]>;
   count_GTE?: InputMaybe<Scalars["Int"]["input"]>;
-  AND?: InputMaybe<Array<PathLessonsAggregateInput>>;
-  OR?: InputMaybe<Array<PathLessonsAggregateInput>>;
-  NOT?: InputMaybe<PathLessonsAggregateInput>;
-  node?: InputMaybe<PathLessonsNodeAggregationWhereInput>;
+  AND?: InputMaybe<Array<PathWithLessonsAggregateInput>>;
+  OR?: InputMaybe<Array<PathWithLessonsAggregateInput>>;
+  NOT?: InputMaybe<PathWithLessonsAggregateInput>;
+  node?: InputMaybe<PathWithLessonsNodeAggregationWhereInput>;
 };
 
-export type PathLessonsConnectFieldInput = {
+export type PathWithLessonsConnectFieldInput = {
   where?: InputMaybe<LessonConnectWhere>;
   /** Whether or not to overwrite any matching relationship with the new properties. */
   overwrite?: Scalars["Boolean"]["input"];
   connect?: InputMaybe<Array<LessonConnectInput>>;
 };
 
-export type PathLessonsConnectionSort = {
+export type PathWithLessonsConnectionSort = {
   node?: InputMaybe<LessonSort>;
 };
 
-export type PathLessonsConnectionWhere = {
-  AND?: InputMaybe<Array<PathLessonsConnectionWhere>>;
-  OR?: InputMaybe<Array<PathLessonsConnectionWhere>>;
-  NOT?: InputMaybe<PathLessonsConnectionWhere>;
+export type PathWithLessonsConnectionWhere = {
+  AND?: InputMaybe<Array<PathWithLessonsConnectionWhere>>;
+  OR?: InputMaybe<Array<PathWithLessonsConnectionWhere>>;
+  NOT?: InputMaybe<PathWithLessonsConnectionWhere>;
   node?: InputMaybe<LessonWhere>;
   /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
   node_NOT?: InputMaybe<LessonWhere>;
 };
 
-export type PathLessonsCreateFieldInput = {
+export type PathWithLessonsCreateFieldInput = {
   node: LessonCreateInput;
 };
 
-export type PathLessonsDeleteFieldInput = {
-  where?: InputMaybe<PathLessonsConnectionWhere>;
+export type PathWithLessonsDeleteFieldInput = {
+  where?: InputMaybe<PathWithLessonsConnectionWhere>;
   delete?: InputMaybe<LessonDeleteInput>;
 };
 
-export type PathLessonsDisconnectFieldInput = {
-  where?: InputMaybe<PathLessonsConnectionWhere>;
+export type PathWithLessonsDisconnectFieldInput = {
+  where?: InputMaybe<PathWithLessonsConnectionWhere>;
   disconnect?: InputMaybe<LessonDisconnectInput>;
 };
 
-export type PathLessonsFieldInput = {
-  connect?: InputMaybe<Array<PathLessonsConnectFieldInput>>;
-  create?: InputMaybe<Array<PathLessonsCreateFieldInput>>;
+export type PathWithLessonsFieldInput = {
+  connect?: InputMaybe<Array<PathWithLessonsConnectFieldInput>>;
+  create?: InputMaybe<Array<PathWithLessonsCreateFieldInput>>;
 };
 
-export type PathLessonsNodeAggregationWhereInput = {
-  AND?: InputMaybe<Array<PathLessonsNodeAggregationWhereInput>>;
-  OR?: InputMaybe<Array<PathLessonsNodeAggregationWhereInput>>;
-  NOT?: InputMaybe<PathLessonsNodeAggregationWhereInput>;
+export type PathWithLessonsNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<PathWithLessonsNodeAggregationWhereInput>>;
+  OR?: InputMaybe<Array<PathWithLessonsNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<PathWithLessonsNodeAggregationWhereInput>;
   /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
   id_EQUAL?: InputMaybe<Scalars["ID"]["input"]>;
   /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
@@ -5153,134 +5270,17 @@ export type PathLessonsNodeAggregationWhereInput = {
   language_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
-export type PathLessonsUpdateConnectionInput = {
+export type PathWithLessonsUpdateConnectionInput = {
   node?: InputMaybe<LessonUpdateInput>;
 };
 
-export type PathLessonsUpdateFieldInput = {
-  where?: InputMaybe<PathLessonsConnectionWhere>;
-  connect?: InputMaybe<Array<PathLessonsConnectFieldInput>>;
-  disconnect?: InputMaybe<Array<PathLessonsDisconnectFieldInput>>;
-  create?: InputMaybe<Array<PathLessonsCreateFieldInput>>;
-  update?: InputMaybe<PathLessonsUpdateConnectionInput>;
-  delete?: InputMaybe<Array<PathLessonsDeleteFieldInput>>;
-};
-
-export type PathOptions = {
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  /** Specify one or more PathSort objects to sort Paths by. The sorts will be applied in the order in which they are arranged in the array. */
-  sort?: InputMaybe<Array<PathSort>>;
-};
-
-export type PathRelationInput = {
-  lessons?: InputMaybe<Array<PathLessonsCreateFieldInput>>;
-};
-
-/** Fields to sort Paths by. The order in which sorts are applied is not guaranteed when specifying many fields in one PathSort object. */
-export type PathSort = {
-  id?: InputMaybe<SortDirection>;
-  title?: InputMaybe<SortDirection>;
-  color?: InputMaybe<SortDirection>;
-  icon?: InputMaybe<SortDirection>;
-};
-
-export type PathUpdateInput = {
-  title?: InputMaybe<Scalars["String"]["input"]>;
-  color?: InputMaybe<Scalars["String"]["input"]>;
-  icon?: InputMaybe<Scalars["String"]["input"]>;
-  lessons?: InputMaybe<Array<PathLessonsUpdateFieldInput>>;
-};
-
-export type PathWhere = {
-  id?: InputMaybe<Scalars["ID"]["input"]>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  id_NOT?: InputMaybe<Scalars["ID"]["input"]>;
-  id_IN?: InputMaybe<Array<Scalars["ID"]["input"]>>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  id_NOT_IN?: InputMaybe<Array<Scalars["ID"]["input"]>>;
-  id_CONTAINS?: InputMaybe<Scalars["ID"]["input"]>;
-  id_STARTS_WITH?: InputMaybe<Scalars["ID"]["input"]>;
-  id_ENDS_WITH?: InputMaybe<Scalars["ID"]["input"]>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  id_NOT_CONTAINS?: InputMaybe<Scalars["ID"]["input"]>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  id_NOT_STARTS_WITH?: InputMaybe<Scalars["ID"]["input"]>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  id_NOT_ENDS_WITH?: InputMaybe<Scalars["ID"]["input"]>;
-  title?: InputMaybe<Scalars["String"]["input"]>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  title_NOT?: InputMaybe<Scalars["String"]["input"]>;
-  title_IN?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  title_NOT_IN?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
-  title_CONTAINS?: InputMaybe<Scalars["String"]["input"]>;
-  title_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
-  title_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  title_NOT_CONTAINS?: InputMaybe<Scalars["String"]["input"]>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  title_NOT_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  title_NOT_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
-  color?: InputMaybe<Scalars["String"]["input"]>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  color_NOT?: InputMaybe<Scalars["String"]["input"]>;
-  color_IN?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  color_NOT_IN?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
-  color_CONTAINS?: InputMaybe<Scalars["String"]["input"]>;
-  color_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
-  color_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  color_NOT_CONTAINS?: InputMaybe<Scalars["String"]["input"]>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  color_NOT_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  color_NOT_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
-  icon?: InputMaybe<Scalars["String"]["input"]>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  icon_NOT?: InputMaybe<Scalars["String"]["input"]>;
-  icon_IN?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  icon_NOT_IN?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
-  icon_CONTAINS?: InputMaybe<Scalars["String"]["input"]>;
-  icon_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
-  icon_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  icon_NOT_CONTAINS?: InputMaybe<Scalars["String"]["input"]>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  icon_NOT_STARTS_WITH?: InputMaybe<Scalars["String"]["input"]>;
-  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  icon_NOT_ENDS_WITH?: InputMaybe<Scalars["String"]["input"]>;
-  OR?: InputMaybe<Array<PathWhere>>;
-  AND?: InputMaybe<Array<PathWhere>>;
-  NOT?: InputMaybe<PathWhere>;
-  /** @deprecated Use `lessons_SOME` instead. */
-  lessons?: InputMaybe<LessonWhere>;
-  /** @deprecated Use `lessons_NONE` instead. */
-  lessons_NOT?: InputMaybe<LessonWhere>;
-  /** Return Paths where all of the related Lessons match this filter */
-  lessons_ALL?: InputMaybe<LessonWhere>;
-  /** Return Paths where none of the related Lessons match this filter */
-  lessons_NONE?: InputMaybe<LessonWhere>;
-  /** Return Paths where one of the related Lessons match this filter */
-  lessons_SINGLE?: InputMaybe<LessonWhere>;
-  /** Return Paths where some of the related Lessons match this filter */
-  lessons_SOME?: InputMaybe<LessonWhere>;
-  /** @deprecated Use `lessonsConnection_SOME` instead. */
-  lessonsConnection?: InputMaybe<PathLessonsConnectionWhere>;
-  /** @deprecated Use `lessonsConnection_NONE` instead. */
-  lessonsConnection_NOT?: InputMaybe<PathLessonsConnectionWhere>;
-  /** Return Paths where all of the related PathLessonsConnections match this filter */
-  lessonsConnection_ALL?: InputMaybe<PathLessonsConnectionWhere>;
-  /** Return Paths where none of the related PathLessonsConnections match this filter */
-  lessonsConnection_NONE?: InputMaybe<PathLessonsConnectionWhere>;
-  /** Return Paths where one of the related PathLessonsConnections match this filter */
-  lessonsConnection_SINGLE?: InputMaybe<PathLessonsConnectionWhere>;
-  /** Return Paths where some of the related PathLessonsConnections match this filter */
-  lessonsConnection_SOME?: InputMaybe<PathLessonsConnectionWhere>;
-  lessonsAggregate?: InputMaybe<PathLessonsAggregateInput>;
+export type PathWithLessonsUpdateFieldInput = {
+  where?: InputMaybe<PathWithLessonsConnectionWhere>;
+  connect?: InputMaybe<Array<PathWithLessonsConnectFieldInput>>;
+  disconnect?: InputMaybe<Array<PathWithLessonsDisconnectFieldInput>>;
+  create?: InputMaybe<Array<PathWithLessonsCreateFieldInput>>;
+  update?: InputMaybe<PathWithLessonsUpdateConnectionInput>;
+  delete?: InputMaybe<Array<PathWithLessonsDeleteFieldInput>>;
 };
 
 export type ReactedAggregationWhereInput = {

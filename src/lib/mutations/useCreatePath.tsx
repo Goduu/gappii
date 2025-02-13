@@ -1,40 +1,29 @@
-import { useMutation, useQuery } from "@apollo/client";
-import { GET_USER, UPDATE_USER } from "../gqls/userGQLs";
-import { User } from "@clerk/nextjs/server";
+import { useMutation } from "@apollo/client";
+import { GET_USER_PATHS_AND_LESSONS, UPDATE_USER } from "../gqls/userGQLs";
 import { useUser } from "@clerk/nextjs";
-import { MutationUpdateUsersArgs } from "@/ogm-types";
+import { MutationUpdateUsersArgs, Path } from "@/ogm-types";
 
-
-const EMPTY_PATH = {
-    title: "New Path",
-    icon: "",
-    color: "amber",
-}
-
-export const useCreatePath = async () => {
+export const useCreatePath = () => {
     const clerkUserData = useUser()
-    const { loading, data: userData } = useQuery<{ users: Array<User> }>(GET_USER, {
-        variables: { where: { clerkId: clerkUserData.user?.id } }
-    })
 
-    const [updateUserMutation] = useMutation(UPDATE_USER)
+    const [updateUserMutation] = useMutation(UPDATE_USER, { refetchQueries: [GET_USER_PATHS_AND_LESSONS] })
 
     // Create the path
-    
+    const createPath = async (newPath: Pick<Path, "title" | "icon" | "color">) => {
+        if (!clerkUserData.user) return
 
-    if (!clerkUserData.user) {
-        return
+        // Connect the path to the user
+        await updateUserMutation({
+            variables: {
+                where: { clerkId: clerkUserData.user.id },
+                update: {
+                    hasPaths: [{
+                        create: [{ node: newPath }]
+                    }]
+                }
+            } satisfies MutationUpdateUsersArgs
+        })
     }
 
-    // Connect the path to the user
-    await updateUserMutation({
-        variables: {
-            where: { clerkId: clerkUserData.user.id },
-            update: {
-                hasPaths: [{
-                    create: [{ node: EMPTY_PATH }]
-                }]
-            }
-        } satisfies MutationUpdateUsersArgs
-    })
+    return createPath
 }

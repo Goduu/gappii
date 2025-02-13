@@ -29,12 +29,13 @@ export function IconPicker({ selectedIcon, onSelect }: IconPickerProps) {
             />
             <div ref={parentRef} className="h-20 overflow-auto">
                 <div className="flex flex-wrap gap-2 items-center justify-center">
-                    {filteredIcons.map((iconMetadata, index) => {
+                    {filteredIcons.map((iconMetadata) => {
                         return (
                             <Button
                                 key={iconMetadata.label}
                                 variant="outline"
                                 size="icon"
+                                type="button"
                                 className={cn(
                                     "w-8 h-8",
                                     selectedIcon?.label === iconMetadata.label && "shadow-md bg-accent"

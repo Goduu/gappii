@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { DialogTrigger, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Dialog } from "@/components/ui/dialog";
-import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,12 +8,16 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { ColorPicker } from "@/components/ui/color-picker/color-picker";
 import { IconPicker } from "@/components/ui/icon-picker/icon-picker";
-import { IconMetadata, iconMetadata } from "@/components/ui/icon-picker/icon-list";
+import { getIconMetadataFromLabel, IconMetadata, iconMetadata } from "@/components/ui/icon-picker/icon-list";
 import { cn } from "@/lib/utils";
 import { getTailwindBgColor500, getTailwindBorderColor600 } from "@/components/ui/color-picker/colors-list";
-import { cloneElement } from "react";
+import { cloneElement, ReactNode, useState } from "react";
+import { useCreatePath } from "@/lib/mutations/useCreatePath";
+import { useTransitionContext } from "@/components/loading-store";
+import { Path } from "@/ogm-types";
 
 const pathFormSchema = z.object({
+    id: z.string().optional(),
     title: z.string().min(1, "Title is required"),
     color: z.string().min(1, "Color is required"),
     icon: z.custom<IconMetadata>((val) => val !== null, "Icon is required"),
@@ -28,36 +31,53 @@ const defaultValues: PathFormValues = {
     icon: iconMetadata[0],
 };
 
-export function PathCreationDialog() {
+type PathEditFormDialogProps = {
+    path?: Path
+    children?: ReactNode
+}
+
+export const PathEditFormDialog = ({ path, children }: PathEditFormDialogProps) => {
     "use no memo"
+    const { startTransition } = useTransitionContext()
+    const [isOpen, setIsOpen] = useState(false)
+
     const form = useForm<PathFormValues>({
         resolver: zodResolver(pathFormSchema),
-        defaultValues,
+        defaultValues: {
+            id: path?.id || "",
+            title: path?.title || defaultValues.title,
+            color: path?.color || defaultValues.color,
+            icon: path?.icon && getIconMetadataFromLabel(path.icon) || defaultValues.icon
+        },
     });
+
+    const createPath = useCreatePath();
 
     const color = form.watch("color");
     const icon = form.watch("icon");
 
     function onSubmit(data: PathFormValues) {
-        console.log(data);
-        // TODO: Call your mutation here
+        startTransition(async () => {
+            await createPath({
+                title: data.title,
+                color: data.color,
+                icon: data.icon.label,
+            });
+            form.reset()
+            setIsOpen(false)
+        })
     }
 
     return (
-        <Dialog>
-            <DialogTrigger>
-                <Button variant="outline">
-                    <Plus size={16} className="mr-2" />
-                    Add Path
-                </Button>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+            <DialogTrigger asChild>
+                {children}
             </DialogTrigger>
             <DialogContent>
-
                 <DialogTitle>Create Path</DialogTitle>
                 <DialogDescription>
                     Create a new path to organize your lessons.
                 </DialogDescription>
-
                 <Form {...form}>
 
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

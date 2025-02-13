@@ -63,25 +63,26 @@ const renderActiveShape: ActiveShape<PieSectorDataItem> = (props: PieSectorDataI
 };
 
 type SubtopicsPieProps = {
-    innerRadius?: number
-    outerRadius?: number
+    size: "sm" | "md" | "lg"
     lessons: Lesson[]
 }
 
-export const SubtopicsPie = ({ innerRadius = 44, outerRadius = 63, lessons }: SubtopicsPieProps) => {
+export const SubtopicsPie = ({ lessons, size }: SubtopicsPieProps) => {
     const [activeIndex, setActiveIndex] = useState(0);
+    const { innerRadius, outerRadius } = getRadiusBySize(size)
+    console.log('lesson', lessons)
 
     const onPieEnter = (index: number) => {
         setActiveIndex(index);
     };
 
     return (
-        <ChartContainer config={chartConfig} className="w-full overflow-visible h-64 -mt-4">
+        <ChartContainer config={chartConfig} className="w-full overflow-visible h-64">
             <PieChart >
                 <Pie
                     activeIndex={activeIndex}
                     activeShape={renderActiveShape}
-                    data={lessons.map(lesson => ({ name: lesson.title, value: lesson.hasActivities.length }))}
+                    data={lessons.map(lesson => ({ name: lesson.title, value: lesson?.hasActivitiesAggregate?.count }))}
                     paddingAngle={5}
                     innerRadius={innerRadius}
                     outerRadius={outerRadius}
@@ -97,6 +98,19 @@ export const SubtopicsPie = ({ innerRadius = 44, outerRadius = 63, lessons }: Su
         </ChartContainer>
     );
 
+}
+
+const getRadiusBySize = (size: "sm" | "md" | "lg") => {
+    switch (size) {
+        case 'sm':
+            return { innerRadius: 26, outerRadius: 39 }
+        case 'md':
+            return { innerRadius: 50, outerRadius: 70 }
+        case 'lg':
+            return { innerRadius: 53, outerRadius: 73 }
+        default:
+            return { innerRadius: 44, outerRadius: 63 }
+    }
 }
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#82ca9d', '#a4de6c', '#d0ed57', '#ffc658', '#ffa600'];

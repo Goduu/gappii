@@ -10,7 +10,7 @@ export function ColorPicker({ selectedColor, onSelect }: ColorPickerProps) {
     return (
         <div className="w-full p-4">
             <div className="flex flex-wrap gap-2 items-center justify-center">
-                {colorList.map((color, index) => {
+                {colorList.map((color) => {
                     return (
                         <div
                             key={color}

@@ -8,4 +8,5 @@ export const routes = {
     dashboard: `/logged-in/dashboard`,
     content: '/logged-in/content',
     community: '/community',
+    paths: '/logged-in/paths',
 }

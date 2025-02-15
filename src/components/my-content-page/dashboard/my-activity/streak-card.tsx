@@ -22,7 +22,7 @@ export const StreakCard = ({ streak }: StreakCardProps) => {
 
   return (
     <GappiiBehindElement>
-      <Card className="overflow-hidden bg-linear-to-br from-background to-muted/100 relative h-full">
+      <Card className="overflow-hidden bg-linear-to-br from-background to-muted/100 relative">
         <motion.div
           className="absolute -top-10 -right-10 w-32 h-32 bg-orange-500/10 rounded-full blur-3xl"
           animate={{

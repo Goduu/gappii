@@ -4,7 +4,7 @@ import { CircleFadingArrowUp, Plus, SearchCheck, Swords } from "lucide-react"
 import { useState } from 'react'
 
 import { SubtopicsPie } from "./circular-chart"
-import { PathLessonStatistics } from "./path-lesson-statistics"
+import { PathLessonStatistics } from "../paths/path-lesson-statistics"
 import { Button } from "@/components/ui/button"
 import { AddLessonCard } from './add-lesson-card'
 import { Lesson, MutationUpdatePathsArgs, Path } from "@/ogm-types"

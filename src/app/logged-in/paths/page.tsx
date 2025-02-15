@@ -1,8 +1,16 @@
-import { PathsPage } from "./paths-page"
+import { PageTitle } from "@/components/ui/page-title"
+import { PathPage } from "./path-page"
+import { PathDetailsDialog } from "./path-details-dialog"
 
-const Page =() => {
+const Page = () => {
     return (
-        <PathsPage />
+        <div className="flex flex-col gap-4 w-full">
+            <div className="flex items-center gap-4">
+                <PageTitle title="Paths" />
+                <PathDetailsDialog lessons={[]} path={{}} mode="create" />
+            </div>
+            <PathPage />
+        </div>
     )
 }
 

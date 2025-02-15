@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { UserButton } from "@clerk/nextjs"
 import { routes } from "@/lib/routes"
-import { LayoutDashboard, Lightbulb, Home, Users } from "lucide-react"
+import { LayoutDashboard, Home, Users, Route, Menu } from "lucide-react"
 
 import React from 'react'
 
@@ -19,7 +19,7 @@ export const LoggedInMenu = () => {
             </div>
             <DropdownMenu>
                 <DropdownMenuTrigger className="rounded-full aspect-square outline outline-gray-200 p-1 hover:bg-gray-100 cursor-pointer">
-                    <Lightbulb size={22} />
+                    <Menu size={22} />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                     {items.map(item => (
@@ -41,6 +41,11 @@ const items = [
         title: "Home",
         url: routes.home,
         icon: Home,
+    },
+    {
+        title: "My Paths",
+        url: routes.paths,
+        icon: Route,
     },
     {
         title: "My Dashboard",

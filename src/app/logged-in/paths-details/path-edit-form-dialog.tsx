@@ -88,7 +88,7 @@ export const PathEditFormDialog = ({ path, children }: PathEditFormDialogProps) 
             <DialogTrigger asChild>
                 {children}
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent >
                 <DialogTitle>Create Path</DialogTitle>
                 <DialogDescription>
                     Create a new path to organize your lessons.

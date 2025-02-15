@@ -1,12 +1,11 @@
 import { cn } from "@/lib/utils"
-import { Badge } from "@/components/ui/badge"
 import { Path } from "@/ogm-types"
 import { getTailwindBgColor500, getTailwindBorderColor600 } from "@/components/ui/color-picker/colors-list"
 import { getIconFromLabel } from "@/components/ui/icon-picker/icon-list"
 import { cloneElement } from "react"
 
 type PathCircleProps = {
-    path?: Path
+    path?: Pick<Path, 'color' | 'icon'>
     isSelected: boolean
     size: 'sm' | 'md' | 'lg'
 }
@@ -15,7 +14,7 @@ export const PathCircle = ({ path, isSelected, size = 'md' }: PathCircleProps) =
     const icon = path?.icon && getIconFromLabel(path.icon)
 
     return (
-        <div key={path.id} className='flex flex-col items-center justify-center w-44 gap-2 group'>
+        <div className='flex flex-col gap-2 group'>
             <div
                 className={cn('flex flex-col items-center justify-center mt-[30px]',
                     'rounded-full aspect-square text-white',
@@ -32,28 +31,8 @@ export const PathCircle = ({ path, isSelected, size = 'md' }: PathCircleProps) =
                     {icon && cloneElement(icon, { className: "w-full h-full" })}
                 </div>
             </div>
-            <Badge variant="outline" className={cn(
-                isSelected && 'mt-7',
-                getTextSizeClass(size),
-                'transition-all duration-1000 ease-in-out',
-                'items-center justify-center flex w-full',
-                'text-center'
-            )}>
-                <span className="mx-auto">{path.title}</span>
-            </Badge>
         </div>
     )
-}
-
-const getTextSizeClass = (size: 'sm' | 'md' | 'lg') => {
-    switch (size) {
-        case 'sm':
-            return 'text-sm'
-        case 'md':
-            return 'text-base'
-        case 'lg':
-            return 'text-lg'
-    }
 }
 
 const getIconSizeClass = (size: 'sm' | 'md' | 'lg') => {

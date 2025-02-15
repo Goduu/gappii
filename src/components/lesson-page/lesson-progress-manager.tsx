@@ -5,7 +5,6 @@ import { LessonContent } from "./lesson-content";
 import { useUser } from "@clerk/nextjs";
 import { useQuery } from "@apollo/client";
 import { GET_USER_STATISTICS } from "@/lib/gqls/userGQLs";
-import { LessonModes } from "./type";
 
 type LessonProgressManagerProps = {
     lesson: Lesson;
@@ -26,7 +25,7 @@ export const LessonProgressManager: React.FC<LessonProgressManagerProps> = (prop
     const streak = data?.users[0].hasStreak[0]
 
     return (
-        <LessonProvider lesson={props.lesson} userStreak={streak} mode={LessonModes.EitherOr}>
+        <LessonProvider lesson={props.lesson} userStreak={streak}>
             <LessonContent {...props} />
         </LessonProvider>
     );

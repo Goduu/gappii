@@ -1,4 +1,3 @@
-
 const typeDefs = `#graphql
 type Topic @node {
   id: ID @id
@@ -20,6 +19,31 @@ type Lesson @fulltext(indexes: [{ indexName: "LessonTitle", fields: ["title"] }]
   wasReacted: [User!]! @relationship(type: "REACTED", properties: "Reacted", direction: IN)
   wasReactedCount: Int! @cypher(statement: "MATCH (this)-[:REACTED]-(u:User) RETURN COUNT(u) AS wasReactedCount", columnName: "wasReactedCount")
   wasAttempted: [User!]! @relationship(type: "ATTEMPTED_LESSON", direction: IN)
+  
+  # Computed field: Completion percentage for a specific user
+  completionPercentage(clerkId: String!): Float @cypher(
+    statement: """
+    OPTIONAL MATCH (u:User {clerkId: $clerkId})-[:COMPLETED_LESSON]->(lcr:LessonCompletionRecord)-[:FOR_LESSON]->(this)
+    WITH u, this, COLLECT(lcr) AS completions
+    WITH u, this, completions,
+         [x IN completions WHERE x.mode = 'type-in'] AS typeInAttempts,
+         [x IN completions WHERE x.mode = 'either-or'] AS eitherOrAttempts
+    WITH u, this, typeInAttempts, eitherOrAttempts,
+         REDUCE(s = 0, x IN typeInAttempts | s + x.score) / 
+           CASE SIZE(typeInAttempts) 
+             WHEN 0 THEN 1 
+             ELSE SIZE(typeInAttempts) 
+           END AS typeInScore,
+         REDUCE(s = 0, x IN eitherOrAttempts | s + x.score) / 
+           CASE SIZE(eitherOrAttempts) 
+             WHEN 0 THEN 1 
+             ELSE SIZE(eitherOrAttempts) 
+           END AS eitherOrScore
+    WITH COALESCE(typeInScore, 0) as typeInScore, COALESCE(eitherOrScore, 0) as eitherOrScore
+    RETURN ROUND(((typeInScore + eitherOrScore) / 2), 2) AS completionPercentage
+    """,
+    columnName: "completionPercentage"
+  )
 }
 
 type Keyword @node {

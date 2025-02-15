@@ -15,6 +15,7 @@ import { cloneElement, ReactNode, useState } from "react";
 import { useCreatePath } from "@/lib/mutations/useCreatePath";
 import { useTransitionContext } from "@/components/loading-store";
 import { Path } from "@/ogm-types";
+import { useUpdatePath } from "@/lib/mutations/useUpdatePath";
 
 const pathFormSchema = z.object({
     id: z.string().optional(),
@@ -52,20 +53,34 @@ export const PathEditFormDialog = ({ path, children }: PathEditFormDialogProps) 
     });
 
     const createPath = useCreatePath();
+    const updatePath = useUpdatePath();
 
     const color = form.watch("color");
     const icon = form.watch("icon");
 
     function onSubmit(data: PathFormValues) {
-        startTransition(async () => {
-            await createPath({
-                title: data.title,
-                color: data.color,
-                icon: data.icon.label,
-            });
-            form.reset()
-            setIsOpen(false)
-        })
+        if (path?.id) {
+            startTransition(async () => {
+                await updatePath({
+                    id: path.id,
+                    title: data.title,
+                    color: data.color,
+                    icon: data.icon.label,
+                })
+                form.reset()
+                setIsOpen(false)
+            })
+        } else {
+            startTransition(async () => {
+                await createPath({
+                    title: data.title,
+                    color: data.color,
+                    icon: data.icon.label,
+                });
+                form.reset()
+                setIsOpen(false)
+            })
+        }
     }
 
     return (
@@ -151,7 +166,9 @@ export const PathEditFormDialog = ({ path, children }: PathEditFormDialogProps) 
                         </div>
 
                         <div className="flex justify-end">
-                            <Button type="submit">Create Path</Button>
+                            <Button type="submit">
+                                Save
+                            </Button>
                         </div>
                     </form>
                 </Form>

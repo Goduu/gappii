@@ -620,6 +620,7 @@ export type Lesson = {
   createdAt: Scalars["DateTime"]["output"];
   language: Scalars["String"]["output"];
   wasReactedCount: Scalars["Int"]["output"];
+  completionPercentage?: Maybe<Scalars["Float"]["output"]>;
   hasTopicAggregate?: Maybe<LessonTopicHasTopicAggregationSelection>;
   hasTopic: Topic;
   hasTopicConnection: LessonHasTopicConnection;
@@ -638,6 +639,10 @@ export type Lesson = {
   wasAttemptedAggregate?: Maybe<LessonUserWasAttemptedAggregationSelection>;
   wasAttempted: Array<User>;
   wasAttemptedConnection: LessonWasAttemptedConnection;
+};
+
+export type LessonCompletionPercentageArgs = {
+  clerkId: Scalars["String"]["input"];
 };
 
 export type LessonHasTopicAggregateArgs = {
@@ -4186,6 +4191,7 @@ export type LessonSort = {
   createdAt?: InputMaybe<SortDirection>;
   language?: InputMaybe<SortDirection>;
   wasReactedCount?: InputMaybe<SortDirection>;
+  completionPercentage?: InputMaybe<SortDirection>;
 };
 
 export type LessonUpdateInput = {

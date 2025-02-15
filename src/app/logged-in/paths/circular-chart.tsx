@@ -91,12 +91,30 @@ export const SubtopicsPie = ({ lessons, size }: SubtopicsPieProps) => {
                     onMouseEnter={(_, index) => onPieEnter(index)}
                 >
                     {lessons.map((lesson, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        <Cell key={`cell-${index}`} fill={getLessonColor(lesson.completionPercentage || 1)} />
                     ))}
                 </Pie>
             </PieChart>
         </ChartContainer>
     );
+
+}
+
+const getLessonColor = (completion: number) => {
+    if (completion >= 80) {
+        return "#22c55e"
+    }
+    if (completion < 80 && completion >= 50) {
+        return "#eab308"
+    }
+    if (completion < 50 && completion >= 30) {
+        return "#f97316"
+    }
+    if (completion < 30) {
+        return "#ef4444"
+    }
+
+    return "#000000"
 
 }
 
@@ -112,5 +130,3 @@ const getRadiusBySize = (size: "sm" | "md" | "lg") => {
             return { innerRadius: 44, outerRadius: 63 }
     }
 }
-
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#82ca9d', '#a4de6c', '#d0ed57', '#ffc658', '#ffa600'];

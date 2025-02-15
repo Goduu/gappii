@@ -141,8 +141,8 @@ export const GET_USER_DAILY_ACTIVITY = gql`
 `;
 
 export const GET_USER_PATHS_AND_LESSONS = gql`
-  query GetUserPathsAndLessons($where: UserWhere) {
-    users(where: $where) {
+  query GetUserPathsAndLessons($clerkId: String!) {
+    users(where: {clerkId: $clerkId}) {
       id
       hasLessons {
         id
@@ -159,6 +159,7 @@ export const GET_USER_PATHS_AND_LESSONS = gql`
         withLessons {
           id
           title
+          completionPercentage(clerkId: $clerkId)
           hasActivitiesAggregate {
             count
           }

@@ -31,8 +31,8 @@ export const LessonContent: React.FC<LessonContentProps> = ({
         setShowModeSelection(false);
     };
 
-    if (showModeSelection && !mode) {
-        return <ModeSelection onModeSelect={handleModeSelect} />;
+    if (showModeSelection) {
+        return <ModeSelection onModeSelect={handleModeSelect} mode={mode} />;
     }
 
     return (

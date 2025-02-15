@@ -12,15 +12,13 @@ import { MiniActivityCard } from "./mini-activity-card";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { LessonSummaryResultCard } from "./lesson-summary-result-card";
 import { useCompleteLesson } from "./useCompleteLesson";
-import { LessonMode } from "./type";
 
 interface LessonSummaryProps {
     summary: SummaryLesson;
     isOnboarding?: boolean;
-    mode: LessonMode;
 }
 
-export const LessonSummary: React.FC<LessonSummaryProps> = ({ summary, isOnboarding = false, mode }) => {
+export const LessonSummary: React.FC<LessonSummaryProps> = ({ summary, isOnboarding = false }) => {
     const router = useRouter();
     const { user } = useUser();
     const [isPending, startTransition] = useTransition();
@@ -100,7 +98,6 @@ export const LessonSummary: React.FC<LessonSummaryProps> = ({ summary, isOnboard
                                             <DialogDescription hidden title="Mini-card shown the answer for question {index + 1}" />
                                             <MiniActivityCard
                                                 attempt={data}
-                                                mode={mode}
                                                 activityContent={data.activityContent}
                                                 wrongAnswer={data.wrongAnswer}
                                                 correctAnswer={data.correctAnswer}

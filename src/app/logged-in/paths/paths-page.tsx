@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { User } from '@/ogm-types'
 import { PathCircle } from './path-circle'
 import { PathDetails } from './path-details'
@@ -20,18 +20,18 @@ export const PathsPage = () => {
     const [selected, setSelected] = useState<string | null>(null)
     const [api, setApi] = React.useState<CarouselApi>()
     const [, setCurrent] = React.useState(0)
-    const { user } = useUser()
+    const { user, isLoaded } = useUser()
 
-    const { data: userPaths, loading } = useQuery<{ users: User[] }>(GET_USER_PATHS_AND_LESSONS, {
+    const { data: userPaths, loading, refetch } = useQuery<{ users: User[] }>(GET_USER_PATHS_AND_LESSONS, {
         variables: {
-            where: {
-                clerkId: user?.id
-            }
-        }
+            clerkId: user?.id
+        },
+        skip: !isLoaded || !user?.id
     })
 
-    const paths = userPaths?.users[0].hasPaths || []
-    const lessons = userPaths?.users[0].hasLessons || []
+
+    const paths = userPaths?.users[0]?.hasPaths || []
+    const lessons = userPaths?.users[0]?.hasLessons || []
     React.useEffect(() => {
         if (!api) {
             return
@@ -42,6 +42,12 @@ export const PathsPage = () => {
             setCurrent(api.selectedScrollSnap() + 1)
         })
     }, [api])
+
+    useEffect(() => {
+        refetch()
+    }, [user?.id])
+
+    if (!isLoaded || loading) return <PathItemSkeleton />
 
     return (
         <div className='w-full md:px-5 lg:px-10 xl:px-20 flex flex-col gap-4'>
@@ -63,7 +69,6 @@ export const PathsPage = () => {
                     className='w-full'
                 >
                     <CarouselContent className='-ml-1'>
-                        {loading && <PathItemSkeleton />}
                         {paths.map((path) => (
                             <CarouselItem key={path.id} className="pl-2 md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
                                 <div className="p-1 w-full justify-center items-center flex">

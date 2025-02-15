@@ -45,8 +45,8 @@ export const ActivityAnswerInput = ({
             onMessageChange(comment);
             messageTimeoutRef.current = setTimeout(() => onMessageChange(''), 8000);
         } else {
-            if (isAnswerCorrect === null) setIsAnswerCorrect(false);
             if (mode === LessonModes.EitherOr) {
+                if (isAnswerCorrect === null) setIsAnswerCorrect(false);
                 onMessageChange("Try again! You will eventually get it right!");
                 messageTimeoutRef.current = setTimeout(() => onMessageChange(''), 3000);
             }

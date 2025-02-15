@@ -1,6 +1,6 @@
 import { PathsPage } from "./paths-page"
 
-const Page = () => {
+const Page =() => {
     return (
         <PathsPage />
     )

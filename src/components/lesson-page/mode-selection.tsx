@@ -1,10 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Keyboard, SplitSquareHorizontal } from "lucide-react";
 import { LessonMode, LessonModes } from "./type";
+import { cn } from "@/lib/utils";
 
-type ModeSelectionProps = {
-    onModeSelect: (mode: LessonMode) => void;
-};
+
 
 const modes = [
     {
@@ -33,28 +32,36 @@ const modes = [
     // }
 ] as const;
 
-export const ModeSelection = ({ onModeSelect }: ModeSelectionProps) => {
+type ModeSelectionProps = {
+    onModeSelect: (mode: LessonMode) => void;
+    mode: LessonMode;
+};
+
+export const ModeSelection = ({ onModeSelect, mode }: ModeSelectionProps) => {
     return (
         <div className="flex flex-col items-center gap-8 w-full max-w-2xl mx-auto">
             <h2 className="text-2xl font-bold text-center">Choose Your Learning Mode</h2>
             <div className="flex flex-col md:flex-row items-center justify-center gap-4 w-full">
-                {modes.map((mode) => (
+                {modes.map((modeData) => (
                     <div
-                        key={mode.id}
+                        key={modeData.id}
                         className="hover:scale-105 transition-all duration-300 w-full"
                     >
                         <Button
                             variant="outline"
-                            className="w-full h-full p-6 flex flex-col gap-4 items-center text-center hover:bg-accent"
-                            onClick={() => onModeSelect(mode.id)}
+                            className={cn(
+                                "w-full h-full p-6 flex flex-col gap-4 items-center text-center hover:bg-accent",
+                                mode === modeData.id && "bg-accent"
+                            )}
+                            onClick={() => onModeSelect(modeData.id)}
                         >
-                            <div className={`p-3 rounded-lg ${mode.bgColor}`}>
-                                <mode.icon className={`w-20 h-20 ${mode.iconColor}`} />
+                            <div className={`p-3 rounded-lg ${modeData.bgColor}`}>
+                                <modeData.icon className={`w-20 h-20 ${modeData.iconColor}`} />
                             </div>
                             <div className="space-y-2">
-                                <h3 className="font-semibold">{mode.title}</h3>
+                                <h3 className="font-semibold">{modeData.title}</h3>
                                 <p className="text-sm text-muted-foreground">
-                                    {mode.description}
+                                    {modeData.description}
                                 </p>
                             </div>
                         </Button>

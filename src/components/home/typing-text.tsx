@@ -14,7 +14,7 @@ export const TypingText = ({ text, className }: TypingTextProps) => {
             className={cn('whitespace-nowrap', className)}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 1.5 }}
         >
             {text}
         </motion.span>

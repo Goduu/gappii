@@ -3,15 +3,15 @@ import { formatTime } from '@/lib/utils';
 import { XCircle } from 'lucide-react';
 import { CheckCircle2 } from 'lucide-react';
 import React, { FC } from 'react'
-import { ActivityAttempt } from './lesson-context';
+import { ActivityAttempt } from './types';
 
-type LessonSummaryResultCardProps = {
+type SessionSummaryResultCardProps = {
     activityAttempt: ActivityAttempt;
     index: number;
     totalTimeTaken: number;
 }
 
-export const LessonSummaryResultCard: FC<LessonSummaryResultCardProps> = ({ activityAttempt, index, totalTimeTaken }) => {
+export const SessionSummaryResultCard: FC<SessionSummaryResultCardProps> = ({ activityAttempt, index, totalTimeTaken }) => {
     return (
         <div
             className={`

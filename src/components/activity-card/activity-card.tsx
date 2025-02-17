@@ -9,7 +9,7 @@ import { Activity } from '@/ogm-types';
 import { ActivityReactions } from './activity-reactions';
 import { motion } from 'framer-motion';
 import { GappiiBehindElement } from '../ui/gappii-behind-element';
-import { LessonMode, LessonModes } from '../lesson-page/type';
+import { SessionMode, SessionModes } from "../session/types";
 import { PulppiiBehindElement } from '../ui/pulppii-behind-element';
 import { ActivityImage } from './activity-image';
 import { ActivityAnswerInput } from './activity-answer-input';
@@ -35,7 +35,7 @@ type ActivityCardProps = {
     onNext: (isCorrect: boolean, answer?: string) => void;
     direction: 'next' | 'prev';
     isCorrectingMistakes?: boolean;
-    mode?: LessonMode
+    mode?: SessionMode
 };
 
 export const ActivityCard: FC<ActivityCardProps> = ({
@@ -44,7 +44,7 @@ export const ActivityCard: FC<ActivityCardProps> = ({
     onNext,
     direction,
     isCorrectingMistakes = false,
-    mode = LessonModes.EitherOr
+    mode = SessionModes.EitherOr
 }) => {
     const [message, setMessage] = useState<string>('');
     const [userAnswer, setUserAnswer] = useState<string>('');

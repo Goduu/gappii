@@ -12,9 +12,8 @@ import { getLesson } from '@/lib/queries/getLesson';
 import { Lesson } from '@/ogm-types';
 import { TermsCard } from './terms-card';
 import { LoadingAnimation } from '@/components/loading-animation';
-import { OnboardingLesson } from './onboarding-lesson';
-import { LessonProvider } from '@/components/lesson-page/lesson-context';
-import { LessonModes } from '@/components/lesson-page/type';
+import { SessionProgressManager } from '@/components/session/session-progress-manager';
+import { LessonSessionData } from '@/components/session/types';
 
 const OnboardingFlow = () => {
     const [currentStep, setCurrentStep] = useState(1);
@@ -54,12 +53,19 @@ const OnboardingFlow = () => {
                 );
 
             case 3:
+                const sessionData: LessonSessionData = {
+                    type: 'lesson',
+                    lessonId: lesson?.id || "",
+                    activities: lesson?.hasActivities.map(
+                        (activity) => ({
+                            ...activity,
+                            title: lesson.hasTopic.title,
+                            subtitle: lesson.hasSubtopic.title,
+                        })
+                    ) || []
+                }
                 return lesson ? (
-                    <LessonProvider lesson={lesson} mode={LessonModes.EitherOr}>
-                        <OnboardingLesson
-                            lesson={lesson}
-                        />
-                    </LessonProvider>
+                    <SessionProgressManager sessionData={sessionData} />
                 ) : <LoadingAnimation />
 
             default:

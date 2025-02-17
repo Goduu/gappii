@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button"
 import { Swords } from "lucide-react"
 import { PathDetailsDialog } from "./path-details-dialog"
 import { PathCircle } from "../paths-details/path-circle"
+import { routes } from "@/lib/routes"
+import Link from "next/link"
 type PathCircleProps = {
     path?: Path
     isSelected: boolean
@@ -21,10 +23,12 @@ export const PathCard = ({ path, isSelected, size = 'md', lessons }: PathCircleP
 
             </div>
             <div className='flex gap-2 absolute right-4 bottom-4 z-10'>
-                <PathDetailsDialog lessons={lessons} path={path} />
-                <Button variant="outline" size="icon" title="Test Path">
-                    <Swords />
-                </Button>
+                <PathDetailsDialog lessons={lessons} path={path} mode="edit" />
+                <Link href={routes.path(path.id)}>
+                    <Button variant="outline" size="icon" title="Test Path">
+                        <Swords />
+                    </Button>
+                </Link>
             </div>
 
         </CardContent>

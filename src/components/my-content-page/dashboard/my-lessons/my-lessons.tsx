@@ -30,7 +30,6 @@ export const MyLessons = ({ searchParams }: MyLessonsProps) => {
                     <CreateLesson />
                     {/* <PulppiiBehindElement > */}
                     <Button
-                        disabled
                         title="Coming soon"
                         className=" relative md:ml-auto flex items-center gap-2"
                         onClick={() => router.push('/logged-in/correct-mistakes')}>

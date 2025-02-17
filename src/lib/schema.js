@@ -18,13 +18,12 @@ type Lesson @fulltext(indexes: [{ indexName: "LessonTitle", fields: ["title"] }]
   hasActivities: [Activity!]! @relationship(type: "HAS_ACTIVITY", direction: OUT)
   wasReacted: [User!]! @relationship(type: "REACTED", properties: "Reacted", direction: IN)
   wasReactedCount: Int! @cypher(statement: "MATCH (this)-[:REACTED]-(u:User) RETURN COUNT(u) AS wasReactedCount", columnName: "wasReactedCount")
-  wasAttempted: [User!]! @relationship(type: "ATTEMPTED_LESSON", direction: IN)
-  
+
   # Computed field: Completion percentage for a specific user
   completionPercentage(clerkId: String!): Float @cypher(
     statement: """
-    OPTIONAL MATCH (u:User {clerkId: $clerkId})-[:COMPLETED_LESSON]->(lcr:LessonCompletionRecord)-[:FOR_LESSON]->(this)
-    WITH u, this, COLLECT(lcr) AS completions
+    OPTIONAL MATCH (u:User {clerkId: $clerkId})-[:COMPLETED_SESSION]->(scr:SessionCompletionRecord)-[:FOR_LESSON]->(this)
+    WITH u, this, COLLECT(scr) AS completions
     WITH u, this, completions,
          [x IN completions WHERE x.mode = 'type-in'] AS typeInAttempts,
          [x IN completions WHERE x.mode = 'either-or'] AS eitherOrAttempts
@@ -51,7 +50,15 @@ type Keyword @node {
   name: String! @unique(constraintName: "KeywordTitleUnique")
 }
 
-type Activity @node {
+interface ActivityInterface {
+  description: String!
+  options: [String!]!
+  answer: String!
+  comment: String!
+  mermaid: String
+}
+
+type Activity implements ActivityInterface @node {
   id: ID @id
   order: Int!
   description: String!
@@ -76,9 +83,38 @@ type User @node {
   hasLessons: [Lesson!]! @relationship(type: "HAS_LESSON",properties: "HasLesson", direction: OUT)
   reactedToLessons: [Lesson!]! @relationship(type: "REACTED", properties: "Reacted", direction: OUT)
   reportedActivities: [Activity!]! @relationship(type: "REPORTED", direction: OUT)
-  completedLessons: [LessonCompletionRecord!]! @relationship(type: "COMPLETED_LESSON", direction: OUT)
+  completedSessions: [SessionCompletionRecord!]! @relationship(type: "COMPLETED_SESSION", direction: OUT)
   hasStreak: [Streak!]! @relationship(type: "HAS_STREAK", direction: OUT)
   hasPaths: [Path!]! @relationship(type: "HAS_PATH", direction: OUT)
+
+  mistakenActivitiesCount: Int! @cypher(
+    statement: """
+    MATCH (this)-[:COMPLETED_SESSION]->(record:SessionCompletionRecord)-[attempt:ATTEMPTED]->(a:Activity)
+    WHERE attempt.isCorrect = false AND attempt.correctedAt IS NULL
+    RETURN COUNT(a) AS mistakenActivitiesCount
+    """,
+    columnName: "mistakenActivitiesCount"
+  )
+  mistakenActivities: [MistakenActivity!]! @cypher(
+    statement: """
+    MATCH (this)-[:COMPLETED_SESSION]->(record:SessionCompletionRecord)-[attempt:ATTEMPTED]->(a:Activity)
+    WHERE attempt.isCorrect = false AND attempt.correctedAt IS NULL
+    WITH a, record, attempt
+    RETURN {
+      id: a.id,
+      description: a.description,
+      options: a.options,
+      answer: a.answer,
+      comment: a.comment,
+      mermaid: a.mermaid,
+      sessionCompletionRecordId: record.id
+    } as mistakenActivities
+    ORDER BY attempt.attemptedAt DESC
+    LIMIT 10
+    """,
+    columnName: "mistakenActivities"
+  )
+    
   # return the number of interactions with this users created lessons
   createdLessonsInteractionsCount: Int! @cypher(
     statement: """
@@ -90,7 +126,7 @@ type User @node {
   )
   dailyActivity: [DailyActivity!]! @cypher(
     statement: """
-    MATCH (this)-[:COMPLETED_LESSON]->(record:LessonCompletionRecord)-[attempt:ATTEMPTED]->(:Activity)
+    MATCH (this)-[:COMPLETED_SESSION]->(record:SessionCompletionRecord)-[attempt:ATTEMPTED]->(:Activity)
     WITH date(attempt.attemptedAt) as date, COUNT(attempt) as count
     RETURN { date: toString(date), count: count } as dailyActivity
     ORDER BY date DESC
@@ -100,14 +136,26 @@ type User @node {
   )
 }
 
-type LessonCompletionRecord @node {
+type MistakenActivity implements ActivityInterface {
+  id: ID @id
+  description: String!
+  options: [String!]!
+  answer: String!
+  comment: String!
+  mermaid: String
+  sessionCompletionRecordId: String!
+}
+
+type SessionCompletionRecord @node {
   id: ID! @id
   completedAt: DateTime!
   score: Float
   timeTaken: Int
+  type: String! # mistake-correction, lesson, path
   mode: String! # typeIn, eitherOr
-  byUser: User! @relationship(type: "COMPLETED_LESSON", direction: IN)
+  byUser: User! @relationship(type: "COMPLETED_SESSION", direction: IN)
   forLesson: Lesson @relationship(type: "FOR_LESSON", direction: OUT)
+  forPath: Path @relationship(type: "FOR_PATH", direction: OUT)
   attemptedActivities: [Activity!]! @relationship(type: "ATTEMPTED",properties: "AttemptActivity", direction: OUT)
 }
 
@@ -139,6 +187,17 @@ type Path @node {
   color: String
   icon: String
   withLessons: [Lesson!]! @relationship(type: "WITH_LESSON", direction: OUT)
+
+  randomActivities(count: Int!): [Activity!]! @cypher(
+      statement: """
+        MATCH (this)-[:WITH_LESSON]->(l:Lesson)-[:HAS_ACTIVITY]->(a:Activity)
+        WITH a, rand() as r
+        ORDER BY r
+        LIMIT $count
+        RETURN a as randomActivities
+      """,
+      columnName: "randomActivities"
+    )
 }
 
 type WithLesson @relationshipProperties {

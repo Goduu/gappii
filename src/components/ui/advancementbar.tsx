@@ -12,7 +12,7 @@ type AdvancementBarProps = {
 }
 
 export const AdvancementBarCard: FC<AdvancementBarProps> = ({ progress, variant = "progress", children, className, size = "small" }) => {
-    console.log(progress)
+
     return (
         <Card className={cn("relative overflow-hidden rounded-b-xl", className)}>
             {children}

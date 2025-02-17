@@ -1,13 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Keyboard, SplitSquareHorizontal } from "lucide-react";
-import { LessonMode, LessonModes } from "./type";
-import { cn } from "@/lib/utils";
-
-
+import { SessionMode, SessionModes } from "./types";
 
 const modes = [
     {
-        id: LessonModes.EitherOr,
+        id: SessionModes.EitherOr,
         title: 'Either-Or',
         description: 'Choose between two options',
         icon: SplitSquareHorizontal,
@@ -15,7 +12,7 @@ const modes = [
         bgColor: 'bg-blue-500/10'
     },
     {
-        id: LessonModes.TypeIn,
+        id: SessionModes.TypeIn,
         title: 'Type-in',
         description: 'Type the answer manually',
         icon: Keyboard,
@@ -33,11 +30,10 @@ const modes = [
 ] as const;
 
 type ModeSelectionProps = {
-    onModeSelect: (mode: LessonMode) => void;
-    mode: LessonMode;
+    onModeSelect: (mode: SessionMode) => void;
 };
 
-export const ModeSelection = ({ onModeSelect, mode }: ModeSelectionProps) => {
+export const ModeSelection = ({ onModeSelect }: ModeSelectionProps) => {
     return (
         <div className="flex flex-col items-center gap-8 w-full max-w-2xl mx-auto">
             <h2 className="text-2xl font-bold text-center">Choose Your Learning Mode</h2>
@@ -49,10 +45,7 @@ export const ModeSelection = ({ onModeSelect, mode }: ModeSelectionProps) => {
                     >
                         <Button
                             variant="outline"
-                            className={cn(
-                                "w-full h-full p-6 flex flex-col gap-4 items-center text-center hover:bg-accent",
-                                mode === modeData.id && "bg-accent"
-                            )}
+                            className="w-full h-full p-6 flex flex-col gap-4 items-center text-center hover:bg-accent"
                             onClick={() => onModeSelect(modeData.id)}
                         >
                             <div className={`p-3 rounded-lg ${modeData.bgColor}`}>

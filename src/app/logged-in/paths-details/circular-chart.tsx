@@ -70,7 +70,6 @@ type SubtopicsPieProps = {
 export const SubtopicsPie = ({ lessons, size }: SubtopicsPieProps) => {
     const [activeIndex, setActiveIndex] = useState(0);
     const { innerRadius, outerRadius } = getRadiusBySize(size)
-    console.log('lesson', lessons)
 
     const onPieEnter = (index: number) => {
         setActiveIndex(index);

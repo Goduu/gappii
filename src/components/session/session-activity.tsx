@@ -2,29 +2,31 @@
 import { Activity } from "../../ogm-types";
 import { ActivityCard } from "../activity-card/activity-card";
 import { AnimatePresence } from "framer-motion";
-import { MistakeLessonSummaryData, useMistakeLessonContext } from "./mistakes-lesson-context";
-import { LessonMode, LessonModes } from "../lesson-page/type";
-import { MistakeLessonSummary } from "./mistake-lesson-summary";
+import { SessionMode, SessionModes, SessionSummaryData } from "./types";
+import { useSessionContext } from "./session-context";
+import { SessionSummary } from "./session-summary";
 
-function isActivity(activity: Activity | MistakeLessonSummaryData): activity is Activity {
+function isActivity(activity: Activity | SessionSummaryData): activity is Activity {
     return !('type' in activity);
 }
 
-type MistakeLessonActivityProps = {
+type SessionActivityProps = {
     reportedActivityIds?: Activity[] | undefined;
-    mode?: LessonMode
+    isOnboarding?: boolean;
+    mode?: SessionMode
 };
 
-export const MistakeLessonActivity: React.FC<MistakeLessonActivityProps> = ({
+export const SessionActivity: React.FC<SessionActivityProps> = ({
     reportedActivityIds = [],
-    mode = LessonModes.EitherOr
+    isOnboarding = false,
+    mode = SessionModes.EitherOr,
 }) => {
-    const { currentActivity, handleNext, transitionDirection } = useMistakeLessonContext();
+    const { currentActivity, handleNext, transitionDirection } = useSessionContext();
 
     if (currentActivity && !isActivity(currentActivity)) {
         return (
             <div className="w-96">
-                <MistakeLessonSummary summary={currentActivity} />
+                <SessionSummary summary={currentActivity} isOnboarding={isOnboarding} />
             </div>
         );
     }
@@ -41,7 +43,6 @@ export const MistakeLessonActivity: React.FC<MistakeLessonActivityProps> = ({
                     onNext={handleNext}
                     direction={transitionDirection}
                     mode={mode}
-                    isCorrectingMistakes
                 />
             </AnimatePresence>
         </div>

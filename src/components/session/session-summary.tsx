@@ -1,5 +1,4 @@
 import { formatTime } from "@/lib/utils";
-import { SummaryLesson } from "./lesson-context";
 import { routes } from "@/lib/routes";
 import { useRouter } from "next/navigation";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
@@ -8,25 +7,24 @@ import { motion } from "framer-motion";
 import { SignInButton, useUser } from "@clerk/nextjs";
 import { completeOnboarding } from "@/app/onboarding/actions";
 import { useEffect, useTransition, useRef } from "react";
-import { MiniActivityCard } from "./mini-activity-card";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { LessonSummaryResultCard } from "./lesson-summary-result-card";
-import { useCompleteLesson } from "./useCompleteLesson";
+import { SessionSummaryResultCard } from "./session-summary-result-card";
+import { MiniActivityCard } from "./mini-activity-card";
+import { useCompleteSession } from "@/lib/mutations/useCompleteSession";
+import { SessionSummaryData } from "./types";
 
-interface LessonSummaryProps {
-    summary: SummaryLesson;
+interface SessionSummaryProps {
+    summary: SessionSummaryData;
     isOnboarding?: boolean;
 }
 
-export const LessonSummary: React.FC<LessonSummaryProps> = ({ summary, isOnboarding = false }) => {
+export const SessionSummary: React.FC<SessionSummaryProps> = ({ summary, isOnboarding = false }) => {
     const router = useRouter();
     const { user } = useUser();
     const [isPending, startTransition] = useTransition();
     const hasCompletedRef = useRef(false);
 
-    const completeLesson = useCompleteLesson();
-    // const yesterday = new Date();
-    // yesterday.setDate(yesterday.getDate() - 1);
+    const completeLesson = useCompleteSession();
 
     useEffect(() => {
         if (isPending || hasCompletedRef.current || !user) return;
@@ -62,7 +60,7 @@ export const LessonSummary: React.FC<LessonSummaryProps> = ({ summary, isOnboard
         >
             <Card className="border-2">
                 <CardHeader className="text-center space-y-2">
-                    <h2 className="text-2xl font-bold">Lesson Complete! 🎉</h2>
+                    <h2 className="text-2xl font-bold">Session Complete! 🎉</h2>
                 </CardHeader>
                 <CardContent className="space-y-6">
                     <div className="grid grid-cols-2 gap-4">
@@ -91,7 +89,7 @@ export const LessonSummary: React.FC<LessonSummaryProps> = ({ summary, isOnboard
                                 {summary.attempts.map(([index, data]) => (
                                     <Dialog key={index}>
                                         <DialogTrigger>
-                                            <LessonSummaryResultCard activityAttempt={data} index={index} totalTimeTaken={summary.totalTimeTaken} />
+                                            <SessionSummaryResultCard activityAttempt={data} index={index} totalTimeTaken={summary.totalTimeTaken} />
                                         </DialogTrigger>
                                         <DialogContent className="w-[95%]">
                                             <DialogTitle >Question {index + 1}</DialogTitle>

@@ -1,5 +1,5 @@
-import { ActivityAttempt } from "./lesson-context";
 import { CheckCircle2, XCircle } from "lucide-react";
+import { ActivityAttempt } from "./types";
 
 interface MiniActivityCardProps {
     attempt: ActivityAttempt;

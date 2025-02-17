@@ -1,79 +1,61 @@
 "use client"
-import { Activity, Lesson, Streak } from "../../ogm-types";
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
-import { LessonMode, LessonModes } from "./type";
+import { Streak } from "@/ogm-types";
+import { ActivityAttempt, SessionData, SessionSummaryData } from "@/components/session/types";
+import { SessionMode, SessionModes } from "./types";
 
-export interface ActivityAttempt {
-    activityId: string;
-    isCorrect: boolean;
-    timeTaken: number;
-    activityContent: string;
-    wrongAnswer: string;
-    correctAnswer: string;
-}
-
-export type SummaryLesson = {
-    id: string;
-    type: 'summary';
-    score: number;
-    mode: LessonMode;
-    totalTimeTaken: number;
-    correctAnswers: number;
-    totalQuestions: number;
-    attempts: Array<[number, ActivityAttempt]>;
-    userStreak?: Streak
-};
-
-type LessonContextType = {
+type SessionContextType = {
     currentActivityIndex: number;
     progress: number;
     transitionDirection: 'next' | 'prev';
-    currentActivity: Activity | SummaryLesson;
+    currentActivity: SessionData["activities"][number] | SessionSummaryData;
+    currentTitle: string;
+    currentSubtitle: string;
     activityStartTime: number;
-    lessonStartTime: number;
+    sessionStartTime: number;
     handleNext: (isCorrect?: boolean) => void;
     handleBack: () => void;
-    setMode: (mode: LessonMode) => void;
-    mode: LessonMode;
+    setMode: (mode: SessionMode) => void;
+    mode: SessionMode;
     attempts: Map<number, ActivityAttempt>;
     isComplete: boolean;
 };
 
-type LessonProviderProps = {
+type SessionProviderProps = {
     children: ReactNode;
-    lesson: Lesson;
+    sessionData: SessionData;
     userStreak?: Streak
 };
 
-const LessonContext = createContext<LessonContextType | undefined>(undefined);
+const SessionContext = createContext<SessionContextType | undefined>(undefined);
 
-export const LessonProvider: React.FC<LessonProviderProps> = ({ children, lesson, userStreak }) => {
+export const SessionProvider: React.FC<SessionProviderProps> = ({ children, sessionData, userStreak }) => {
     const [currentActivityIndex, setCurrentActivityIndex] = useState(0);
     const [completedActivities, setCompletedActivities] = useState<number[]>([]);
     const [progress, setProgress] = useState(0);
     const [transitionDirection, setTransitionDirection] = useState<'next' | 'prev'>('next');
     const [activityStartTime, setActivityStartTime] = useState(Date.now());
-    const [lessonStartTime] = useState(Date.now());
+    const [sessionStartTime] = useState(Date.now());
     const [attempts, setAttempts] = useState<Map<number, ActivityAttempt>>(new Map());
     const [isComplete, setIsComplete] = useState(false);
-    const [mode, setMode] = useState<LessonMode>(LessonModes.EitherOr);
-    const [summaryActivity, setSummaryActivity] = useState<SummaryLesson | null>(null);
+    const [mode, setMode] = useState<SessionMode>(SessionModes.EitherOr);
+    const [summaryActivity, setSummaryActivity] = useState<SessionSummaryData | null>(null);
 
-    const activities = lesson.hasActivities;
+    const activities = sessionData.activities;
 
     // Reset activity timer when changing activities
     useEffect(() => {
         setActivityStartTime(Date.now());
     }, [currentActivityIndex]);
 
-    const createSummaryLesson = (
+    const createSessionSummary = (
         totalTimeTaken: number,
         correctAnswers: number,
         score: number,
-        mode: LessonMode
-    ): SummaryLesson => ({
-        id: lesson.id || '',
-        type: 'summary',
+        mode: SessionMode
+    ): SessionSummaryData => ({
+        id: sessionData.type === 'lesson' ? sessionData.lessonId : sessionData.type === 'path' ? sessionData.pathId : '',
+        type: sessionData.type,
         score: Number(score),
         mode,
         totalTimeTaken,
@@ -101,8 +83,8 @@ export const LessonProvider: React.FC<LessonProviderProps> = ({ children, lesson
                 isCorrect,
                 timeTaken,
                 activityContent: currentActivity.description,
-                wrongAnswer: (mode === LessonModes.TypeIn && !isCorrect) ? answer || "" : currentActivity.options.find(o => o !== currentActivity.answer) || "",
-                correctAnswer: (mode === LessonModes.TypeIn && isCorrect) ? answer || "" : currentActivity.answer
+                wrongAnswer: (mode === SessionModes.TypeIn && !isCorrect) ? answer || "" : currentActivity.options.find(o => o !== currentActivity.answer) || "",
+                correctAnswer: (mode === SessionModes.TypeIn && isCorrect) ? answer || "" : currentActivity.answer
             })));
         }
 
@@ -116,13 +98,13 @@ export const LessonProvider: React.FC<LessonProviderProps> = ({ children, lesson
         else if (attempts.size !== activities.length) {
             return;
         } else {
-            // Calculate lesson completion data
+            // Calculate session completion data
             const totalTimeTaken = Array.from(attempts.values()).reduce((acc: number, curr: ActivityAttempt) => acc + curr.timeTaken, 0);
             const correctAnswers = Array.from(attempts.values()).filter(a => a.isCorrect).length;
             const score = ((correctAnswers / activities.length) * 100).toFixed(2);
 
             // Create and set summary activity
-            const summary = createSummaryLesson(totalTimeTaken, correctAnswers, Number(score), mode);
+            const summary = createSessionSummary(totalTimeTaken, correctAnswers, Number(score), mode);
             setSummaryActivity(summary);
             setIsComplete(true);
             setProgress(100);
@@ -141,14 +123,19 @@ export const LessonProvider: React.FC<LessonProviderProps> = ({ children, lesson
             setCompletedActivities(completedActivities.filter(i => i !== currentActivityIndex - 1));
         }
     };
+    const currentActivity = isComplete ? summaryActivity! : activities[currentActivityIndex];
+    const currentTitle = isComplete ? "Summary" : activities[currentActivityIndex]?.title;
+    const currentSubtitle = isComplete ? "" : sessionData.type === "lesson" ? sessionData.activities[currentActivityIndex].subtitle : "";
 
     const value = {
         currentActivityIndex,
         progress,
         transitionDirection,
-        currentActivity: isComplete ? summaryActivity! : activities[currentActivityIndex],
+        currentActivity,
+        currentTitle,
+        currentSubtitle: currentSubtitle || "",
         activityStartTime,
-        lessonStartTime,
+        sessionStartTime,
         handleNext,
         handleBack,
         setMode,
@@ -157,13 +144,13 @@ export const LessonProvider: React.FC<LessonProviderProps> = ({ children, lesson
         isComplete,
     };
 
-    return <LessonContext.Provider value={value}>{children}</LessonContext.Provider>;
+    return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>;
 };
 
-export const useLessonContext = () => {
-    const context = useContext(LessonContext);
+export const useSessionContext = () => {
+    const context = useContext(SessionContext);
     if (!context) {
-        throw new Error("useLessonContext must be used within a LessonProvider");
+        throw new Error("useSessionContext must be used within a SessionProvider");
     }
     return context;
 }; 

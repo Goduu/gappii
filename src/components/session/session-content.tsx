@@ -1,32 +1,28 @@
 "use client"
-import { Lesson } from "../../ogm-types";
 import { Activity } from "../../ogm-types";
-import { useLessonContext } from "./lesson-context";
-import { LessonHeader } from "./lesson-header";
-import { LessonActivity } from "./lesson-activity";
-import { LessonMode, LessonModes } from "./type";
-import { useState } from "react";
 import { ModeSelection } from "./mode-selection";
+import { SessionActivity } from "./session-activity";
+import { useSessionContext } from "./session-context";
+import { SessionHeader } from "./session-header";
+import { SessionData, SessionMode, SessionModes } from "./types";
+import { useState } from "react";
 
-type LessonContentProps = {
-    lesson: Lesson;
+type SessionContentProps = {
+    sessionData: SessionData;
     reportedActivityIds?: Activity[] | undefined;
     onActivityComplete?: (activityIndex: number) => void;
 };
 
-export const LessonContent: React.FC<LessonContentProps> = ({
-    lesson,
+export const SessionContent: React.FC<SessionContentProps> = ({
+    sessionData,
     reportedActivityIds = [],
 }) => {
-    const { currentActivityIndex, progress, setMode, mode} = useLessonContext();
+    const { currentActivityIndex, progress, currentTitle, currentSubtitle, setMode, mode } = useSessionContext();
     const [showModeSelection, setShowModeSelection] = useState(true);
 
+    const activities = sessionData.activities;
 
-    const topic = lesson.hasTopic;
-    const subtopic = lesson.hasSubtopic;
-    const activities = lesson.hasActivities;
-
-    const handleModeSelect = (selectedMode: LessonMode) => {
+    const handleModeSelect = (selectedMode: SessionMode) => {
         setMode(selectedMode);
         setShowModeSelection(false);
     };
@@ -39,18 +35,18 @@ export const LessonContent: React.FC<LessonContentProps> = ({
         <div className="flex flex-col w-full items-center h-full">
             <div className="flex flex-col gap-16 origin-top transform scale-100 md:scale-110 lg:scale-125 xl:scale-150">
                 <div className="w-96">
-                    <LessonHeader
-                        topicTitle={topic.title}
-                        subtopicTitle={subtopic.title}
+                    <SessionHeader
+                        title={currentTitle}
+                        subtitle={currentSubtitle}
                         currentIndex={currentActivityIndex}
                         total={activities.length}
                         progress={progress}
                     />
                 </div>
                 <div className="flex items-center justify-center">
-                    <LessonActivity
+                    <SessionActivity
                         reportedActivityIds={reportedActivityIds}
-                        mode={mode || LessonModes.EitherOr}
+                        mode={mode || SessionModes.EitherOr}
                     />
                 </div>
             </div>

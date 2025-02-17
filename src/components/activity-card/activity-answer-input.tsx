@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { LessonMode, LessonModes } from '../lesson-page/type';
+import { SessionMode, SessionModes } from "../session/types";
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { ArrowRightIcon } from 'lucide-react';
@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 import { useDebouncedCallback } from 'use-debounce';
 
 type ActivityAnswerInputProps = {
-    mode: LessonMode;
+    mode: SessionMode;
     options: string[];
     answer: string;
     comment: string;
@@ -30,7 +30,7 @@ export const ActivityAnswerInput = ({
     const [activityDone, setActivityDone] = useState<boolean>(false);
     const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
     const messageTimeoutRef = useRef<NodeJS.Timeout>();
-    const sortedOptions = options.sort((a: string, b: string) => (a < b ? -1 : 1));
+    const sortedOptions = [...options].sort((a: string, b: string) => (a < b ? -1 : 1));
 
     const handleSelect = (selected: string) => {
         onUserAnswerChange(selected);
@@ -45,7 +45,7 @@ export const ActivityAnswerInput = ({
             onMessageChange(comment);
             messageTimeoutRef.current = setTimeout(() => onMessageChange(''), 8000);
         } else {
-            if (mode === LessonModes.EitherOr) {
+            if (mode === SessionModes.EitherOr) {
                 if (isAnswerCorrect === null) setIsAnswerCorrect(false);
                 onMessageChange("Try again! You will eventually get it right!");
                 messageTimeoutRef.current = setTimeout(() => onMessageChange(''), 3000);
@@ -58,7 +58,7 @@ export const ActivityAnswerInput = ({
         if (event.key === 'Enter' && activityDone) {
             onNext(isAnswerCorrect ?? false, userAnswer);
         }
-        if (mode !== LessonModes.EitherOr) return
+        if (mode !== SessionModes.EitherOr) return
 
         if (!isAnswerCorrect) {
             if (event.key === 'ArrowLeft') {
@@ -114,7 +114,7 @@ export const ActivityAnswerInput = ({
     }
 
     switch (mode) {
-        case LessonModes.TypeIn:
+        case SessionModes.TypeIn:
             return (
                 <div className="flex gap-2 w-full">
                     <Input
@@ -133,7 +133,7 @@ export const ActivityAnswerInput = ({
                 </div>
             );
 
-        case LessonModes.EitherOr:
+        case SessionModes.EitherOr:
             return (
                 <div className="flex gap-2 w-full">
                     {sortedOptions.map(option => (
@@ -157,7 +157,7 @@ export const ActivityAnswerInput = ({
                 </div>
             );
 
-        case LessonModes.PickNMatch:
+        case SessionModes.PickNMatch:
             // TODO: Implement Pick and Match mode
             return null;
 

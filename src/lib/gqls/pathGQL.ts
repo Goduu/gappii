@@ -20,3 +20,16 @@ export const UPDATE_PATH = gql`
   }
 }
 `
+
+export const GET_PATH_RANDOM_ACTIVITIES = gql`
+  query GetPathRandomActivities($where: PathWhere!, $count: Int!) {
+    paths(where: $where) {
+      id
+      title
+      randomActivities(count: $count) {
+        ...ActivityFragment
+      }
+    }
+  }
+`
+

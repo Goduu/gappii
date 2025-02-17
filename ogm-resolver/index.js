@@ -40,6 +40,7 @@ async function main() {
   }
   await ogm.init()
 
+
   // const server = new ApolloServer({
   //   schema: await neoSchema.getSchema(),
   // })

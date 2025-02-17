@@ -84,27 +84,24 @@ export const GET_USER_MISTAKES = gql`
   query GetUserMistakes($where: UserWhere) {
     users(where: $where) {
       id
-      completedLessons {
+      mistakenActivities {
         id
-        forLesson {
-          id
-          title
-        }
-        attemptedActivitiesConnection(where: {edge: {isCorrect: false}}) {
-          edges {
-            node {
-              id
-              description
-              options
-              answer
-              comment
-            }
-            properties{ 
-              isCorrect
-            }
-          }
-        }
+        description
+        options
+        answer
+        comment
+        mermaid
+        sessionCompletionRecordId
       }
+    }
+  }
+`
+
+export const GET_USER_MISTAKES_COUNT = gql`
+  query GetUserMistakesCount($where: UserWhere) {
+    users(where: $where) {
+      id
+      mistakenActivitiesCount
     }
   }
 `

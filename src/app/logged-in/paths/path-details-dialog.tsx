@@ -8,7 +8,7 @@ import { useState } from "react"
 
 type PathDetailsDialogProps = {
     lessons: Lesson[]
-    path: Path
+    path?: Path
     mode: 'create' | 'edit'
 }
 

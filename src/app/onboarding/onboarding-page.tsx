@@ -65,7 +65,7 @@ const OnboardingFlow = () => {
                     ) || []
                 }
                 return lesson ? (
-                    <SessionProgressManager sessionData={sessionData} />
+                    <SessionProgressManager sessionData={sessionData} isOnboarding/>
                 ) : <LoadingAnimation />
 
             default:

@@ -11,11 +11,13 @@ type SessionContentProps = {
     sessionData: SessionData;
     reportedActivityIds?: Activity[] | undefined;
     onActivityComplete?: (activityIndex: number) => void;
+    isOnboarding?: boolean;
 };
 
 export const SessionContent: React.FC<SessionContentProps> = ({
     sessionData,
     reportedActivityIds = [],
+    isOnboarding = false,
 }) => {
     const { currentActivityIndex, progress, currentTitle, currentSubtitle, setMode, mode } = useSessionContext();
     const [showModeSelection, setShowModeSelection] = useState(true);
@@ -28,7 +30,7 @@ export const SessionContent: React.FC<SessionContentProps> = ({
     };
 
     if (showModeSelection) {
-        return <ModeSelection onModeSelect={handleModeSelect} />;
+        return <ModeSelection onModeSelect={handleModeSelect} isOnboarding={isOnboarding} />;
     }
 
     return (
@@ -47,6 +49,7 @@ export const SessionContent: React.FC<SessionContentProps> = ({
                     <SessionActivity
                         reportedActivityIds={reportedActivityIds}
                         mode={mode || SessionModes.EitherOr}
+                        isOnboarding={isOnboarding}
                     />
                 </div>
             </div>

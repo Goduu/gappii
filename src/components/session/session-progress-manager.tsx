@@ -10,9 +10,10 @@ import { SessionContent } from "./session-content";
 type SessionProgressManagerProps = {
     sessionData: SessionData;
     reportedActivityIds?: Activity[] | undefined;
+    isOnboarding?: boolean;
 };
 
-export const SessionProgressManager = ({ sessionData, reportedActivityIds }: SessionProgressManagerProps) => {
+export const SessionProgressManager = ({ sessionData, reportedActivityIds, isOnboarding=false }: SessionProgressManagerProps) => {
     const { user } = useUser();
     const { data } = useQuery<{ users: Array<User> }>(GET_USER_STATISTICS, {
         variables: {
@@ -26,7 +27,7 @@ export const SessionProgressManager = ({ sessionData, reportedActivityIds }: Ses
 
     return (
         <SessionProvider sessionData={sessionData} userStreak={streak}>
-            <SessionContent sessionData={sessionData} reportedActivityIds={reportedActivityIds} />
+            <SessionContent sessionData={sessionData} reportedActivityIds={reportedActivityIds} isOnboarding={isOnboarding} />
         </SessionProvider>
     );
 };

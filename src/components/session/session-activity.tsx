@@ -1,13 +1,13 @@
 "use client"
-import { Activity } from "../../ogm-types";
+import { Activity, MistakenActivity } from "../../ogm-types";
 import { ActivityCard } from "../activity-card/activity-card";
 import { AnimatePresence } from "framer-motion";
 import { SessionMode, SessionModes, SessionSummaryData } from "./types";
 import { useSessionContext } from "./session-context";
 import { SessionSummary } from "./session-summary";
 
-function isActivity(activity: Activity | SessionSummaryData): activity is Activity {
-    return !('type' in activity);
+function isActivity(activity: Activity | MistakenActivity | SessionSummaryData): activity is Activity | MistakenActivity {
+    return !('score' in activity);
 }
 
 type SessionActivityProps = {

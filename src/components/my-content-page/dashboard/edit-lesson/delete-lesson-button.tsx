@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { DELETE_LESSON } from '@/lib/gqls/lessonGQLs'
 import { routes } from '@/lib/routes'
-import { MutationDeleteLessonCompletionRecordsArgs } from '@/ogm-types'
+import { MutationDeleteSessionCompletionRecordsArgs } from '@/ogm-types'
 import { useMutation } from '@apollo/client'
 import { Trash } from 'lucide-react'
 import { redirect } from 'next/navigation'
@@ -21,7 +21,7 @@ export const DeleteLessonButton: FC<DeleteLessonButtonProps> = ({ lessonId }) =>
     const handleDeleteLesson = () => {
         if (!lessonId) return
         startTransition(async () => {
-            await deleteLesson({ variables: { where: { id: lessonId } } satisfies MutationDeleteLessonCompletionRecordsArgs })
+            await deleteLesson({ variables: { where: { id: lessonId } } satisfies MutationDeleteSessionCompletionRecordsArgs })
             redirect(routes.dashboard)
         })
     }

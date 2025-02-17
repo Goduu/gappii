@@ -5,7 +5,7 @@ import {
     CardFooter
 } from "@/components/ui/card";
 import { GapInput } from './gap-input';
-import { Activity } from '@/ogm-types';
+import { Activity, MistakenActivity } from '@/ogm-types';
 import { ActivityReactions } from './activity-reactions';
 import { motion } from 'framer-motion';
 import { GappiiBehindElement } from '../ui/gappii-behind-element';
@@ -30,7 +30,7 @@ const cardVariants = {
 };
 
 type ActivityCardProps = {
-    activity: Activity;
+    activity: Activity | MistakenActivity;
     reported: boolean;
     onNext: (isCorrect: boolean, answer?: string) => void;
     direction: 'next' | 'prev';

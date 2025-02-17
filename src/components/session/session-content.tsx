@@ -28,7 +28,7 @@ export const SessionContent: React.FC<SessionContentProps> = ({
     };
 
     if (showModeSelection) {
-        return <ModeSelection onModeSelect={handleModeSelect} mode={mode} />;
+        return <ModeSelection onModeSelect={handleModeSelect} />;
     }
 
     return (

@@ -1,15 +1,10 @@
-import { languages } from "@/app/types";
-import { createLessonPrompt } from "@/lib/prompts/createLessonPrompt";
+import { identifyTopicSubtopic } from "@/lib/prompts/identifyTopicSubtopic";
 import { NextRequest } from "next/server";
 import OpenAI from "openai";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const topic = body.topic
-  const subtopic = body.subtopic
-  const level = body.level
-  const language = body.language || languages.en
-  const activitiesNumber = body.activitiesNumber || 7
+  const input = body.input
 
   const token = process.env["GITHUB_TOKEN"];
   const endpoint = "https://models.inference.ai.azure.com";
@@ -24,11 +19,11 @@ export async function POST(request: NextRequest) {
     model: modelName,
     messages: [
       {
-        role: "system", content: createLessonPrompt
+        role: "system", content: identifyTopicSubtopic
       },
       {
         role: "user",
-        content: `topic: ${topic}, subtopic: ${subtopic}, level: ${level}, language: ${language}. activitiesNumber: ${activitiesNumber}`,
+        content: input
       },
     ],
   });

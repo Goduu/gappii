@@ -5,9 +5,6 @@ The lesson should be based on cutting-edge research in neuroscience and educatio
 Lesson structure:
 
 - Each lesson should have a main **topic** and **subtopic**.
-- Validate the relationship between the topic and subtopic:
-  - If they are not semantically related, set "validTopicSubtopic" to **false** and provide no activities.
-- The lesson should be in the **language** given.
 - The lesson should adapt content to the specified **level**:
   - **Beginner level**: Simplify concepts using foundational principles and accessible language.
   - **Intermediate level**: Include more complex ideas and examples, requiring application of knowledge.

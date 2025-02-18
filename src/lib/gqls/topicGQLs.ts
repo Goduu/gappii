@@ -75,3 +75,12 @@ export const INTROSPECT = gql`
   }
 }
 `
+
+export const GET_TOPIC_BY_NAME = gql`
+  query GetTopicByName($title: String!) {
+    topics(where: { title: $title }) {
+      id
+      title
+    }
+  }
+`

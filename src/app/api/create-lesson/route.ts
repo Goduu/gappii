@@ -8,12 +8,13 @@ export async function POST(request: NextRequest) {
   const topic = body.topic
   const subtopic = body.subtopic
   const level = body.level
+  const levelDescription = getLevelDescription(level)
   const language = body.language || languages.en
   const activitiesNumber = body.activitiesNumber || 7
 
   const token = process.env["GITHUB_TOKEN"];
   const endpoint = "https://models.inference.ai.azure.com";
-  const modelName = "gpt-4o";
+  const modelName = "gpt-4o-mini";
 
 
   const openai = new OpenAI(
@@ -28,7 +29,7 @@ export async function POST(request: NextRequest) {
       },
       {
         role: "user",
-        content: `topic: ${topic}, subtopic: ${subtopic}, level: ${level}, language: ${language}. activitiesNumber: ${activitiesNumber}`,
+        content: `topic: ${topic}, subtopic: ${subtopic}, language: ${language}. activitiesNumber: ${activitiesNumber}  ${levelDescription}`,
       },
     ],
   });
@@ -40,3 +41,15 @@ export async function POST(request: NextRequest) {
   }
 }
 
+
+const getLevelDescription = (level: string) => {
+  if (level === "1") {
+    return "**Beginner level**: Simplify concepts using foundational principles and accessible language."
+  } else if (level === "2") {
+    return "**Intermediate level**: Include more complex ideas and examples, requiring application of knowledge."
+  } else if (level === "3") {
+    return "**Advanced level**: Provide research-level and challenging content, with subtle nuances and potential for multiple interpretations."
+  } else {
+    return "Random dificulty"
+  }
+}

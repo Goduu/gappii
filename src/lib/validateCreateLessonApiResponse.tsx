@@ -29,10 +29,6 @@ export const validateCreateLessonApiResponse = (response: object | null, onError
         onError("Invalid response from API");
         return null
     }
-    if (!data.validTopicSubtopic) {
-        onError("Invalid topic and subtopic pair");
-        return null
-    }
     if (!data.topic) {
         onError("Invalid response from API, missing topic");
         return null
@@ -50,7 +46,7 @@ export const validateCreateLessonApiResponse = (response: object | null, onError
         !activity.description ||
         !activity.comment ||
         !activity.options.includes(activity.answer) ||
-        activity.options.length < 1)
+        activity.options.length <= 1)
     )) {
         onError("Invalid response from API, missing activity properties");
         return null

@@ -32,7 +32,7 @@ export const OptionsSection: FC<OptionsSectionProps> = ({ activity, form, index 
                                         <Checkbox
                                             className="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                                             checked={option === field.value && field.value !== ''}
-                                            onCheckedChange={() => { console.log(option); field.onChange(option) }}
+                                            onCheckedChange={() => field.onChange(option)}
                                         />
                                     </FormControl>
                                     <FormMessage />

@@ -10,7 +10,7 @@ export const useGenerateLesson = () => {
     const createLesson = useCreateLesson()
     const router = useRouter()
 
-    const generateLesson = async (topic: Topic, subtopic: Topic, level: number, language: SupportedLanguage, activitiesNumber: number) => {
+    const generateLesson = async (topic: Topic, subtopic: Topic, level: string, language: SupportedLanguage, activitiesNumber: string, onCreate?: (lessonId: string) => void) => {
 
         if (!topic.id || !subtopic.id) {
             return
@@ -26,9 +26,12 @@ export const useGenerateLesson = () => {
 
         if (apiData) {
             const lessonData = await createLesson(apiData, topic.id, subtopic?.id)
-            console.log("lessonData", lessonData)
             if (lessonData?.id) {
-                router.push(routes.lesson(lessonData.id))
+                if (onCreate) {
+                    onCreate(lessonData.id)
+                } else {
+                    router.push(routes.lesson(lessonData.id))
+                }
             }
         }
     }

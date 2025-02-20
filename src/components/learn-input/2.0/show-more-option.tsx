@@ -1,48 +1,14 @@
 import { Button } from "@/components/ui/button"
-import { Message } from "./types"
-import { processUserInput } from "@/lib/processUserInput"
-import { aiMessages } from "./aiMessages"
+import { MessageHandlerProps } from "./types"
+import { useMoreOptions } from "./hooks/useMoreOptions"
 
-type ShowMoreOptionProps = {
-    messages: Message[]
-    setMessages: React.Dispatch<React.SetStateAction<Message[]>>
-    setError: React.Dispatch<React.SetStateAction<string>>
-}
+type ShowMoreOptionProps = MessageHandlerProps;
 
-export const ShowMoreOption = ({ messages, setMessages, setError }: ShowMoreOptionProps) => {
-    const lastMessage = messages[messages.length - 1]
-    const isLastMessageOptions = lastMessage?.type === 'options'
-    const hasSubtopics = lastMessage?.options?.every(opt => opt.subtopic)
-    const topicOptionsCount = messages.filter(msg => msg.type === 'options').length
-    const showMoreOptions = isLastMessageOptions && hasSubtopics && topicOptionsCount < 2
+export const ShowMoreOption = (props: ShowMoreOptionProps) => {
+    const { showMoreOptions, handleMoreOptions } = useMoreOptions(props)
 
     if (!showMoreOptions) return null
-
-    const handleMoreOptions = async (message: Message | undefined) => {
-        if (!message?.options) return
-        setMessages(prev => [...prev, { type: 'loading', content: '' }])
-
-        try {
-            const result = await processUserInput(
-                `I want more options similar to these topics: ${message.options.map(opt =>
-                    `${opt.topic} (${opt.subtopic})`
-                ).join(', ')}`,
-                setError
-            )
-            console.log(aiMessages.hereAreMoreOptions,
-                { type: 'options', content: '', options: result })
-            if (result) {
-                setMessages(prev => [
-                    ...prev.slice(0, -1),
-                    aiMessages.hereAreMoreOptions,
-                    { type: 'options', content: '', options: result }
-                ])
-            }
-        } catch (err) {
-            setMessages(prev => prev.slice(0, -1))
-            setError("Failed to get more options. Please try again.")
-        }
-    }
+    const lastMessage = props.messages[props.messages.length - 1]
 
     return (
         <div className="relative mt-2 before:absolute before:left-0 before:right-0 before:top-1/2 before:h-px before:bg-muted">

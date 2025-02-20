@@ -43,7 +43,7 @@ export const InputBox = ({ error, isActive, setIsActive, setMessages, setError }
                 ])
                 setIsUsed(true)
             }
-        } catch (err) {
+        } catch {
             setMessages(prev => prev.slice(0, -1))
             setError("Failed to process your request. Please try again.")
         }

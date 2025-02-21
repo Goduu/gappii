@@ -28,8 +28,8 @@ export const InputBox = ({ error, isActive, setIsActive, setMessages, setError }
 
         const userMessage = input
         setMessages((prev: Message[]) => [...prev,
-            { id: 'user', type: 'user', content: userMessage } satisfies Message,
-            { id: 'loading', type: 'loading', content: '' } satisfies Message
+        { id: 'user', type: 'user', content: userMessage } satisfies Message,
+        { id: 'loading', type: 'loading', content: '' } satisfies Message
         ])
         setInput('')
 
@@ -57,20 +57,19 @@ export const InputBox = ({ error, isActive, setIsActive, setMessages, setError }
     }
 
     return (
-        <div className="relative w-full px-4 sm:px-0">
-
+        <div className="relative w-full flex flex-col items-center">
             {error && isActive && (
-                <div className="text-red-500 text-sm">{error}</div>
+                <div className="text-red-500 text-sm text-center mb-2">{error}</div>
             )}
             <div
                 className={cn(
                     "flex flex-col gap-4 p-6 rounded-lg border bg-background/60 transition-all duration-500",
-                    "w-full max-w-2xl mx-auto",
-                    isActive && "shadow-lg "
+                    "w-full max-w-4xl",
+                    isActive && "shadow-lg"
                 )}
                 onClick={handleContainerClick}
             >
-                <div className="flex gap-2 items-center w-full">
+                <div className="flex gap-2 items-center">
                     <Input
                         ref={inputRef}
                         disabled={isUsed}

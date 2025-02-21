@@ -2,7 +2,7 @@ import { FC, useState } from "react"
 
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
-import { LearnInput2 } from "@/components/learn-input/2.0/learn-input2"
+import { LearnInput } from "@/components/learn-input/learn-input"
 
 export const CreateLesson: FC = () => {
     const [isOpen, setIsOpen] = useState(false)
@@ -12,7 +12,7 @@ export const CreateLesson: FC = () => {
             <Button variant="outline" className="z-30" onClick={() => setIsOpen(true)}>
                 <Plus size={24} /> Create new lesson
             </Button>
-            {isOpen && <LearnInput2 isOpen={isOpen} onClose={() => setIsOpen(false)} />}
+            {isOpen && <LearnInput isOpen={isOpen} onClose={() => setIsOpen(false)} />}
         </>
     )
 

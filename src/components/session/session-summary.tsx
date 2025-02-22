@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { SignInButton, useUser } from "@clerk/nextjs";
 import { completeOnboarding } from "@/app/onboarding/actions";
 import { useEffect, useTransition, useRef } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -12,6 +11,7 @@ import { SessionSummaryResultCard } from "./session-summary-result-card";
 import { MiniActivityCard } from "./mini-activity-card";
 import { useCompleteSession } from "@/lib/mutations/useCompleteSession";
 import { SessionSummaryData } from "./types";
+import { useUser } from "@/lib/useUser";
 
 interface SessionSummaryProps {
     summary: SessionSummaryData;
@@ -20,7 +20,7 @@ interface SessionSummaryProps {
 
 export const SessionSummary: React.FC<SessionSummaryProps> = ({ summary, isOnboarding = false }) => {
     const router = useRouter();
-    const { user } = useUser();
+    const user = useUser();
     const [isPending, startTransition] = useTransition();
     const hasCompletedRef = useRef(false);
 
@@ -111,11 +111,9 @@ export const SessionSummary: React.FC<SessionSummaryProps> = ({ summary, isOnboa
 
                 <CardFooter>
                     {user === null ? (
-                        <SignInButton mode="modal">
-                            <Button className="w-full" size="lg">
-                                Create your account
-                            </Button>
-                        </SignInButton>
+                        <Button className="w-full" size="lg">
+                            Create your account
+                        </Button>
                     ) : (
                         <Button
                             className="w-full"

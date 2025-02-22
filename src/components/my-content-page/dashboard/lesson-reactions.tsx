@@ -2,7 +2,7 @@
 import { Crown, ThumbsUp } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import React, { FC } from 'react'
-import { useUser } from "@clerk/nextjs";
+import { useUser } from "@/lib/useUser";
 import { LessonReaction } from "../types";
 import clsx from "clsx";
 import { useReactToLesson } from "@/lib/mutations/userReactToLesson";

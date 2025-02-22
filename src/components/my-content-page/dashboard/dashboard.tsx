@@ -3,11 +3,11 @@ import { ActivityHistoryCard } from './my-activity/activity-history-card'
 import { StreakCard } from './my-activity/streak-card'
 import { LessonsCreatedCard } from './my-activity/lessons-created-card'
 import { ReactionsInLessonsCard } from './my-activity/reactions-in-lessons'
-import { currentUser } from '@clerk/nextjs/server'
 import { Skeleton } from '@/components/ui/skeleton'
 import { MyLessons } from './my-lessons/my-lessons'
 import { getUserStatistics } from '@/lib/queries/getUserStreak'
 import { Separator } from '@/components/ui/separator'
+import { auth } from '@auth'
 
 type DashboardProps = {
     searchParams?: {
@@ -17,10 +17,12 @@ type DashboardProps = {
 }
 
 export const Dashboard: FC<DashboardProps> = async ({ searchParams }) => {
-    const user = await currentUser();
+    const session = await auth()
+    const user = session?.user
+
     if (!user) return null;
 
-    const { streak, lessonsCreatedCount, createdLessonsInteractionsCount } = await getUserStatistics(user.id)
+    const { streak, lessonsCreatedCount, createdLessonsInteractionsCount } = await getUserStatistics(user.email)
 
     return (
         <div className="w-full space-y-4 flex flex-col gap-4">

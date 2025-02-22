@@ -3,7 +3,7 @@ import { CreateActivitiesMutationResponse, CreateLessonsMutationResponse, Mutati
 import { ApiActivityResponse } from "../validateCreateLessonApiResponse";
 import { GET_USER, CREATE_USER, UPDATE_USER } from "../gqls/userGQLs";
 import { User } from "@clerk/nextjs/server";
-import { useUser } from "@clerk/nextjs";
+import { useUser } from "@/lib/useUser";
 import { CREATE_ACTIVITIES } from "../gqls/activityGQLs";
 import { CREATE_LESSONS } from "../gqls/lessonGQLs";
 

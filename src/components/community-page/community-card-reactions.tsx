@@ -3,7 +3,6 @@ import React, { FC } from 'react'
 import { Button } from '../ui/button'
 import { Crown, ThumbsUp } from 'lucide-react'
 import { Lesson } from '@/ogm-types'
-import { useUser } from '@clerk/nextjs'
 import { userReactToLessonSRC } from '@/lib/mutations/userReactToLessonSRC'
 import { useRouter } from 'next/navigation'
 import { LessonReaction } from '../my-content-page/types'
@@ -15,9 +14,10 @@ type CommunityCardReactionsProps = {
 
 export const CommunityCardReactions: FC<CommunityCardReactionsProps> = ({ lesson }) => {
     const router = useRouter()
-    const userData = useUser()
+    // const userData = useUser()
+    const userData = { user: { id: "xongas" } }
     const reactionEdges = lesson.wasReactedConnection?.edges || []
-    
+
     const reaction = reactionEdges.find(edge => edge.node.clerkId === userData.user?.id)?.properties.type as LessonReaction
 
     const handleReact = async (type: NonNullable<LessonReaction>) => {

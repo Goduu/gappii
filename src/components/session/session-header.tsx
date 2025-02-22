@@ -3,7 +3,7 @@
 import { CircleX } from "lucide-react";
 import { redirect } from "next/navigation";
 import { routes } from "@/lib/routes";
-import { useUser } from "@clerk/nextjs";
+import { useUser } from "@/lib/useUser";
 import { Card } from "../ui/card";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";

@@ -4,7 +4,7 @@ import { ApiActivityResponse } from "../validateCreateLessonApiResponse";
 import { redirect } from "next/navigation";
 import { GET_USER, CREATE_USER, UPDATE_USER } from "../gqls/userGQLs";
 import { User } from "@clerk/nextjs/server";
-import { useUser } from "@clerk/nextjs";
+import { useUser } from "@/lib/useUser";
 import { CREATE_ACTIVITIES } from "../gqls/activityGQLs";
 import { CREATE_LESSONS } from "../gqls/lessonGQLs";
 import { routes } from "../routes";

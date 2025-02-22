@@ -1,8 +1,8 @@
 import { User } from "@/ogm-types"
 import { useQuery } from "@apollo/client"
-import { useUser } from "@clerk/nextjs"
 import { GET_USER_PATHS_AND_LESSONS } from "../gqls/userGQLs"
 import { useEffect } from "react"
+import { useUser } from "../useUser"
 
 
 export const useUserPathsAndLessons = () => {

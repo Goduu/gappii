@@ -5,7 +5,6 @@ import React, { FC } from 'react'
 import { MutationUpdateUsersArgs } from "../../ogm-types";
 import { useMutation } from "@apollo/client";
 import { GET_USER_REPORTED_ACTIVITIES, UPDATE_USER } from "@/lib/gqls/userGQLs";
-import { useUser } from "@clerk/nextjs";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 export type ActivityReactionsProps = {
@@ -15,7 +14,8 @@ export type ActivityReactionsProps = {
 
 export const ActivityReactions: FC<ActivityReactionsProps> = ({ activityId, reported = false }) => {
     const [updateUserReactionMutation] = useMutation(UPDATE_USER, { refetchQueries: [GET_USER_REPORTED_ACTIVITIES] })
-    const userData = useUser()
+    // const userData = useUser()
+    const userData = { user: { id: "xongas" } }
 
     const connectDisconnectVar = connectDisconnect(reported, activityId)
 

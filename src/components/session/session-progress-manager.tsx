@@ -1,6 +1,6 @@
 "use client"
 import { Activity, User } from "../../ogm-types";
-import { useUser } from "@clerk/nextjs";
+import { useUser } from "@/lib/useUser";
 import { useQuery } from "@apollo/client";
 import { GET_USER_STATISTICS } from "@/lib/gqls/userGQLs";
 import { SessionData } from "./types";
@@ -14,7 +14,7 @@ type SessionProgressManagerProps = {
 };
 
 export const SessionProgressManager = ({ sessionData, reportedActivityIds, isOnboarding=false }: SessionProgressManagerProps) => {
-    const { user } = useUser();
+    const user = useUser();
     const { data } = useQuery<{ users: Array<User> }>(GET_USER_STATISTICS, {
         variables: {
             where: {

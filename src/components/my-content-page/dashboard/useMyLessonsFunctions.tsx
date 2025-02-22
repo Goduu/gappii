@@ -1,4 +1,4 @@
-import { useUser } from "@clerk/nextjs";
+import { useUser } from "@/lib/useUser";
 import { useEffect, useState } from "react";
 import { useFilter } from "./filter-hooks";
 import { Lesson, User, UserHasLessonsConnectionWhere } from "../../../ogm-types";

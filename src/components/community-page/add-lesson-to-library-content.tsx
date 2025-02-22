@@ -4,7 +4,6 @@ import { Copy, BookMarked, Languages } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
 import { LanguageSelector } from '../learn-input/language-selector'
 import { Card, CardContent, CardDescription } from '../ui/card'
-import { useUser } from "@clerk/nextjs"
 import { redirect } from "next/navigation"
 import { routes } from "@/lib/routes"
 import { userHasLesson } from "@/lib/mutations/userHasLesson"
@@ -23,7 +22,8 @@ type AddLessonToLibraryContentProps = {
 
 export const AddLessonToLibraryContent: FC<AddLessonToLibraryContentProps> = ({ lesson }) => {
     const [selectedLanguage, setSelectedLanguage] = useState<SupportedLanguage>()
-    const userData = useUser()
+    // const userData = useUser()
+    const userData = { user: { id: "xongas" } }
     const saveTranslatedLesson = useSaveTranslatedLesson()
     const { startTransition } = useTransitionContext()
 

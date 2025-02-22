@@ -1,10 +1,10 @@
 import { useMutation } from "@apollo/client";
 import { GET_USER_PATHS_AND_LESSONS, UPDATE_USER } from "../gqls/userGQLs";
-import { useUser } from "@clerk/nextjs";
+import { useUser } from "@/lib/useUser";
 import { MutationUpdateUsersArgs, Path } from "@/ogm-types";
 
 export const useCreatePath = () => {
-    const { user } = useUser();
+    const user = useUser();
 
     const [updateUserMutation] = useMutation(UPDATE_USER, {
         refetchQueries: [GET_USER_PATHS_AND_LESSONS]

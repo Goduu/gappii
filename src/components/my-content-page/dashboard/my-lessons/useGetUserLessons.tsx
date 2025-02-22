@@ -1,10 +1,10 @@
 import { GET_USER_LESSONS, GET_USER_MISTAKES } from '@/lib/gqls/userGQLs';
 import { Lesson, User, UserHasLessonsConnectionWhere } from '@/ogm-types';
 import { useQuery } from '@apollo/client';
-import { useUser } from '@clerk/nextjs';
 import { useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { useInfiniteScroll } from '../useInfinityScroll';
+import { useUser } from '@/lib/useUser';
 
 type SearchParams = {
     search?: string;
@@ -17,7 +17,7 @@ type QueryResponse = {
 
 export const useGetUserLessons = (searchParams?: SearchParams) => {
     const [isFetchingMore, setIsFetchingMore] = useState(false);
-    const { user } = useUser();
+    const user = useUser();
     const reaction = searchParams?.reaction || '';
     const search = searchParams?.search || '';
     const { data: mistakes } = useQuery(GET_USER_MISTAKES, { variables: { where: { clerkId: user?.id } } })

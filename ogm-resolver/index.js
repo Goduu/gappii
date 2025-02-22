@@ -6,7 +6,7 @@ const { OGM, generate } = pkg
 import neo4j from "neo4j-driver"
 import { typeDefs } from "../src/lib/schema.js"
 
-const driver = neo4j.driver(process.env.NEXT_PUBLIC_NEO4J_URI || "", neo4j.auth.basic(process.env.NEO4J_USER || "", process.env.NEO4J_PASSWORD || ""))
+const driver = neo4j.driver(process.env.NEXT_PUBLIC_NEO4J_URI || "", neo4j.auth.basic(process.env.NEO4J_USERNAME || "", process.env.NEO4J_PASSWORD || ""))
 
 export const ogm = new OGM({ typeDefs, driver })
 
@@ -26,7 +26,7 @@ const neoSchema = new Neo4jGraphQL({
 
 async function main() {
   try {
-    const outFile = "../src/ogm-types.ts"
+    const outFile = "./src/ogm-types.ts"
 
     await generate({
       ogm,

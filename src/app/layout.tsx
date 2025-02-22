@@ -3,7 +3,6 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ApolloWrapper } from "@/lib/apollo-provider";
 import { Toaster } from "@/components/ui/toaster";
-import { ClerkProvider, SignedIn, SignedOut } from '@clerk/nextjs'
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { TransitionProvider } from "@/components/loading-store";
 import { Footer } from "@/components/home/footer";
@@ -11,7 +10,8 @@ import { LoggedInMenu } from "./loggedin-menu";
 import { LoggedOutMenu } from "./loggedout-menu";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/react"
-import { routes } from "@/lib/routes";
+import UserButton from "@/components/auth/user-button";
+import { SessionProvider } from "next-auth/react";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -76,32 +76,26 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col flex-1`}
       >
-        <ClerkProvider
-          signUpFallbackRedirectUrl={routes.dashboard}
-        >
-          <TransitionProvider>
-            <TooltipProvider>
-              <Toaster />
-              <div className="items-center justify-items-center max-w-screen w-screen bg-linear-to-b from-slate-50 to-white p-4 md:p-8 md:min-w-[580px] pb-20 gap-16  font-[family-name:var(--font-geist-sans)]">
-                <main className="flex flex-col gap-8 row-start-2 items-center w-full">
+        <TransitionProvider>
+          <TooltipProvider>
+            <Toaster />
+            <div className="items-center justify-items-center max-w-screen w-screen bg-linear-to-b from-slate-50 to-white p-4 md:p-8 md:min-w-[580px] pb-20 gap-16  font-[family-name:var(--font-geist-sans)]">
+              <main className="flex flex-col gap-8 row-start-2 items-center w-full">
+                <SessionProvider>
                   <ApolloWrapper >
                     {children}
                     <Analytics />
                     <SpeedInsights />
                   </ApolloWrapper>
-                  <div className="absolute left-4 top-4">
-                    <SignedOut>
-                      <LoggedOutMenu />
-                    </SignedOut>
-                    <SignedIn>
-                      <LoggedInMenu />
-                    </SignedIn>
-                  </div>
-                </main>
-              </div>
-            </TooltipProvider>
-          </TransitionProvider>
-        </ClerkProvider>
+                </SessionProvider>
+                <div className="absolute left-4 top-4">
+                  {/* <LoggedOutMenu /> */}
+                  <UserButton />
+                </div>
+              </main>
+            </div>
+          </TooltipProvider>
+        </TransitionProvider>
         <footer className="flex items-center justify-center mt-auto pb-4">
           <Footer />
         </footer>

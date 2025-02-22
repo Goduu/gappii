@@ -20,9 +20,9 @@ type Lesson @fulltext(indexes: [{ indexName: "LessonTitle", fields: ["title"] }]
   wasReactedCount: Int! @cypher(statement: "MATCH (this)-[:REACTED]-(u:User) RETURN COUNT(u) AS wasReactedCount", columnName: "wasReactedCount")
 
   # Computed field: Completion percentage for a specific user
-  completionPercentage(clerkId: String!): Float @cypher(
+  completionPercentage(email: String!): Float @cypher(
     statement: """
-    OPTIONAL MATCH (u:User {clerkId: $clerkId})-[:COMPLETED_SESSION]->(scr:SessionCompletionRecord)-[:FOR_LESSON]->(this)
+    OPTIONAL MATCH (u:User {email: $email})-[:COMPLETED_SESSION]->(scr:SessionCompletionRecord)-[:FOR_LESSON]->(this)
     WITH u, this, COLLECT(scr) AS completions
     WITH u, this, completions,
          [x IN completions WHERE x.mode = 'type-in'] AS typeInAttempts,
@@ -106,7 +106,6 @@ type Account @node {
 type User @node {
   id: ID! @id
   name: String
-  clerkId: String!
   email: String! @unique(constraintName: "UserEmailUnique")
   emailVerified: Boolean!
   image: String

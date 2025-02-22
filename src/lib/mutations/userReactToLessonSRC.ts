@@ -6,7 +6,7 @@ import { MutationUpdateUsersArgs } from '@/ogm-types';
 import { UPDATE_USER } from '../gqls/userGQLs';
 
 export const userReactToLessonSRC = async (
-    userId: string,
+    userEmail: string,
     lessonId: string,
     currentReaction: LessonReaction | null,
     newReaction: LessonReaction,
@@ -19,7 +19,7 @@ export const userReactToLessonSRC = async (
         mutation: UPDATE_USER,
         variables: {
             where: {
-                clerkId: userId
+                email: userEmail
             },
             update: {
                 reactedToLessons: [{

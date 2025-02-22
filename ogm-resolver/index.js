@@ -1,12 +1,10 @@
-import { ApolloServer } from "@apollo/server"
-import { startStandaloneServer } from "@apollo/server/standalone"
 import { Neo4jGraphQL } from "@neo4j/graphql"
 import pkg from "@neo4j/graphql-ogm"
 const { OGM, generate } = pkg
 import neo4j from "neo4j-driver"
 import { typeDefs } from "../src/lib/schema.js"
 
-const driver = neo4j.driver(process.env.NEXT_PUBLIC_NEO4J_URI || "", neo4j.auth.basic(process.env.NEO4J_USERNAME || "", process.env.NEO4J_PASSWORD || ""))
+const driver = neo4j.driver(process.env.NEO4J_URI || "", neo4j.auth.basic(process.env.NEO4J_USERNAME || "", process.env.NEO4J_PASSWORD || ""))
 
 export const ogm = new OGM({ typeDefs, driver })
 

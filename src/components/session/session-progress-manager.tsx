@@ -18,7 +18,7 @@ export const SessionProgressManager = ({ sessionData, reportedActivityIds, isOnb
     const { data } = useQuery<{ users: Array<User> }>(GET_USER_STATISTICS, {
         variables: {
             where: {
-                clerkId: user?.id
+                email: user?.email
             },
         }
     })

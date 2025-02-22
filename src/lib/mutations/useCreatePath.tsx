@@ -17,7 +17,7 @@ export const useCreatePath = () => {
         // Connect the path to the user
         await updateUserMutation({
             variables: {
-                where: { clerkId: user.id },
+                where: { email: user.email },
                 update: {
                     hasPaths: [{
                         create: [{ node: newPath }]

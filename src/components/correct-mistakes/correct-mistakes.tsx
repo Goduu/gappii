@@ -9,7 +9,7 @@ import { MistakeCorrectionSessionData } from "../session/types";
 export const CorrectMistakes = () => {
     const user = useUser();
     const { data, loading } = useQuery<{ users: User[] }>(GET_USER_MISTAKES, {
-        variables: { where: { clerkId: user?.id } }
+        variables: { where: { email: user?.email } }
     });
     
     if (loading) return <div>Loading...</div>;

@@ -20,7 +20,7 @@ export const useMyLessonsFunctions = () => {
     const { loading, fetchMore, refetch } = useQuery<{ users: Array<User> }>(GET_USER_LESSONS, {
         variables: {
             where: {
-                clerkId: userData.user?.id
+                email: userData?.email
             },
             lessonWhere: {
                 node: {
@@ -32,7 +32,7 @@ export const useMyLessonsFunctions = () => {
                     } : {},
                     wasReactedConnection_SOME: filter.reaction ? {
                         node: {
-                            clerkId: userData.user?.id
+                            email: userData?.email
                         },
                         edge: filter.reaction ? {
                             type: filter.reaction
@@ -75,7 +75,7 @@ export const useMyLessonsFunctions = () => {
             if(lessonConnection.pageInfo.endCursor) setEndCursor(lessonConnection.pageInfo.endCursor);
             setHasNextPage(lessonConnection.pageInfo.hasNextPage);
         },
-        skip: !userData.user
+        skip: !userData
     });
 
     const loadMoreLessons = () => {

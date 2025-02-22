@@ -1,20 +1,15 @@
-import { useMutation, useQuery } from "@apollo/client";
-import { CreateActivitiesMutationResponse, MutationCreateActivitiesArgs, MutationCreateLessonsArgs, MutationCreateUsersArgs, MutationUpdateUsersArgs } from "../../ogm-types";
+import { useMutation } from "@apollo/client";
+import { CreateActivitiesMutationResponse, MutationCreateActivitiesArgs, MutationCreateLessonsArgs, MutationCreateUsersArgs, MutationUpdateUsersArgs, User } from "../../ogm-types";
 import { ApiActivityResponse } from "../validateCreateLessonApiResponse";
 import { redirect } from "next/navigation";
-import { GET_USER, CREATE_USER, UPDATE_USER } from "../gqls/userGQLs";
-import { User } from "@clerk/nextjs/server";
+import { UPDATE_USER } from "../gqls/userGQLs";
 import { useUser } from "@/lib/useUser";
 import { CREATE_ACTIVITIES } from "../gqls/activityGQLs";
 import { CREATE_LESSONS } from "../gqls/lessonGQLs";
 import { routes } from "../routes";
 
 export const useSaveTranslatedLesson = () => {
-    const clerkUserData = useUser()
-    const { loading, data: userData } = useQuery<{ users: Array<User> }>(GET_USER, {
-        variables: { where: { clerkId: clerkUserData.user?.id } }
-    })
-    const [createUserMutation] = useMutation(CREATE_USER)
+    const user = useUser()
     const [createLessonMutation] = useMutation(CREATE_LESSONS)
     const [updateUserMutation] = useMutation(UPDATE_USER)
     const [createActivitiesMutation] = useMutation<{ createActivities: CreateActivitiesMutationResponse }>(CREATE_ACTIVITIES)
@@ -89,62 +84,31 @@ export const useSaveTranslatedLesson = () => {
 
             } satisfies MutationCreateLessonsArgs
         })
+        if (user?.email) {
 
-        if (clerkUserData.user) {
-            if (!loading && !userData?.users || !userData?.users.length) {
-                console.info("No user Data, creating user")
-                await createUserMutation({
-                    variables: {
-                        input: [
-                            {
-                                clerkId: clerkUserData.user.id,
-                                email: clerkUserData.user.emailAddresses[0].emailAddress,
-                                hasLessons: {
-                                    connect: [
-                                        {
-                                            where: {
-                                                node: {
-                                                    id: lessonData.data?.createLessons.lessons[0].id
-                                                }
-                                            },
-                                            edge: {
-                                                type: "CREATED",
-                                                hasAt: new Date().toISOString()
-                                            }
+            console.info("User data found, updating user")
+            await updateUserMutation({
+                variables: {
+                    where: { email: user.email },
+                    update: {
+                        hasLessons: [{
+                            connect: [
+                                {
+                                    where: {
+                                        node: {
+                                            id: lessonData.data?.createLessons.lessons[0].id
                                         }
-                                    ]
-                                }
-
-                            },
-                        ]
-                    } satisfies MutationCreateUsersArgs
-                }
-                )
-            } else {
-                console.info("User data found, updating user")
-                await updateUserMutation({
-                    variables: {
-                        where: { clerkId: clerkUserData.user.id },
-                        update: {
-                            hasLessons: [{
-                                connect: [
-                                    {
-                                        where: {
-                                            node: {
-                                                id: lessonData.data?.createLessons.lessons[0].id
-                                            }
-                                        },
-                                        edge: {
-                                            type: "CREATED",
-                                            hasAt: new Date().toISOString()
-                                        }
+                                    },
+                                    edge: {
+                                        type: "CREATED",
+                                        hasAt: new Date().toISOString()
                                     }
-                                ]
-                            }]
-                        }
-                    } satisfies MutationUpdateUsersArgs
-                })
-            }
+                                }
+                            ]
+                        }]
+                    }
+                } satisfies MutationUpdateUsersArgs
+            })
         }
 
 

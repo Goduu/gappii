@@ -20,7 +20,7 @@ export const useGetUserLessons = (searchParams?: SearchParams) => {
     const user = useUser();
     const reaction = searchParams?.reaction || '';
     const search = searchParams?.search || '';
-    const { data: mistakes } = useQuery(GET_USER_MISTAKES, { variables: { where: { clerkId: user?.id } } })
+    const { data: mistakes } = useQuery(GET_USER_MISTAKES, { variables: { where: { email: user?.email } } })
     console.info("mistakes", mistakes)
 
     const getReactionFilter = (reaction: string) => {
@@ -28,7 +28,7 @@ export const useGetUserLessons = (searchParams?: SearchParams) => {
         
         return {
             wasReactedConnection_SOME: {
-                node: { clerkId: user?.id },
+                node: { email: user?.email },
                 edge: { type: reaction }
             }
         };
@@ -36,7 +36,7 @@ export const useGetUserLessons = (searchParams?: SearchParams) => {
 
     const { data, loading, fetchMore } = useQuery<QueryResponse>(GET_USER_LESSONS, {
         variables: {
-            where: { clerkId: user?.id },
+            where: { email: user?.email },
             lessonWhere: {
                 node: {
                     title_CONTAINS: search,

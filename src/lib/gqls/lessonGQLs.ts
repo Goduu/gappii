@@ -151,7 +151,6 @@ export const GET_COMMUNITY_LESSONS = gql`
         edges {
           node {
             id
-            clerkId
           }
           properties{
             type

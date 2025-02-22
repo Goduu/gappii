@@ -36,9 +36,9 @@ export const SessionSummary: React.FC<SessionSummaryProps> = ({ summary, isOnboa
 
                 if (isOnboarding) {
                     const res = await completeOnboarding();
-                    if (res?.message) {
-                        await user?.reload();
-                    }
+                    // if (res?.message) {
+                    //     await user?.reload();
+                    // }
                 }
             } catch (error) {
                 // Reset the flag if there's an error so it can try again

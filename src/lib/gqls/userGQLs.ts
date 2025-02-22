@@ -37,7 +37,7 @@ query GetUserLessons($where: UserWhere!, $first: Int!,$after: String, $lessonWhe
               edges {
                 node {
                   id
-                  clerkId
+                  email
                 }
                 properties{
                   type
@@ -138,8 +138,8 @@ export const GET_USER_DAILY_ACTIVITY = gql`
 `;
 
 export const GET_USER_PATHS_AND_LESSONS = gql`
-  query GetUserPathsAndLessons($clerkId: String!) {
-    users(where: {clerkId: $clerkId}) {
+  query GetUserPathsAndLessons($email: String!) {
+    users(where: {email: $email}) {
       id
       hasLessons {
         id
@@ -156,7 +156,7 @@ export const GET_USER_PATHS_AND_LESSONS = gql`
         withLessons {
           id
           title
-          completionPercentage(clerkId: $clerkId)
+          completionPercentage(email: $email)
           hasActivitiesAggregate {
             count
           }

@@ -69,7 +69,7 @@ export const LearnInput = ({ isOpen = false, onCreate, onClose }: LearnInput2Pro
 
                 <div ref={containerRef} className="flex flex-col items-center w-full">
                     {isActive && (
-                        <div className="flex-1 overflow-y-auto space-y-4 max-h-96 overflow-x-scroll">
+                        <div className="flex-1 overflow-y-auto space-y-4 max-h-96 overflow-x-scroll w-full">
                             {messages.map((msg, index) => (
                                 <div key={index} className="space-y-2">
                                     {msg.type === 'user' ? (

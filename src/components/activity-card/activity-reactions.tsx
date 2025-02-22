@@ -6,6 +6,7 @@ import { MutationUpdateUsersArgs } from "../../ogm-types";
 import { useMutation } from "@apollo/client";
 import { GET_USER_REPORTED_ACTIVITIES, UPDATE_USER } from "@/lib/gqls/userGQLs";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { useUser } from "@/lib/useUser";
 
 export type ActivityReactionsProps = {
     activityId: string
@@ -14,8 +15,7 @@ export type ActivityReactionsProps = {
 
 export const ActivityReactions: FC<ActivityReactionsProps> = ({ activityId, reported = false }) => {
     const [updateUserReactionMutation] = useMutation(UPDATE_USER, { refetchQueries: [GET_USER_REPORTED_ACTIVITIES] })
-    // const userData = useUser()
-    const userData = { user: { id: "xongas" } }
+    const userData = useUser()
 
     const connectDisconnectVar = connectDisconnect(reported, activityId)
 
@@ -23,7 +23,7 @@ export const ActivityReactions: FC<ActivityReactionsProps> = ({ activityId, repo
         updateUserReactionMutation({
             variables: {
                 where: {
-                    clerkId: userData.user?.id
+                    email: userData?.email
                 },
                 update: {
                     reportedActivities: [

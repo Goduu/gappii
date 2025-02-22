@@ -81,8 +81,8 @@ const RoundedSquare: ScatterProps['shape'] = (props: RoundedSquareProps) => {
 export const ActivityHeatmap = () => {
     const user = useUser();
     const { data: activityData } = useQuery(GET_USER_DAILY_ACTIVITY, {
-        variables: { where: { clerkId: user?.id } } satisfies QueryUsersArgs,
-        skip: !user?.id
+        variables: { where: { email: user?.email } } satisfies QueryUsersArgs,
+        skip: !user
     });
 
     const baseData = generateEmptyData();

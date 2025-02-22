@@ -102,7 +102,7 @@ export const useCompleteSession = () => {
 
         await updateUser({
             variables: {
-                where: { clerkId: user?.id },
+                where: { email: user?.email },
                 update: {
                     completedSessions: [{
                         create: [createCompletedSessionNode(summary)]

@@ -17,8 +17,16 @@ type Lesson @fulltext(indexes: [{ indexName: "LessonTitle", fields: ["title"] }]
   hasKeywords: [Keyword!]! @relationship(type: "HAS_KEYWORD", direction: OUT)
   hasActivities: [Activity!]! @relationship(type: "HAS_ACTIVITY", direction: OUT)
   wasReacted: [User!]! @relationship(type: "REACTED", properties: "Reacted", direction: IN)
+  hasSessionCompletions: [SessionCompletionRecord!]! @relationship(type: "FOR_LESSON", direction: IN)
   wasReactedCount: Int! @cypher(statement: "MATCH (this)-[:REACTED]-(u:User) RETURN COUNT(u) AS wasReactedCount", columnName: "wasReactedCount")
-
+  attempts(email: String!): Float @cypher(
+    statement: """
+    MATCH (this)<-[:FOR_LESSON]-(scr:SessionCompletionRecord)<-[:COMPLETED_SESSION]-(u:User {email: $email})
+    WHERE scr.type = 'lesson'
+    RETURN COUNT(scr) AS attempts
+    """,
+    columnName: "attempts"
+  )
   # Computed field: Completion percentage for a specific user
   completionPercentage(email: String!): Float @cypher(
     statement: """

@@ -24,17 +24,20 @@ export const PathLessonStatistics = ({ lesson }: PathLessonStatisticsProps) => {
                 </div>
                 <div className='flex gap-2'>
                     <div className='mr-auto flex items-center gap-2'>
-                        <Badge variant="outline" title={"8 times completed"} className={cn(
+                        <Badge variant="outline" title={`${lesson.attempts} times completed`} className={cn(
                             "flex items-center gap-2 py-2")}>
-                            8 <CalendarCheck size={16} />
+                            {lesson.attempts}
+                            <CalendarCheck size={16} />
                         </Badge>
                         <Badge variant="outline" title={"52% accuracy"} className={cn(
                             "flex items-center gap-2 py-2")}>
-                            56.2% <Target size={16} />
+                            {lesson.completionPercentage?.toFixed(2)}%
+                            <Target size={16} />
                         </Badge>
                         <Badge variant="outline" title={lesson.hasActivitiesAggregate?.count + ' activities'} className={cn(
                             "flex items-center gap-2 py-2")}>
-                            {lesson.hasActivitiesAggregate?.count} <MessageCircleQuestion size={16} />
+                            {lesson.hasActivitiesAggregate?.count}
+                            <MessageCircleQuestion size={16} />
                         </Badge>
                     </div>
                     <div className='ml-auto flex items-center gap-2'>

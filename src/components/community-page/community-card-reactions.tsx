@@ -19,7 +19,6 @@ export const CommunityCardReactions: FC<CommunityCardReactionsProps> = ({ lesson
     const reactionEdges = lesson.wasReactedConnection?.edges || []
 
     const reaction = reactionEdges.find(edge => edge.node.email === userData?.email)?.properties.type as LessonReaction
-
     const handleReact = async (type: NonNullable<LessonReaction>) => {
         if (userData?.email && lesson.id) await userReactToLessonSRC(userData?.email, lesson.id, reaction, type)
         router.refresh()
@@ -27,7 +26,7 @@ export const CommunityCardReactions: FC<CommunityCardReactionsProps> = ({ lesson
 
     return (
         <div className='flex gap-0'>
-            <Button size="icon" variant="ghost" disabled={!userData?.id} onClick={() => handleReact("LIKED")} className='flex flex-col gap-0 justify-center'>
+            <Button size="icon" variant="ghost" disabled={!userData?.email} onClick={() => handleReact("LIKED")} className='flex flex-col gap-0 justify-center'>
                 <ThumbsUp className={clsx({
                     "fill-violet-500 text-violet-900": reaction === "LIKED"
                 })} />
@@ -35,7 +34,7 @@ export const CommunityCardReactions: FC<CommunityCardReactionsProps> = ({ lesson
                     {reactionEdges.filter(reaction => reaction.properties.type === "LIKED").length}
                 </div>
             </Button>
-            <Button size="icon" variant="ghost" disabled={!userData?.id} onClick={() => handleReact("CROWNED")} className='flex flex-col gap-0 justify-center'>
+            <Button size="icon" variant="ghost" disabled={!userData?.email} onClick={() => handleReact("CROWNED")} className='flex flex-col gap-0 justify-center'>
                 <Crown className={clsx({
                     "fill-orange-500 text-orange-900": reaction === "CROWNED"
                 })} />

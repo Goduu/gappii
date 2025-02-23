@@ -7,10 +7,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { TransitionProvider } from "@/components/loading-store";
 import { Footer } from "@/components/home/footer";
 import { LoggedInMenu } from "./loggedin-menu";
-import { LoggedOutMenu } from "./loggedout-menu";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/react"
-import UserButton from "@/components/auth/user-button";
 import { SessionProvider } from "next-auth/react";
 
 const geistSans = localFont({
@@ -90,7 +88,7 @@ export default function RootLayout({
                 </SessionProvider>
                 <div className="absolute left-4 top-4">
                   {/* <LoggedOutMenu /> */}
-                  <UserButton />
+                  <LoggedInMenu />
                 </div>
               </main>
             </div>

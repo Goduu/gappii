@@ -1,3 +1,4 @@
+import UserButton from "@/components/auth/user-button"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -13,9 +14,9 @@ import React from 'react'
 export const LoggedInMenu = () => {
     return (
         <div className="flex gap-2 flex-col items-center justify-center">
-            {/* <div className="min-h-9 min-w-7">
+            <div className="min-h-9 min-w-7">
                 <UserButton />
-            </div> */}
+            </div>
             <DropdownMenu>
                 <DropdownMenuTrigger className="rounded-full aspect-square outline outline-gray-200 p-1 hover:bg-gray-100 cursor-pointer">
                     <Menu size={22} />

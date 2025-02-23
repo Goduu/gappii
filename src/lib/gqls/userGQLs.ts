@@ -156,6 +156,7 @@ export const GET_USER_PATHS_AND_LESSONS = gql`
         withLessons {
           id
           title
+          attempts(email: $email)
           completionPercentage(email: $email)
           hasActivitiesAggregate {
             count

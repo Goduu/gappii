@@ -35,7 +35,8 @@ export const SessionSummary: React.FC<SessionSummaryProps> = ({ summary, isOnboa
                 await completeLesson(summary);
 
                 if (isOnboarding) {
-                    const res = await completeOnboarding();
+                    await completeOnboarding();
+                    // const res = await completeOnboarding();
                     // if (res?.message) {
                     //     await user?.reload();
                     // }

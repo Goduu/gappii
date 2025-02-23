@@ -150,7 +150,7 @@ export const GET_COMMUNITY_LESSONS = gql`
       wasReactedConnection {
         edges {
           node {
-            id
+            email
           }
           properties{
             type

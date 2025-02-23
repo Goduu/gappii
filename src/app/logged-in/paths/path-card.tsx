@@ -3,7 +3,7 @@ import { CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Swords } from "lucide-react"
 import { PathDetailsDialog } from "./path-details-dialog"
-import { PathCircle } from "../paths-details/path-circle"
+import { PathCircle } from "./path-circle"
 import { routes } from "@/lib/routes"
 import Link from "next/link"
 type PathCircleProps = {
@@ -15,6 +15,8 @@ type PathCircleProps = {
 export const PathCard = ({ path, isSelected, size = 'md', lessons }: PathCircleProps) => {
     if (!path) return
 
+    const isPathEmpty = path.withLessons.length === 0
+
     return (
         <CardContent className="relative flex items-center gap-4 justify-center">
             <div key={path.id} className='flex items-center justify-start w-80 gap-4 group'>
@@ -22,10 +24,10 @@ export const PathCard = ({ path, isSelected, size = 'md', lessons }: PathCircleP
                 <div className="font-bold">{path.title}</div>
 
             </div>
-            <div className='flex gap-2 absolute right-4 bottom-4 z-10'>
-                <PathDetailsDialog lessons={lessons} path={path} mode="edit" />
-                <Link href={routes.path(path.id)}>
-                    <Button variant="outline" size="icon" title="Test Path">
+            <div className='flex gap-2 absolute right-4 bottom-4 z-10' title={isPathEmpty ? "Path is empty" : ""}>
+                <PathDetailsDialog lessons={lessons} path={path} mode="view" />
+                <Link href={isPathEmpty ? "" : routes.path(path.id)} aria-disabled={isPathEmpty}>
+                    <Button variant="outline" size="icon" title="Test Path" disabled={isPathEmpty}>
                         <Swords />
                     </Button>
                 </Link>

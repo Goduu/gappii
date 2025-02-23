@@ -12,7 +12,7 @@ export default async function UserButton() {
         <div className="flex items-center gap-2">
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <Button variant="ghost"
+                    <Button variant="outline"
                         className="relative h-8 w-8 rounded-full p-0 overflow-hidden hover:opacity-80 transition-opacity duration-300">
                         <Image
                             src={
@@ -22,7 +22,7 @@ export default async function UserButton() {
                             alt={session.user.name ?? ""}
                             className="rounded-full"
                             fill
-                            sizes="32px"
+                            sizes="28px"
                         />
                     </Button>
                 </DropdownMenuTrigger>

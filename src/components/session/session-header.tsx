@@ -37,7 +37,7 @@ export const SessionHeader: React.FC<SessionHeaderProps> = ({
                         <div className="text-sm text-muted-foreground">
                             {title}
                         </div>
-                        <div className="text-xl font-bold">
+                        <div className="font-bold">
                             {subtitle}
                         </div>
                     </motion.div>
@@ -60,7 +60,7 @@ export const SessionHeader: React.FC<SessionHeaderProps> = ({
 
                     <CircleX
                         className="h-6 w-6 cursor-pointer text-muted-foreground hover:text-destructive transition-colors"
-                        onClick={() => redirect(user?.isSignedIn ? routes.dashboard : routes.home)}
+                        onClick={() => redirect(user?.email ? routes.dashboard : routes.home)}
                     />
                 </div>
             </div>

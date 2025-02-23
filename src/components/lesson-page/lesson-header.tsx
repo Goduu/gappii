@@ -3,10 +3,10 @@
 import { CircleX } from "lucide-react";
 import { redirect } from "next/navigation";
 import { routes } from "@/lib/routes";
-import { useUser } from "@clerk/nextjs";
 import { Card } from "../ui/card";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useUser } from "@/lib/useUser";
 
 type LessonHeaderProps = {
     topicTitle: string;
@@ -60,7 +60,7 @@ export const LessonHeader: React.FC<LessonHeaderProps> = ({
 
                     <CircleX
                         className="h-6 w-6 cursor-pointer text-muted-foreground hover:text-destructive transition-colors"
-                        onClick={() => redirect(user?.isSignedIn ? routes.dashboard : routes.home)}
+                        onClick={() => redirect(user?.email ? routes.dashboard : routes.home)}
                     />
                 </div>
             </div>

@@ -30,12 +30,12 @@ export const FilterBar: FC = () => {
   const removeTopic = () => {
     const params = new URLSearchParams(searchParams);
     params.delete('topic');
-    replace(`${pathname}?${params.toString()}`);
+    replace(`${pathname}?${params.toString()}`, { scroll: false });
   }
   const removeSubtopic = () => {
     const params = new URLSearchParams(searchParams);
     params.delete('subtopic');
-    replace(`${pathname}?${params.toString()}`);
+    replace(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
   return (

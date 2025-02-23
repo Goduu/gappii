@@ -5,7 +5,6 @@ import { routes } from "@/lib/routes"
 
 export function SignIn({
     provider,
-    ...props
 }: { provider?: string } & React.ComponentPropsWithRef<typeof Button>) {
     return (
         <form

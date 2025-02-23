@@ -16,7 +16,7 @@ type LearnInput2Props = {
     onClose?: () => void
 }
 
-export const LearnInput2 = ({ isOpen = false, onCreate, onClose }: LearnInput2Props) => {
+export const LearnInput = ({ isOpen = false, onCreate, onClose }: LearnInput2Props) => {
     const [isActive, setIsActive] = useState(isOpen)
     const [error, setError] = useState<string>("")
     const containerRef = useRef<HTMLDivElement>(null)
@@ -48,16 +48,16 @@ export const LearnInput2 = ({ isOpen = false, onCreate, onClose }: LearnInput2Pr
 
     return (
         <div className={cn(
-            "flex flex-col gap-4 items-center justify-center text-foreground p-4 transition-all duration-1000",
-            isActive ? "fixed inset-0 z-50 min-h-screen" : "relative"
+            "flex flex-col gap-4 items-center justify-center min-h-screen text-foreground p-4 transition-all duration-1000",
+            isActive ? "fixed inset-0 z-50" : "relative"
         )}>
             <div className={cn(
                 "absolute inset-0 bg-background opacity-0 scale-0 origin-center transition-all duration-500",
-                isActive && "opacity-95 scale-100 backdrop-blur-sm"
+                isActive && "opacity-95 scale-100 backdrop-blur"
             )} />
 
             <div className={cn(
-                "w-full max-w-3xl space-y-6 relative transition-all duration-500",
+                "w-full max-w-3xl mx-auto space-y-6 relative transition-all duration-500",
                 isActive && "z-20 scale-95"
             )}>
                 <h1 className={cn(
@@ -67,9 +67,9 @@ export const LearnInput2 = ({ isOpen = false, onCreate, onClose }: LearnInput2Pr
                     What do you want to learn?
                 </h1>
 
-                <div ref={containerRef} className="flex flex-col gap-4">
+                <div ref={containerRef} className="flex flex-col items-center w-full">
                     {isActive && (
-                        <div className="flex-1 overflow-y-auto space-y-4 max-h-96 overflow-x-scroll">
+                        <div className="flex-1 overflow-y-auto space-y-4 max-h-96 overflow-x-scroll w-full">
                             {messages.map((msg, index) => (
                                 <div key={index} className="space-y-2">
                                     {msg.type === 'user' ? (
@@ -106,7 +106,8 @@ export const LearnInput2 = ({ isOpen = false, onCreate, onClose }: LearnInput2Pr
                         isActive={isActive}
                         setIsActive={setIsActive}
                         setMessages={setMessages}
-                        setError={setError} />
+                        setError={setError}
+                    />
                 </div>
             </div>
         </div>

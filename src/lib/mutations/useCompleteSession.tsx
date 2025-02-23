@@ -1,7 +1,7 @@
 import { UPDATE_USER } from "@/lib/gqls/userGQLs";
 import { MutationUpdateUsersArgs } from "../../ogm-types";
 import { useMutation } from "@apollo/client";
-import { useUser } from "@clerk/nextjs";
+import { useUser } from "@/lib/useUser";
 import { isToday, isYesterday } from "@/lib/utils";
 import { SessionSummaryData } from "@/components/session/types";
 import { useUpdateAttemptedActivityCorrectedAt } from "./useUpdateLessonCompletionrecord";
@@ -13,7 +13,7 @@ type StreakUpdate = {
 };
 
 export const useCompleteSession = () => {
-    const { user } = useUser();
+    const user = useUser();
     const [updateUser] = useMutation(UPDATE_USER);
     const updateAttemptedActivityCorrectedAt = useUpdateAttemptedActivityCorrectedAt();
 
@@ -102,7 +102,7 @@ export const useCompleteSession = () => {
 
         await updateUser({
             variables: {
-                where: { clerkId: user?.id },
+                where: { email: user?.email },
                 update: {
                     completedSessions: [{
                         create: [createCompletedSessionNode(summary)]

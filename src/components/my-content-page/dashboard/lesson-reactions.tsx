@@ -2,7 +2,7 @@
 import { Crown, ThumbsUp } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import React, { FC } from 'react'
-import { useUser } from "@clerk/nextjs";
+import { useUser } from "@/lib/useUser";
 import { LessonReaction } from "../types";
 import clsx from "clsx";
 import { useReactToLesson } from "@/lib/mutations/userReactToLesson";
@@ -15,10 +15,10 @@ export type LessonReactionsProps = {
 
 export const LessonReactions: FC<LessonReactionsProps> = ({ lessonId, reaction }) => {
     const userData = useUser()
-    const reactToLesson = useReactToLesson(userData.user?.id || "", lessonId)
+    const reactToLesson = useReactToLesson(userData?.email || "", lessonId)
 
     const handleReact = async (type: NonNullable<LessonReaction>) => {
-        if (userData.user) await reactToLesson(reaction, type)
+        if (userData) await reactToLesson(reaction, type)
     }
 
     return (

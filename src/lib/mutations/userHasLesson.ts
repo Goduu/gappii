@@ -6,7 +6,7 @@ import { UPDATE_USER } from '../gqls/userGQLs';
 import { MutationUpdateUsersArgs } from '@/ogm-types';
 
 export const userHasLesson = async (
-    userId: string,
+    userEmail: string,
     lessonId: string,
     lessonPossession: LessonPossession,
 ) => {
@@ -17,7 +17,7 @@ export const userHasLesson = async (
         mutation: UPDATE_USER,
         variables: {
             where: {
-                clerkId: userId
+                email: userEmail
             },
             update: {
                 hasLessons: [{

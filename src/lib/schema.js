@@ -17,12 +17,20 @@ type Lesson @fulltext(indexes: [{ indexName: "LessonTitle", fields: ["title"] }]
   hasKeywords: [Keyword!]! @relationship(type: "HAS_KEYWORD", direction: OUT)
   hasActivities: [Activity!]! @relationship(type: "HAS_ACTIVITY", direction: OUT)
   wasReacted: [User!]! @relationship(type: "REACTED", properties: "Reacted", direction: IN)
+  hasSessionCompletions: [SessionCompletionRecord!]! @relationship(type: "FOR_LESSON", direction: IN)
   wasReactedCount: Int! @cypher(statement: "MATCH (this)-[:REACTED]-(u:User) RETURN COUNT(u) AS wasReactedCount", columnName: "wasReactedCount")
-
-  # Computed field: Completion percentage for a specific user
-  completionPercentage(clerkId: String!): Float @cypher(
+  attempts(email: String!): Float @cypher(
     statement: """
-    OPTIONAL MATCH (u:User {clerkId: $clerkId})-[:COMPLETED_SESSION]->(scr:SessionCompletionRecord)-[:FOR_LESSON]->(this)
+    MATCH (this)<-[:FOR_LESSON]-(scr:SessionCompletionRecord)<-[:COMPLETED_SESSION]-(u:User {email: $email})
+    WHERE scr.type = 'lesson'
+    RETURN COUNT(scr) AS attempts
+    """,
+    columnName: "attempts"
+  )
+  # Computed field: Completion percentage for a specific user
+  completionPercentage(email: String!): Float @cypher(
+    statement: """
+    OPTIONAL MATCH (u:User {email: $email})-[:COMPLETED_SESSION]->(scr:SessionCompletionRecord)-[:FOR_LESSON]->(this)
     WITH u, this, COLLECT(scr) AS completions
     WITH u, this, completions,
          [x IN completions WHERE x.mode = 'type-in'] AS typeInAttempts,
@@ -75,11 +83,42 @@ type Streak @node {
   lastActivityDate: DateTime!
 }
 
+type Session @node {
+  id: ID! @id
+  expires: DateTime!
+  sessionToken: String!
+  userId: String!
+}
+
+type VerificationToken @node {
+  identifier: String!
+  token: String!
+  expires: DateTime!
+}
+
+type Account @node {
+  id: ID! @id
+  userId: String!
+  type: String!
+  provider: String!
+  providerAccountId: String!
+  refresh_token: String
+  access_token: String
+  expires_at: Int
+  token_type: String
+  scope: String
+  id_token: String
+  session_state: String
+}
+
 type User @node {
   id: ID! @id
-  clerkId: String!
+  name: String
   email: String! @unique(constraintName: "UserEmailUnique")
-  imageUrl: String
+  emailVerified: Boolean!
+  image: String
+  hasAccount: Account! @relationship(type: "HAS_ACCOUNT", direction: OUT)
+  hasSession: Session! @relationship(type: "HAS_SESSION", direction: OUT)
   hasLessons: [Lesson!]! @relationship(type: "HAS_LESSON",properties: "HasLesson", direction: OUT)
   reactedToLessons: [Lesson!]! @relationship(type: "REACTED", properties: "Reacted", direction: OUT)
   reportedActivities: [Activity!]! @relationship(type: "REPORTED", direction: OUT)
@@ -218,6 +257,31 @@ type HasPath @relationshipProperties {
 // CREATE CONSTRAINT UserEmailUnique FOR (u:User) REQUIRE u.email IS UNIQUE;
 // CREATE FULLTEXT INDEX LessonTitle FOR (l:Lesson) ON EACH [l.title];
 // CREATE FULLTEXT INDEX TopicTitle FOR (t:Topic) ON EACH [t.title];
+// CREATE CONSTRAINT UserIdConstraint IF NOT EXISTS
+// ON (u:User) ASSERT u.id IS UNIQUE;
+ 
+// CREATE INDEX UserIdIndex IF NOT EXISTS
+// FOR (u:User) ON (u.id);
+ 
+// CREATE INDEX UserEmailIndex IF NOT EXISTS
+// FOR (u:User) ON (u.email);
+ 
+// CREATE CONSTRAINT SessionTokenUnique IF NOT EXISTS
+// FOR (s:Session) REQUIRE s.sessionToken IS UNIQUE;
+ 
+// CREATE INDEX SessionTokenIndex IF NOT EXISTS
+// FOR (s:Session) ON (s.sessionToken);
 
+// CREATE INDEX AccountProviderIndex IF NOT EXISTS
+// FOR (a:Account) ON (a.provider);
+ 
+// CREATE INDEX AccountProviderAccountIdIndex IF NOT EXISTS
+// FOR (a:Account) ON (a.providerAccountId);
+ 
+// CREATE INDEX VerificationTokenIdentifierIndex IF NOT EXISTS
+// FOR (v:VerificationToken) ON (v.identifier);
+ 
+// CREATE INDEX VerificationTokenTokenIndex IF NOT EXISTS
+// FOR (v:VerificationToken) ON (v.token);
 
 module.exports = { typeDefs }

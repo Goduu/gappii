@@ -1,10 +1,10 @@
+import UserButton from "@/components/auth/user-button"
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { UserButton } from "@clerk/nextjs"
 import { routes } from "@/lib/routes"
 import { LayoutDashboard, Home, Users, Route, Menu } from "lucide-react"
 

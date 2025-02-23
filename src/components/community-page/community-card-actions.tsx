@@ -6,7 +6,6 @@ import { redirect } from 'next/navigation'
 import { routes } from '@/lib/routes'
 import { Play } from 'lucide-react'
 import { useTransitionContext } from '../loading-store'
-import { useUser } from '@clerk/nextjs'
 import { Lesson } from '@/ogm-types'
 import { AddLessonToLibrary } from './add-lesson-to-library-dialog'
 
@@ -16,7 +15,9 @@ type CommunityCardActionsProps = {
 
 export const CommunityCardActions: FC<CommunityCardActionsProps> = ({ lesson }) => {
     const { startTransition } = useTransitionContext()
-    const userData = useUser()
+    // const userData = useUser()
+    const userData = { user: { id: "xongas" }, isSignedIn: true }
+
 
     const handlePlay = () => {
         startTransition(() => { if (lesson.id) redirect(routes.testLesson(lesson.id)) })

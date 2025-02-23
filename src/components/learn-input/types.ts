@@ -1,24 +1,31 @@
-import { SupportedLanguage } from '@/app/types'
-import { Option } from '../ui/autocomplete'
-
-export interface TopicSelectorProps {
-    topic: Option | null
-    onRemove: () => void
-    onClick: () => void
+export type TopicsOption = {
+    topic: string;
+    subtopic?: string;
+    value?: string;
 }
 
-export interface SubTopicSelectorProps {
-    subTopic: Option | null
-    onRemove: () => void
-    onClick: () => void
+export type Message = {
+    id: string;
+    type: 'user' | 'assistant' | 'options' | 'loading';
+    content?: string;
+    options?: TopicsOption[];
 }
+
+export type MessageUser = {
+    type: 'user',
+    mode: 'input',
+    content: string,
+    nextStepId: string,
+}
+
+export type MessageHandlerProps = {
+    messages: Message[];
+    setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
+    setError: (error: string) => void;
+}
+
 
 export interface LevelSelectorProps {
     level?: string
     onLevelChange: (level: string) => void
-}
-
-export interface LanguageSelectorProps {
-    language?: SupportedLanguage
-    onLanguageChange: (language: SupportedLanguage) => void
 }

@@ -4,7 +4,6 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { SignInButton, UserButton } from "@clerk/nextjs"
 import { Lightbulb, LogIn } from "lucide-react"
 import { routes } from "@/lib/routes"
 import { Home, Users } from "lucide-react"
@@ -15,12 +14,9 @@ import React from 'react'
 export const LoggedOutMenu = () => {
     return (
         <div className="flex gap-2 flex-col items-center">
-            <SignInButton mode="modal">
-                <div className="rounded-full aspect-square outline p-1 hover:bg-gray-100 cursor-pointer">
-                    <LogIn size={18} />
-                </div>
-            </SignInButton>
-            <UserButton />
+            <div className="rounded-full aspect-square outline p-1 hover:bg-gray-100 cursor-pointer">
+                <LogIn size={18} />
+            </div>
             <DropdownMenu>
                 <DropdownMenuTrigger className="rounded-full aspect-square outline outline-gray-200 p-1 hover:bg-gray-100 cursor-pointer">
                     <Lightbulb size={18} />

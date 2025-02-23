@@ -5,8 +5,8 @@ import React, { FC } from 'react'
 import { MutationUpdateUsersArgs } from "../../ogm-types";
 import { useMutation } from "@apollo/client";
 import { GET_USER_REPORTED_ACTIVITIES, UPDATE_USER } from "@/lib/gqls/userGQLs";
-import { useUser } from "@clerk/nextjs";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { useUser } from "@/lib/useUser";
 
 export type ActivityReactionsProps = {
     activityId: string
@@ -23,7 +23,7 @@ export const ActivityReactions: FC<ActivityReactionsProps> = ({ activityId, repo
         updateUserReactionMutation({
             variables: {
                 where: {
-                    clerkId: userData.user?.id
+                    email: userData?.email
                 },
                 update: {
                     reportedActivities: [

@@ -5,8 +5,13 @@ import { GET_USER_STATISTICS } from '../gqls/userGQLs';
 import { QueryUsersArgs, User } from '@/ogm-types';
 
 export const getUserStatistics = async (
-    userId: string,
+    email?: string | null,
 ) => {
+    if (!email) return {
+        streak: undefined,
+        lessonsCreatedCount: 0,
+        createdLessonsInteractionsCount: 0
+    }
 
     try {
 
@@ -16,7 +21,7 @@ export const getUserStatistics = async (
             query: GET_USER_STATISTICS,
             variables: {
                 where: {
-                    clerkId: userId,
+                    email: email,
                 },
             } satisfies QueryUsersArgs,
         })

@@ -11,6 +11,7 @@ type DashboardPageProps = {
 }
 
 export const DashboardPage: FC<DashboardPageProps> = ({ searchParams }) => {
+
     return (
         <div className='flex flex-col gap-10 w-full'>
             <div className='flex items-center w-full gap-4'>

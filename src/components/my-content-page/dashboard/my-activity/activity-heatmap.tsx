@@ -1,11 +1,12 @@
+"use client"
 import React from 'react';
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, Cell } from 'recharts';
 import { useQuery } from '@apollo/client';
 import { GET_USER_DAILY_ACTIVITY } from '@/lib/gqls/userGQLs';
-import { useUser } from '@clerk/nextjs';
 import { QueryUsersArgs } from '@/ogm-types';
 import { ChartConfig, ChartContainer } from "@/components/ui/chart"
 import { Props as ScatterProps } from 'recharts/types/cartesian/Scatter';
+import { useUser } from '@/lib/useUser';
 
 type ActivityData = {
     date: string;
@@ -78,10 +79,10 @@ const RoundedSquare: ScatterProps['shape'] = (props: RoundedSquareProps) => {
 };
 
 export const ActivityHeatmap = () => {
-    const { user } = useUser();
+    const user = useUser();
     const { data: activityData } = useQuery(GET_USER_DAILY_ACTIVITY, {
-        variables: { where: { clerkId: user?.id } } satisfies QueryUsersArgs,
-        skip: !user?.id
+        variables: { where: { email: user?.email } } satisfies QueryUsersArgs,
+        skip: !user
     });
 
     const baseData = generateEmptyData();
@@ -118,7 +119,7 @@ export const ActivityHeatmap = () => {
                 width={420}
                 height={120}
             >
-                <CartesianGrid strokeDasharray="30 30" vertical={false} horizontal={false}/>
+                <CartesianGrid strokeDasharray="30 30" vertical={false} horizontal={false} />
                 <XAxis
                     type="number"
                     dataKey="week"
@@ -140,7 +141,7 @@ export const ActivityHeatmap = () => {
                     cursor="none"
                 />
                 <Tooltip
-                cursor={false}
+                    cursor={false}
                     content={({ payload }) => {
                         if (!payload?.[0]?.payload) return null;
                         const data = payload[0].payload as ActivityData;

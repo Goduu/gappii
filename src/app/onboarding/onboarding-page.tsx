@@ -13,7 +13,7 @@ import { TermsCard } from './terms-card';
 import { LoadingAnimation } from '@/components/loading-animation';
 import { SessionProgressManager } from '@/components/session/session-progress-manager';
 import { LessonSessionData } from '@/components/session/types';
-import { LearnInput2 } from '@/components/learn-input/2.0/learn-input2';
+import { LearnInput } from '@/components/learn-input/learn-input';
 
 const OnboardingFlow = () => {
     const [currentStep, setCurrentStep] = useState(1);
@@ -47,7 +47,7 @@ const OnboardingFlow = () => {
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <LearnInput2 onCreate={handleAfterLessonCreation} />
+                            <LearnInput onCreate={handleAfterLessonCreation} />
                         </CardContent>
                     </Card>
                 );

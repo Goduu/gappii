@@ -4,7 +4,6 @@ import { Copy, BookMarked, Languages } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
 import { LanguageSelector } from '../learn-input/language-selector'
 import { Card, CardContent, CardDescription } from '../ui/card'
-import { useUser } from "@clerk/nextjs"
 import { redirect } from "next/navigation"
 import { routes } from "@/lib/routes"
 import { userHasLesson } from "@/lib/mutations/userHasLesson"
@@ -16,6 +15,7 @@ import { translateLesson } from "@/lib/translateLesson"
 import { getLessonByIdToTranslate } from '@/lib/queries/getLessonByIdToTranslate'
 import { useSaveTranslatedLesson } from '@/lib/mutations/useSaveTranslatedLesson'
 import { useTransitionContext } from '../loading-store'
+import { useUser } from '@/lib/useUser'
 
 type AddLessonToLibraryContentProps = {
     lesson: Lesson
@@ -33,7 +33,7 @@ export const AddLessonToLibraryContent: FC<AddLessonToLibraryContentProps> = ({ 
 
     const handleAdd = () => {
         startTransition(async () => {
-            if (userData.user?.id) await userHasLesson(userData.user?.id, lesson.id!, "ADDED")
+            if (userData?.email) await userHasLesson(userData?.email, lesson.id!, "ADDED")
             toast({
                 title: "Lesson added",
                 description: "The lesson has been added to your library (just reading)",
@@ -44,7 +44,7 @@ export const AddLessonToLibraryContent: FC<AddLessonToLibraryContentProps> = ({ 
 
     const handleCopy = () => {
         startTransition(async () => {
-            if (userData.user?.id) await userHasLesson(userData.user?.id, lesson.id!, "COPIED")
+            if (userData?.email) await userHasLesson(userData?.email, lesson.id!, "COPIED")
             toast({
                 title: "Lesson copied",
                 description: "The lesson has been copied to your library"
@@ -66,7 +66,7 @@ export const AddLessonToLibraryContent: FC<AddLessonToLibraryContentProps> = ({ 
         startTransition(async () => {
             const lessonToTranslate = await getLessonByIdToTranslate(lesson.id!)
 
-            if (userData.user?.id) {
+            if (userData?.email) {
                 const translatedLesson = await translateLesson(lessonToTranslate, selectedLanguage, handleError)
 
                 if (translatedLesson) {

@@ -1,11 +1,11 @@
 import { DialogHeader, DialogTitle, DialogContent } from "@/components/ui/dialog"
 import { PathLessonStatistics } from "./path-lesson-statistics"
-import { AddLessonCard } from "../paths-details/add-lesson-card"
+import { AddLessonCard } from "./add-lesson-card"
 import { Check, Pencil, Plus } from "lucide-react"
 import { Lesson, Path } from "@/ogm-types"
 import { useState } from "react"
 import { useUpdatePath } from "@/lib/mutations/useUpdatePath"
-import { PathCircle } from "../paths-details/path-circle"
+import { PathCircle } from "./path-circle"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ColorPicker } from "@/components/ui/color-picker/color-picker"
@@ -17,13 +17,13 @@ import { useCreatePath } from "@/lib/mutations/useCreatePath"
 type PathDetailsContentProps = {
     path?: Path | null
     lessons: Lesson[]
-    mode: 'create' | 'edit'
+    mode: 'view' | 'edit'
     onClose?: () => void
 }
 
 export const PathDetailsContent = ({ path, lessons, mode = 'edit', onClose }: PathDetailsContentProps) => {
     const [isAddingLesson, setIsAddingLesson] = useState(false)
-    const [isEditing, setIsEditing] = useState(mode === 'create')
+    const [isEditing, setIsEditing] = useState(mode === 'edit')
     const [title, setTitle] = useState(path?.title ?? "")
     const [color, setColor] = useState(path?.color ?? "amber")
     const [icon, setIcon] = useState(path?.icon ? getIconMetadataFromLabel(path.icon) : iconMetadata[0])
@@ -36,7 +36,7 @@ export const PathDetailsContent = ({ path, lessons, mode = 'edit', onClose }: Pa
         if (!title || !color || !icon) return
 
         startTransition(async () => {
-            if (mode === 'create') {
+            if (!isEditing) {
                 await createPath({
                     title,
                     color,
@@ -59,21 +59,20 @@ export const PathDetailsContent = ({ path, lessons, mode = 'edit', onClose }: Pa
         <DialogContent className="max-h-screen overflow-scroll py-16 gap-4">
             <DialogHeader>
                 <DialogTitle>
-                    {isEditing ? (
+                    <div className="h-10">
+                        {path?.title || "Create Path"}
+                    </div>
+                    {isEditing && (
                         <Input
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             placeholder="Path Title"
                         />
-                    ) : (
-                        <div className="h-10">
-                            {path?.title}
-                        </div>
                     )}
                 </DialogTitle>
             </DialogHeader>
             <div className="relative">
-                {mode === 'edit' && (
+                {path?.id && (
                     <Button variant="outline" size="icon"
                         className="absolute top-1 right-1"
                         onClick={() => setIsEditing(!isEditing)}>
@@ -104,7 +103,7 @@ export const PathDetailsContent = ({ path, lessons, mode = 'edit', onClose }: Pa
             <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-2">
                     <div className="flex flex-wrap gap-3">
-                        {mode === 'edit' && path && path?.withLessons?.map((lesson) => (
+                        {path && path?.withLessons?.map((lesson) => (
                             <PathLessonStatistics key={lesson.id} lesson={lesson} />
                         ))}
                         {isAddingLesson ? (
@@ -130,7 +129,7 @@ export const PathDetailsContent = ({ path, lessons, mode = 'edit', onClose }: Pa
                     </div>
                 </div>
                 <Button onClick={handleSave}>
-                    {mode === 'create' ? 'Create Path' : 'Save Changes'}
+                    {isEditing || path?.id ? 'Save Changes' : 'Create Path'}
                 </Button>
             </div>
         </DialogContent>

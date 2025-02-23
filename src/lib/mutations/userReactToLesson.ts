@@ -5,7 +5,7 @@ import { MutationUpdateUsersArgs, UserHasLessonsConnectionWhere, UserWhere } fro
 import { useMutation } from '@apollo/client';
 
 export const useReactToLesson = (
-    userId: string,
+    userEmail: string,
     lessonId: string,
 ) => {
     const [reactToLesson] = useMutation(UPDATE_USER)
@@ -16,7 +16,7 @@ export const useReactToLesson = (
     ) => reactToLesson({
         variables: {
             where: {
-                clerkId: userId
+                email: userEmail
             },
             update: {
                 reactedToLessons: [{
@@ -38,7 +38,7 @@ export const useReactToLesson = (
             query: GET_USER_LESSONS,
             variables: {
                 where: {
-                    clerkId: userId
+                    email: userEmail
                 } satisfies UserWhere,
                 lessonWhere: {
                     node: {

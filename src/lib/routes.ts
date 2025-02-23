@@ -9,5 +9,6 @@ export const routes = {
     content: '/logged-in/content',
     community: '/community',
     paths: '/logged-in/paths',
-    path: (pathId: string) => `/logged-in/paths/${pathId}`
+    path: (pathId: string) => `/logged-in/paths/${pathId}`,
+    login: '/login'
 }

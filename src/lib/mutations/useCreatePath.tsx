@@ -1,3 +1,4 @@
+"use client"
 import { useMutation } from "@apollo/client";
 import { GET_USER_PATHS_AND_LESSONS, UPDATE_USER } from "../gqls/userGQLs";
 import { useUser } from "@/lib/useUser";

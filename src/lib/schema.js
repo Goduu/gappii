@@ -116,6 +116,8 @@ type User @node {
   name: String
   email: String! @unique(constraintName: "UserEmailUnique")
   emailVerified: Boolean!
+  termsAcceptedAt: DateTime
+  isOnboarded: Boolean!
   image: String
   hasAccount: Account! @relationship(type: "HAS_ACCOUNT", direction: OUT)
   hasSession: Session! @relationship(type: "HAS_SESSION", direction: OUT)
@@ -252,13 +254,13 @@ type HasPath @relationshipProperties {
 
 
 // constraints:
-// CREATE CONSTRAINT KeywordNameUnique FOR (k:Keyword) REQUIRE k.name IS UNIQUE;
-// CREATE CONSTRAINT TopicTitleUnique FOR (t:Topic) REQUIRE t.title IS UNIQUE;
-// CREATE CONSTRAINT UserEmailUnique FOR (u:User) REQUIRE u.email IS UNIQUE;
-// CREATE FULLTEXT INDEX LessonTitle FOR (l:Lesson) ON EACH [l.title];
-// CREATE FULLTEXT INDEX TopicTitle FOR (t:Topic) ON EACH [t.title];
+// CREATE CONSTRAINT KeywordNameUnique IF NOT EXISTS FOR (k:Keyword) REQUIRE k.name IS UNIQUE;
+// CREATE CONSTRAINT TopicTitleUnique IF NOT EXISTS FOR (t:Topic) REQUIRE t.title IS UNIQUE;
+// CREATE CONSTRAINT UserEmailUnique IF NOT EXISTS FOR (u:User) REQUIRE u.email IS UNIQUE;
+// CREATE FULLTEXT INDEX LessonTitle IF NOT EXISTS FOR (l:Lesson) ON EACH [l.title];
+// CREATE FULLTEXT INDEX TopicTitle IF NOT EXISTS FOR (t:Topic) ON EACH [t.title];
 // CREATE CONSTRAINT UserIdConstraint IF NOT EXISTS
-// ON (u:User) ASSERT u.id IS UNIQUE;
+// FOR (u:User) REQUIRE u.id IS UNIQUE;
  
 // CREATE INDEX UserIdIndex IF NOT EXISTS
 // FOR (u:User) ON (u.id);

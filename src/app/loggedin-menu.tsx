@@ -1,61 +1,14 @@
 import UserButton from "@/components/auth/user-button"
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { routes } from "@/lib/routes"
-import { LayoutDashboard, Home, Users, Route, Menu } from "lucide-react"
 
 import React from 'react'
-
+import { LoggedInDropdownMenu } from "./loggedin-dropdown-menu"
 
 export const LoggedInMenu = () => {
+
     return (
         <div className="flex gap-2 flex-col items-center justify-center">
-            <div className="min-h-9 min-w-7">
-                <UserButton />
-            </div>
-            <DropdownMenu>
-                <DropdownMenuTrigger className="rounded-full aspect-square outline outline-gray-200 p-1 hover:bg-gray-100 cursor-pointer">
-                    <Menu size={22} />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                    {items.map(item => (
-                        <DropdownMenuItem key={item.title} >
-                            <a href={item.url} className="flex items-center gap-1 w-full">
-                                <item.icon />
-                                <span>{item.title}</span>
-                            </a>
-                        </DropdownMenuItem>
-                    ))}
-                </DropdownMenuContent>
-            </DropdownMenu>
+            <UserButton />
+            <LoggedInDropdownMenu />
         </div>
     )
 }
-
-const items = [
-    {
-        title: "Home",
-        url: routes.home,
-        icon: Home,
-    },
-    {
-        title: "My Paths",
-        url: routes.paths,
-        icon: Route,
-    },
-    {
-        title: "My Dashboard",
-        url: routes.dashboard,
-        icon: LayoutDashboard,
-    },
-    {
-        title: "Community Lessons",
-        url: routes.community,
-        icon: Users,
-    },
-
-]

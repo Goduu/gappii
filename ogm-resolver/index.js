@@ -31,10 +31,10 @@ async function main() {
       outFile,
     })
 
-    console.log("Types Generated")
+    console.info("Types Generated")
 
   } catch (error) {
-    console.log("error", error)
+    console.error("error", error)
   }
   await ogm.init()
 
@@ -50,7 +50,7 @@ async function main() {
   //   }),
   // })
 
-  // console.log(`🚀 Server ready at ${url}`)
+  // console.info(🚀 Server ready at ${url}`)
 }
 
 main()

@@ -1,9 +1,9 @@
+"use client"
 import { User } from "@/ogm-types"
 import { useQuery } from "@apollo/client"
 import { GET_USER_PATHS_AND_LESSONS } from "../gqls/userGQLs"
 import { useEffect } from "react"
 import { useUser } from "../useUser"
-
 
 export const useUserPathsAndLessons = () => {
     const user = useUser()

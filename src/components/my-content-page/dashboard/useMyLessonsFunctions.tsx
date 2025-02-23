@@ -1,3 +1,4 @@
+"use client"
 import { useUser } from "@/lib/useUser";
 import { useEffect, useState } from "react";
 import { useFilter } from "./filter-hooks";

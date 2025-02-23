@@ -1,3 +1,4 @@
+"use client"
 import { UPDATE_USER } from "@/lib/gqls/userGQLs";
 import { MutationUpdateUsersArgs } from "../../ogm-types";
 import { useMutation } from "@apollo/client";

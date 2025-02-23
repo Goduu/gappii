@@ -58,11 +58,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+  auth,
+}: {
+  children: React.ReactNode
+  auth: React.ReactNode
+}) {
+
   return (
     <html lang="en">
       <head>
@@ -74,26 +77,27 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col flex-1`}
       >
-        <TransitionProvider>
-          <TooltipProvider>
-            <Toaster />
-            <div className="items-center justify-items-center max-w-screen w-screen bg-linear-to-b from-slate-50 to-white p-4 md:p-8 md:min-w-[580px] pb-20 gap-16  font-[family-name:var(--font-geist-sans)]">
-              <main className="flex flex-col gap-8 row-start-2 items-center w-full">
-                <SessionProvider>
+        <SessionProvider>
+          <TransitionProvider>
+            <TooltipProvider>
+              <Toaster />
+              <div className="items-center justify-items-center max-w-screen w-screen bg-linear-to-b from-slate-50 to-white p-4 md:p-8 md:min-w-[580px] pb-20 gap-16  font-[family-name:var(--font-geist-sans)]">
+                <main className="flex flex-col gap-8 row-start-2 items-center w-full">
                   <ApolloWrapper >
                     {children}
+                    {auth}
                     <Analytics />
                     <SpeedInsights />
                   </ApolloWrapper>
-                </SessionProvider>
-                <div className="absolute left-4 top-4">
-                  {/* <LoggedOutMenu /> */}
-                  <LoggedInMenu />
-                </div>
-              </main>
-            </div>
-          </TooltipProvider>
-        </TransitionProvider>
+                  <div className="absolute left-4 top-4">
+                    {/* <LoggedOutMenu /> */}
+                    <LoggedInMenu />
+                  </div>
+                </main>
+              </div>
+            </TooltipProvider>
+          </TransitionProvider>
+        </SessionProvider>
         <footer className="flex items-center justify-center mt-auto pb-4">
           <Footer />
         </footer>

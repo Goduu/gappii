@@ -1,3 +1,4 @@
+"use client"
 import { formatTime } from "@/lib/utils";
 import { routes } from "@/lib/routes";
 import { useRouter } from "next/navigation";

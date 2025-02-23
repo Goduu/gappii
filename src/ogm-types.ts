@@ -1212,6 +1212,7 @@ export type LessonUserWasReactedNodeAggregateSelection = {
   id: IdAggregateSelection;
   name: StringAggregateSelection;
   email: StringAggregateSelection;
+  termsAcceptedAt: DateTimeAggregateSelection;
   image: StringAggregateSelection;
 };
 
@@ -1631,6 +1632,7 @@ export type SessionCompletionRecordUserByUserNodeAggregateSelection = {
   id: IdAggregateSelection;
   name: StringAggregateSelection;
   email: StringAggregateSelection;
+  termsAcceptedAt: DateTimeAggregateSelection;
   image: StringAggregateSelection;
 };
 
@@ -1802,6 +1804,8 @@ export type User = {
   name?: Maybe<Scalars["String"]["output"]>;
   email: Scalars["String"]["output"];
   emailVerified: Scalars["Boolean"]["output"];
+  termsAcceptedAt?: Maybe<Scalars["DateTime"]["output"]>;
+  isOnboarded: Scalars["Boolean"]["output"];
   image?: Maybe<Scalars["String"]["output"]>;
   mistakenActivitiesCount: Scalars["Int"]["output"];
   mistakenActivities: Array<MistakenActivity>;
@@ -2030,6 +2034,7 @@ export type UserAggregateSelection = {
   id: IdAggregateSelection;
   name: StringAggregateSelection;
   email: StringAggregateSelection;
+  termsAcceptedAt: DateTimeAggregateSelection;
   image: StringAggregateSelection;
 };
 
@@ -4508,6 +4513,26 @@ export type LessonWasReactedNodeAggregationWhereInput = {
   email_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   email_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  termsAcceptedAt_EQUAL?: InputMaybe<Scalars["DateTime"]["input"]>;
+  termsAcceptedAt_MIN_EQUAL?: InputMaybe<Scalars["DateTime"]["input"]>;
+  termsAcceptedAt_MAX_EQUAL?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  termsAcceptedAt_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  termsAcceptedAt_MIN_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  termsAcceptedAt_MAX_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  termsAcceptedAt_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  termsAcceptedAt_MIN_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  termsAcceptedAt_MAX_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  termsAcceptedAt_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  termsAcceptedAt_MIN_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  termsAcceptedAt_MAX_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  termsAcceptedAt_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  termsAcceptedAt_MIN_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  termsAcceptedAt_MAX_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
   image_EQUAL?: InputMaybe<Scalars["String"]["input"]>;
   /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
   image_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
@@ -5987,6 +6012,26 @@ export type SessionCompletionRecordByUserNodeAggregationWhereInput = {
   email_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   email_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]["input"]>;
   /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  termsAcceptedAt_EQUAL?: InputMaybe<Scalars["DateTime"]["input"]>;
+  termsAcceptedAt_MIN_EQUAL?: InputMaybe<Scalars["DateTime"]["input"]>;
+  termsAcceptedAt_MAX_EQUAL?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  termsAcceptedAt_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  termsAcceptedAt_MIN_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  termsAcceptedAt_MAX_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  termsAcceptedAt_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  termsAcceptedAt_MIN_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  termsAcceptedAt_MAX_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  termsAcceptedAt_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  termsAcceptedAt_MIN_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  termsAcceptedAt_MAX_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  termsAcceptedAt_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  termsAcceptedAt_MIN_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  termsAcceptedAt_MAX_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
   image_EQUAL?: InputMaybe<Scalars["String"]["input"]>;
   /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
   image_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]["input"]>;
@@ -7271,6 +7316,8 @@ export type UserCreateInput = {
   name?: InputMaybe<Scalars["String"]["input"]>;
   email: Scalars["String"]["input"];
   emailVerified: Scalars["Boolean"]["input"];
+  termsAcceptedAt?: InputMaybe<Scalars["DateTime"]["input"]>;
+  isOnboarded: Scalars["Boolean"]["input"];
   image?: InputMaybe<Scalars["String"]["input"]>;
   hasAccount?: InputMaybe<UserHasAccountFieldInput>;
   hasSession?: InputMaybe<UserHasSessionFieldInput>;
@@ -8762,6 +8809,8 @@ export type UserOnCreateInput = {
   name?: InputMaybe<Scalars["String"]["input"]>;
   email: Scalars["String"]["input"];
   emailVerified: Scalars["Boolean"]["input"];
+  termsAcceptedAt?: InputMaybe<Scalars["DateTime"]["input"]>;
+  isOnboarded: Scalars["Boolean"]["input"];
   image?: InputMaybe<Scalars["String"]["input"]>;
 };
 
@@ -9380,6 +9429,8 @@ export type UserSort = {
   name?: InputMaybe<SortDirection>;
   email?: InputMaybe<SortDirection>;
   emailVerified?: InputMaybe<SortDirection>;
+  termsAcceptedAt?: InputMaybe<SortDirection>;
+  isOnboarded?: InputMaybe<SortDirection>;
   image?: InputMaybe<SortDirection>;
   mistakenActivitiesCount?: InputMaybe<SortDirection>;
   createdLessonsInteractionsCount?: InputMaybe<SortDirection>;
@@ -9393,6 +9444,8 @@ export type UserUpdateInput = {
   name?: InputMaybe<Scalars["String"]["input"]>;
   email?: InputMaybe<Scalars["String"]["input"]>;
   emailVerified?: InputMaybe<Scalars["Boolean"]["input"]>;
+  termsAcceptedAt?: InputMaybe<Scalars["DateTime"]["input"]>;
+  isOnboarded?: InputMaybe<Scalars["Boolean"]["input"]>;
   image?: InputMaybe<Scalars["String"]["input"]>;
   hasAccount?: InputMaybe<UserHasAccountUpdateFieldInput>;
   hasSession?: InputMaybe<UserHasSessionUpdateFieldInput>;
@@ -9455,6 +9508,23 @@ export type UserWhere = {
   emailVerified?: InputMaybe<Scalars["Boolean"]["input"]>;
   /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
   emailVerified_NOT?: InputMaybe<Scalars["Boolean"]["input"]>;
+  termsAcceptedAt?: InputMaybe<Scalars["DateTime"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  termsAcceptedAt_NOT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  termsAcceptedAt_IN?: InputMaybe<
+    Array<InputMaybe<Scalars["DateTime"]["input"]>>
+  >;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  termsAcceptedAt_NOT_IN?: InputMaybe<
+    Array<InputMaybe<Scalars["DateTime"]["input"]>>
+  >;
+  termsAcceptedAt_LT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  termsAcceptedAt_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  termsAcceptedAt_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
+  termsAcceptedAt_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
+  isOnboarded?: InputMaybe<Scalars["Boolean"]["input"]>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  isOnboarded_NOT?: InputMaybe<Scalars["Boolean"]["input"]>;
   image?: InputMaybe<Scalars["String"]["input"]>;
   /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
   image_NOT?: InputMaybe<Scalars["String"]["input"]>;
@@ -10151,6 +10221,7 @@ export interface UserAggregateSelectionInput {
   id?: boolean;
   name?: boolean;
   email?: boolean;
+  termsAcceptedAt?: boolean;
   image?: boolean;
 }
 

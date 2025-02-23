@@ -9,6 +9,9 @@ import { MessageBubble } from "./message-bubble"
 import { ShowMoreOption } from "./show-more-option"
 import { InputBox } from "./input-box"
 import { useDetectOutsideClick } from "@/lib/utilitary-hooks/useDetectOutsideClick"
+import Link from "next/link"
+import { routes } from "@/lib/routes"
+import { Button } from "../ui/button"
 
 type LearnInput2Props = {
     isOpen?: boolean
@@ -48,7 +51,7 @@ export const LearnInput = ({ isOpen = false, onCreate, onClose }: LearnInput2Pro
 
     return (
         <div className={cn(
-            "flex flex-col gap-4 items-center justify-center min-h-screen text-foreground p-4 transition-all duration-1000",
+            "flex flex-col gap-4 items-center justify-center text-foreground p-4 transition-all duration-1000",
             isActive ? "fixed inset-0 z-50" : "relative"
         )}>
             <div className={cn(

@@ -13,7 +13,7 @@ export const cleanTopic = (topic: string) => {
   });
 
   if (matcherEn.hasMatch(topic)) {
-    console.log('The input text contains profanities.');
+    console.info('The input text contains profanities.');
   } else {
 
     return trimmed

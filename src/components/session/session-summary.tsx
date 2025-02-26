@@ -51,7 +51,7 @@ export const SessionSummary: React.FC<SessionSummaryProps> = ({ summary, isOnboa
     }, [completeLesson, isOnboarding, isPending, summary, user]);
 
     const handleFinish = () => {
-        router.push(routes.dashboard);
+        router.push(routes.mylessons);
     }
 
     return (

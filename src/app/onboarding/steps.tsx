@@ -40,7 +40,7 @@ export const onboardingSteps: PageSteps = {
             </div >
         ),
     }],
-    [routes.dashboard]: [{
+    [routes.mylessons]: [{
         selector: '#ob-statistics',
         instructionContent: "Here you can see your statistics and progress."
     }, {

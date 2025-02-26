@@ -11,7 +11,7 @@ export const LessonLevel = ({ level }: LessonLevelProps) => {
     return (
         <Tooltip>
             <TooltipTrigger asChild>
-                <div className='absolute left-4 bottom-5 z-10 border rounded-full w-7 aspect-square flex items-center justify-center'>
+                <div className='absolute left-4 bottom-4 z-10 border rounded-full w-7 aspect-square flex items-center justify-center'>
                     {level === 1
                         ? <TbStar className='w-3' /> : level === 2
                             ?

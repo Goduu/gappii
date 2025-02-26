@@ -1,0 +1,41 @@
+import { EditLessonForm } from '@/components/my-content-page/my-lessons/edit-lesson/edit-lesson-form'
+import { PageTitle } from '@/components/ui/page-title'
+import { Skeleton } from '@/components/ui/skeleton'
+import { getApolloClient } from '@/lib/getApolloClient'
+import { GET_LESSON_ACTIVITIES } from '@/lib/gqls/lessonGQLs'
+import { Lesson, QueryLessonsArgs } from '@/ogm-types'
+import React, { FC, Suspense } from 'react'
+
+type CardsProps = {
+    params: Promise<{
+        lessonId: string,
+    }>
+}
+
+const EditLessonPage: FC<CardsProps> = async ({ params }) => {
+    const { lessonId } = await params
+
+    const client = getApolloClient();
+    const { data } = await client.query<{ lessons: Lesson[] }>({
+        query: GET_LESSON_ACTIVITIES,
+        variables: {
+            where: {
+                id: lessonId
+            }
+        } satisfies QueryLessonsArgs
+    })
+
+    const lesson = data?.lessons[0]
+
+    if (!lesson.id) return <div>Lesson not found</div>
+
+    return (
+        <div className='flex flex-col gap-4 w-full'>
+            <PageTitle title="Edit Lesson" />
+            <Suspense fallback={<Skeleton className='w-80 h-64' />}>
+                <EditLessonForm lesson={lesson} />
+            </Suspense>
+        </div>
+    )
+}
+export default EditLessonPage

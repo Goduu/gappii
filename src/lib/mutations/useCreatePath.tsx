@@ -15,17 +15,22 @@ export const useCreatePath = () => {
     const createPath = async (newPath: Pick<Path, "title" | "icon" | "color">) => {
         if (!user) return;
 
-        // Connect the path to the user
-        await updateUserMutation({
-            variables: {
-                where: { email: user.email },
-                update: {
-                    hasPaths: [{
-                        create: [{ node: newPath }]
-                    }]
-                }
-            } satisfies MutationUpdateUsersArgs
-        });
+        try {
+            // Connect the path to the user
+            await updateUserMutation({
+                variables: {
+                    where: { email: user.email },
+                    update: {
+                        hasPaths: [{
+                            create: [{ node: newPath }]
+                        }]
+                    }
+                } satisfies MutationUpdateUsersArgs
+            });
+        } catch (error) {
+            console.error("Error creating path")
+            console.error(error)
+        }
     }
 
     return createPath

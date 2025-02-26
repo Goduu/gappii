@@ -47,7 +47,7 @@ const items = [
     },
     {
         title: "My Dashboard",
-        url: routes.dashboard,
+        url: routes.mylessons,
         icon: LayoutDashboard,
     },
     {

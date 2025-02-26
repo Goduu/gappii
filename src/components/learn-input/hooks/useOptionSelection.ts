@@ -10,6 +10,7 @@ type OptionSelectionProps = MessageHandlerProps & {
     numberOfQuestions: string;
     setNumberOfQuestions: (numberOfQuestions: string) => void;
     onCreate?: (lessonId: string) => void
+    setIsCreatingLesson: (isCreatingLesson: boolean) => void
 }
 
 export const useOptionSelection = ({
@@ -20,13 +21,15 @@ export const useOptionSelection = ({
     setLevel,
     numberOfQuestions,
     setNumberOfQuestions,
-    onCreate
+    onCreate,
+    setIsCreatingLesson
 }: OptionSelectionProps) => {
     const [createTopic] = useMutation(CREATE_TOPIC);
     const [getTopicByName] = useLazyQuery(GET_TOPIC_BY_NAME);
     const { generateLesson } = useGenerateLesson();
 
     const handleLessonCreation = async (selectedText: string) => {
+        setIsCreatingLesson(true)
         const lastTopicSelection = messages.findLast(msg =>
             msg.type === 'user' && msg.content?.includes('→')
         )?.content;
@@ -64,6 +67,7 @@ export const useOptionSelection = ({
                     { id: 'loading', type: 'loading', content: '' }
                 ]);
                 await generateLesson(topic, subtopic, level, "en-us", numberOfQuestions, onCreate);
+                setIsCreatingLesson(false)
             }
         } catch {
             setMessages(prev => [
@@ -71,6 +75,7 @@ export const useOptionSelection = ({
                 aiMessages.failedToCreateLesson
             ]);
             setError("Failed to create lesson. Please try again.");
+            setIsCreatingLesson(false)
         }
     };
 

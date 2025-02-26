@@ -5,16 +5,18 @@ import { SendHorizontal } from "lucide-react"
 import { useRef, useState } from "react"
 import { Message } from "./types"
 import { processUserInput } from "@/lib/processUserInput"
-
+import { GlowEffect } from "../ui/glow-effect"
+import { motion } from "motion/react"
 type InputBoxProps = {
     error: string
     isActive: boolean
     setIsActive: (isActive: boolean) => void
     setMessages: React.Dispatch<React.SetStateAction<Message[]>>
     setError: (error: string) => void
+    isCreatingLesson: boolean
 }
 
-export const InputBox = ({ error, isActive, setIsActive, setMessages, setError }: InputBoxProps) => {
+export const InputBox = ({ error, isActive, setIsActive, setMessages, setError, isCreatingLesson }: InputBoxProps) => {
     const inputRef = useRef<HTMLInputElement>(null)
     const [input, setInput] = useState("")
     const [isUsed, setIsUsed] = useState(false)
@@ -61,10 +63,27 @@ export const InputBox = ({ error, isActive, setIsActive, setMessages, setError }
             {error && isActive && (
                 <div className="text-red-500 text-sm text-center mb-2">{error}</div>
             )}
+            <motion.div
+                className='pointer-events-none absolute inset-0'
+                animate={{
+                    opacity: isCreatingLesson ? 1 : 0,
+                }}
+                transition={{
+                    duration: 0.2,
+                    ease: 'easeOut',
+                }}
+            >
+                <GlowEffect
+                    colors={['rgb(59, 130, 246)', 'rgb(168, 85, 247)', 'rgb(244, 63, 94)', 'rgb(249, 115, 22)']}
+                    mode='colorShift'
+                    blur='medium'
+                    duration={4}
+                />
+            </motion.div>
             <div
                 className={cn(
-                    "flex flex-col gap-4 p-6 rounded-lg border bg-background/60 transition-all duration-500",
-                    "w-full max-w-4xl",
+                    "flex flex-col gap-4 p-6 rounded-lg border bg-background transition-all duration-500",
+                    "w-full max-w-4xl relative",
                     isActive && "shadow-lg"
                 )}
                 onClick={handleContainerClick}

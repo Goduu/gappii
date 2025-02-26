@@ -7,7 +7,7 @@ export async function signInAction(provider?: string) {
     if (!provider) {
         return
     }
-    await signIn(provider, { redirectTo: routes.dashboard })
+    await signIn(provider, { redirectTo: routes.mylessons })
 }
 
 export async function signOutAction() {

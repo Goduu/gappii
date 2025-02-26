@@ -6,7 +6,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { TransitionProvider } from "@/components/loading-store";
 import { Footer } from "@/components/home/footer";
-import { LoggedInMenu } from "./loggedin-menu";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/react"
 import { SessionProvider } from "next-auth/react";
@@ -81,18 +80,17 @@ export default async function RootLayout({
           <TransitionProvider>
             <TooltipProvider>
               <Toaster />
-              <div className="items-center justify-items-center max-w-screen w-screen bg-linear-to-b from-slate-50 to-white p-4 md:p-8 md:min-w-[580px] pb-20 gap-16  font-[family-name:var(--font-geist-sans)]">
-                <main className="flex flex-col gap-8 row-start-2 items-center w-full">
+              <div className="items-center max-w-screen w-screen bg-linear-to-b from-slate-50 to-white p-4 md:p-4 md:min-w-[580px] pb-20 gap-16  font-[family-name:var(--font-geist-sans)]">
+                <main className="flex flex-col gap-8 row-start-2 w-full">
                   <ApolloWrapper >
                     {children}
                     {auth}
                     <Analytics />
                     <SpeedInsights />
                   </ApolloWrapper>
-                  <div className="absolute left-4 top-4">
-                    {/* <LoggedOutMenu /> */}
+                  {/* <div className="absolute left-4 top-4">
                     <LoggedInMenu />
-                  </div>
+                  </div> */}
                 </main>
               </div>
             </TooltipProvider>

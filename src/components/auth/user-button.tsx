@@ -12,8 +12,8 @@ export default function UserButton() {
     if (!user) return <SignIn />
 
     return (
-        <div className="min-h-9 min-w-7">
-            <div className="flex items-center gap-2">
+        <div className="min-h-9">
+            <div className="flex items-center gap-2 justify-between w-full">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline"

@@ -9,9 +9,6 @@ import { MessageBubble } from "./message-bubble"
 import { ShowMoreOption } from "./show-more-option"
 import { InputBox } from "./input-box"
 import { useDetectOutsideClick } from "@/lib/utilitary-hooks/useDetectOutsideClick"
-import Link from "next/link"
-import { routes } from "@/lib/routes"
-import { Button } from "../ui/button"
 
 type LearnInput2Props = {
     isOpen?: boolean
@@ -22,11 +19,13 @@ type LearnInput2Props = {
 export const LearnInput = ({ isOpen = false, onCreate, onClose }: LearnInput2Props) => {
     const [isActive, setIsActive] = useState(isOpen)
     const [error, setError] = useState<string>("")
-    const containerRef = useRef<HTMLDivElement>(null)
-    const [messages, setMessages] = useState<Message[]>([])
-    const messagesEndRef = useRef<HTMLDivElement>(null)
     const [level, setLevel] = useState("1")
+    const [messages, setMessages] = useState<Message[]>([])
     const [numberOfQuestions, setNumberOfQuestions] = useState("7")
+    const [isCreatingLesson, setIsCreatingLesson] = useState(false)
+
+    const containerRef = useRef<HTMLDivElement>(null)
+    const messagesEndRef = useRef<HTMLDivElement>(null)
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -52,7 +51,7 @@ export const LearnInput = ({ isOpen = false, onCreate, onClose }: LearnInput2Pro
     return (
         <div className={cn(
             "flex flex-col gap-4 items-center justify-center text-foreground p-4 transition-all duration-1000",
-            isActive ? "fixed inset-0 z-50" : "relative"
+            isActive ? "fixed inset-0 z-40" : "relative"
         )}>
             <div className={cn(
                 "absolute inset-0 bg-background opacity-0 scale-0 origin-center transition-all duration-500",
@@ -70,7 +69,7 @@ export const LearnInput = ({ isOpen = false, onCreate, onClose }: LearnInput2Pro
                     What do you want to learn?
                 </h1>
 
-                <div ref={containerRef} className="flex flex-col items-center w-full">
+                <div ref={containerRef} className="flex flex-col gap-2 items-center w-full">
                     {isActive && (
                         <div className="flex-1 overflow-y-auto space-y-4 max-h-96 overflow-x-scroll w-full">
                             {messages.map((msg, index) => (
@@ -92,6 +91,8 @@ export const LearnInput = ({ isOpen = false, onCreate, onClose }: LearnInput2Pro
                                             numberOfQuestions={numberOfQuestions}
                                             setNumberOfQuestions={setNumberOfQuestions}
                                             onCreate={onCreate}
+                                            setIsCreatingLesson={setIsCreatingLesson}
+                                            isCreatingLesson={isCreatingLesson}
                                         />
                                     )}
                                 </div>
@@ -110,6 +111,7 @@ export const LearnInput = ({ isOpen = false, onCreate, onClose }: LearnInput2Pro
                         setIsActive={setIsActive}
                         setMessages={setMessages}
                         setError={setError}
+                        isCreatingLesson={isCreatingLesson}
                     />
                 </div>
             </div>

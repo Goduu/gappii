@@ -6,20 +6,23 @@ import { PathDetailsDialog } from "./path-details-dialog"
 import { PathCircle } from "./path-circle"
 import { routes } from "@/lib/routes"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
 type PathCircleProps = {
     path?: Path
-    isSelected: boolean
     size: 'sm' | 'md' | 'lg'
 }
-export const PathCard = ({ path, isSelected, size = 'md' }: PathCircleProps) => {
+export const PathCard = ({ path, size = 'md' }: PathCircleProps) => {
     if (!path) return
 
     const isPathEmpty = path.withLessons.length === 0
 
     return (
-        <CardContent className="relative flex items-center gap-4 justify-center">
+        <CardContent className={cn(
+            "relative flex items-center gap-4 justify-center",
+            isPathEmpty && "border-dashed border-2 ")}
+        >
             <div key={path.id} className='flex items-center justify-start w-80 gap-4 group'>
-                <PathCircle path={path} isSelected={isSelected} size={size} />
+                <PathCircle path={path} size={size} />
                 <div className="font-bold">{path.title}</div>
 
             </div>

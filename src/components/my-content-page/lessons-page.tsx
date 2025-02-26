@@ -12,7 +12,7 @@ type LessonsPageProps = {
 export const LessonsPage: FC<LessonsPageProps> = ({ searchParams }) => {
 
     return (
-        <div className='flex flex-col gap-10 w-full'>
+        <div className='flex flex-col gap-8 w-full'>
             <Suspense fallback={<DashboardSkeleton />}>
                 <MyLessons searchParams={searchParams} />
             </Suspense>

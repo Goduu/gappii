@@ -6,10 +6,9 @@ import { cloneElement } from "react"
 
 type PathCircleProps = {
     path?: Pick<Path, 'color' | 'icon'>
-    isSelected: boolean
     size: 'sm' | 'md' | 'lg'
 }
-export const PathCircle = ({ path, isSelected, size = 'md' }: PathCircleProps) => {
+export const PathCircle = ({ path, size = 'md' }: PathCircleProps) => {
     if (!path) return
     const icon = path?.icon && getIconFromLabel(path.icon)
 
@@ -17,11 +16,10 @@ export const PathCircle = ({ path, isSelected, size = 'md' }: PathCircleProps) =
         <div className='flex flex-col gap-2 group'>
             <div
                 className={cn('flex flex-col items-center justify-center mt-[30px]',
-                    'rounded-full aspect-square text-white',
-                    'border-b-8 cursor-pointer',
+                    'rounded-full aspect-square text-white border-b-8',
                     'transition-all duration-1000 ease-in-out',
+                    'hover:scale-105 hover:border-b-2',
                     getBadgeSizeClass(size),
-                    isSelected && 'scale-105 border-b-2',
                     path.color && getTailwindBgColor500(path.color),
                     path.color && getTailwindBorderColor600(path.color)
 

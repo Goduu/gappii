@@ -16,7 +16,7 @@ export default function Layout({ children, analytics, lessons }: LayoutProps) {
             </div>
 
             {/* Main content - With padding for fixed elements */}
-            <div className="mr-0 md:mr-80 w-full pt-32 md:pt-10 pb-52 md:pb-10">
+            <div className="mr-0 md:mr-80 w-full pt-8 md:pt-10 pb-52 md:pb-10">
                 {children}
             </div>
 

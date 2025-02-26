@@ -80,7 +80,6 @@ export const PathDetailsContent = ({ path, lessons, mode = 'edit', onClose }: Pa
                 <div className="flex justify-center items-center">
                     <PathCircle
                         path={{ color, icon: icon?.label }}
-                        isSelected={false}
                         size="lg"
                     />
                 </div>

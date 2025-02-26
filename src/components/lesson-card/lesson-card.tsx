@@ -21,7 +21,7 @@ export const LessonCard: FC<LessonCardProps> = ({ lesson, variant }) => {
     const reaction = lesson.wasReactedConnection?.edges?.[0]?.properties.type as LessonReaction
 
     return (
-        <Card className="w-full md:w-auto min-w-[22rem] relative overflow-hidden">
+        <Card className="w-full md:w-auto min-w-80 relative overflow-hidden">
             <LanguageCorner language={lesson.language as SupportedLanguage} />
             <div className='absolute right-1 top-1 flex gap-1'>
                 {lesson.id && (
@@ -35,7 +35,7 @@ export const LessonCard: FC<LessonCardProps> = ({ lesson, variant }) => {
             </div>
             <div className="flex gap-2 p-6 items-center">
                 <div className='flex flex-col gap-4 w-64 h-20 justify-around'>
-                    <div className="flex gap-2 items-center font-bold">
+                    <div className="flex gap-2 items-center font-bold w-56">
                         {lesson.title}
                     </div>
                     <div className='w-60 md:w-64 justify-end'>

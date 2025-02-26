@@ -1805,7 +1805,7 @@ export type User = {
   email: Scalars["String"]["output"];
   emailVerified: Scalars["Boolean"]["output"];
   termsAcceptedAt?: Maybe<Scalars["DateTime"]["output"]>;
-  isOnboarded: Scalars["Boolean"]["output"];
+  completedOnboarding: Scalars["Boolean"]["output"];
   image?: Maybe<Scalars["String"]["output"]>;
   mistakenActivitiesCount: Scalars["Int"]["output"];
   mistakenActivities: Array<MistakenActivity>;
@@ -1815,7 +1815,7 @@ export type User = {
   hasAccount: Account;
   hasAccountConnection: UserHasAccountConnection;
   hasSessionAggregate?: Maybe<UserSessionHasSessionAggregationSelection>;
-  hasSession: Session;
+  hasSession?: Maybe<Session>;
   hasSessionConnection: UserHasSessionConnection;
   hasLessonsAggregate?: Maybe<UserLessonHasLessonsAggregationSelection>;
   hasLessons: Array<Lesson>;
@@ -7317,7 +7317,7 @@ export type UserCreateInput = {
   email: Scalars["String"]["input"];
   emailVerified: Scalars["Boolean"]["input"];
   termsAcceptedAt?: InputMaybe<Scalars["DateTime"]["input"]>;
-  isOnboarded: Scalars["Boolean"]["input"];
+  completedOnboarding: Scalars["Boolean"]["input"];
   image?: InputMaybe<Scalars["String"]["input"]>;
   hasAccount?: InputMaybe<UserHasAccountFieldInput>;
   hasSession?: InputMaybe<UserHasSessionFieldInput>;
@@ -8810,7 +8810,7 @@ export type UserOnCreateInput = {
   email: Scalars["String"]["input"];
   emailVerified: Scalars["Boolean"]["input"];
   termsAcceptedAt?: InputMaybe<Scalars["DateTime"]["input"]>;
-  isOnboarded: Scalars["Boolean"]["input"];
+  completedOnboarding: Scalars["Boolean"]["input"];
   image?: InputMaybe<Scalars["String"]["input"]>;
 };
 
@@ -9430,7 +9430,7 @@ export type UserSort = {
   email?: InputMaybe<SortDirection>;
   emailVerified?: InputMaybe<SortDirection>;
   termsAcceptedAt?: InputMaybe<SortDirection>;
-  isOnboarded?: InputMaybe<SortDirection>;
+  completedOnboarding?: InputMaybe<SortDirection>;
   image?: InputMaybe<SortDirection>;
   mistakenActivitiesCount?: InputMaybe<SortDirection>;
   createdLessonsInteractionsCount?: InputMaybe<SortDirection>;
@@ -9445,7 +9445,7 @@ export type UserUpdateInput = {
   email?: InputMaybe<Scalars["String"]["input"]>;
   emailVerified?: InputMaybe<Scalars["Boolean"]["input"]>;
   termsAcceptedAt?: InputMaybe<Scalars["DateTime"]["input"]>;
-  isOnboarded?: InputMaybe<Scalars["Boolean"]["input"]>;
+  completedOnboarding?: InputMaybe<Scalars["Boolean"]["input"]>;
   image?: InputMaybe<Scalars["String"]["input"]>;
   hasAccount?: InputMaybe<UserHasAccountUpdateFieldInput>;
   hasSession?: InputMaybe<UserHasSessionUpdateFieldInput>;
@@ -9522,9 +9522,9 @@ export type UserWhere = {
   termsAcceptedAt_LTE?: InputMaybe<Scalars["DateTime"]["input"]>;
   termsAcceptedAt_GT?: InputMaybe<Scalars["DateTime"]["input"]>;
   termsAcceptedAt_GTE?: InputMaybe<Scalars["DateTime"]["input"]>;
-  isOnboarded?: InputMaybe<Scalars["Boolean"]["input"]>;
+  completedOnboarding?: InputMaybe<Scalars["Boolean"]["input"]>;
   /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  isOnboarded_NOT?: InputMaybe<Scalars["Boolean"]["input"]>;
+  completedOnboarding_NOT?: InputMaybe<Scalars["Boolean"]["input"]>;
   image?: InputMaybe<Scalars["String"]["input"]>;
   /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
   image_NOT?: InputMaybe<Scalars["String"]["input"]>;

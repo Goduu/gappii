@@ -33,6 +33,7 @@ export const ActivityAnswerInput = ({
     const sortedOptions = [...options].sort((a: string, b: string) => (a < b ? -1 : 1));
 
     const handleSelect = (selected: string) => {
+        if(isAnswerCorrect) return
         onUserAnswerChange(selected);
 
         if (messageTimeoutRef.current) {
@@ -58,7 +59,7 @@ export const ActivityAnswerInput = ({
         if (event.key === 'Enter' && activityDone) {
             onNext(isAnswerCorrect ?? false, userAnswer);
         }
-        if (mode !== SessionModes.EitherOr) return
+        if (mode !== SessionModes.EitherOr || activityDone) return
 
         if (!isAnswerCorrect) {
             if (event.key === 'ArrowLeft') {

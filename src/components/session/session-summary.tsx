@@ -1,6 +1,5 @@
 "use client"
 import { formatTime } from "@/lib/utils";
-import { routes } from "@/lib/routes";
 import { useRouter } from "next/navigation";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -51,7 +50,7 @@ export const SessionSummary: React.FC<SessionSummaryProps> = ({ summary, isOnboa
     }, [completeLesson, isOnboarding, isPending, summary, user]);
 
     const handleFinish = () => {
-        router.push(routes.mylessons);
+        router.back();
     }
 
     return (
@@ -128,7 +127,7 @@ export const SessionSummary: React.FC<SessionSummaryProps> = ({ summary, isOnboa
                                     "Saving your data..." :
                                     isOnboarding ?
                                         'Complete Onboarding' :
-                                        'Return to Dashboard'}
+                                        'Go back'}
                         </Button>
                     )}
                 </CardFooter>

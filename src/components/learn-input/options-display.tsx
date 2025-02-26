@@ -9,16 +9,14 @@ type OptionsDisplayProps = MessageHandlerProps & {
     numberOfQuestions: string;
     setNumberOfQuestions: (numberOfQuestions: string) => void;
     onCreate?: (lessonId: string) => void
-    setIsCreatingLesson: (isCreatingLesson: boolean) => void
-    isCreatingLesson: boolean
 }
 
-export const OptionsDisplay = ({ message, messages, setMessages, setError, level, setLevel, numberOfQuestions, setNumberOfQuestions, onCreate, setIsCreatingLesson, isCreatingLesson }: OptionsDisplayProps) => {
-    const { handleOptionSelect } = useOptionSelection({ messages, setMessages, setError, level, setLevel, numberOfQuestions, setNumberOfQuestions, onCreate, setIsCreatingLesson });
+export const OptionsDisplay = ({ message, messages, setMessages, setError, level, setLevel, numberOfQuestions, setNumberOfQuestions, onCreate }: OptionsDisplayProps) => {
+    const { handleOptionSelect } = useOptionSelection({ messages, setMessages, setError, level, setLevel, numberOfQuestions, setNumberOfQuestions, onCreate });
 
     if (!message.options?.length) return null;
     const isLastOptionMessage = messages.findLast(msg => msg.type === 'options')?.id === message.id
-    const isOptionDisabled = !isLastOptionMessage && !isCreatingLesson
+    const isOptionDisabled = !isLastOptionMessage
 
     return (
         <div className="grid gap-2 w-full max-w-[80%]">

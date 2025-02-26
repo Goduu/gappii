@@ -22,7 +22,6 @@ export const LearnInput = ({ isOpen = false, onCreate, onClose }: LearnInput2Pro
     const [level, setLevel] = useState("1")
     const [messages, setMessages] = useState<Message[]>([])
     const [numberOfQuestions, setNumberOfQuestions] = useState("7")
-    const [isCreatingLesson, setIsCreatingLesson] = useState(false)
 
     const containerRef = useRef<HTMLDivElement>(null)
     const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -91,8 +90,6 @@ export const LearnInput = ({ isOpen = false, onCreate, onClose }: LearnInput2Pro
                                             numberOfQuestions={numberOfQuestions}
                                             setNumberOfQuestions={setNumberOfQuestions}
                                             onCreate={onCreate}
-                                            setIsCreatingLesson={setIsCreatingLesson}
-                                            isCreatingLesson={isCreatingLesson}
                                         />
                                     )}
                                 </div>
@@ -111,7 +108,6 @@ export const LearnInput = ({ isOpen = false, onCreate, onClose }: LearnInput2Pro
                         setIsActive={setIsActive}
                         setMessages={setMessages}
                         setError={setError}
-                        isCreatingLesson={isCreatingLesson}
                     />
                 </div>
             </div>

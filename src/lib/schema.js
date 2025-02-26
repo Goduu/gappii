@@ -117,7 +117,7 @@ type User @node {
   email: String! @unique(constraintName: "UserEmailUnique")
   emailVerified: Boolean!
   termsAcceptedAt: DateTime
-  isOnboarded: Boolean!
+  completedOnboarding: Boolean!
   image: String
   hasAccount: Account! @relationship(type: "HAS_ACCOUNT", direction: OUT)
   hasSession: Session @relationship(type: "HAS_SESSION", direction: OUT)

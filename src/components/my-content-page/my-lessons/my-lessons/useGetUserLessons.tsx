@@ -7,7 +7,7 @@ import { useInfiniteScroll } from '../useInfinityScroll';
 import { useUser } from '@/lib/useUser';
 
 type SearchParams = {
-    search?: string;
+    lessonSearch?: string;
     lessonReaction?: string;
 };
 
@@ -19,7 +19,7 @@ export const useGetUserLessons = (searchParams?: SearchParams) => {
     const [isFetchingMore, setIsFetchingMore] = useState(false);
     const user = useUser();
     const reaction = searchParams?.lessonReaction || '';
-    const search = searchParams?.search || '';
+    const search = searchParams?.lessonSearch || '';
     const { data: mistakes } = useQuery(GET_USER_MISTAKES, { variables: { where: { email: user?.email } } })
     console.info("mistakes", mistakes)
 

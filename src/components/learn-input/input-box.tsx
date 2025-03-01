@@ -6,7 +6,7 @@ import { useRef, useState } from "react"
 import { Message } from "./types"
 import { processUserInput } from "@/lib/processUserInput"
 import { LanguageSelector } from "./language-selector"
-import { languages, SupportedLanguage } from "@/app/types"
+import { SupportedLanguage } from "@/app/types"
 
 type InputBoxProps = {
     error: string
@@ -20,7 +20,7 @@ export const InputBox = ({ error, isActive, setIsActive, setMessages, setError }
     const inputRef = useRef<HTMLInputElement>(null)
     const [input, setInput] = useState("")
     const [isUsed, setIsUsed] = useState(false)
-    const [language, setLanguage] = useState<SupportedLanguage>(languages.en)
+    const [language, setLanguage] = useState<SupportedLanguage | undefined>(undefined)
 
     const handleContainerClick = (e: React.MouseEvent) => {
         // Prevent propagation to stop useDetectOutsideClick from firing
@@ -92,7 +92,7 @@ export const InputBox = ({ error, isActive, setIsActive, setMessages, setError }
                 )}
             >
                 <div className="flex gap-2 items-center">
-                    <LanguageSelector onLanguageChange={setLanguage} language={language} showJustFlag />
+                    <LanguageSelector onLanguageChange={setLanguage} language={language} />
                     <Input
                         ref={inputRef}
                         disabled={isUsed || !!error}

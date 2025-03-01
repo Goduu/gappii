@@ -1,7 +1,6 @@
 "use client"
 import { LessonCard } from '@/components/lesson-card/lesson-card'
 import { PageTitle } from '@/components/ui/page-title'
-import { CreateLesson } from '../create-lesson'
 import { LessonsSkeleton } from '../lessons-skeleton'
 import { useGetUserLessons } from './useGetUserLessons'
 import { Button } from '@/components/ui/button'
@@ -11,7 +10,7 @@ import { LessonsActionBar } from '../lessons-actions-bar'
 
 type MyLessonsProps = {
     searchParams?: {
-        search?: string,
+        lessonSearch?: string,
         lessonReaction?: string,
     }
 }
@@ -21,12 +20,9 @@ export const MyLessons = ({ searchParams }: MyLessonsProps) => {
     const router = useRouter();
 
     return (
-        <div className='flex flex-col gap-2 w-full'>
+        <div className='flex flex-col gap-4 w-full'>
             <div className='flex flex-col md:flex-row gap-2'>
-                <div className='flex gap-2'>
-                    <PageTitle title='My Lessons' />
-                    <CreateLesson />
-                </div>
+                <PageTitle title='My Lessons' />
                 <div className='flex flex-col md:flex-row gap-2 md:ml-auto'>
                     {/* <PulppiiBehindElement > */}
                     <Button
@@ -38,7 +34,7 @@ export const MyLessons = ({ searchParams }: MyLessonsProps) => {
                 </div>
                 {/* </PulppiiBehindElement> */}
             </div>
-            <div className='flex flex-col gap-2 w-full'>
+            <div className='flex flex-col gap-4 w-full'>
                 <LessonsActionBar />
                 <div className='flex flex-col gap-10 w-full items-start'>
                     <div className="flex flex-wrap gap-4 items-center justify-center w-full">

@@ -14,7 +14,7 @@ export const LessonsActionBar = () => {
         <div className="flex flex-col gap-1">
             <div className="flex gap-1 items-center ml-1">
                 <Disc size={12} />
-                <span className="text-xs text-muted-foreground">Actions</span>
+                <span className="text-xs text-muted-foreground">Actions / Filters</span>
             </div>
             <div className={cn(
                 "flex gap-2 border p-1  bg-white rounded-lg transition-all duration-300 overflow-hidden",
@@ -23,11 +23,11 @@ export const LessonsActionBar = () => {
                     : "w-48 justify-center items-center"
             )}>
                 <div className={cn(
-                    "flex gap-2 transition-opacity duration-300 h-10 items-center",
+                    "flex gap-2 transition-opacity duration-300 items-center",
                     !isOpen ? "opacity-100" : "opacity-0 w-0 overflow-hidden"
                 )}>
                     <CreateLesson />
-                    <Separator orientation="vertical" />
+                    <Separator orientation="vertical" className="h-4" />
                     <FilterBar />
                 </div>
                 <SearchBar id="lesson" isOpen={isOpen} setIsOpen={setIsOpen} />

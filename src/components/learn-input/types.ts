@@ -27,5 +27,5 @@ export type MessageHandlerProps = {
 
 export interface LevelSelectorProps {
     level?: string
-    onLevelChange: (level: string) => void
+    onLevelChange: (level: string | undefined) => void
 }

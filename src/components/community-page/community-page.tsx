@@ -1,10 +1,10 @@
 import React, { FC, Suspense } from 'react'
 import { PageTitle } from '../ui/page-title'
 import { Skeleton } from '../ui/skeleton'
-import { CommunityFilters } from './community-filters'
 import { LessonCard } from '../lesson-card/lesson-card'
 import { fetchLessonsData } from '@/lib/queries/getCommunityLessons'
 import { CommunitySearchParams } from '@/app/types'
+import { CommunityActionBar } from './community-actions-bar'
 
 export const revalidate = 3600 // invalidate every hour
 
@@ -12,9 +12,9 @@ export const CommunityPage: FC<{ searchParams: CommunitySearchParams }> = async 
     const lessons = await fetchLessonsData(searchParams);
 
     return (
-        <div className="space-y-4 w-full">
+        <div className="flex flex-col gap-4 w-full">
             <PageTitle title='Community' />
-            <CommunityFilters />
+            <CommunityActionBar />
             <Suspense
                 fallback={
                     <div className="flex flex-wrap gap-4 items-center justify-center">

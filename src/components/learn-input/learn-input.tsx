@@ -8,7 +8,9 @@ import { OptionsDisplay } from "./options-display"
 import { MessageBubble } from "./message-bubble"
 import { ShowMoreOption } from "./show-more-option"
 import { InputBox } from "./input-box"
-import { useDetectOutsideClick } from "@/lib/utilitary-hooks/useDetectOutsideClick"
+import { X } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { useDetectEsc } from "@/lib/utilitary-hooks/useDetectEsc"
 
 type LearnInput2Props = {
     isOpen?: boolean
@@ -23,12 +25,29 @@ export const LearnInput = ({ isOpen = false, onCreate, onClose }: LearnInput2Pro
     const [messages, setMessages] = useState<Message[]>([])
     const [numberOfQuestions, setNumberOfQuestions] = useState("7")
 
+    useDetectEsc(onClose || (() => { }))
+
     const containerRef = useRef<HTMLDivElement>(null)
     const messagesEndRef = useRef<HTMLDivElement>(null)
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
     }
+
+    // Prevent body scrolling when component is active
+    useEffect(() => {
+        if (isActive) {
+            // Save the current overflow style
+            const originalStyle = window.getComputedStyle(document.body).overflow;
+            // Prevent scrolling on the body
+            document.body.style.overflow = 'hidden';
+
+            // Restore original overflow on cleanup
+            return () => {
+                document.body.style.overflow = originalStyle;
+            };
+        }
+    }, [isActive]);
 
     useEffect(() => {
         if (messages.length > 0 && isActive) {
@@ -40,12 +59,10 @@ export const LearnInput = ({ isOpen = false, onCreate, onClose }: LearnInput2Pro
         setIsActive(isOpen)
     }, [isOpen])
 
-    useDetectOutsideClick(containerRef, () => {
+    const handleClose = () => {
         setIsActive(false)
         onClose?.()
-    })
-
-
+    }
 
     return (
         <div className={cn(
@@ -56,6 +73,19 @@ export const LearnInput = ({ isOpen = false, onCreate, onClose }: LearnInput2Pro
                 "absolute inset-0 bg-background opacity-0 scale-0 origin-center transition-all duration-500",
                 isActive && "opacity-95 scale-100 backdrop-blur"
             )} />
+
+            {/* Close button */}
+            {isActive && (
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    className="absolute top-4 right-4 z-50"
+                    onClick={handleClose}
+                    aria-label="Close"
+                >
+                    <X className="size-6" />
+                </Button>
+            )}
 
             <div className={cn(
                 "w-full max-w-3xl mx-auto space-y-6 relative transition-all duration-500",

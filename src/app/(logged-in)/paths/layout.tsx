@@ -11,7 +11,7 @@ export default function Layout({ children, analytics, lessons }: LayoutProps) {
     return (
         <div className="flex flex-1 gap-4 relative">
             {/* Analytics - Fixed at top */}
-            <div className="w-full md:w-80 fixed left-0 md:left-auto top-0 md:right-10 md:top-10 flex flex-col gap-4 items-center bg-background/80 backdrop-blur-sm md:bg-transparent md:backdrop-blur-none z-50 p-4 md:p-0 border-b md:border-none">
+            <div className="w-full md:w-80 fixed left-0 md:left-auto top-0 md:right-10 md:top-10 flex flex-col gap-4 items-center bg-background/80 backdrop-blur-sm md:bg-transparent md:backdrop-blur-none z-30 p-4 md:p-0 border-b md:border-none">
                 {analytics}
             </div>
 

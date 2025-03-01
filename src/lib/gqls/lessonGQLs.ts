@@ -116,6 +116,9 @@ export const GET_LESSON_BY_ID = gql`
   query GetLessonById($id: ID!) {
     lessons(where: { id: $id }) {
       ...LessonFragment
+      hasActivities(sort: [{order: ASC}]) {
+        ...ActivityFragment
+      }
     }
   }
 `

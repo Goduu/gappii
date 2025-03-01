@@ -1,6 +1,6 @@
 "use client"
 import { LessonCardSmall } from "@/components/lesson-card/lesson-card-small";
-import { LessonSearchBar } from "@/components/lesson-card/lesson-searchbar";
+import { SearchBar } from "@/components/ui/searchbar";
 import { CreateLesson } from "@/components/my-content-page/my-lessons/create-lesson";
 import { FilterBar } from "@/components/my-content-page/my-lessons/filter-bar";
 import { useGetUserLessons } from "@/components/my-content-page/my-lessons/my-lessons/useGetUserLessons";
@@ -27,7 +27,7 @@ export default function LessonPage({ searchParams }: LessonsProps) {
                 <CreateLesson />
             </div>
             <div className="flex-none">
-                <LessonSearchBar />
+                <SearchBar />
             </div>
             <div className="flex-none">
                 <FilterBar />

@@ -1,33 +1,33 @@
 
-import { LessonReaction } from '@/components/my-content-page/types';
-import { GET_USER_LESSONS, UPDATE_USER } from '../gqls/userGQLs';
 import { MutationUpdateUsersArgs, UserHasLessonsConnectionWhere, UserWhere } from '@/ogm-types';
 import { useMutation } from '@apollo/client';
+import { GET_USER_PATHS_AND_LESSONS, UPDATE_USER } from '@/lib/gqls/userGQLs';
+import { PathReaction } from './types';
 
-export const useReactToLesson = (
+export const useReactToPath = (
     userEmail: string,
-    lessonId: string,
+    pathId: string,
 ) => {
-    const [reactToLesson] = useMutation(
+    const [reactToPath] = useMutation(
         UPDATE_USER,
         {
-            refetchQueries: [GET_USER_LESSONS]
+            refetchQueries: [GET_USER_PATHS_AND_LESSONS]
         }
     )
 
     return (
-        currentReaction: LessonReaction | null,
-        newReaction: LessonReaction,
-    ) => reactToLesson({
+        currentReaction: PathReaction | null,
+        newReaction: PathReaction,
+    ) => reactToPath({
         variables: {
             where: {
                 email: userEmail
             },
             update: {
-                reactedToLessons: [{
+                reactedToPaths: [{
                     [currentReaction === newReaction ? 'disconnect' : 'connect']: [{
                         where: {
-                            node: { id: lessonId }
+                            node: { id: pathId }
                         },
                         ...(currentReaction !== newReaction && {
                             edge: {
@@ -40,14 +40,14 @@ export const useReactToLesson = (
             },
         } satisfies MutationUpdateUsersArgs,
         refetchQueries: [{
-            query: GET_USER_LESSONS,
+            query: GET_USER_PATHS_AND_LESSONS,
             variables: {
                 where: {
                     email: userEmail
                 } satisfies UserWhere,
                 lessonWhere: {
                     node: {
-                        id: lessonId
+                        id: pathId
                     }
                 } satisfies UserHasLessonsConnectionWhere,
                 first: 1

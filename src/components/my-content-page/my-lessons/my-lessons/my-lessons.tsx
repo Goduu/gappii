@@ -1,6 +1,6 @@
 "use client"
 import { LessonCard } from '@/components/lesson-card/lesson-card'
-import { LessonSearchBar } from '@/components/lesson-card/lesson-searchbar'
+import { SearchBar } from '@/components/ui/searchbar'
 import { FilterBar } from '../filter-bar'
 import { PageTitle } from '@/components/ui/page-title'
 import { CreateLesson } from '../create-lesson'
@@ -41,7 +41,7 @@ export const MyLessons = ({ searchParams }: MyLessonsProps) => {
                 {/* </PulppiiBehindElement> */}
             </div>
             <div className='flex flex-col gap-2 w-full'>
-                <LessonSearchBar />
+                <SearchBar />
                 <div className='flex flex-col gap-10 w-full items-start'>
                     <FilterBar />
                     <div className="flex flex-wrap gap-4 items-center justify-center w-full">

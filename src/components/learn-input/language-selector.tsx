@@ -6,25 +6,29 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 type LanguageSelectorProps = {
     language?: SupportedLanguage,
     onLanguageChange: (language: SupportedLanguage) => void
+    showJustFlag?: boolean
 }
 
-export const LanguageSelector: FC<LanguageSelectorProps> = ({ language, onLanguageChange }) => {
+export const LanguageSelector: FC<LanguageSelectorProps> = ({ language, onLanguageChange, showJustFlag = false }) => {
     return (
         <Select
-            onValueChange={(value) => onLanguageChange(value as SupportedLanguage)}
+            onValueChange={onLanguageChange}
             value={language || ''}
         >
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-fit">
                 <SelectValue placeholder="Language" />
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
                     <SelectLabel>Language</SelectLabel>
                     {supportedLanguages.map((lang) => (
-                        <SelectItem key={lang} value={lang}>
+                        <SelectItem
+                            key={lang}
+                            value={lang}
+                        >
                             <div className='flex gap-2 items-center px-1'>
                                 <Image src={`/flags/${getFlag(lang)}.svg`} alt={lang} width={20} height={15} />
-                                {lang}
+                                {!showJustFlag && lang}
                             </div>
                         </SelectItem>
                     ))}

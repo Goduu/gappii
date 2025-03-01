@@ -1,6 +1,6 @@
 export const colorList = [
     "red", "orange", "yellow", "lime", "green", "emerald", "teal", "cyan", "blue", "indigo", "violet", "fuchsia", "pink", "slate","zinc", "stone", 
-]
+] as const
 
 
 export const getTailwindBgColor500 = (color: string) => {

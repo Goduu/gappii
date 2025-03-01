@@ -16,29 +16,31 @@ export const AdvancementBarCard: FC<AdvancementBarProps> = ({ progress, variant 
     return (
         <Card className={cn("relative overflow-hidden rounded-b-xl", className)}>
             {children}
-            <div className="absolute bottom-0 left-0 right-0">
-                <div className={cn(
-                    "relative h-1 w-full bg-muted/50",
-                    size === "small" && "h-1",
-                    size === "medium" && "h-2",
-                    size === "large" && "h-3")}>
-                    <motion.div
-                        className={cn(
-                            "absolute left-0 top-0 h-full",
-                            variant === "progress" && "bg-blue-500",
-                            variant === "status" && cn(
-                                progress <= 100 && "bg-green-500",
-                                progress <= 80 && "bg-yellow-500",
-                                progress <= 50 && "bg-orange-500",
-                                progress <= 30 && "bg-red-500",
-                            )
-                        )}
-                        initial={{ width: "0%" }}
-                        animate={{ width: `${progress}%` }}
-                        transition={{ duration: 0.3 }}
-                    />
+            {progress > 0 &&
+                <div className="absolute bottom-0 left-0 right-0">
+                    <div className={cn(
+                        "relative h-1 w-full bg-muted/50",
+                        size === "small" && "h-1",
+                        size === "medium" && "h-2",
+                        size === "large" && "h-3")}>
+                        <motion.div
+                            className={cn(
+                                "absolute left-0 top-0 h-full",
+                                variant === "progress" && "bg-blue-500",
+                                variant === "status" && cn(
+                                    progress <= 100 && "bg-green-500",
+                                    progress <= 80 && "bg-yellow-500",
+                                    progress <= 50 && "bg-orange-500",
+                                    progress <= 30 && "bg-red-500",
+                                )
+                            )}
+                            initial={{ width: "0%" }}
+                            animate={{ width: `${progress}%` }}
+                            transition={{ duration: 0.3 }}
+                        />
+                    </div>
                 </div>
-            </div>
+            }
         </Card>
     )
 }

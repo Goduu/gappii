@@ -3,7 +3,7 @@ import React from 'react'
 import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group'
 import { Star, Clock, RotateCcw } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { LessonSearchBar } from '../lesson-card/lesson-searchbar'
+import { SearchBar } from '../ui/searchbar'
 import { SupportedLanguage } from '@/app/types'
 import { LevelSelector } from '../learn-input/level-selector'
 import { Button } from '../ui/button'
@@ -63,7 +63,7 @@ export const CommunityFilters = () => {
   return (
     <div className="w-full space-y-4">
       <div className='flex gap-4'>
-        <LessonSearchBar />
+        <SearchBar />
         <Button className='flex items-center gap-2' variant='outline' onClick={onResetFilters}>
           <RotateCcw className="w-4 h-4" />
           {isDesktop && "Reset Filters"}

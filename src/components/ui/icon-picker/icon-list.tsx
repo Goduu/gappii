@@ -636,8 +636,11 @@ export const iconMetadata: IconMetadata[] = [
     },
 ]
 
-export const getIconMetadataFromLabel = (label: string | null) => {
-    return iconMetadata.find((icon) => icon.label === label)
+export function getIconMetadataFromLabel(label?: string): IconMetadata | null {
+    if (!label) return null;
+    
+    const found = iconMetadata.find((icon) => icon.label === label);
+    return found || null;
 }
 
 export const getIconFromLabel = (label: string) => {

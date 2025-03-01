@@ -7,10 +7,13 @@ import { PathCircle } from "./path-circle"
 import { routes } from "@/lib/routes"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
+import { PathReactions } from "./path-reactions"
+
 type PathCircleProps = {
     path?: Path
     size: 'sm' | 'md' | 'lg'
 }
+
 export const PathCard = ({ path, size = 'md' }: PathCircleProps) => {
     if (!path) return
 
@@ -21,6 +24,9 @@ export const PathCard = ({ path, size = 'md' }: PathCircleProps) => {
             "relative flex items-center gap-4 justify-center",
             isPathEmpty && "border-dashed border-2 ")}
         >
+            <div className='absolute right-1 top-1 flex gap-1'>
+                <PathReactions pathId={path.id} />
+            </div>
             <div key={path.id} className='flex items-center justify-start w-80 gap-4 group'>
                 <PathCircle path={path} size={size} />
                 <div className="font-bold">{path.title}</div>

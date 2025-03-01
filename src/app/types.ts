@@ -2,7 +2,7 @@ export type SupportedLanguage = 'pt-br' | 'en-us' | 'es' | 'fr-fr' | 'de';
 
 export const supportedLanguages: SupportedLanguage[] = ['en-us', 'pt-br', 'es', 'fr-fr', 'de']
 
-export const languages = {
+export const languages: { [key: string]: SupportedLanguage } = {
     "en": "en-us",
     "pt": "pt-br",
     "es": "es",

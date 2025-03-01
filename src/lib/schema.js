@@ -122,6 +122,7 @@ type User @node {
   hasAccount: Account! @relationship(type: "HAS_ACCOUNT", direction: OUT)
   hasSession: Session @relationship(type: "HAS_SESSION", direction: OUT)
   hasLessons: [Lesson!]! @relationship(type: "HAS_LESSON",properties: "HasLesson", direction: OUT)
+  reactedToPaths: [Path!]! @relationship(type: "REACTED", properties: "Reacted", direction: OUT)
   reactedToLessons: [Lesson!]! @relationship(type: "REACTED", properties: "Reacted", direction: OUT)
   reportedActivities: [Activity!]! @relationship(type: "REPORTED", direction: OUT)
   completedSessions: [SessionCompletionRecord!]! @relationship(type: "COMPLETED_SESSION", direction: OUT)
@@ -213,7 +214,7 @@ type HasLesson @relationshipProperties {
 }
 
 type Reacted @relationshipProperties {
-  type: String! # "Like", "Crown"
+  type: String! # "Like", "Crown" for lessons, "Favorite" for paths
   reactedAt: DateTime!
 }
 

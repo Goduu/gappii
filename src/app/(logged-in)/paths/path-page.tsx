@@ -5,16 +5,23 @@ import { useUserPathsAndLessons } from "@/lib/queries/useUserPaths"
 import { PathCard } from "./path-card"
 import { Skeleton } from "@/components/ui/skeleton"
 
-export const PathPage = () => {
-    const { userPaths, loading } = useUserPathsAndLessons()
+type PathPageProps = {
+    searchParams?: {
+        pathSearch?: string,
+        pathReaction?: string,
+    }
+}
+
+export const PathPage = ({ searchParams }: PathPageProps) => {
+    const { userPaths, loading } = useUserPathsAndLessons(searchParams)
 
     return (
         <div className="flex flex-col gap-8 w-full">
             {loading && (
-                <>
+                <div className="flex flex-wrap gap-8 w-full items-center justify-center">
                     <Skeleton className="w-80 h-32" />
                     <Skeleton className="w-80 h-32" />
-                </>
+                </div>
             )}
             <div className="flex flex-wrap gap-8 w-full items-center justify-center">
                 {!loading && userPaths?.map(path => {

@@ -1,20 +1,18 @@
 "use client"
 import { LessonCard } from '@/components/lesson-card/lesson-card'
-import { SearchBar } from '@/components/ui/searchbar'
-import { FilterBar } from '../filter-bar'
 import { PageTitle } from '@/components/ui/page-title'
 import { CreateLesson } from '../create-lesson'
-import React from 'react'
 import { LessonsSkeleton } from '../lessons-skeleton'
 import { useGetUserLessons } from './useGetUserLessons'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import { SearchCheck } from 'lucide-react'
+import { LessonsActionBar } from '../lessons-actions-bar'
 
 type MyLessonsProps = {
     searchParams?: {
         search?: string,
-        reaction?: string,
+        lessonReaction?: string,
     }
 }
 
@@ -41,9 +39,8 @@ export const MyLessons = ({ searchParams }: MyLessonsProps) => {
                 {/* </PulppiiBehindElement> */}
             </div>
             <div className='flex flex-col gap-2 w-full'>
-                <SearchBar />
+                <LessonsActionBar />
                 <div className='flex flex-col gap-10 w-full items-start'>
-                    <FilterBar />
                     <div className="flex flex-wrap gap-4 items-center justify-center w-full">
                         {lessons.map((lesson) => (
                             <LessonCard

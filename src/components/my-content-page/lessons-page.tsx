@@ -5,7 +5,7 @@ import { MyLessons } from './my-lessons/my-lessons/my-lessons'
 type LessonsPageProps = {
     searchParams?: {
         search?: string,
-        reaction?: string,
+        lessonReaction?: string,
     }
 }
 

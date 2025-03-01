@@ -138,14 +138,60 @@ export const GET_USER_DAILY_ACTIVITY = gql`
 `;
 
 export const GET_USER_PATHS_AND_LESSONS = gql`
-  query GetUserPathsAndLessons($email: String!) {
-    users(where: {email: $email}) {
+  query GetUserPathsAndLessons(
+    $where: UserWhere!, 
+    $pathWhere: UserHasPathsConnectionWhere,
+    $first: Int = 12,
+    $after: String,
+    $email: String!
+  ) {
+    users(where: $where) {
       id
       hasLessons {
         id
         title
         hasActivities {
           id
+        }
+      }
+      hasPathsConnection(
+        first: $first
+        after: $after
+        sort: [{ node: { title: ASC } }]
+        where: $pathWhere
+      ) {
+        edges {
+          node {
+            id
+            title
+            color
+            icon
+            withLessons {
+              id
+              title
+              attempts(email: $email)
+              completionPercentage(email: $email)
+              hasActivitiesAggregate {
+                count
+              }
+            }
+            wasReactedConnection(where: {node: $where}) {
+              edges {
+                node {
+                  id
+                  email
+                }
+                properties {
+                  type
+                }
+              }
+            }
+          }
+        }
+        totalCount
+        pageInfo {
+          hasNextPage
+          endCursor
         }
       }
       hasPaths {

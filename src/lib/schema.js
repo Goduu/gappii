@@ -229,6 +229,7 @@ type Path @node {
   color: String
   icon: String
   withLessons: [Lesson!]! @relationship(type: "WITH_LESSON", direction: OUT)
+  wasReacted: [User!]! @relationship(type: "REACTED", properties: "Reacted", direction: IN)
 
   randomActivities(count: Int!): [Activity!]! @cypher(
       statement: """

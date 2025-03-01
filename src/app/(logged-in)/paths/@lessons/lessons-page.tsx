@@ -1,8 +1,6 @@
 "use client"
 import { LessonCardSmall } from "@/components/lesson-card/lesson-card-small";
-import { SearchBar } from "@/components/ui/searchbar";
-import { CreateLesson } from "@/components/my-content-page/my-lessons/create-lesson";
-import { FilterBar } from "@/components/my-content-page/my-lessons/filter-bar";
+import { LessonsActionBar } from "@/components/my-content-page/my-lessons/lessons-actions-bar";
 import { useGetUserLessons } from "@/components/my-content-page/my-lessons/my-lessons/useGetUserLessons";
 import { PageTitle } from "@/components/ui/page-title";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -10,7 +8,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 type LessonsProps = {
     searchParams?: {
         search?: string,
-        reaction?: string,
+        lessonReaction?: string,
     }
 }
 export default function LessonPage({ searchParams }: LessonsProps) {
@@ -22,18 +20,10 @@ export default function LessonPage({ searchParams }: LessonsProps) {
     }
     return (
         <div className="flex flex-col gap-4 h-full">
-            <div className="flex-none flex items-center gap-2">
-                <PageTitle title="Lessons" />
-                <CreateLesson />
-            </div>
-            <div className="flex-none">
-                <SearchBar />
-            </div>
-            <div className="flex-none">
-                <FilterBar />
-            </div>
-            <div className="flex-1 min-h-0 overflow-y-auto thin-scrollbar px-2">
-                <div className="flex flex-col gap-4">
+            <PageTitle title="Lessons" />
+            <LessonsActionBar />
+            <div className="flex-1 min-h-0 overflow-y-auto thin-scrollbar px-2 ">
+                <div className="flex flex-col gap-4 min-w-72">
                     {lessons.map((lesson) => (
                         <LessonCardSmall
                             variant="my-content"

@@ -8,16 +8,17 @@ import { Toggle } from './toggle'
 import { Whisper } from './tooltip'
 
 type SearchBarProps = {
+    id: string
     placeholder?: string
     isOpen: boolean
     setIsOpen: (isOpen: boolean) => void
 }
 
-export const SearchBar = ({ placeholder = "Search...", isOpen, setIsOpen }: SearchBarProps) => {
+export const SearchBar = ({ id, placeholder = "Search...", isOpen, setIsOpen }: SearchBarProps) => {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const { replace } = useRouter();
-    const search = searchParams.get('search')
+    const search = searchParams.get(`${id}Search`)
 
     const onTextSearchChange = useDebouncedCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         // att to searchParams
@@ -25,10 +26,10 @@ export const SearchBar = ({ placeholder = "Search...", isOpen, setIsOpen }: Sear
 
         // if the search term is empty, delete the search param
         if (e.target.value === '') {
-            params.delete('search');
+            params.delete(`${id}Search`);
         } else {
             const sanitizedSearchTerm = sanitizeLuceneString(e.target.value);
-            params.set('search', sanitizedSearchTerm);
+            params.set(`${id}Search`, sanitizedSearchTerm);
         }
 
         replace(`${pathname}?${params.toString()}`);
@@ -54,7 +55,11 @@ export const SearchBar = ({ placeholder = "Search...", isOpen, setIsOpen }: Sear
                 </div>
                 :
                 <Whisper text="Search" asChild>
-                    <Toggle onClick={() => setIsOpen(!isOpen)} pressed={!!search}>
+                    <Toggle
+                        onClick={() => setIsOpen(!isOpen)}
+                        pressed={!!search}
+                        aria-checked={!!search}
+                        data-state={search ? "on" : "off"}>
                         <Search />
                     </Toggle>
                 </Whisper>

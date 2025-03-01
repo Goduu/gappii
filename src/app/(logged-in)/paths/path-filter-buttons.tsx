@@ -11,15 +11,15 @@ export const FilterButtons: FC = () => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
-  const urlReaction = searchParams.get('reaction');
+  const urlReaction = searchParams.get('pathReaction');
 
   const handleToggle = (reaction: PathReaction) => {
     const params = new URLSearchParams(searchParams);
 
     if (reaction && reaction !== urlReaction) {
-      params.set('reaction', reaction);
+      params.set('pathReaction', reaction);
     } else {
-      params.delete('reaction');
+      params.delete('pathReaction');
     }
 
     replace(`${pathname}?${params.toString()}`, { scroll: false });

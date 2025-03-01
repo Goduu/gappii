@@ -1,8 +1,15 @@
 import { PageTitle } from "@/components/ui/page-title"
 import { PathPage } from "./path-page"
-import { PathFilterBar } from "./path-filters-bar"
+import { PathActionBar } from "./path-action-bar"
 
-const Page = () => {
+
+const Page = async (props: {
+    searchParams?: Promise<{
+        pathSearch?: string;
+        pathReaction?: string;
+    }>;
+}) => {
+
     return (
         <div className="flex flex-col gap-4 w-full">
             <div className="flex items-center justify-between w-full">
@@ -10,8 +17,8 @@ const Page = () => {
                     <PageTitle title="Paths" />
                 </div>
             </div>
-            <PathFilterBar />
-            <PathPage />
+            <PathActionBar />
+            <PathPage searchParams={await props.searchParams} />
         </div>
     )
 }

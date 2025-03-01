@@ -1,14 +1,14 @@
 import LessonPage from "./lessons-page";
 
 type LessonsProps = {
-    searchParams?: {
-        search?: string,
-        reaction?: string,
-    }
+    searchParams?: Promise<{
+        lessonReaction?: string;
+        endCursor?: string;
+    }>
 }
 
-export default function Page({ searchParams }: LessonsProps) {
+export default async function Page({ searchParams }: LessonsProps) {
     return (
-        <LessonPage searchParams={searchParams}/>
+        <LessonPage searchParams={await searchParams} />
     )
 }

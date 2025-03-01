@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils"
 import { Disc } from "lucide-react"
 import { PathDetailsDialog } from "./path-details-dialog"
 
-export const PathFilterBar = () => {
+export const PathActionBar = () => {
     const [isOpen, setIsOpen] = useState(false)
 
     return (
@@ -30,7 +30,7 @@ export const PathFilterBar = () => {
                     <Separator orientation="vertical" />
                     <FilterButtons />
                 </div>
-                <SearchBar isOpen={isOpen} setIsOpen={setIsOpen} />
+                <SearchBar id="path" isOpen={isOpen} setIsOpen={setIsOpen} />
             </div>
         </div>
     )

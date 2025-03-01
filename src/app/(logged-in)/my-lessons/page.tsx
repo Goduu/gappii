@@ -3,9 +3,7 @@ import React from 'react'
 
 const MyDashboardPage = async (props: {
     searchParams?: Promise<{
-        topic?: string;
-        subtopic?: string;
-        reaction?: string;
+        lessonReaction?: string;
         endCursor?: string;
     }>;
 }) => {

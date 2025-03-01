@@ -8,7 +8,7 @@ import { useUser } from '@/lib/useUser';
 
 type SearchParams = {
     search?: string;
-    reaction?: string;
+    lessonReaction?: string;
 };
 
 type QueryResponse = {
@@ -18,7 +18,7 @@ type QueryResponse = {
 export const useGetUserLessons = (searchParams?: SearchParams) => {
     const [isFetchingMore, setIsFetchingMore] = useState(false);
     const user = useUser();
-    const reaction = searchParams?.reaction || '';
+    const reaction = searchParams?.lessonReaction || '';
     const search = searchParams?.search || '';
     const { data: mistakes } = useQuery(GET_USER_MISTAKES, { variables: { where: { email: user?.email } } })
     console.info("mistakes", mistakes)

@@ -13,7 +13,7 @@ export const useCreateLesson = () => {
     const [updateUserMutation] = useMutation(UPDATE_USER)
     const [createActivitiesMutation] = useMutation<{ createActivities: CreateActivitiesMutationResponse }>(CREATE_ACTIVITIES)
 
-    const createLesson = async (data: ApiActivityResponse, topicId: string, subtopicId: string) => {
+    const createLesson = async (data: ApiActivityResponse) => {
         const activitiesData = data.activities.length ? await createActivitiesMutation({
             variables: {
                 input: data.activities.map(activity => ({

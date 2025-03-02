@@ -15,13 +15,13 @@ export const CommunityActionBar = () => {
                 <span className="text-xs text-muted-foreground">Sorting / Filters</span>
             </div>
             <div className={cn(
-                "flex gap-2 border p-1  bg-white rounded-lg transition-all duration-300 overflow-hidden",
+                "flex gap-2 border p-1 bg-white rounded-lg transition-all duration-300 overflow-hidden",
                 isOpen
                     ? "w-80"
                     : "w-60 justify-center items-center"
             )}>
                 <div className={cn(
-                    "flex gap-2 transition-opacity duration-300 h-10 items-center",
+                    "flex gap-2 transition-opacity duration-300items-center",
                     !isOpen ? "opacity-100" : "opacity-0 w-0 overflow-hidden"
                 )}>
                     <CommunityFilters />

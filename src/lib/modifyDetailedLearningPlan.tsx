@@ -1,11 +1,11 @@
-import { validateCreateDetailedLearningPlanApiResponse } from "./validateCreateDetailedLearningPlanApiResponse";
+import { ApiCreateDetailedLearningPlanResponse, validateCreateDetailedLearningPlanApiResponse } from "./validateCreateDetailedLearningPlanApiResponse";
 
-export const modifyDetailedLearningPlan = async (input: { 
-    selectedTheme: string, 
-    selectedGoals: string[], 
+export const modifyDetailedLearningPlan = async (input: {
+    selectedTheme: string,
+    selectedGoals: string[],
     topic: string,
     subtopic?: string,
-    plan: any[],
+    plan: ApiCreateDetailedLearningPlanResponse,
     userModifications: string,
     language?: string
 }, onError: (error: string) => void) => {
@@ -15,8 +15,8 @@ export const modifyDetailedLearningPlan = async (input: {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ 
-            selectedTheme: input.selectedTheme, 
+        body: JSON.stringify({
+            selectedTheme: input.selectedTheme,
             selectedGoals: input.selectedGoals,
             topic: input.topic,
             subtopic: input.subtopic,

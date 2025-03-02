@@ -25,7 +25,7 @@ export const useGenerateLesson = () => {
         )
 
         if (apiData) {
-            const lessonData = await createLesson(apiData, topic.id, subtopic?.id)
+            const lessonData = await createLesson(apiData)
             if (lessonData?.id) {
                 if (onCreate) {
                     onCreate(lessonData.id)

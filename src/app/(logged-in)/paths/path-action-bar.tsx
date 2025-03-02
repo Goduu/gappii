@@ -6,6 +6,7 @@ import { useState } from "react"
 import { cn } from "@/lib/utils"
 import { Disc } from "lucide-react"
 import { PathDetailsDialog } from "./path-details-dialog"
+import { PathCocreationButton } from "@/components/learn-input/path-cocreation/path-cocreation-button"
 
 export const PathActionBar = () => {
     const [isOpen, setIsOpen] = useState(false)
@@ -20,12 +21,13 @@ export const PathActionBar = () => {
                 "flex gap-2 border p-1  bg-white rounded-lg transition-all duration-300 overflow-hidden",
                 isOpen
                     ? "w-80"
-                    : "w-36 justify-center items-center"
+                    : "w-48 justify-center items-center"
             )}>
                 <div className={cn(
                     "flex gap-2 transition-opacity duration-300 items-center",
                     !isOpen ? "opacity-100" : "opacity-0 w-0 overflow-hidden"
                 )}>
+                    <PathCocreationButton />
                     <PathDetailsDialog mode="edit" />
                     <Separator orientation="vertical" className="h-4" />
                     <FilterButtons />

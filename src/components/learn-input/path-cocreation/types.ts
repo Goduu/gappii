@@ -7,6 +7,13 @@ export type Topic = {
     title: string;
 }
 
+export type CreatedPath = {
+    id: string;
+    title: string;
+    color: string;
+    icon: string;
+}
+
 export type DetailedPlanItem = {
     topic: string;
     subtopic: string;
@@ -27,5 +34,4 @@ export type PathInputBoxProps = {
     disabled?: boolean;
     onSubmit: (input: string) => Promise<void>;
     setIsActive: (isActive: boolean) => void;
-    setError: (error: string) => void;
 }

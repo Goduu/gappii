@@ -3,6 +3,7 @@ import { useMutation } from "@apollo/client";
 import { GET_USER_PATHS_AND_LESSONS, UPDATE_USER_PATH } from "../gqls/userGQLs";
 import { useUser } from "@/lib/useUser";
 import { MutationUpdateUsersArgs, Path } from "@/ogm-types";
+import { CreatedPath } from "@/components/learn-input/path-cocreation/types";
 
 export const useCreatePath = () => {
     const user = useUser();
@@ -12,7 +13,7 @@ export const useCreatePath = () => {
     });
 
     // Create the path
-    const createPath = async (newPath: Pick<Path, "title" | "icon" | "color">): Promise<Path | undefined> => {
+    const createPath = async (newPath: Pick<Path, "title" | "icon" | "color">): Promise<CreatedPath | undefined> => {
         if (!user) return;
 
         try {

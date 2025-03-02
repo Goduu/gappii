@@ -2,20 +2,20 @@ import { FC, useState } from "react"
 
 import { Button } from "@/components/ui/button"
 import { Sparkles } from "lucide-react"
-import { LearnInput } from "@/components/learn-input/learn-input"
+import { PathCocreation } from "@/components/learn-input/path-cocreation/path-cocreation"
 import { Whisper } from "@/components/ui/tooltip"
 
-export const CreateLesson: FC = () => {
+export const PathCocreationButton: FC = () => {
     const [isOpen, setIsOpen] = useState(false)
 
     return (
         <>
-            <Whisper text="Create Lesson" asChild>
+            <Whisper text="Cocreate Path (Beta)" asChild>
                 <Button variant="ghost" size="icon" onClick={() => setIsOpen(true)}>
                     <Sparkles size={24} />
                 </Button>
             </Whisper>
-            {isOpen && <LearnInput isOpen={isOpen} onClose={() => setIsOpen(false)} />}
+            {isOpen && <PathCocreation isOpen={isOpen} onClose={() => setIsOpen(false)} />}
         </>
     )
 

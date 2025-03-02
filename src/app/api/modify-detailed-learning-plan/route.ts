@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
     const planString = JSON.stringify(plan, null, 2);
     
     // Create the prompt with all the necessary replacements
-    let prompt = modifyDetailedPlanPrompt
+    const prompt = modifyDetailedPlanPrompt
         .replace("{selected_theme}", selectedTheme)
         .replace("{selected_goals}", selectedGoals.join(", "))
         .replace("{language}", language)

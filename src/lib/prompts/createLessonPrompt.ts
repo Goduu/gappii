@@ -32,29 +32,6 @@ Follow these requirements:
   - The answer is not directly stated elsewhere in the description or comment.
   - That you just add a mermaid diagram if it is very logical and applicable to the activity description.
   - The mermaid diagram does not contain the answer.
-  
-Example Lesson:
-
-Topic: Artificial Intelligence  
-Subtopic: Automation  
-Level: 1 (Beginner)  
-
-{
-  "topic": "Artificial Intelligence",
-  "subtopic": "Automation",
-  "language": "en-us"
-  "keywords": ["AI", "automation", "algorithms"],
-  "level": 1,
-  "activities": [
-    {
-      "description": "Automation in AI relies on {gap}.",
-      "order": 0,
-      "options": ["algorithms", "guesswork"],
-      "answer": "algorithms",
-      "comment": "Guesswork? No way! AI isn't reading tea leaves for automation!",
-    }
-  ]
-}
 
 Response Format:
 
@@ -83,4 +60,5 @@ Ensure:
 - Information is NOT invented, inaccurate or irrelevant.
 - Activities adapt to the given level and reflect progressive learning principles.
 - Mermaid diagrams are valid, render correctly, are not complex and don't contain the direct answer.
+- All special characters are escaped.
 `

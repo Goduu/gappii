@@ -59,7 +59,7 @@
     "mermaid": "^11.4.1",
     "motion": "^12.4.7",
     "neo4j-driver": "^5.27.0",
-    "next": "15.0.3",
+    "next": "15.2.0",
     "next-auth": "5.0.0-beta.25",
     "obscenity": "^0.4.0",
     "openai": "^4.73.0",

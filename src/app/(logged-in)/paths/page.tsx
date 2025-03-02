@@ -1,6 +1,7 @@
 import { PageTitle } from "@/components/ui/page-title"
 import { PathPage } from "./path-page"
 import { PathActionBar } from "./path-action-bar"
+import { PathCocreation } from "@/components/learn-input/path-cocreation/path-cocreation";
 
 
 const Page = async (props: {
@@ -17,6 +18,7 @@ const Page = async (props: {
                     <PageTitle title="Paths" />
                 </div>
             </div>
+            <PathCocreation />
             <PathActionBar />
             <PathPage searchParams={await props.searchParams} />
         </div>

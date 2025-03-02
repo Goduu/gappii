@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
   const levelDescription = getLevelDescription(level)
   const language = body.language || languages.en
   const activitiesNumber = body.activitiesNumber || 7
-
+  const learningGoals = body.learningGoals || ""
   const token = process.env["GITHUB_TOKEN"];
   const endpoint = "https://models.inference.ai.azure.com";
   const modelName = "gpt-4o-mini";
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
     model: modelName,
     messages: [
       {
-        role: "system", content: createLessonPrompt
+        role: "system", content: createLessonPrompt.replace("{learningGoals}", learningGoals).replace("{language}", language)
       },
       {
         role: "user",

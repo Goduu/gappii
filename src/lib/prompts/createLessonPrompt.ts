@@ -13,10 +13,13 @@ The lesson should use an **engaging learning path** to enhance retention:
 2. Include diverse but related activities exploring different aspects of the topic/subtopic (e.g., definitions, applications, implications).
 3. Activities should encourage **active recall**, using varied approaches like examples, reasoning, and problem-solving.
 4. Introduce spaced repetition by subtly revisiting key concepts across activities.
+5. The lesson should be in "{language}" language.
 
 Activities:
 
-Each lesson must include **activitiesNumber*** activities that encourage engagement and critical thinking. Follow these requirements:
+Each lesson must include **activitiesNumber*** activities that encourage engagement and critical thinking.
+The activities will have (if any) the following learning goals: {learningGoals}
+Follow these requirements:
 - Each activity should consist of:
   1. A **description** (max 170 characters) with one gap "{gap}" to fill.
   2. Two **options** for the gap (max 25 characters each), with the correct answer provided.

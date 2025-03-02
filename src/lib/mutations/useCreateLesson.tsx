@@ -36,19 +36,29 @@ export const useCreateLesson = () => {
                     isPublic: true,
                     language: data.language,
                     hasTopic: {
-                        connect: {
+                        connectOrCreate: {
                             where: {
                                 node: {
-                                    id: topicId
+                                    title: data.topic
+                                }
+                            },
+                            onCreate: {
+                                node: {
+                                    title: data.topic
                                 }
                             }
                         }
                     },
                     hasSubtopic: {
-                        connect: {
+                        connectOrCreate: {
                             where: {
                                 node: {
-                                    id: subtopicId
+                                    title: data.subtopic
+                                }
+                            },
+                            onCreate: {
+                                node: {
+                                    title: data.subtopic
                                 }
                             }
                         }

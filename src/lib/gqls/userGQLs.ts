@@ -80,6 +80,25 @@ export const UPDATE_USER = gql`
 }
 `
 
+export const UPDATE_USER_PATH = gql`
+  mutation UpdateUserPath($where: UserWhere!, $update: UserUpdateInput!) {
+    updateUsers(where: $where, update: $update) {
+      users {
+        id
+        hasPaths {
+          id
+          title
+          color
+          icon
+          withLessons {
+            id
+          }
+        }
+      }
+    }
+  }
+`
+
 export const GET_USER_MISTAKES = gql`
   query GetUserMistakes($where: UserWhere) {
     users(where: $where) {

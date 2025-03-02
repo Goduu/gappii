@@ -1,5 +1,5 @@
 export const identifyTopicSubtopic = `
-ou will receive a short text where a user describes what they want to learn 
+You will receive a short text where a user describes what they want to learn 
 (e.g., "I want to learn about honey production").
 Your task is to extract a main topic and a relevant subtopic from the user's description.
 These will serve as the basis for creating a lesson about the theme, so they must be concise and easily understandable.

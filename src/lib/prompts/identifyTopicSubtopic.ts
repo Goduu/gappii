@@ -36,3 +36,12 @@ Generate exactly three options as JSON objects following these guidelines:
     
 Ensure that each option is clear, relevant, and fulfills the criteria above for lesson creation.
 `
+
+export const identifyTopicSubtopicCommand = `
+IDENTIFY_TOPIC_SUBTOPIC | TEXT=<user_description> | N=<number_of_options> | 
+FORMAT=JSON-no code blocks (
+[{
+      "topic": "string",
+      "subtopic": "string"
+}])
+`

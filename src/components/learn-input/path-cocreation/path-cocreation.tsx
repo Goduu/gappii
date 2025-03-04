@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useEffect } from "react"
+import { useRef, useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
 import { X } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -46,6 +46,9 @@ export const PathCocreation = ({ isOpen = false, onCreate, onClose }: PathCocrea
         startAutoCreation: startAutoCreationBase,
     } = usePathCreation(onCreate)
 
+    // Track if user has submitted a prompt
+    const [hasSubmittedPrompt, setHasSubmittedPrompt] = useState(false)
+
     useDetectEsc(onClose || (() => { }))
 
     const containerRef = useRef<HTMLDivElement>(null)
@@ -65,6 +68,13 @@ export const PathCocreation = ({ isOpen = false, onCreate, onClose }: PathCocrea
         }
     }, [isActive]);
 
+    // Check if user has submitted a prompt when messages change
+    useEffect(() => {
+        if (messages.length > 1) {
+            setHasSubmittedPrompt(true);
+        }
+    }, [messages]);
+
     const handleClose = () => {
         setIsActive(false)
         onClose?.()
@@ -77,18 +87,21 @@ export const PathCocreation = ({ isOpen = false, onCreate, onClose }: PathCocrea
             handleModificationSelection(topic, subtopic);
             return;
         }
-
-        // handleTopicClickBase(topic, subtopic, level, language, numberOfQuestions, setMessages);
-        
     }
 
     const startAutoCreation = () => {
         startAutoCreationBase(selectedTheme, detailedPlanItems, level, language, numberOfQuestions, setMessages);
     }
 
+    // Handle user input and track submission
+    const handleUserInputWithTracking = async (input: string) => {
+        await handleUserInput(input);
+        setHasSubmittedPrompt(true);
+    }
+
     return (
         <div className={cn(
-            "flex flex-col gap-4 items-center justify-center text-foreground p-4 transition-all duration-1000",
+            "flex flex-col items-center justify-center text-foreground p-4 transition-all duration-1000",
             isActive ? "fixed inset-0 z-40" : "relative"
         )}>
             <div className={cn(
@@ -110,41 +123,66 @@ export const PathCocreation = ({ isOpen = false, onCreate, onClose }: PathCocrea
             )}
 
             <div className={cn(
-                "w-full max-w-3xl mx-auto space-y-6 relative transition-all duration-500",
-                isActive && "z-20 scale-95"
+                "w-full max-w-3xl mx-auto relative transition-all duration-500 h-[85vh] flex flex-col",
+                isActive && "z-20"
             )}>
+                {/* Title - shows at top before prompt, smaller after prompt */}
                 <h1 className={cn(
-                    "text-4xl font-bold text-center mb-12 transition-transform duration-500",
-                    isActive && "-translate-y-10"
+                    "text-4xl font-bold text-center transition-all duration-500",
+                    hasSubmittedPrompt ? "text-2xl mb-4" : "mb-12"
                 )}>
                     Create Your Learning Path
                 </h1>
 
-                <div ref={containerRef} className="flex flex-col gap-2 items-center w-full">
-                    {isActive && (
-                        <MessageList 
-                            messages={messages}
-                            messagesEndRef={messagesEndRef}
-                            planModificationState={planModificationState}
-                            processingTopics={processingTopics}
-                            failedTopics={failedTopics}
-                            createdLessons={createdLessons}
-                            autoCreationInProgress={autoCreationInProgress}
-                            onThemeSelect={handleThemeSelection}
-                            onTopicClick={handleTopicClick}
-                            onTopicOnlyClick={handleTopicOnlyClick}
-                            onStartAutoCreation={startAutoCreation}
-                            onStartPlanModification={startPlanModification}
-                            detailedPlanItems={detailedPlanItems}
-                        />
+                <div ref={containerRef} className={cn(
+                    "flex flex-col w-full relative",
+                    hasSubmittedPrompt ? "h-full" : "flex-grow flex items-center justify-center"
+                )}>
+                    {/* Main content area - flexible layout based on state */}
+                    {hasSubmittedPrompt ? (
+                        <>
+                            {/* Message list - scrollable area */}
+                            <div className="flex-grow overflow-y-auto mb-24">
+                                <MessageList 
+                                    messages={messages}
+                                    messagesEndRef={messagesEndRef}
+                                    planModificationState={planModificationState}
+                                    processingTopics={processingTopics}
+                                    failedTopics={failedTopics}
+                                    createdLessons={createdLessons}
+                                    autoCreationInProgress={autoCreationInProgress}
+                                    onThemeSelect={handleThemeSelection}
+                                    onTopicClick={handleTopicClick}
+                                    onTopicOnlyClick={handleTopicOnlyClick}
+                                    onStartAutoCreation={startAutoCreation}
+                                    onStartPlanModification={startPlanModification}
+                                    detailedPlanItems={detailedPlanItems}
+                                />
+                            </div>
+                            
+                            {/* Input box - fixed at bottom */}
+                            <div className="absolute bottom-0 left-0 right-0 p-4 bg-background/80 backdrop-blur-sm">
+                                <PathInputBox
+                                    error={error}
+                                    isActive={isActive}
+                                    setIsActive={setIsActive}
+                                    onSubmit={handleUserInputWithTracking}
+                                    disabled={autoCreationInProgress || processingTopics.length > 0}
+                                />
+                            </div>
+                        </>
+                    ) : (
+                        /* Input box - centered before first prompt */
+                        <div className="w-full max-w-xl mx-auto">
+                            <PathInputBox
+                                error={error}
+                                isActive={isActive}
+                                setIsActive={setIsActive}
+                                onSubmit={handleUserInputWithTracking}
+                                disabled={autoCreationInProgress || processingTopics.length > 0}
+                            />
+                        </div>
                     )}
-                    <PathInputBox
-                        error={error}
-                        isActive={isActive}
-                        setIsActive={setIsActive}
-                        onSubmit={handleUserInput}
-                        disabled={autoCreationInProgress || processingTopics.length > 0}
-                    />
                 </div>
             </div>
         </div>

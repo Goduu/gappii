@@ -220,11 +220,6 @@ export const useMessageState = (isOpen: boolean) => {
 
     const handleThemeSelection = useCallback(async (theme: string) => {
         // Add user message showing selection
-        setMessages(prev => [...prev, {
-            id: uuidv4(),
-            type: 'user',
-            content: theme
-        }])
 
         // Process the selection
         await handleUserInput(theme);

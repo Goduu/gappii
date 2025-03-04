@@ -88,9 +88,6 @@ export default async function RootLayout({
                     <Analytics />
                     <SpeedInsights />
                   </ApolloWrapper>
-                  {/* <div className="absolute left-4 top-4">
-                    <LoggedInMenu />
-                  </div> */}
                 </main>
               </div>
             </TooltipProvider>

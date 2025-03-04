@@ -62,3 +62,26 @@ Ensure:
 - Mermaid diagrams are valid, render correctly, are not complex and don't contain the direct answer.
 - All special characters are escaped.
 `
+
+export const createLessonCommand = `
+CREATE_LESSON | TOPIC=<topic> | SUBTOPIC=<subtopic> | LEVEL=<difficulty> | LANG=<language> | GOALS=<learning_goals> | ACTIVITIES=<activities_number> |
+FORMAT=JSON-no code blocks(
+{
+    "topic": s,
+    "subtopic": s,
+    "keywords": s[],
+    "language": s,
+    "level": n,
+    "activities": [
+      {
+        "description": s, // must contain the code "{gap}" to fill with the answer
+        "order": n,
+        "options": s[] // 2 options,
+        "answer": s, // correct answer
+        "comment": s, // comment explaining the answer
+        "mermaid": s, // mermaid diagram
+      }
+    ]
+  }
+)
+`

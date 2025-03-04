@@ -26,7 +26,7 @@ export const PathInputBox = ({ error, isActive, disabled, onSubmit, setIsActive 
     }
 
     return (
-        <div className="relative w-full flex flex-col items-center">
+        <div className="relative w-full">
             {error && isActive && (
                 <div className="text-red-500 text-sm text-center mb-2">
                     {error}
@@ -34,13 +34,13 @@ export const PathInputBox = ({ error, isActive, disabled, onSubmit, setIsActive 
             )}
             <div
                 className={cn(
-                    "flex flex-col gap-4 p-6 rounded-lg border bg-background transition-all duration-500",
-                    "w-full max-w-4xl relative",
-                    isActive && "shadow-lg"
+                    "flex flex-col gap-4 p-4 rounded-xl border transition-all duration-300",
+                    "w-full relative shadow-md",
+                    isActive && "border-primary/30"
                 )}
             >
                 <Whisper text="Functionality is still in beta" asChild>
-                    <div className="absolute top-0 right-0 bg-accent text-primary text-[10px] font-semibold px-2 py-0.5 rounded-lg border border-primary/30">
+                    <div className="absolute top-0 right-0 text-primary text-[10px] font-semibold px-2 py-0.5 rounded-lg border border-primary/30 translate-y-[-50%] translate-x-[-10%]">
                         BETA
                     </div>
                 </Whisper>
@@ -49,18 +49,21 @@ export const PathInputBox = ({ error, isActive, disabled, onSubmit, setIsActive 
                     <Input
                         ref={inputRef}
                         disabled={disabled}
-                        placeholder="Type your response..."
+                        placeholder="What would you like to learn about today?"
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         onFocus={() => setIsActive(true)}
                         onKeyDown={handleKeyPress}
-                        className="flex-1 h-full text-lg border-none shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+                        className="flex-1 h-12 text-lg border-none shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent"
                     />
                     <Button
                         disabled={disabled}
                         variant="ghost"
                         size="icon"
-                        className="shrink-0"
+                        className={cn(
+                            "shrink-0 h-10 w-10 rounded-full transition-colors",
+                            input.trim() ? "bg-primary text-primary-foreground hover:bg-primary/90" : "text-muted-foreground"
+                        )}
                         onClick={handleSubmit}
                     >
                         <SendHorizontal className="h-5 w-5" />

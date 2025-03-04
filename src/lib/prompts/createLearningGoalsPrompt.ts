@@ -18,3 +18,14 @@ Output format:
   ...
 ]
 `
+
+export const createLearningGoalsCommand = `
+CREATE_LEARNING_GOALS | INPUT=<user_input> | N=<number_of_themes> | LANG=<language> | 
+FORMAT=JSON-no code blocks (
+[{
+    "theme": s, // max 5 words
+    "description": s, // max 20 words
+    "learning_goals": s[] // 2-3 goals
+}]
+)
+`

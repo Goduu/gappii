@@ -68,7 +68,7 @@ export const EditLessonFields: FC<EditLessonFieldsProps> = ({ form }) => {
           </div>
 
           <div className='flex flex-col md:flex-row justify-between gap-2 md:gap-4'>
-            <div className='flex flex-col gap-2'>
+            <div className='flex gap-4'>
               <div className="flex items-center gap-2 text-gray-700 mb-1">
                 <Languages className="w-5 h-5" />
                 <FormLabel className="text-sm font-medium mb-2 block">Language</FormLabel>
@@ -82,6 +82,7 @@ export const EditLessonFields: FC<EditLessonFieldsProps> = ({ form }) => {
                       <LanguageSelector
                         language={field.value as SupportedLanguage}
                         onLanguageChange={field.onChange}
+                        allowAll={false}
                       />
                     </FormControl>
                   </FormItem>

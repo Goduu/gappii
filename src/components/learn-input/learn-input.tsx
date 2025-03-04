@@ -24,6 +24,8 @@ export const LearnInput = ({ isOpen = false, onCreate, onClose }: LearnInput2Pro
     const [level, setLevel] = useState("1")
     const [messages, setMessages] = useState<Message[]>([])
     const [numberOfQuestions, setNumberOfQuestions] = useState("7")
+    // Track if user has submitted a prompt
+    const [hasSubmittedPrompt, setHasSubmittedPrompt] = useState(false)
 
     useDetectEsc(onClose || (() => { }))
 
@@ -49,11 +51,13 @@ export const LearnInput = ({ isOpen = false, onCreate, onClose }: LearnInput2Pro
         }
     }, [isActive]);
 
+    // Check if user has submitted a prompt when messages change
     useEffect(() => {
-        if (messages.length > 0 && isActive) {
-            scrollToBottom()
+        if (messages.length > 0) {
+            setHasSubmittedPrompt(true);
+            scrollToBottom();
         }
-    }, [messages, isActive])
+    }, [messages]);
 
     useEffect(() => {
         setIsActive(isOpen)
@@ -66,7 +70,7 @@ export const LearnInput = ({ isOpen = false, onCreate, onClose }: LearnInput2Pro
 
     return (
         <div className={cn(
-            "flex flex-col gap-4 items-center justify-center text-foreground p-4 transition-all duration-1000",
+            "flex flex-col items-center justify-center text-foreground p-4 transition-all duration-1000",
             isActive ? "fixed inset-0 z-40" : "relative"
         )}>
             <div className={cn(
@@ -88,57 +92,82 @@ export const LearnInput = ({ isOpen = false, onCreate, onClose }: LearnInput2Pro
             )}
 
             <div className={cn(
-                "w-full max-w-3xl mx-auto space-y-6 relative transition-all duration-500",
-                isActive && "z-20 scale-95"
+                "w-full max-w-3xl mx-auto relative transition-all duration-500 h-[85vh] flex flex-col",
+                isActive && "z-20"
             )}>
+                {/* Title - shows at top before prompt, smaller after prompt */}
                 <h1 className={cn(
-                    "text-4xl font-bold text-center mb-12 transition-transform duration-500",
-                    isActive && "-translate-y-10"
+                    "text-4xl font-bold text-center transition-all duration-500",
+                    hasSubmittedPrompt ? "text-2xl mb-4" : "mb-12"
                 )}>
                     What do you want to learn?
                 </h1>
 
-                <div ref={containerRef} className="flex flex-col gap-2 items-center w-full">
-                    {isActive && (
-                        <div className="flex-1 overflow-y-auto space-y-4 max-h-96 overflow-x-scroll w-full">
-                            {messages.map((msg, index) => (
-                                <div key={index} className="space-y-2">
-                                    {msg.type === 'user' ? (
-                                        <MessageBubble content={msg.content ?? ""} isUser={true} />
-                                    ) : msg.type === 'loading' ? (
-                                        <LoadingBubble />
-                                    ) : msg.type === 'assistant' ? (
-                                        <MessageBubble content={msg.content ?? ""} isUser={false} />
-                                    ) : (
-                                        <OptionsDisplay
-                                            message={msg}
-                                            messages={messages}
-                                            setMessages={setMessages}
-                                            setError={setError}
-                                            level={level}
-                                            setLevel={setLevel}
-                                            numberOfQuestions={numberOfQuestions}
-                                            setNumberOfQuestions={setNumberOfQuestions}
-                                            onCreate={onCreate}
-                                        />
-                                    )}
+                <div ref={containerRef} className={cn(
+                    "flex flex-col w-full relative",
+                    hasSubmittedPrompt ? "h-full" : "flex-grow flex items-center justify-center"
+                )}>
+                    {/* Main content area - flexible layout based on state */}
+                    {hasSubmittedPrompt ? (
+                        <>
+                            {/* Message list - scrollable area */}
+                            <div className="flex-grow overflow-y-auto pb-24">
+                                <div className="space-y-4 w-full py-4">
+                                    {messages.map((msg, index) => (
+                                        <div key={index} className="space-y-2">
+                                            {msg.type === 'user' ? (
+                                                <MessageBubble content={msg.content ?? ""} isUser={true} />
+                                            ) : msg.type === 'loading' ? (
+                                                <LoadingBubble />
+                                            ) : msg.type === 'assistant' ? (
+                                                <MessageBubble content={msg.content ?? ""} isUser={false} />
+                                            ) : (
+                                                <OptionsDisplay
+                                                    message={msg}
+                                                    messages={messages}
+                                                    setMessages={setMessages}
+                                                    setError={setError}
+                                                    level={level}
+                                                    setLevel={setLevel}
+                                                    numberOfQuestions={numberOfQuestions}
+                                                    setNumberOfQuestions={setNumberOfQuestions}
+                                                    onCreate={onCreate}
+                                                />
+                                            )}
+                                        </div>
+                                    ))}
+                                    <ShowMoreOption
+                                        messages={messages}
+                                        setMessages={setMessages}
+                                        setError={setError}
+                                    />
+                                    <div ref={messagesEndRef} />
                                 </div>
-                            ))}
-                            <ShowMoreOption
-                                messages={messages}
+                            </div>
+                            
+                            {/* Input box - fixed at bottom */}
+                            <div className="absolute bottom-0 left-0 right-0 p-4 bg-background/80 backdrop-blur-sm">
+                                <InputBox
+                                    error={error}
+                                    isActive={isActive}
+                                    setIsActive={setIsActive}
+                                    setMessages={setMessages}
+                                    setError={setError}
+                                />
+                            </div>
+                        </>
+                    ) : (
+                        /* Input box - centered before first prompt */
+                        <div className="w-full max-w-xl mx-auto">
+                            <InputBox
+                                error={error}
+                                isActive={isActive}
+                                setIsActive={setIsActive}
                                 setMessages={setMessages}
                                 setError={setError}
                             />
-                            <div ref={messagesEndRef} />
                         </div>
                     )}
-                    <InputBox
-                        error={error}
-                        isActive={isActive}
-                        setIsActive={setIsActive}
-                        setMessages={setMessages}
-                        setError={setError}
-                    />
                 </div>
             </div>
         </div>

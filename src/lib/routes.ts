@@ -11,6 +11,6 @@ export const routes = {
     community: '/community',
     communityGallery: '/community-galery',
     paths: '/paths',
-    path: (pathId: string) => `/paths/${pathId}`,
+    path: (pathId: string) => `/lesson/path/${pathId}`,
     login: '/login'
 }

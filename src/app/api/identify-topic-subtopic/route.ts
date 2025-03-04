@@ -1,4 +1,4 @@
-import { identifyTopicSubtopic } from "@/lib/prompts/identifyTopicSubtopic";
+import { identifyTopicSubtopicCommand } from "@/lib/prompts/identifyTopicSubtopic";
 import { NextRequest } from "next/server";
 import OpenAI from "openai";
 
@@ -19,12 +19,10 @@ export async function POST(request: NextRequest) {
     model: modelName,
     messages: [
       {
-        role: "system", content: identifyTopicSubtopic
-      },
-      {
-        role: "user",
-        content: input
-      },
+        role: "system", content: identifyTopicSubtopicCommand
+          .replace("<user_description>", input)
+          .replace("<number_of_options>", "3")
+      }
     ],
   });
   const aiResponse = completion.choices[0].message.content

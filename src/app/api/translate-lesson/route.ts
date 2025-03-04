@@ -1,4 +1,4 @@
-import { translatePrompt } from "@/lib/prompts/translatePrompt";
+import { translatePromptCommand } from "@/lib/prompts/translatePrompt";
 import { NextRequest } from "next/server";
 import OpenAI from "openai";
 
@@ -20,14 +20,14 @@ export async function POST(request: NextRequest) {
     model: modelName,
     messages: [
       {
-        role: "system", content: translatePrompt
-      },
-      {
-        role: "user",
-        content: `lesson: ${lesson}, language: ${language}`,
-      },
+        // role: "system", content: translatePrompt
+        role: "system", content: translatePromptCommand
+          .replace("<lesson_json>", lesson)
+          .replace("<target_language>", language)
+      }
     ],
   });
+
   const aiResponse = completion.choices[0].message.content
 
   if (aiResponse) {

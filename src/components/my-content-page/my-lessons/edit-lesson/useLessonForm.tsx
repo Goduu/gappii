@@ -3,6 +3,29 @@ import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Lesson } from "../../../../ogm-types"
 
+// Define the activity schema separately for better readability
+const ActivitySchema = z.object({
+    id: z.string(),
+    description: z.string().min(1, "Question is required").refine(
+        (val) => {
+            const gapCount = (val.match(/{gap}/g) || []).length;
+            return gapCount === 1;
+        },
+        "Question must contain exactly one gap placeholder '{gap}'"
+    ),
+    options: z.array(z.string().min(1, "Option is required")),
+    answer: z.string().min(1, "Answer is required"),
+    comment: z.string().min(1, "Comment is required"),
+    mermaid: z.string().optional(),
+    order: z.number()
+}).refine(
+    (data) => data.options.includes(data.answer),
+    {
+        message: "Answer must be one of the provided options",
+        path: ["answer"]
+    }
+);
+
 const LessonSchema = z.object({
     topic: z.object({
         id: z.string(),
@@ -20,23 +43,7 @@ const LessonSchema = z.object({
             name: z.string()
         }),
     ),
-    activities: z.array(
-        z.object({
-            id: z.string(),
-            description: z.string().min(1, "Question is required").refine(
-                (val) => {
-                    const gapCount = (val.match(/{gap}/g) || []).length;
-                    return gapCount === 1;
-                },
-                "Question must contain exactly one gap placeholder '{gap}'"
-            ),
-            options: z.array(z.string().min(1, "Option is required")),
-            answer: z.string().min(1, "Answer is required"),
-            comment: z.string().min(1, "Comment is required"),
-            mermaid: z.string().optional(),
-            order: z.number()
-        })
-    )
+    activities: z.array(ActivitySchema)
 })
 
 // Infer the type from the Zod schema
@@ -61,9 +68,7 @@ export const useLessonForm = (lesson?: Lesson) => {
                 order: activity.order
             })).sort((a, b) => a.order - b.order) || []
         },
-
     })
-
 
     return { form }
 }

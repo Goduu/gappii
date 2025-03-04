@@ -9,10 +9,11 @@ import { Whisper } from '../ui/tooltip'
 
 type LanguageSelectorProps = {
     language?: SupportedLanguage,
+    allowAll?: boolean,
     onLanguageChange: (language: SupportedLanguage | undefined) => void
 }
 
-export const LanguageSelector: FC<LanguageSelectorProps> = ({ language, onLanguageChange }) => {
+export const LanguageSelector: FC<LanguageSelectorProps> = ({ language, onLanguageChange, allowAll = true }) => {
     // Get language code for display (e.g., "EN" for "en-us")
     const getLanguageCode = (lang: string | undefined): string => {
         if (!lang) return '';
@@ -28,7 +29,7 @@ export const LanguageSelector: FC<LanguageSelectorProps> = ({ language, onLangua
                         size="icon"
                         className={cn(
                             "flex items-center justify-center size-10 aspect-square relative",
-                            !!language && "bg-accent"
+                            !!language && allowAll && "bg-accent"
                         )}
                     >
                         <Globe className="size-4" />
@@ -58,9 +59,10 @@ export const LanguageSelector: FC<LanguageSelectorProps> = ({ language, onLangua
                                 <span>{lang}</span>
                             </Button>
                         ))}
-                        <Button
-                            variant={!language ? "default" : "outline"}
-                            size="sm"
+                        {allowAll && (
+                            <Button
+                                variant={!language ? "default" : "outline"}
+                                size="sm"
                             className={cn("flex items-center gap-2 justify-start",
                                 !language && "bg-primary text-primary-foreground"
                             )}
@@ -69,6 +71,7 @@ export const LanguageSelector: FC<LanguageSelectorProps> = ({ language, onLangua
                             <FlagOff className="size-4" />
                             <span>All</span>
                         </Button>
+                        )}
                     </div>
                 </div>
             </PopoverContent>

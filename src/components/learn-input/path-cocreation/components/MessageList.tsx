@@ -38,7 +38,7 @@ const MessageListComponent = ({
     detailedPlanItems
 }: MessageListProps) => {
     return (
-        <div className="flex-1 overflow-y-auto space-y-4 max-h-96 w-full">
+        <div className="flex flex-col w-full space-y-4 py-4">
             {messages.map((msg, index) => (
                 <div key={index} className="space-y-2">
                     {msg.type === 'user' ? (
@@ -49,25 +49,29 @@ const MessageListComponent = ({
                         <div>
                             <MessageBubble content={msg.content ?? ""} isUser={false} />
                             {msg.learningGoals && (
-                                <LearningGoalOptions
-                                    message={msg}
-                                    onThemeSelect={onThemeSelect}
-                                />
+                                <div className="mt-4">
+                                    <LearningGoalOptions
+                                        message={msg}
+                                        onThemeSelect={onThemeSelect}
+                                    />
+                                </div>
                             )}
                             {msg.detailedPlan && (
-                                <ClickableTopics
-                                    message={msg}
-                                    planModificationState={planModificationState}
-                                    processingTopics={processingTopics}
-                                    failedTopics={failedTopics}
-                                    createdLessons={createdLessons}
-                                    autoCreationInProgress={autoCreationInProgress}
-                                    onTopicClick={onTopicClick}
-                                    onTopicOnlyClick={onTopicOnlyClick}
-                                    onStartAutoCreation={onStartAutoCreation}
-                                    onStartPlanModification={onStartPlanModification}
-                                    detailedPlanItems={detailedPlanItems}
-                                />
+                                <div className="mt-4">
+                                    <ClickableTopics
+                                        message={msg}
+                                        planModificationState={planModificationState}
+                                        processingTopics={processingTopics}
+                                        failedTopics={failedTopics}
+                                        createdLessons={createdLessons}
+                                        autoCreationInProgress={autoCreationInProgress}
+                                        onTopicClick={onTopicClick}
+                                        onTopicOnlyClick={onTopicOnlyClick}
+                                        onStartAutoCreation={onStartAutoCreation}
+                                        onStartPlanModification={onStartPlanModification}
+                                        detailedPlanItems={detailedPlanItems}
+                                    />
+                                </div>
                             )}
                         </div>
                     ) : null}

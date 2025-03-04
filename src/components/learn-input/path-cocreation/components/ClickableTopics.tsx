@@ -74,8 +74,9 @@ const ClickableTopicsComponent = ({
                                     <Button
                                         variant={hasFailed ? "destructive" : isCreated ? "default" : "outline"}
                                         className="flex flex-wrap justify-start h-auto py-2 px-3 w-fit max-w-full"
-                                        disabled={isProcessing || (planModificationState === 'none' && autoCreationInProgress) || isCreated}
+                                        disabled={isSelectingPlanModification || isProcessing || (planModificationState === 'none' && autoCreationInProgress) || isCreated}
                                         onClick={() => onTopicClick(topic, item.subtopic)}
+                                        
                                     >
                                         <div className="flex items-start gap-2 w-full">
                                             <span className="break-words flex-1">{item.subtopic} </span>

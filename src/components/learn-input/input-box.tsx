@@ -6,7 +6,7 @@ import { useRef, useState } from "react"
 import { Message } from "./types"
 import { processUserInput } from "@/lib/processUserInput"
 import { LanguageSelector } from "./language-selector"
-import { SupportedLanguage } from "@/app/types"
+import { languages, SupportedLanguage } from "@/app/types"
 
 type InputBoxProps = {
     error: string
@@ -20,7 +20,7 @@ export const InputBox = ({ error, isActive, setIsActive, setMessages, setError }
     const inputRef = useRef<HTMLInputElement>(null)
     const [input, setInput] = useState("")
     const [isUsed, setIsUsed] = useState(false)
-    const [language, setLanguage] = useState<SupportedLanguage | undefined>(undefined)
+    const [language, setLanguage] = useState<SupportedLanguage | undefined>(languages["en"])
 
     const handleContainerClick = (e: React.MouseEvent) => {
         // Prevent propagation to stop useDetectOutsideClick from firing
@@ -29,7 +29,7 @@ export const InputBox = ({ error, isActive, setIsActive, setMessages, setError }
     }
 
     const handleSubmit = async () => {
-        if (!input.trim()) return
+        if (!input.trim() || isUsed) return
 
         const userMessage = input
         setMessages((prev: Message[]) => [...prev,
@@ -69,46 +69,50 @@ export const InputBox = ({ error, isActive, setIsActive, setMessages, setError }
     }
 
     return (
-        <div className="relative w-full flex flex-col items-center input-box-container"
-             onClick={handleContainerClick}
-             onMouseDown={(e) => e.stopPropagation()}>
+        <div className="relative w-full"
+            onClick={handleContainerClick}
+            onMouseDown={(e) => e.stopPropagation()}>
             {error && isActive && (
-                <div className="text-red-500 text-sm text-center mb-2 flex items-center gap-2">
+                <div className="text-red-500 text-sm text-center mb-2 flex items-center justify-center gap-2">
                     {error}
-                    <Button 
-                        variant="destructive" 
-                        size="sm" 
+                    <Button
+                        variant="destructive"
+                        size="sm"
                         onClick={handleRestartChat}
+                        className="ml-2"
                     >
-                        <RefreshCcw />Restart chat
+                        <RefreshCcw className="mr-1 h-4 w-4" />Restart
                     </Button>
                 </div>
             )}
             <div
                 className={cn(
-                    "flex flex-col gap-4 p-6 rounded-lg border bg-background transition-all duration-500",
-                    "w-full max-w-4xl relative",
-                    isActive && "shadow-lg"
+                    "flex flex-col gap-4 p-4 rounded-xl border bg-background transition-all duration-300",
+                    "w-full relative shadow-md",
+                    isActive && "border-primary/30"
                 )}
             >
                 <div className="flex gap-2 items-center">
-                    <LanguageSelector onLanguageChange={setLanguage} language={language} />
+                    <LanguageSelector onLanguageChange={setLanguage} language={language} allowAll={false} />
                     <Input
                         ref={inputRef}
                         disabled={isUsed || !!error}
-                        placeholder={isUsed ? "Chose from above." : "I want to learn"}
+                        placeholder={isUsed ? "Choose from above options" : "What would you like to learn about today?"}
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         onFocus={() => setIsActive(true)}
                         onKeyDown={handleKeyPress}
                         onClick={(e) => e.stopPropagation()}
-                        className="flex-1 h-full text-lg border-none shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+                        className="flex-1 h-12 text-lg border-none shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent"
                     />
                     <Button
                         disabled={isUsed || !!error}
                         variant="ghost"
                         size="icon"
-                        className="shrink-0"
+                        className={cn(
+                            "shrink-0 h-10 w-10 rounded-full transition-colors",
+                            input.trim() && !isUsed ? "bg-primary text-primary-foreground hover:bg-primary/90" : "text-muted-foreground"
+                        )}
                         onClick={(e) => {
                             e.stopPropagation()
                             handleSubmit()

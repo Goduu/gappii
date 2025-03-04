@@ -28,3 +28,24 @@ Output the entire modified plan in the following format:
 
 Important: The output should include ALL topics and subtopics from the original plan, with modifications applied only to the user-selected topic and subtopic.
 `
+export const modifyDetailedPlanPromptCommand = `
+MODIFY_PLAN | PLAN=<plan_json> | THEME=<selected_theme> | GOALS=<selected_goals> | TOPIC=<topic> | SUBTOPIC=<subtopic> | MODS=<user_modifications> | FORMAT=JSON
+`
+export const modifyDetailedPlanPromptJson = `
+{
+  "command": "MODIFY_PLAN",
+  "plan": <plan_json>,
+  "theme": <selected_theme>,
+  "goals": <selected_goals>,
+  "topic": <topic>,
+  "subtopic": <subtopic>,
+  "mods": <user_modifications>,
+  "format": "JSON",
+  "comments": "
+  - No JSON code blocks. 
+  - Keep keys and structure. 
+  - Apply the user's modifications ONLY to the selected topic and subtopic.
+  - Keep all other topics, subtopics, and learning points exactly as they were in the original plan.
+  "
+}
+`

@@ -44,7 +44,7 @@ export const TopicAutoComplete: FC<TopicAutocompleteProps> = ({ selectedTopic, o
             isLoading={loading}
             onValueChange={onSelectTopic}
             onAddItem={handleCreateNewTopic}
-            value={selectedTopic?.id ? { label: selectedTopic.id, value: selectedTopic.title } : undefined}
+            value={selectedTopic?.id ? { label: selectedTopic.title, value: selectedTopic.id } : undefined}
             className="touch-manipulation"
         />
     )

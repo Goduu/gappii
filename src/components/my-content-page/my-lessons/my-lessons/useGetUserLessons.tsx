@@ -1,4 +1,4 @@
-import { GET_USER_LESSONS, GET_USER_MISTAKES } from '@/lib/gqls/userGQLs';
+import { GET_USER_LESSONS } from '@/lib/gqls/userGQLs';
 import { Lesson, User, UserHasLessonsConnectionWhere } from '@/ogm-types';
 import { useQuery } from '@apollo/client';
 import { useState } from 'react';
@@ -20,8 +20,8 @@ export const useGetUserLessons = (searchParams?: SearchParams) => {
     const user = useUser();
     const reaction = searchParams?.lessonReaction || '';
     const search = searchParams?.lessonSearch || '';
-    const { data: mistakes } = useQuery(GET_USER_MISTAKES, { variables: { where: { email: user?.email } } })
-    console.info("mistakes", mistakes)
+    // const { data: mistakes } = useQuery(GET_USER_MISTAKES, { variables: { where: { email: user?.email } } })
+    // console.info("mistakes", mistakes)
 
     const getReactionFilter = (reaction: string) => {
         if (!reaction) return {};

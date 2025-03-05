@@ -194,7 +194,6 @@ export const usePathCreation = (
 
             // Create the path and get the actual path ID from the API
             const createdPathResult = await createPath(newPath);
-
             if (!createdPathResult) {
                 throw new Error("Failed to create path");
             }

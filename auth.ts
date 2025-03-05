@@ -10,7 +10,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     })],
     adapter: Neo4jAdapter(getDriver().session()),
     session: {
-        strategy: "database"
+        strategy: "jwt"
     },
     callbacks: {
         authorized: async ({ auth }) => {

@@ -7,6 +7,9 @@ import { useUser } from "../useUser"
 import { useDebouncedCallback } from "use-debounce"
 import { useInfiniteScroll } from "@/components/my-content-page/my-lessons/useInfinityScroll"
 
+type QueryResponse = {
+    users: User[];
+};
 
 export const useUserPathsAndLessons = (searchParams?: { pathSearch?: string, pathReaction?: string }) => {
     const [isFetchingMore, setIsFetchingMore] = useState(false);
@@ -25,7 +28,7 @@ export const useUserPathsAndLessons = (searchParams?: { pathSearch?: string, pat
         };
     };
 
-    const { data: userData, loading, refetch, fetchMore } = useQuery<{ users: User[] }>(GET_USER_PATHS_AND_LESSONS, {
+    const { data: userData, loading, refetch, fetchMore } = useQuery<QueryResponse>(GET_USER_PATHS_AND_LESSONS, {
         variables: {
             where: { email: user?.email },
             pathWhere: {
@@ -37,30 +40,42 @@ export const useUserPathsAndLessons = (searchParams?: { pathSearch?: string, pat
             first: 12,
             email: user?.email || ''
         },
-        skip: !user?.email
+        skip: !user?.email,
+        // notifyOnNetworkStatusChange: true // Important: This ensures loading state updates on fetchMore
     });
 
     const userPathsConnection = userData?.users[0]?.hasPathsConnection;
     const hasNextPage = userPathsConnection?.pageInfo.hasNextPage;
     const endCursor = userPathsConnection?.pageInfo.endCursor;
 
-    const updateQueryWithNewPaths = (prev: { users: User[] }, fetchMoreResult: { users: User[] } | undefined) => {
-        if (!fetchMoreResult) return prev;
+    const updateQueryWithNewPaths = (prev: QueryResponse, fetchMoreResult: QueryResponse | undefined) => {
+        if (!fetchMoreResult || !fetchMoreResult.users || fetchMoreResult.users.length === 0) return prev;
+        if (!prev || !prev.users || prev.users.length === 0) return fetchMoreResult;
 
         const prevUserData = prev.users[0];
         const newUserData = fetchMoreResult.users[0];
-        const prevIds = prevUserData.hasPathsConnection?.edges.map(e => e.node.id);
 
-        const newPaths = prev
-            ? newUserData?.hasPathsConnection?.edges.filter(e => !prevIds.includes(e.node.id))
-            : newUserData?.hasPathsConnection?.edges;
+        // Safely get previous IDs, defaulting to empty array if edges is undefined
+        const prevEdges = prevUserData.hasPathsConnection.edges || [];
+        const prevIds = prevEdges.map(e => e.node.id);
+
+        const newEdges = newUserData.hasPathsConnection.edges || [];
+        const newPaths = newEdges.filter(e => !prevIds.includes(e.node.id));
+        const updatedHasNextPage = newUserData.hasPathsConnection.pageInfo.hasNextPage;
+
+        // If no new paths were found and hasNextPage is true, it might be a pagination issue
+        if (newPaths.length === 0 && updatedHasNextPage === true) {
+            console.warn("No new paths found but hasNextPage is true. This might indicate a pagination issue.");
+        }
 
         return {
             users: [{
                 ...prevUserData,
                 hasPathsConnection: {
                     ...newUserData.hasPathsConnection,
-                    edges: [...prevUserData.hasPathsConnection?.edges, ...newPaths],
+                    edges: [...prevEdges, ...newPaths],
+                    // Important: Use the pageInfo from the new result
+                    pageInfo: newUserData.hasPathsConnection.pageInfo
                 },
             }],
         };
@@ -73,8 +88,7 @@ export const useUserPathsAndLessons = (searchParams?: { pathSearch?: string, pat
         try {
             await fetchMore({
                 variables: {
-                    after: endCursor,
-                    email: user?.email || ''
+                    after: endCursor
                 },
                 updateQuery: (prev, { fetchMoreResult }) => {
                     if (!fetchMoreResult) return prev;
@@ -96,10 +110,10 @@ export const useUserPathsAndLessons = (searchParams?: { pathSearch?: string, pat
         if (user?.email) {
             refetch();
         }
-    }, [user?.email, search, reaction]);
+    }, [ search, reaction]);
 
     // Extract paths from the connection-based data structure
-    const paths: Path[] = userPathsConnection?.edges.map(
+    const paths: Path[] = userPathsConnection?.edges?.map(
         (edge: { node: Path }) => edge.node
     ) || [];
 

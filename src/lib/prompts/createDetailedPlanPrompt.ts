@@ -21,7 +21,7 @@ Output format:
 `
 
 export const createDetailedPlanCommand = `
-CREATE_DETAILED_PLAN | THEME=<selected_theme> | GOALS=<selected_goals> | LANG=<language> | N_TOPICS=<number_of_topics> | N_SUBTOPICS=<number_of_subtopics> |
+CREATE_DETAILED_PLAN | THEME=<selected_theme> | GOALS=<selected_goals> | LANG=<language> | N_TOPICS=<number_of_topics> | N_SUBTOPICS_PER_TOPIC=<number_of_subtopics> |
 FORMAT=JSON-no code blocks(
 [{
     "topic": s,

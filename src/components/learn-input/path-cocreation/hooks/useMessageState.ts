@@ -18,6 +18,7 @@ export const useMessageState = (isOpen: boolean) => {
             content: "What topic or skill would you like to learn about today? Feel free to be as specific or general as you'd like."
         }
     ])
+    const [hasSubmittedPrompt, setHasSubmittedPrompt] = useState(false)
     const [level, ] = useState("1")
     const [language, ] = useState<SupportedLanguage>("en-us")
     const [numberOfQuestions, ] = useState("7")
@@ -45,6 +46,13 @@ export const useMessageState = (isOpen: boolean) => {
     useEffect(() => {
         setIsActive(isOpen)
     }, [isOpen])
+
+    // Check if user has submitted a prompt when messages change
+    useEffect(() => {
+        if (messages.length > 1) {
+            setHasSubmittedPrompt(true)
+        }
+    }, [messages])
 
     const handleUserInput = useCallback(async (input: string) => {
         // Add user message
@@ -282,6 +290,7 @@ export const useMessageState = (isOpen: boolean) => {
         handleThemeSelection,
         startPlanModification,
         handleTopicOnlyClick,
-        handleModificationSelection
+        handleModificationSelection,
+        hasSubmittedPrompt
     }
 } 

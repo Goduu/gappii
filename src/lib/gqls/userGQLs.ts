@@ -213,21 +213,6 @@ export const GET_USER_PATHS_AND_LESSONS = gql`
           endCursor
         }
       }
-      hasPaths {
-        id
-        title
-        color
-        icon
-        withLessons {
-          id
-          title
-          attempts(email: $email)
-          completionPercentage(email: $email)
-          hasActivitiesAggregate {
-            count
-          }
-        }
-      }
     }
   }
 `;

@@ -1,5 +1,5 @@
 import { languages } from "@/app/types";
-import { createDetailedPlanCommand } from "@/lib/prompts/createDetailedPlanPrompt";
+import { createDetailedPlanPrompt } from "@/lib/prompts/createDetailedPlanPrompt";
 import { NextRequest } from "next/server";
 import OpenAI from "openai";
 
@@ -21,13 +21,11 @@ export async function POST(request: NextRequest) {
     model: modelName,
     messages: [
       {
-        // role: "system", content: createDetailedPlanPrompt.replace("{language}", language)
-        role: "system", content: createDetailedPlanCommand
-          .replace("<selected_theme>", selectedTheme)
-          .replace("<selected_goals>", selectedGoals)
-          .replace("<language>", language)
-          .replace("<number_of_topics>", "2 to 3")
-          .replace("<number_of_subtopics>", "2 to 3")
+        role: "system", content: createDetailedPlanPrompt.replace("{language}", language)
+      },
+      {
+        role: "user",
+        content: `selected_theme: ${selectedTheme}, selected_goals: ${selectedGoals}`
       },
     ],
   });

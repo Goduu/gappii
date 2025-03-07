@@ -1,5 +1,5 @@
 
-import { MutationUpdateUsersArgs, UserHasLessonsConnectionWhere, UserWhere } from '@/ogm-types';
+import { MutationUpdateUsersArgs } from '@/ogm-types';
 import { useMutation } from '@apollo/client';
 import { GET_USER_PATHS_AND_LESSONS, UPDATE_USER } from '@/lib/gqls/userGQLs';
 import { PathReaction } from './types';
@@ -8,17 +8,17 @@ export const useReactToPath = (
     userEmail: string,
     pathId: string,
 ) => {
-    const [reactToPath] = useMutation(
+    const [reactToPathMutation] = useMutation(
         UPDATE_USER,
         {
             refetchQueries: [GET_USER_PATHS_AND_LESSONS]
         }
     )
 
-    return (
+    const reactToPath = (
         currentReaction: PathReaction | null,
         newReaction: PathReaction,
-    ) => reactToPath({
+    ) => reactToPathMutation({
         variables: {
             where: {
                 email: userEmail
@@ -39,19 +39,7 @@ export const useReactToPath = (
                 }]
             },
         } satisfies MutationUpdateUsersArgs,
-        refetchQueries: [{
-            query: GET_USER_PATHS_AND_LESSONS,
-            variables: {
-                where: {
-                    email: userEmail
-                } satisfies UserWhere,
-                lessonWhere: {
-                    node: {
-                        id: pathId
-                    }
-                } satisfies UserHasLessonsConnectionWhere,
-                first: 1
-            }
-        }]
     })
+
+    return reactToPath
 }

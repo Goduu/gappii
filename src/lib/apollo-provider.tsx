@@ -10,6 +10,7 @@ export const client = new ApolloClient({
   cache: new InMemoryCache({
     fragments: createFragmentRegistry(LESSON_FRAGMENT, ACTIVITY_FRAGMENT)
   }),
+  connectToDevTools: true,
   ssrMode: typeof window === 'undefined',
 })
 

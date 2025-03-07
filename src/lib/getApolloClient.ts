@@ -10,6 +10,7 @@ export const getApolloClient = () =>
       fragments: createFragmentRegistry(LESSON_FRAGMENT, ACTIVITY_FRAGMENT)
     }),
     ssrMode: typeof window === 'undefined', // Important for Server Components
+    connectToDevTools: true,
   });
 
 // export const createApolloClient = (headers?: IncomingHttpHeaders) => {

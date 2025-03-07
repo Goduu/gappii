@@ -6,6 +6,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { cn, sanitizeLuceneString } from '@/lib/utils'
 import { Toggle } from './toggle'
 import { Whisper } from './tooltip'
+import { useDetectEsc } from '@/lib/utilitary-hooks/useDetectEsc'
 
 type SearchBarProps = {
     id: string
@@ -19,6 +20,8 @@ export const SearchBar = ({ id, placeholder = "Search...", isOpen, setIsOpen }: 
     const pathname = usePathname();
     const { replace } = useRouter();
     const search = searchParams.get(`${id}Search`)
+
+    useDetectEsc(() => setIsOpen(false))
 
     const onTextSearchChange = useDebouncedCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         // att to searchParams

@@ -33,3 +33,11 @@ export const GET_PATH_RANDOM_ACTIVITIES = gql`
   }
 `
 
+export const DELETE_PATH = gql`
+  mutation DeletePath($where: PathWhere!) {
+    deletePaths(where: $where) {
+      nodesDeleted
+      relationshipsDeleted
+    }
+  }
+`

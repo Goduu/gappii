@@ -55,6 +55,12 @@ export const useUserPathsAndLessons = (searchParams?: { pathSearch?: string, pat
         const prevUserData = prev.users[0];
         const newUserData = fetchMoreResult.users[0];
 
+        // Ensure we are updating the same user
+        if (prevUserData.id !== newUserData.id) {
+            console.error("User mismatch in fetchMore pagination!");
+            return prev;
+        }
+
         // Safely get previous IDs, defaulting to empty array if edges is undefined
         const prevEdges = prevUserData.hasPathsConnection.edges || [];
         const prevIds = prevEdges.map(e => e.node.id);
@@ -75,7 +81,10 @@ export const useUserPathsAndLessons = (searchParams?: { pathSearch?: string, pat
                     ...newUserData.hasPathsConnection,
                     edges: [...prevEdges, ...newPaths],
                     // Important: Use the pageInfo from the new result
-                    pageInfo: newUserData.hasPathsConnection.pageInfo
+                    pageInfo: {
+                        ...prevUserData.hasPathsConnection?.pageInfo,
+                        ...newUserData.hasPathsConnection?.pageInfo
+                    }
                 },
             }],
         };
@@ -88,7 +97,7 @@ export const useUserPathsAndLessons = (searchParams?: { pathSearch?: string, pat
         try {
             await fetchMore({
                 variables: {
-                    after: endCursor
+                    after: userPathsConnection?.pageInfo.endCursor
                 },
                 updateQuery: (prev, { fetchMoreResult }) => {
                     if (!fetchMoreResult) return prev;
@@ -110,7 +119,7 @@ export const useUserPathsAndLessons = (searchParams?: { pathSearch?: string, pat
         if (user?.email) {
             refetch();
         }
-    }, [ search, reaction]);
+    }, [search, reaction]);
 
     // Extract paths from the connection-based data structure
     const paths: Path[] = userPathsConnection?.edges?.map(
@@ -121,6 +130,7 @@ export const useUserPathsAndLessons = (searchParams?: { pathSearch?: string, pat
         userPaths: paths,
         userLessons: userData?.users[0]?.hasLessons,
         loading: loading || isFetchingMore,
-        setInfiniteScrollRef: setElement
+        setInfiniteScrollRef: setElement,
+        refetch
     };
 }

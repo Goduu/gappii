@@ -19,15 +19,17 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { useToast } from "@/hooks/use-toast"
 import { z } from "zod"
 import { getSafeColor } from "@/lib/type-guards"
+import { ReactNode } from "react"
 
 type PathDetailsContentProps = {
     path?: Path | null
     lessons: Lesson[]
     mode: 'view' | 'edit'
     onClose?: () => void
+    deleteComponent?: ReactNode
 }
 
-export const PathDetailsContent = ({ path, lessons, mode = 'edit', onClose }: PathDetailsContentProps) => {
+export const PathDetailsContent = ({ path, lessons, mode = 'edit', onClose, deleteComponent }: PathDetailsContentProps) => {
     // State variables
     const [isAddingLesson, setIsAddingLesson] = useState(false)
     const [isEditing, setIsEditing] = useState(mode === 'edit')
@@ -142,16 +144,20 @@ export const PathDetailsContent = ({ path, lessons, mode = 'edit', onClose }: Pa
                     {/* Path icon display and edit button */}
                     <div className="relative">
                         {path?.id && (
-                            <Button
-                                variant="outline"
-                                size="icon"
-                                className="absolute top-1 right-1"
-                                onClick={toggleEditMode}
-                                type="button"
-                                aria-label={isEditing ? "Save settings" : "Edit settings"}
-                            >
-                                {isEditing ? <Check /> : <Pencil />}
-                            </Button>
+                            <div className="absolute top-1 right-1 flex flex-col gap-2">
+                                <Button
+                                    variant="outline"
+                                    size="icon"
+
+                                    onClick={toggleEditMode}
+                                    type="button"
+                                    aria-label={isEditing ? "Save settings" : "Edit settings"}
+                                >
+                                    {isEditing ? <Check /> : <Pencil />}
+                                </Button>
+                                {deleteComponent}
+                            </div>
+
                         )}
                         <div className="flex justify-center items-center">
                             <PathCircle

@@ -7,7 +7,7 @@ type FullTextQueryResult = { lessonsFulltextLessonTitle: LessonFulltextResult[] 
 type LessonQueryResult = { lessons: Lesson[] };
 
 const buildQueryVariables = (searchParams: CommunitySearchParams) => ({
-    phrase: searchParams?.search,
+    phrase: searchParams?.lessonSearch,
     level: searchParams?.level ? parseInt(searchParams.level) : undefined,
     newestSort: searchParams?.toggle === "newest" ? "DESC" : undefined,
     topRatedSort: searchParams?.toggle === "topRated" ? "DESC" : undefined,
@@ -18,7 +18,7 @@ export const fetchLessonsData = async (
     searchParams: CommunitySearchParams
 ) => {
     const client = getApolloClient();
-    const isFullTextSearch = Boolean(searchParams?.search);
+    const isFullTextSearch = Boolean(searchParams?.lessonSearch);
 
     const variables = buildQueryVariables(searchParams);
 

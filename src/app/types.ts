@@ -11,7 +11,7 @@ export const languages: { [key: string]: SupportedLanguage } = {
 }
 
 export type CommunitySearchParams = {
-    search?: string;
+    lessonSearch?: string;
     toggle?: string;
     level?: string;
     language?: string;

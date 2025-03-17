@@ -50,7 +50,7 @@ export class Neo4jGraph {
   static create(): Neo4jGraph {
     const uri = process.env.NEO4J_URI || 'bolt://localhost:7687';
     const username = process.env.NEO4J_USERNAME || 'neo4j';
-    const password = process.env.NEO4J_PASSWORD || 'TxkDIMw0VulE7O';
+    const password = process.env.NEO4J_PASSWORD || '';
     
     if (!password) {
       console.warn('Neo4j password not set in environment variables');

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { Message as VercelChatMessage } from "ai";
 
 import { ToolNode } from "@langchain/langgraph/prebuilt";
-import { ChatOpenAI } from "@langchain/openai";
+import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai";
 import { Calculator } from "@langchain/community/tools/calculator";
 import {
   AIMessage,
@@ -10,25 +10,19 @@ import {
   HumanMessage,
 } from "@langchain/core/messages";
 import { convertLangChainMessageToVercelMessage, convertVercelMessageToLangChainMessage } from "./messageConverters";
-import { StateGraph, MessagesAnnotation } from "@langchain/langgraph";
+import { StateGraph, MessagesAnnotation, InMemoryStore } from "@langchain/langgraph";
 import { tool } from "@langchain/core/tools";
 import { z } from "zod";
 import { Neo4jGraph } from "./neo4j";
 import { Neo4jCheckpointer } from "./neo4jCheckpointer";
+import { createInMemoryStore } from "./inMemoryStore";
+import { State } from "./types";
+import { createModelWithStructuredOutput } from "./initialLearningGoal/modelWithStructuredOutput";
+import { createInitialGoalGraph } from "./initialLearningGoal/initialGoalGraph";
 
 export const runtime = "edge";
 
 
-type State = {
-  messages: BaseMessageLike[]
-  learningGoalStep: {
-    index: number
-    subject: string
-    description: string
-    goas: string[]
-    previousIndex: number
-  }
-}
 
 
 /**
@@ -63,26 +57,17 @@ export async function POST(req: NextRequest) {
     // Requires process.env.SERPAPI_API_KEY to be set: https://serpapi.com/
     // You can remove this or use a different tool instead.
 
-    const model = new ChatOpenAI({
-      model: "gpt-4o-mini",
-      temperature: 0,
-    });
 
-    async function callModel(state: State) {
-      try {
-        const response = await model.invoke(state.messages);
-        // We return a list, because this will get added to the existing list
-        return { messages: [response] };
-      } catch (error) {
-        console.error("Error calling model:", error);
-        // Return a fallback response
-        return { 
-          messages: [
-            new AIMessage("I'm sorry, I encountered an error processing your request.")
-          ] 
-        };
-      }
-    }
+
+    // Define schema
+    // const schema = { foo: "bar" };
+
+    // // Bind schema to model
+    const inMemoryStore = createInMemoryStore();
+
+    // Invoke the model to produce structured output that matches the schema
+    // const modelWithStructure = model.withStructuredOutput(schema);
+    // const structuredOutput = await modelWithStructure.invoke(userInput);
 
     const multiply = tool(
       async ({ a, b }) => {
@@ -100,12 +85,30 @@ export async function POST(req: NextRequest) {
 
     const tools = [new Calculator(), multiply];
 
+    const model = createModelWithStructuredOutput();
+
+    async function callModel(state: State) {
+      try {
+        const response = await model.invoke(state.messages);
+        // We return a list, because this will get added to the existing list
+        return { messages: [response] };
+      } catch (error) {
+        console.error("Error calling model:", error);
+        // Return a fallback response
+        return {
+          messages: [
+            new AIMessage("I'm sorry, I encountered an error processing your request.")
+          ]
+        };
+      }
+    }
+
     function shouldContinue({ messages }: typeof MessagesAnnotation.State) {
       try {
         if (!messages || messages.length === 0) {
           return "__end__";
         }
-        
+
         const lastMessage = messages[messages.length - 1] as AIMessage;
 
         // If the LLM makes a tool call, then we route to the "tools" node
@@ -122,51 +125,34 @@ export async function POST(req: NextRequest) {
 
     const toolNode = new ToolNode(tools);
 
-    let app;
-    try {
-      // Try to create Neo4j connection and checkpointer
-      const neo4jGraph = Neo4jGraph.create();
-      const checkpointer = new Neo4jCheckpointer(neo4jGraph);
+    const checkpointer = new Neo4jCheckpointer();
 
-      const workflow = new StateGraph(MessagesAnnotation)
-        .addNode("agent", callModel)
-        .addEdge("__start__", "agent") // __start__ is a special name for the entrypoint
-        .addNode("tools", toolNode)
-        .addEdge("tools", "agent")
-        .addConditionalEdges("agent", shouldContinue);
+    const workflow = new StateGraph(MessagesAnnotation)
+      .addNode("agent", callModel)
+      .addEdge("__start__", "agent") // __start__ is a special name for the entrypoint
+      .addNode("tools", toolNode)
+      .addEdge("tools", "agent")
+      .addConditionalEdges("agent", shouldContinue);
 
-      // Use the checkpointer as a configuration option
-      app = workflow.compile({
-        // No need for type assertion now
-        checkpointer: checkpointer
-      });
-    } catch (error) {
-      console.error("Error setting up Neo4j checkpointer:", error);
-      
-      // Fallback to a version without checkpointing
-      const workflow = new StateGraph(MessagesAnnotation)
-        .addNode("agent", callModel)
-        .addEdge("__start__", "agent")
-        .addNode("tools", toolNode)
-        .addEdge("tools", "agent")
-        .addConditionalEdges("agent", shouldContinue);
 
-      app = workflow.compile();
-    }
 
-    /**
-     * We could also pick intermediate steps out from `streamEvents` chunks, but
-     * they are generated as JSON objects, so streaming and displaying them with
-     * the AI SDK is more complicated.
-     */
+    // Use the checkpointer as a configuration option
+    const app = workflow.compile({
+      // No need for type assertion now
+      // checkpointer: checkpointer,
+      store: inMemoryStore
+    });
+
+    const app2 = createInitialGoalGraph();
+
     let finalState;
     try {
-      finalState = await app.invoke({ messages });
+      finalState = await app2.invoke({ userInput: messages[0].content });
     } catch (error) {
       console.error("Error invoking app:", error);
-      
+
       // Create a fallback response if app.invoke fails
-      finalState = { 
+      finalState = {
         messages: [
           ...messages,
           new AIMessage("I'm sorry, I encountered an error processing your request.")
@@ -174,20 +160,43 @@ export async function POST(req: NextRequest) {
       };
     }
 
+    console.log("--------------------------------")
+    console.log('finalState xongas',finalState)
+    console.log("--------------------------------")
+    console.dir(finalState, { depth: null });
+
     // Ensure finalState and finalState.messages exist
-    if (!finalState || !finalState.messages) {
+    // if (!finalState || !finalState.messages) {
+    if (!finalState || !finalState.aiMessage || !finalState.initialLearningGoals?.learningGoals.length) {
       console.warn("finalState or finalState.messages is undefined, using fallback");
-      finalState = { 
+      finalState = {
         messages: [
           ...messages,
           new AIMessage("I'm sorry, I encountered an error processing your request.")
         ]
       };
     }
+
+    console.log("--------------------------------")
+    console.log('finalState.aiMessage',finalState.aiMessage)
+    console.log("--------------------------------")
+    console.log('finalState.initialLearningGoals',finalState.initialLearningGoals)
+    console.log("--------------------------------")
 
     return NextResponse.json(
       {
-        messages: finalState.messages.map(convertLangChainMessageToVercelMessage)
+        // messages: finalState.messages.map(convertLangChainMessageToVercelMessage)
+        messages: [
+          {
+            content: finalState.aiMessage,
+            role: "assistant",
+            tool_calls: [],
+          },
+          {
+            content: JSON.stringify(finalState.initialLearningGoals),
+            role: "assistant",
+          },
+        ]
       },
       { status: 200 },
     );

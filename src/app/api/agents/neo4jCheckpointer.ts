@@ -2,18 +2,6 @@ import { BaseCheckpointSaver } from "@langchain/langgraph";
 import { Neo4jGraph } from "./neo4j";
 import { RunnableConfig } from "@langchain/core/runnables";
 
-// Define the types that are missing from the imports
-type Checkpoint<K = string, V = any> = {
-  id: K;
-  versions: Record<string, number>;
-  state: V;
-};
-
-type CheckpointMetadata = Record<string, any>;
-type ChannelVersions = Record<string, number>;
-type CheckpointListOptions = Record<string, any>;
-type CheckpointTuple = [RunnableConfig, Checkpoint];
-
 /**
  * A Neo4jCheckpointer that provides checkpoint functionality for LangGraph workflows.
  * Implements BaseCheckpointSaver interface for storing workflow states in Neo4j.
@@ -41,8 +29,9 @@ export class Neo4jCheckpointer implements BaseCheckpointSaver<any> {
     }
   };
 
-  constructor(graph: Neo4jGraph) {
-    this.graph = graph;
+  constructor() {
+    const neo4jGraph = Neo4jGraph.create();
+    this.graph = neo4jGraph;
   }
 
   /**

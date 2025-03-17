@@ -227,6 +227,9 @@ importers:
       zod:
         specifier: ^3.23.8
         version: 3.24.1
+      zod-to-json-schema:
+        specifier: ^3.24.4
+        version: 3.24.4(zod@3.24.1)
       zustand:
         specifier: ^5.0.1
         version: 5.0.3(@types/react@18.3.18)(react@19.0.0-rc-fb9a90fa48-20240614)(use-sync-external-store@1.4.0(react@19.0.0-rc-fb9a90fa48-20240614))
@@ -6123,6 +6126,11 @@ packages:
     peerDependencies:
       zod: ^3.24.1
 
+  zod-to-json-schema@3.24.4:
+    resolution: {integrity: sha512-0uNlcvgabyrni9Ag8Vghj21drk7+7tp7VTwwR7KxxXXc/3pbXz2PHlDgj3cICahgF1kHm4dExBFj7BXrZJXzig==}
+    peerDependencies:
+      zod: ^3.24.1
+
   zod@3.24.1:
     resolution: {integrity: sha512-muH7gBL9sI1nciMZV67X5fTKKBLtwpZ5VBp1vsOQzj1MhrBZ4wlVCm3gedKZWLp0Oyel8sIGfeiz54Su+OVT+A==}
 
@@ -6173,7 +6181,7 @@ snapshots:
     dependencies:
       '@ai-sdk/provider': 1.0.11
       '@ai-sdk/provider-utils': 2.1.13(zod@3.24.1)
-      zod-to-json-schema: 3.24.3(zod@3.24.1)
+      zod-to-json-schema: 3.24.4(zod@3.24.1)
     optionalDependencies:
       zod: 3.24.1
 
@@ -7215,7 +7223,7 @@ snapshots:
       openai: 4.82.0(ws@8.18.1)(zod@3.24.1)
       uuid: 10.0.0
       zod: 3.24.1
-      zod-to-json-schema: 3.24.3(zod@3.24.1)
+      zod-to-json-schema: 3.24.4(zod@3.24.1)
     optionalDependencies:
       '@browserbasehq/sdk': 2.4.0
       '@upstash/redis': 1.34.4
@@ -7258,7 +7266,7 @@ snapshots:
       p-retry: 4.6.2
       uuid: 10.0.0
       zod: 3.24.1
-      zod-to-json-schema: 3.24.3(zod@3.24.1)
+      zod-to-json-schema: 3.24.4(zod@3.24.1)
     transitivePeerDependencies:
       - openai
 
@@ -7293,7 +7301,7 @@ snapshots:
       js-tiktoken: 1.0.19
       openai: 4.82.0(ws@8.18.1)(zod@3.24.1)
       zod: 3.24.1
-      zod-to-json-schema: 3.24.3(zod@3.24.1)
+      zod-to-json-schema: 3.24.4(zod@3.24.1)
     transitivePeerDependencies:
       - encoding
       - ws
@@ -10561,7 +10569,7 @@ snapshots:
       uuid: 10.0.0
       yaml: 2.7.0
       zod: 3.24.1
-      zod-to-json-schema: 3.24.3(zod@3.24.1)
+      zod-to-json-schema: 3.24.4(zod@3.24.1)
     optionalDependencies:
       axios: 1.8.3(debug@4.4.0)
     transitivePeerDependencies:
@@ -12109,6 +12117,10 @@ snapshots:
   zen-observable@0.8.15: {}
 
   zod-to-json-schema@3.24.3(zod@3.24.1):
+    dependencies:
+      zod: 3.24.1
+
+  zod-to-json-schema@3.24.4(zod@3.24.1):
     dependencies:
       zod: 3.24.1
 

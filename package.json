@@ -11,6 +11,7 @@
     "gen": "node --env-file=.env.local ./ogm-resolver/index.js"
   },
   "dependencies": {
+    "@ai-sdk/react": "^1.1.23",
     "@apollo/client": "^3.11.10",
     "@apollo/server": "^4.11.2",
     "@as-integrations/next": "^3.2.0",
@@ -74,6 +75,7 @@
     "react-dom": "^18.3.1",
     "react-fast-marquee": "^1.6.5",
     "react-hook-form": "^7.53.2",
+    "react-resizable-panels": "^2.1.7",
     "recharts": "^2.15.0",
     "svg-pan-zoom": "^3.6.2",
     "svix": "^1.41.0",

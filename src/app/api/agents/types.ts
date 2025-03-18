@@ -21,3 +21,10 @@ export type LearningGoal = {
     goals: string[]
     previousIndex: number
 }
+
+export type Message = {
+    id: string
+    content: string
+    role: "assistant" | "user" | "system" | "canvas"
+    toolCalls?: string[]
+}

@@ -19,8 +19,10 @@ export const InitialLearningGoalsState = Annotation.Root({
     }),
 })
 
-type InitialLearningGoals = {
-    learningGoals: z.infer<typeof learningGoalSchema>[]
+export type InitialLearningGoal = z.infer<typeof learningGoalSchema>
+
+export type InitialLearningGoals = {
+    learningGoals: InitialLearningGoal[]
 }
 
 export const learningGoalSchema = z.object({

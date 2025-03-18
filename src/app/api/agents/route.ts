@@ -19,6 +19,7 @@ import { createInMemoryStore } from "./inMemoryStore";
 import { State } from "./types";
 import { createModelWithStructuredOutput } from "./initialLearningGoal/modelWithStructuredOutput";
 import { createInitialGoalGraph } from "./initialLearningGoal/initialGoalGraph";
+import { Message } from "@ai-sdk/react";
 
 export const runtime = "edge";
 
@@ -188,15 +189,16 @@ export async function POST(req: NextRequest) {
         // messages: finalState.messages.map(convertLangChainMessageToVercelMessage)
         messages: [
           {
-            content: finalState.aiMessage,
+            id: crypto.randomUUID(),
+            content: finalState.aiMessage || "",
             role: "assistant",
-            tool_calls: [],
           },
           {
+            id: crypto.randomUUID(),
             content: JSON.stringify(finalState.initialLearningGoals),
-            role: "assistant",
+            role: "data",
           },
-        ]
+        ] satisfies Message[]
       },
       { status: 200 },
     );

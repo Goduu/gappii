@@ -8,18 +8,18 @@ type LearningGoalsCardProps = {
 
 export const LearningGoalsCard = ({ learningGoal }: LearningGoalsCardProps) => {
     return (
-        <Card className="w-96 hover:shadow-md transition-shadow duration-200">
+        <Card className="w-96 hover:shadow-md transition-shadow duration-200 cursor-pointer">
             <CardHeader className="pb-2">
-                <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                <CardTitle className="text-md sm:text-lg font-semibold flex items-center gap-2">
                     <Target className="h-5 w-5 text-blue-500" />
                     {learningGoal.subject}
                 </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-                <p className="text-sm text-gray-600">{learningGoal.description}</p>
+                <p className="text-xs sm:text-sm text-gray-600">{learningGoal.description}</p>
                 <div className="flex flex-col gap-2">
                     {learningGoal.goals.map((goal, index) => (
-                        <div key={index} className="flex items-center gap-2 text-sm text-gray-500">
+                        <div key={index} className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
                             <CheckCircle2 className="size-3 text-green-500" />
                             <div className="flex-1">{goal}</div>
                         </div>

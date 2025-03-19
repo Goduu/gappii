@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
 import { useCanvas } from "./CanvasContext";
 import { LearningGoalsCard } from "./LearningGoalsCard";
+import { ProcessBreadcrumb } from "./ProcessBreadcrumb";
 
 interface CanvasComponentProps {
   isCollapsed: boolean;
@@ -12,12 +13,12 @@ interface CanvasComponentProps {
 }
 
 export function CanvasComponent({ isCollapsed, onCollapseChange }: CanvasComponentProps) {
-  const { canvasContent, updateCanvasContent, initialLearningGoals } = useCanvas();
+  const { canvasContent, updateCanvasContent, stateData } = useCanvas();
 
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between p-4 border-b">
-        <h2 className="text-lg font-semibold">Canvas</h2>
+        <ProcessBreadcrumb activeState={stateData.activeState} />
         {isCollapsed && (
           <Button
             variant="ghost"
@@ -34,9 +35,11 @@ export function CanvasComponent({ isCollapsed, onCollapseChange }: CanvasCompone
         <div className="prose max-w-none">
           <div className="bg-white rounded-lg shadow p-6">
             <div className="flex flex-wrap gap-4">
-              {initialLearningGoals && initialLearningGoals.learningGoals.map((goal, index) => (
-                <LearningGoalsCard key={index} learningGoal={goal} />
-              ))}
+              {stateData?.activeState === "learningGoals" && (
+                stateData.learningGoals && stateData.learningGoals.data.learningGoals.map((goal, index) => (
+                  <LearningGoalsCard key={index} learningGoal={goal} />
+                ))
+              )}
             </div>
           </div>
         </div>

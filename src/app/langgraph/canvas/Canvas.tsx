@@ -6,7 +6,7 @@ import { ChatComponent } from "./ChatComponent";
 import { CanvasComponent } from "./CanvasComponent";
 import { CanvasProvider } from "./CanvasContext";
 
-export function SimpleCanvas() {
+export function Canvas() {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
@@ -50,4 +50,4 @@ export function SimpleCanvas() {
   );
 }
 
-export const SimpleCanvasMemo = React.memo(SimpleCanvas); 
+export const SimpleCanvasMemo = React.memo(Canvas); 

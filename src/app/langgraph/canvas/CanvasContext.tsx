@@ -5,13 +5,15 @@ import { BaseMessage } from "@langchain/core/messages";
 import { toast } from "@/hooks/use-toast";
 import { Message, useChat } from "@ai-sdk/react";
 import { InitialLearningGoals } from "@/app/api/agents/initialLearningGoal/types";
+import { ProcessState, StateValue } from "./types";
+import { isLearningGoals } from "./typeguards";
 
 interface CanvasContextType {
     messages: Message[];
     addMessage: (message: Message) => void;
     canvasContent: string;
     updateCanvasContent: (content: string) => void;
-    initialLearningGoals: InitialLearningGoals | null;
+    stateData: StateData;
 }
 
 const CanvasContext = createContext<CanvasContextType | undefined>(undefined);
@@ -19,7 +21,7 @@ const CanvasContext = createContext<CanvasContextType | undefined>(undefined);
 export function CanvasProvider({ children }: { children: React.ReactNode }) {
     const [messages, setMessages] = useState<Message[]>([]);
     const [canvasContent, setCanvasContent] = useState<string>("");
-    const [initialLearningGoals, setInitialLearningGoals] = useState<InitialLearningGoals | null>(null);
+    const [stateData, setStateData] = useState<StateData>({ activeState: "initial" });
 
     const chat = useChat({
         api: "api/agents",
@@ -35,7 +37,15 @@ export function CanvasProvider({ children }: { children: React.ReactNode }) {
             if (dataMessage) {
                 try {
                     const goals = JSON.parse(dataMessage.content);
-                    setInitialLearningGoals(goals);
+                    if (isLearningGoals(goals)) {
+                        setStateData((prev) => ({
+                            ...prev,
+                            activeState: "learningGoals",
+                            learningGoals: {
+                                data: goals
+                            },
+                        }));
+                    }
                 } catch (error) {
                     console.error("Error parsing initial learning goals:", error);
                 }
@@ -65,7 +75,7 @@ export function CanvasProvider({ children }: { children: React.ReactNode }) {
                 addMessage,
                 canvasContent,
                 updateCanvasContent,
-                initialLearningGoals,
+                stateData,
             }}
         >
             {children}
@@ -79,4 +89,48 @@ export function useCanvas() {
         throw new Error("useCanvas must be used within a CanvasProvider");
     }
     return context;
-} 
+}
+
+
+export const processStates: ProcessState[] = [
+    {
+        label: "Initial",
+        value: "initial",
+    },
+    {
+        label: "Learning Goals (LG)",
+        value: "learningGoals",
+    },
+    {
+        label: "LG Refinement",
+        value: "learningGoalsRefinement",
+    },
+    {
+        label: "Learning Plan Refinement",
+        value: "learningPlanRefinement",
+    },
+    {
+        label: "Lessons creation",
+        value: "lessonsCreation",
+    },
+]
+
+
+type StateData = {
+    activeState: StateValue;
+    learningGoals?: {
+        data: InitialLearningGoals
+    },
+    lgRefinement?: {
+        iteration: number;
+        data: InitialLearningGoals
+    },
+    learningPlanRefinement?: {
+        iteration: number;
+        data: string
+    },
+    lessonsCreation?: {
+        iteration: number;
+        data: string
+    },
+}

@@ -1,8 +1,8 @@
-import { SimpleCanvas } from "./canvas/SimpleCanvas";
+import { Canvas } from "./canvas/Canvas";
 
 export default function AgentsPage() {
 
   return (
-    <SimpleCanvas />
+    <Canvas />
   )
 }

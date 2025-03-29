@@ -10,7 +10,6 @@ import { cn } from '@/lib/utils'
 export const HeroContent = () => {
     return (
         <div className='w-full flex flex-col items-center gap-4 sm:gap-6 justify-center'>
-
             <Image src={'/logo.svg'} alt='logo' width={2386} height={2386} className='w-44 sm:w-80 hover:scale-105 transition-transform' />
             <motion.div
                 className='w-full flex flex-col items-center gap-4 sm:gap-6'
